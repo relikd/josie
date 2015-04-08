@@ -1,0 +1,1 @@
+Dies wird eine Read me Datei für das lustige kleine Spielchen JOSIE AUF GROSSER WELTREISE durch die FHWS
