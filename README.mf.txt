@@ -1,1 +1,3 @@
-Dies wird eine Read me Datei für das lustige kleine Spielchen JOSIE AUF GROSSER WELTREISE durch die FHWS
+Die Cocos2dx Engine bitte vom lokalen Rechner benutzen
+
+und ins Eclipse Projekt importieren und verlinken!
