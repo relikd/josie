@@ -74,11 +74,11 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
-    
-    auto backgroundmusic = SimpleAudioEngine::getInstance();
-    backgroundmusic->preloadBackgroundMusic("testmusic.mp3");
 
-        backgroundmusic->playBackgroundMusic("testmusic.mp3",false);
+    auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
+    backgroundmusic->preloadBackgroundMusic("audio/testmusic.mp3");
+    backgroundmusic->setBackgroundMusicVolume(1.0);
+    backgroundmusic->playBackgroundMusic("audio/testmusic.mp3",false);
 
     return true;
 }
