@@ -1,0 +1,3 @@
+proj.android/bin/*
+proj.android/obj/*
+proj.android/cocos2d/*
