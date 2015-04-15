@@ -1,1 +1,20 @@
 Muss man nach jeder Änderung erneut den Python native_build ausführen damit die Änderungen in der App übernommen werden?
+
+
+
+git pull
+A	.gitignore
+A	JosieGame/.gitignore
+D	JosieGame/.gitignore.txt
+A	JosieGame/proj.android/bin/classes/org/cocos2dx/cpp/AppActivity.class
+U	JosieGame/proj.android/libs/armeabi/gdb.setup
+A	JosieGame/proj.android/libs/armeabi/libcocos2dcpp.so
+"pull" ist nicht möglich, weil Sie nicht zusammengeführte Dateien haben.
+Bitte korrigieren Sie dies im Arbeitsverzeichnis und benutzen Sie dann 
+'git add/rm <Datei>', um die Auflösung entsprechend zu markieren, oder
+benutzen Sie 'git commit -a'.
+
+Was bedeutet das ? 
+
+
+Lucky und Simon können sich im Jira nichts zuweisen
