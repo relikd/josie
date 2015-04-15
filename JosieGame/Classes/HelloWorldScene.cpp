@@ -38,8 +38,8 @@ bool HelloWorld::init()
 
     // add a "close" icon to exit the progress. it's an autorelease object
     auto closeItem = MenuItemImage::create(
-                                           "endbutton_notpushed.png",
-                                           "endbutton_pushed.png",
+                                           "buttons/endbutton_notpushed.png",
+                                           "buttons/endbutton_pushed.png",
                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - closeItem->getContentSize().height*3 - 20));
@@ -47,8 +47,8 @@ bool HelloWorld::init()
 
 
 	auto startbutton = MenuItemImage::create(
-											"startbutton.png",
-											"startbutton_pushed.png",
+											"buttons/startbutton.png",
+											"buttons/startbutton_pushed.png",
 											CC_CALLBACK_1(HelloWorld::menuCloseCallback,this));
 	startbutton->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - startbutton->getContentSize().height*2 - 20));
 
@@ -67,7 +67,7 @@ bool HelloWorld::init()
     
     
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("bg_mountain72dpi.png");
+    auto sprite = Sprite::create("backgrounds/bg_mountain72dpi.png");
 
     // position the sprite on the center of the screen
     sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
