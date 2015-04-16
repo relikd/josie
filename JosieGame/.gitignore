@@ -9,4 +9,4 @@ proj.android/obj/*
 proj.android/cocos2d/*
 proj.android/jni/Anrdroid.mk
 proj.android/libs/armeabi/*
-proj.android/assets
+proj.android/assets/*
