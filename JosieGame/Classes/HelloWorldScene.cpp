@@ -57,29 +57,33 @@ bool HelloWorld::init()
 		    menu->setPosition(Vec2::ZERO);
 		    this->addChild(menu, 1);
 
-
-
-
-    // Adding the Josie-Logo to Layer 1
+	// Adding the Josie-Logo to Layer 1
     auto josielogo = Sprite::create("josielogo.png");
     josielogo->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - josielogo->getContentSize().height));
     this->addChild(josielogo,1);
     
     
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("backgrounds/bg_mountain72dpi.png");
+    auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    background->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
     // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    this->addChild(background, 0);
 
     auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
     backgroundmusic->preloadBackgroundMusic("audio/testmusic.mp3");
     backgroundmusic->setBackgroundMusicVolume(1.0);
     backgroundmusic->playBackgroundMusic("audio/testmusic.mp3",false);
 
+
+    auto josie = Sprite::create("josie/josie_static.png");
+    josie->setPosition(Vec2(origin.x + visibleSize.width/4, origin.y + josie->getContentSize().height));
+    this->addChild(josie,1);
+    auto testground = Sprite::create("testground.png");
+    testground->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + testground->getContentSize().height/2));
+    this->addChild(testground,1);
     return true;
 }
 
