@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "Player.h"
 
 USING_NS_CC;
 
@@ -77,8 +78,7 @@ bool HelloWorld::init()
     backgroundmusic->setBackgroundMusicVolume(1.0);
     backgroundmusic->playBackgroundMusic("audio/testmusic.mp3",false);
 
-
-    auto josie = Sprite::create("josie/josie_static.png");
+    Player *josie = Player::create();
     josie->setPosition(Vec2(origin.x + visibleSize.width/4, origin.y + josie->getContentSize().height));
     this->addChild(josie,1);
     auto testground = Sprite::create("testground.png");
