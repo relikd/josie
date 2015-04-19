@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Player.h"
+#include "Level.h"
 
 USING_NS_CC;
 
@@ -50,7 +51,7 @@ bool HelloWorld::init()
 	auto startbutton = MenuItemImage::create(
 											"buttons/startbutton.png",
 											"buttons/startbutton_pushed.png",
-											CC_CALLBACK_1(HelloWorld::menuCloseCallback,this));
+											CC_CALLBACK_1(HelloWorld::play,this));
 	startbutton->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - startbutton->getContentSize().height*2 - 20));
 
 	// create menu, it's an autorelease object
@@ -100,4 +101,11 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void HelloWorld::play(Ref* pSender)
+{
+	auto Level01 = Level::createScene();
+
+	Director::getInstance()->pushScene(Level01);
 }
