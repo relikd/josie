@@ -18,6 +18,8 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+	void play(cocos2d::Ref* pSender);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
