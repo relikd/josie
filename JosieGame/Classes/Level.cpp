@@ -44,7 +44,6 @@ auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
 	}
 	
 
-	
 	auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
 	backgroundmusic->preloadBackgroundMusic("audio/testmusic.mp3");
 	backgroundmusic->setBackgroundMusicVolume(1.0);
@@ -53,6 +52,7 @@ auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
 	Player *josie = Player::create();
 	josie->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + josie->getContentSize().height/2 + 288));
 	this->addChild(josie, 1);
+	josie->scheduleUpdate();
 
 	return true;
 
