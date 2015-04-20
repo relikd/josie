@@ -1,16 +1,16 @@
-#include "HelloWorldScene.h"
+#include "MainMenuScene.h"
 #include "SimpleAudioEngine.h"
 #include "Level.h"
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
+Scene* MainMenu::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
+    auto layer = MainMenu::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -20,7 +20,7 @@ Scene* HelloWorld::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool MainMenu::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -41,7 +41,7 @@ bool HelloWorld::init()
     auto closeItem = MenuItemImage::create(
                                            "buttons/endbutton_notpushed.png",
                                            "buttons/endbutton_pushed.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+                                           CC_CALLBACK_1(MainMenu::menuCloseCallback, this));
     
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - closeItem->getContentSize().height*3 - 20));
 
@@ -50,7 +50,7 @@ bool HelloWorld::init()
 	auto startbutton = MenuItemImage::create(
 											"buttons/startbutton.png",
 											"buttons/startbutton_pushed.png",
-											CC_CALLBACK_1(HelloWorld::play,this));
+											CC_CALLBACK_1(MainMenu::play,this));
 	startbutton->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - startbutton->getContentSize().height*2 - 20));
 
 	// create menu, it's an autorelease object
@@ -64,7 +64,7 @@ bool HelloWorld::init()
     this->addChild(josielogo,1);
     
     
-    // add "HelloWorld" splash screen"
+    // add "MainMenu" splash screen"
     auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
 
     // position the sprite on the center of the screen
@@ -85,7 +85,7 @@ bool HelloWorld::init()
 }
 
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void MainMenu::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
@@ -99,7 +99,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-void HelloWorld::play(Ref* pSender)
+void MainMenu::play(Ref* pSender)
 {
 	auto Level01 = Level::createScene();
 	Director::getInstance()->pushScene(Level01);

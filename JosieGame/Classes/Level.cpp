@@ -1,7 +1,7 @@
 #include "Level.h"
 #include "SimpleAudioEngine.h"
 #include "Player.h"
-#include "HelloWorldScene.h"
+#include "MainMenuScene.h"
 
 
 USING_NS_CC;
@@ -92,6 +92,6 @@ void Level::menuCloseCallback(Ref* pSender)
 //Method Called by Pausebutton -> "goes back" to MainMenu
 void Level::pause(Ref* pSender)
 {
-	auto mainmenu = HelloWorld::createScene();
+	auto mainmenu = MainMenu::createScene();
 	Director::getInstance()->pushScene(mainmenu);
 }
