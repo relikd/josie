@@ -1,6 +1,5 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "Player.h"
 #include "Level.h"
 
 USING_NS_CC;
@@ -79,9 +78,6 @@ bool HelloWorld::init()
     backgroundmusic->setBackgroundMusicVolume(1.0);
     backgroundmusic->playBackgroundMusic("audio/testmusic.mp3",false);
 
-    Player *josie = Player::create();
-    josie->setPosition(Vec2(origin.x + visibleSize.width/4, origin.y + josie->getContentSize().height));
-    this->addChild(josie,1);
     auto testground = Sprite::create("testground.png");
     testground->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + testground->getContentSize().height/2));
     this->addChild(testground,1);
@@ -106,6 +102,5 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::play(Ref* pSender)
 {
 	auto Level01 = Level::createScene();
-
 	Director::getInstance()->pushScene(Level01);
 }
