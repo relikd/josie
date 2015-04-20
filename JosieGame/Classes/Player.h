@@ -11,6 +11,7 @@ class Player : public cocos2d::Sprite
         static Player* create();
 
         void initOptions();
+        void update(float dt);
 
         void addEvents();
         void touchEvent(cocos2d::Touch* touch, cocos2d::Vec2 _p);

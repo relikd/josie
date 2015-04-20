@@ -1,7 +1,5 @@
 #include "Player.h"
 
-//#include <CCActionInterval.h>
-
 using namespace cocos2d;
 
 
@@ -16,11 +14,8 @@ Player* Player::create()
     if (pSprite->initWithFile("josie/josie_static.png"))
     {
         pSprite->autorelease();
-
         pSprite->initOptions();
-
         pSprite->addEvents();
-
         return pSprite;
     }
 
@@ -31,6 +26,14 @@ Player* Player::create()
 void Player::initOptions()
 {
     // do things here like setTag(), setPosition(), any custom logic.
+}
+
+void Player::update(float dt)
+{
+	float screenWidth = Director::getInstance()->getVisibleSize().width;
+	float newX = this->getPositionX()+7;
+	if (newX > width) newX-=screenWidth;
+	this->setPositionX(newX);
 }
 
 void Player::addEvents()
