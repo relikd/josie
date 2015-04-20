@@ -56,7 +56,7 @@ bool Level::init()
 	Player *josie = Player::create();
 	josie->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + josie->getContentSize().height/2 + 288));
 	this->addChild(josie, 1);
-
+	josie->scheduleUpdate();
 
 	//Add Pause Button in upper right corner
 	auto pause = MenuItemImage::create("buttons/pausebutton.png",

@@ -32,7 +32,7 @@ void Player::update(float dt)
 {
 	float screenWidth = Director::getInstance()->getVisibleSize().width;
 	float newX = this->getPositionX()+7;
-	if (newX > width) newX-=screenWidth;
+	if (newX > screenWidth) newX-=screenWidth;
 	this->setPositionX(newX);
 }
 
