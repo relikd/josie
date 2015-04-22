@@ -105,9 +105,9 @@ bool MainMenu::init()
     this->addChild(background, 0);
 
     auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
-    backgroundmusic->preloadBackgroundMusic("audio/testmusic.mp3");
+    backgroundmusic->preloadBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3");
     backgroundmusic->setBackgroundMusicVolume(1.0);
-    backgroundmusic->playBackgroundMusic("audio/testmusic.mp3",false);
+    backgroundmusic->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3",true);
 
     auto testground = Sprite::create("testground.png");
     testground->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + testground->getContentSize().height/2));
