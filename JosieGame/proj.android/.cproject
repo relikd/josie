@@ -184,7 +184,7 @@
 							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.813839891" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs"/>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.766422923" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.658464030" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/android/native_app_glue"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/sources/android/native_app_glue&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.402466199" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CC_TARGET_PLATFORM=CC_PLATFORM_ANDROID"/>
@@ -194,9 +194,6 @@
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.55647957" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.814113654" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/android/native_app_glue"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/platforms/android-18/arch-arm/usr/include"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.8/include"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos/2d&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos&quot;"/>
@@ -209,6 +206,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/extensions&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/external&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/external/chipmunk/include/chipmunk&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/platforms/android-18/arch-arm/usr/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/sources/android/native_app_glue&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.923561092" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CC_TARGET_PLATFORM=CC_PLATFORM_ANDROID"/>
@@ -218,7 +218,7 @@
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.2139448747" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.715095106" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/android/native_app_glue"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/sources/android/native_app_glue&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.157274928" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CC_TARGET_PLATFORM=CC_PLATFORM_ANDROID"/>
