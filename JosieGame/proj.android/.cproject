@@ -246,6 +246,7 @@
 		<configuration configurationName="Default">
 			<resource resourceType="PROJECT" workspacePath="/JosieGame"/>
 		</configuration>
+		<configuration configurationName="Release"/>
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/JosieGame"/>
 		</configuration>
