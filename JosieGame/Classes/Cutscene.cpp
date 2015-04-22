@@ -7,6 +7,7 @@
 
 #include "Cutscene.h"
 #include <ui/UIText.h>
+#include "MainMenuScene.h"
 USING_NS_CC;
 
 Cutscene::Cutscene() {
@@ -53,6 +54,16 @@ bool Cutscene::init() {
 
 	this->addChild(background, 0);
 
+	//Add Pause Button in upper right corner
+	auto pause = MenuItemImage::create("buttons/pausebutton.png",
+			"buttons/pausebutton.png", CC_CALLBACK_1(Cutscene::pause, this));
+	pause->setPosition(
+			origin.x + visibleSize.width - pause->getContentSize().width,
+			origin.y + visibleSize.height - pause->getContentSize().height);
+	auto menu = Menu::create(pause, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 1);
+
 	auto textbox = Sprite::create("textbox.png");
 	textbox->setPosition(
 			Vec2(origin.x + visibleSize.width / 2,
@@ -71,9 +82,13 @@ bool Cutscene::init() {
 	label1->enableShadow();
 	label1->setColor(Color3B::BLACK);
 	label1->setScale(2.0);
-	textbox->addChild(label1);
+	this->addChild(label1);
 
 	return true;
-
+}
+//Method Called by Pausebutton -> "goes back" to MainMenu
+void Cutscene::pause(Ref* pSender) {
+	auto mainmenu = MainMenu::createScene();
+	Director::getInstance()->pushScene(mainmenu);
 }
 
