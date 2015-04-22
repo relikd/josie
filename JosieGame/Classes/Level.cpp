@@ -48,9 +48,9 @@ bool Level::init()
 
 	//Add and Start Backgroundmusic
 	auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
-	backgroundmusic->preloadBackgroundMusic("audio/testmusic.mp3");
+	backgroundmusic->preloadBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3");
 	backgroundmusic->setBackgroundMusicVolume(1.0);
-	backgroundmusic->playBackgroundMusic("audio/testmusic.mp3", false);
+	backgroundmusic->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
 
 	//Add Player
 	Player *josie = Player::create();
