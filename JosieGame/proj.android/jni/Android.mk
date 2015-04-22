@@ -6,6 +6,7 @@ $(call import-add-path,$(LOCAL_PATH)/../../../../cocos2d)
 $(call import-add-path,$(LOCAL_PATH)/../../../../cocos2d/external)
 $(call import-add-path,$(LOCAL_PATH)/../../../../cocos2d/cocos)
 
+
 LOCAL_MODULE := cocos2dcpp_shared
 
 LOCAL_MODULE_FILENAME := libcocos2dcpp
@@ -14,7 +15,9 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/MainMenuScene.cpp \
                    ../../Classes/Player.cpp \
-				   ../../Classes/Level.cpp
+				   ../../Classes/Level.cpp \
+				   ../../Classes/Cutscene.cpp \
+				   ../../Classes/PlayerControl.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

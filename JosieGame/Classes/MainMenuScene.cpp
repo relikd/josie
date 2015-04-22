@@ -1,6 +1,7 @@
 #include "MainMenuScene.h"
 #include "SimpleAudioEngine.h"
 #include "Level.h"
+#include "Cutscene.h"
 
 USING_NS_CC;
 
@@ -104,9 +105,9 @@ bool MainMenu::init()
     this->addChild(background, 0);
 
     auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
-    backgroundmusic->preloadBackgroundMusic("audio/testmusic.mp3");
+    backgroundmusic->preloadBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3");
     backgroundmusic->setBackgroundMusicVolume(1.0);
-    backgroundmusic->playBackgroundMusic("audio/testmusic.mp3",false);
+    backgroundmusic->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3",true);
 
     auto testground = Sprite::create("testground.png");
     testground->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + testground->getContentSize().height/2));
@@ -127,6 +128,9 @@ void MainMenu::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+
+	//auto cut = Cutscene::createScene();
+	//Director::getInstance()->pushScene(cut);
 }
 
 void MainMenu::play(Ref* pSender)
@@ -149,7 +153,7 @@ void MainMenu::developBoss(Ref* pSender)
 }
 void MainMenu::developCut(Ref* pSender)
 {
-	auto Level01 = Level::createScene();
+	auto Level01 = Cutscene::createScene();
 		Director::getInstance()->pushScene(Level01);
 }
 

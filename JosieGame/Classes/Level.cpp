@@ -1,6 +1,7 @@
 #include "Level.h"
 #include "SimpleAudioEngine.h"
 #include "Player.h"
+#include "PlayerControl.h"
 #include "MainMenuScene.h"
 
 
@@ -48,13 +49,13 @@ bool Level::init()
 
 	//Add and Start Backgroundmusic
 	auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
-	backgroundmusic->preloadBackgroundMusic("audio/testmusic.mp3");
+	backgroundmusic->preloadBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3");
 	backgroundmusic->setBackgroundMusicVolume(1.0);
-	backgroundmusic->playBackgroundMusic("audio/testmusic.mp3", false);
+	backgroundmusic->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
 
 	//Add Player
-	Player *josie = Player::create();
-	josie->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + josie->getContentSize().height/2 + 288));
+	Player *josie = Player::instance();
+	josie->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
 	this->addChild(josie, 1);
 	josie->scheduleUpdate();
 
@@ -68,7 +69,8 @@ bool Level::init()
 			    menu->setPosition(Vec2::ZERO);
 			    this->addChild(menu, 1);
 
-
+    PlayerControl *pc = PlayerControl::create();
+    this->addChild(pc,-1);
 
 	return true;
 
