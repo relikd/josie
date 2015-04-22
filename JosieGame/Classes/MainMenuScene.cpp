@@ -45,16 +45,48 @@ bool MainMenu::init()
     
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - closeItem->getContentSize().height*3 - 20));
 
-
-
 	auto startbutton = MenuItemImage::create(
 											"buttons/startbutton.png",
 											"buttons/startbutton_pushed.png",
 											CC_CALLBACK_1(MainMenu::play,this));
 	startbutton->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - startbutton->getContentSize().height*2 - 20));
 
+
+
+	auto shop = LabelTTF::create("Shop Test", "fonts/Marker Felt.ttf", 70);
+	auto devButtonShop = MenuItemLabel::create(shop,
+			CC_CALLBACK_1(MainMenu::developShop, this));
+	devButtonShop->setPosition(
+			Vec2(
+					origin.x + visibleSize.width / 2
+							- startbutton->getContentSize().width,
+					origin.y + visibleSize.height
+							- startbutton->getContentSize().height * 2 - 20));
+
+	auto boss = LabelTTF::create("Boss Test", "fonts/Marker Felt.ttf", 70);
+	auto devButtonBoss = MenuItemLabel::create(boss,
+			CC_CALLBACK_1(MainMenu::developBoss, this));
+	devButtonBoss->setPosition(
+			Vec2(
+					origin.x + visibleSize.width / 2
+							+ startbutton->getContentSize().width,
+					origin.y + visibleSize.height
+							- startbutton->getContentSize().height * 2 - 20));
+
+	auto cut = LabelTTF::create("CutScene Test", "fonts/Marker Felt.ttf", 70);
+	auto devButtonCut = MenuItemLabel::create(cut,
+			CC_CALLBACK_1(MainMenu::developCut, this));
+	devButtonCut->setPosition(
+			Vec2(
+					origin.x + visibleSize.width / 2
+							+ startbutton->getContentSize().width,
+					origin.y + visibleSize.height
+							- closeItem->getContentSize().height * 3 - 20));
+
+
+
 	// create menu, it's an autorelease object
-		    auto menu = Menu::create(closeItem,startbutton, NULL);
+		    auto menu = Menu::create(closeItem,startbutton,devButtonShop, devButtonBoss,devButtonCut, NULL);
 		    menu->setPosition(Vec2::ZERO);
 		    this->addChild(menu, 1);
 
@@ -66,10 +98,8 @@ bool MainMenu::init()
     
     // add "MainMenu" splash screen"
     auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
-
     // position the sprite on the center of the screen
     background->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
     // add the sprite as a child to this layer
     this->addChild(background, 0);
 
@@ -104,3 +134,22 @@ void MainMenu::play(Ref* pSender)
 	auto Level01 = Level::createScene();
 	Director::getInstance()->pushScene(Level01);
 }
+
+
+//The following methods are only for developmentprocess, to test the different scenes
+void MainMenu::developShop(Ref* pSender)
+{
+	auto Level01 = Level::createScene();
+		Director::getInstance()->pushScene(Level01);
+}
+void MainMenu::developBoss(Ref* pSender)
+{
+	auto Level01 = Level::createScene();
+		Director::getInstance()->pushScene(Level01);
+}
+void MainMenu::developCut(Ref* pSender)
+{
+	auto Level01 = Level::createScene();
+		Director::getInstance()->pushScene(Level01);
+}
+

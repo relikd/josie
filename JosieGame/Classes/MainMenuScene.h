@@ -20,6 +20,9 @@ public:
     CREATE_FUNC(MainMenu);
 
 	void play(cocos2d::Ref* pSender);
+	void developShop(cocos2d::Ref* pSender);
+	void developBoss(cocos2d::Ref* pSender);
+	void developCut(cocos2d::Ref* pSender);
 };
 
 #endif // __MAINMENU_SCENE_H__
