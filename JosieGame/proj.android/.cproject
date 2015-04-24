@@ -70,6 +70,20 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="0.1230402123.1085610913" name="/" resourcePath="cocos2d">
+						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.1841022409" name="No ToolChain" superClass="org.eclipse.cdt.build.core.prefbase.toolchain" unusedChildren="">
+							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.1864582149" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs.547532631"/>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.507205939" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder.1481118451">
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.185173951" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.462396822" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder.429561268">
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.895138549" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.1673451156" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder.795443271">
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.643990131" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
 					<sourceEntries>
 						<entry excluding="Classes|cocos2d" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Classes"/>
@@ -225,6 +239,43 @@
 									<listOptionValue builtIn="false" value="CC_DLL"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.108662290" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="0.1230402123.1377291156.890289926" name="/" resourcePath="cocos2d">
+						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.616576331" name="No ToolChain" superClass="org.eclipse.cdt.build.core.prefbase.toolchain" unusedChildren="">
+							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.848753728" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs.813839891"/>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.2048969207" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder.766422923">
+								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.283205894" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/sources/android/native_app_glue&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.903032266" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.1028550547" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder.766422923">
+								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.113991140" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos/2d&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos/physics&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos/base&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos/ui&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos/network&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos/audio/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/cocos/editor-support&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/extensions&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/external&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2d/external/chipmunk/include/chipmunk&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/platforms/android-18/arch-arm/usr/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/sources/android/native_app_glue&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1839702236" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.769669105" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder.766422923">
+								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.17948677" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../android-ndk-r10d/sources/android/native_app_glue&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.447870489" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
