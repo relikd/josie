@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Level.h"
+#include <chrono>
 
 class Player : public cocos2d::Sprite
 {
@@ -28,6 +29,7 @@ private:
 	void _checkJump();
 	void _checkSlide();
 	Level *_level;
+	std::chrono::steady_clock::time_point _slideTime;
 };
 
 #endif // _PLAYER_H_
