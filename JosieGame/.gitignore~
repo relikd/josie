@@ -1,9 +1,0 @@
-
-### Android ###
-# Built application files
-*.apk
-*.ap_
-
-proj.android/bin/*
-proj.android/obj/*
-proj.android/cocos2d/*
