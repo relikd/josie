@@ -1,20 +1,22 @@
 #include "PlayerControl.h"
-#include "Player.h"
 
 using namespace cocos2d;
 
-PlayerControl::PlayerControl() {}
+PlayerControl::PlayerControl() {
+	this->_player = NULL;
+}
 PlayerControl::~PlayerControl() {
 	// TODO: controls wieder löschen wenn die Scene gewechselt wird!
 	CCLOG("PlayerControl destroyed");
 }
 
-PlayerControl* PlayerControl::create()
+PlayerControl* PlayerControl::initWithPlayer(Player* player)
 {
 	PlayerControl *pc = new PlayerControl();
 	pc->init();
 	pc->autorelease();
 	pc->addLevelControls();
+	pc->_player = player;
 	return pc;
 }
 
@@ -30,18 +32,18 @@ void PlayerControl::addLevelControls()
 
 		if (p.x < screenSize.width/2) // left side screen
 		{
-			Player::instance()->stopRun();
+			this->_player->stopRun();
 			return true; // because we need to continue afterwards
 		}
 		else // right side screen
 		{
 			if (p.y < screenSize.height/2) // lower right side
 			{
-				Player::instance()->slide();
+				this->_player->slide();
 			}
 			else // upper right side
 			{
-				Player::instance()->jump();
+				this->_player->jump();
 			}
 		}
 		return false;
@@ -49,7 +51,7 @@ void PlayerControl::addLevelControls()
 
 	listener->onTouchEnded = [=](Touch* touch, Event* event)
 	{
-		Player::instance()->continueRun();
+		this->_player->continueRun();
 	};
 
 	//listener->onTouchMoved = [=](Touch* touch, Event* event){};

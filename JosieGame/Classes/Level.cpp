@@ -54,7 +54,7 @@ bool Level::init()
 	backgroundmusic->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
 
 	//Add Player
-	Player *josie = Player::instance();
+	Player *josie = Player::initWithLevel(this);
 	josie->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
 	this->addChild(josie, 1);
 	josie->scheduleUpdate();
@@ -69,7 +69,7 @@ bool Level::init()
 			    menu->setPosition(Vec2::ZERO);
 			    this->addChild(menu, 1);
 
-    PlayerControl *pc = PlayerControl::create();
+    PlayerControl *pc = PlayerControl::initWithPlayer(josie);
     this->addChild(pc,-1);
 
 	return true;

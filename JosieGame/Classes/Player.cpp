@@ -5,8 +5,6 @@
 using namespace cocos2d;
 using namespace std::chrono;
 
-static Player* _instance;
-
 const float _gravity = 9.81;
 const float _jumpPower = 300;
 const float _maxDeltaY = 20; // pixel
@@ -20,27 +18,24 @@ steady_clock::time_point _slideTime;
 bool _currentlySliding;
 
 
-Player::Player() {}
+Player::Player() {
+	this->_level = NULL;
+}
 Player::~Player() {}
 
-Player* Player::instance()
+Player* Player::initWithLevel(Level* level)
 {
-	if (!_instance) {
-		_instance = new Player();
-		_instance->initWithFile("josie/josie_static.png");
-		_instance->initOptions();
+	Player *pl = new Player();
+	if (pl->initWithFile("josie/josie_static.png"))
+	{
+		_upForce=0;
+		_jumpHeight=0;
+		_isRunning=true;
+		_currentlySliding = false;
+		pl->setAnchorPoint(Vec2(0.5, 0));
+		pl->_level = level;
 	}
-
-	return _instance;
-}
-
-void Player::initOptions()
-{
-	_upForce=0;
-	_jumpHeight=0;
-	_isRunning=true;
-	_currentlySliding = false;
-	this->setAnchorPoint(Vec2(0.5, 0));
+	return pl;
 }
 
 void Player::update(float dt)
