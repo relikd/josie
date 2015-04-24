@@ -2,15 +2,15 @@
 #define _PLAYER_H_
 
 #include "cocos2d.h"
+#include "Level.h"
 
 class Player : public cocos2d::Sprite
 {
 public:
 	Player();
 	~Player();
-	static Player* instance();
+	static Player* initWithLevel(Level* level);
 
-	void initOptions();
 	void update(float dt);
 
 	// Enter & Exit Scene
@@ -27,6 +27,7 @@ private:
 	void _checkRun();
 	void _checkJump();
 	void _checkSlide();
+	Level *_level;
 };
 
 #endif // _PLAYER_H_
