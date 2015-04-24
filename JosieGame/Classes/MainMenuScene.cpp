@@ -1,7 +1,7 @@
 #include "MainMenuScene.h"
 #include "SimpleAudioEngine.h"
-#include "Level.h"
 #include "Cutscene.h"
+#include "LevelSelectScene.h"
 
 USING_NS_CC;
 
@@ -135,8 +135,8 @@ void MainMenu::menuCloseCallback(Ref* pSender)
 
 void MainMenu::play(Ref* pSender)
 {
-	auto Level01 = Level::createScene(1,1);
-	Director::getInstance()->pushScene(Level01);
+	auto levelSelectScreen = LevelSelect::createScene();
+	Director::getInstance()->pushScene(levelSelectScreen);
 }
 
 
