@@ -2,13 +2,25 @@
 #include "SimpleAudioEngine.h"
 #include "Player.h"
 #include "PlayerControl.h"
-#include "MainMenuScene.h"
 #include <sstream>
 
 USING_NS_CC;
 
 int _res_index;
 int _res_index_sub;
+
+Size visibleSize;
+Vec2 origin;
+
+
+Level::Level()
+{
+
+	visibleSize = Director::getInstance()->getVisibleSize();
+	origin = Director::getInstance()->getVisibleOrigin();
+}
+Level::~Level(){}
+
 
 Scene* Level::createScene(int level, int sublevel)
 {
@@ -37,40 +49,71 @@ bool Level::init()
 		return false;
 	}
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	//index to string for background loading
-	std::ostringstream s;
-		s << "backgrounds/bg_"<< _res_index <<"."<<_res_index_sub << ".png";
-
-
-	//Add Background Image
-	auto background = Sprite::create(s.str());
-	background->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-	this->addChild(background, 0);
+	addBackground();
 	
+	addTilemap();
+
+	addPauseButton();
+
+    Player* josie = addPlayer();
+    addPlayerControl(josie);
+	return true;
+
+}
+
+
+//Method Called by Pausebutton -> "goes back" to MainMenu
+void Level::pause(Ref* pSender)
+{
+	Director::getInstance()->popScene();
+}
+
+void Level::addTilemap()
+{
 	//Add TileMap
-	auto map = TMXTiledMap::create("tilemaps/example_01.tmx");
+	//läd Tilemap aus Resource Ordner in Abhänggkeit der übergebenen level-Nummer
+	std::ostringstream tilemap;
+		tilemap << "tilemaps/"<< _res_index <<"."<<_res_index_sub << ".tmx";
+	auto map = TMXTiledMap::create(tilemap.str());
 	this->addChild(map, 0);
 	for (const auto& child : map->getChildren())
 	{
 		static_cast<SpriteBatchNode*>(child)->getTexture()->setAntiAliasTexParameters();
 	}
-	
 
-	//Add and Start Backgroundmusic
-	auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
-	backgroundmusic->preloadBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3");
-	backgroundmusic->setBackgroundMusicVolume(1.0);
-	backgroundmusic->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
+}
 
+void Level::addBackground()
+{
+	//index to string for background loading
+	std::ostringstream s;
+		s << "backgrounds/bg_"<< _res_index <<"."<<_res_index_sub << ".png";
+
+	//Add Background Image
+		auto background = Sprite::create(s.str());
+		background->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+		this->addChild(background, 0);
+}
+
+Player* Level::addPlayer()
+{
 	//Add Player
 	Player *josie = Player::initWithLevel(this);
 	josie->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
 	this->addChild(josie, 1);
 	josie->scheduleUpdate();
+	return josie;
+}
 
+void Level::addPlayerControl(Player* player)
+{
+	//add control to scene
+    PlayerControl *pc = PlayerControl::initWithPlayer(player);
+    this->addChild(pc,-1);
+}
+
+void Level::addPauseButton()
+{
 	//Add Pause Button in upper right corner
 	auto pause = MenuItemImage::create("buttons/pausebutton.png",
 										"buttons/pausebutton.png",
@@ -81,18 +124,4 @@ bool Level::init()
 			    menu->setPosition(Vec2::ZERO);
 			    this->addChild(menu, 1);
 
-    PlayerControl *pc = PlayerControl::initWithPlayer(josie);
-    this->addChild(pc,-1);
-
-	return true;
-
-}
-
-
-//Method Called by Pausebutton -> "goes back" to MainMenu
-void Level::pause(Ref* pSender)
-{
-	//auto mainmenu = MainMenu::createScene();
-	//Director::getInstance()->pushScene(mainmenu);
-	Director::getInstance()->popScene();
 }
