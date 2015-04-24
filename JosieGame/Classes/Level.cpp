@@ -3,12 +3,19 @@
 #include "Player.h"
 #include "PlayerControl.h"
 #include "MainMenuScene.h"
-
+#include <sstream>
 
 USING_NS_CC;
 
-Scene* Level::createScene()
+int _res_index;
+int _res_index_sub;
+
+Scene* Level::createScene(int level, int sublevel)
 {
+
+	_res_index = level;
+	_res_index_sub = sublevel;
+
 	// 'scene' is an autorelease object
 	auto scene = Scene::create();
 
@@ -33,8 +40,13 @@ bool Level::init()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	//index to string for background loading
+	std::ostringstream s;
+		s << "backgrounds/bg_"<< _res_index <<"."<<_res_index_sub << ".png";
+
+
 	//Add Background Image
-	auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
+	auto background = Sprite::create(s.str());
 	background->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 	this->addChild(background, 0);
 	
@@ -76,24 +88,11 @@ bool Level::init()
 
 }
 
-// I Think this Method has no Use in LevelScene (Daniel Mügge)
-void Level::menuCloseCallback(Ref* pSender)
-{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.", "Alert");
-	return;
-#endif
-
-	Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
-}
 
 //Method Called by Pausebutton -> "goes back" to MainMenu
 void Level::pause(Ref* pSender)
 {
-	auto mainmenu = MainMenu::createScene();
-	Director::getInstance()->pushScene(mainmenu);
+	//auto mainmenu = MainMenu::createScene();
+	//Director::getInstance()->pushScene(mainmenu);
+	Director::getInstance()->popScene();
 }

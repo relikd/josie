@@ -135,7 +135,7 @@ void MainMenu::menuCloseCallback(Ref* pSender)
 
 void MainMenu::play(Ref* pSender)
 {
-	auto Level01 = Level::createScene();
+	auto Level01 = Level::createScene(1,1);
 	Director::getInstance()->pushScene(Level01);
 }
 
@@ -143,17 +143,14 @@ void MainMenu::play(Ref* pSender)
 //The following methods are only for developmentprocess, to test the different scenes
 void MainMenu::developShop(Ref* pSender)
 {
-	auto Level01 = Level::createScene();
-		Director::getInstance()->pushScene(Level01);
+
 }
 void MainMenu::developBoss(Ref* pSender)
 {
-	auto Level01 = Level::createScene();
-		Director::getInstance()->pushScene(Level01);
+
 }
 void MainMenu::developCut(Ref* pSender)
 {
-	auto Level01 = Cutscene::createScene();
-		Director::getInstance()->pushScene(Level01);
+
 }
 
