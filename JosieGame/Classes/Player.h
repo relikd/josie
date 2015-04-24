@@ -2,7 +2,7 @@
 #define _PLAYER_H_
 
 #include "cocos2d.h"
-#include "Level.h"
+class Level;
 #include <chrono>
 
 class Player : public cocos2d::Sprite
