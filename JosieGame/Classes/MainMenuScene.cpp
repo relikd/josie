@@ -104,10 +104,12 @@ bool MainMenu::init()
     // add the sprite as a child to this layer
     this->addChild(background, 0);
 
+    /*
     auto backgroundmusic = CocosDenshion::SimpleAudioEngine::getInstance();
     backgroundmusic->preloadBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3");
     backgroundmusic->setBackgroundMusicVolume(1.0);
     backgroundmusic->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3",true);
+	*/
 
     auto testground = Sprite::create("testground.png");
     testground->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + testground->getContentSize().height/2));
@@ -129,8 +131,6 @@ void MainMenu::menuCloseCallback(Ref* pSender)
     exit(0);
 #endif
 
-	//auto cut = Cutscene::createScene();
-	//Director::getInstance()->pushScene(cut);
 }
 
 void MainMenu::play(Ref* pSender)
@@ -151,6 +151,7 @@ void MainMenu::developBoss(Ref* pSender)
 }
 void MainMenu::developCut(Ref* pSender)
 {
-
+	auto cut = Cutscene::createScene();
+	Director::getInstance()->pushScene(cut);
 }
 

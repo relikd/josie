@@ -1,6 +1,6 @@
 #include <cmath>
-#include <chrono>
 #include "Player.h"
+#include "SimpleAudioEngine.h"
 
 using namespace cocos2d;
 using namespace std::chrono;
@@ -14,14 +14,20 @@ float _upForce; // continuously changed during jump
 float _jumpHeight;
 bool _isRunning;
 
-steady_clock::time_point _slideTime;
 bool _currentlySliding;
+
+auto jumpeffect = CocosDenshion::SimpleAudioEngine::getInstance();
+auto slideeffect = CocosDenshion::SimpleAudioEngine::getInstance();
+auto stopeffect = CocosDenshion::SimpleAudioEngine::getInstance();
 
 
 Player::Player() {
 	this->_level = NULL;
 }
-Player::~Player() {}
+Player::~Player() {
+	jumpeffect->unloadEffect("audio/josie_sounds/jump_1.mp3");
+	CCLOG("jumpeffect unloaded");
+}
 
 Player* Player::initWithLevel(Level* level)
 {
@@ -34,6 +40,11 @@ Player* Player::initWithLevel(Level* level)
 		_currentlySliding = false;
 		pl->setAnchorPoint(Vec2(0.5, 0));
 		pl->_level = level;
+
+
+		jumpeffect->preloadBackgroundMusic("audio/josie_sounds/jump_1.mp3");
+		slideeffect->preloadEffect("audio/josie_sounds/slide_1.mp3");
+		stopeffect->preloadEffect("audio/josie_sounds/stop_1.mp3");
 	}
 	return pl;
 }
@@ -70,6 +81,7 @@ void Player::onExitTransitionDidStart()
 void Player::stopRun()
 {
 	_isRunning=false;
+	stopeffect->playBackgroundMusic("audio/josie_sounds/stop_1.mp3",false);
 }
 
 void Player::continueRun()
@@ -79,8 +91,10 @@ void Player::continueRun()
 
 void Player::jump()
 {
+
 	if (_jumpHeight < 0.01) {
 		_upForce=_jumpPower;
+		jumpeffect->playBackgroundMusic("audio/josie_sounds/jump_1.mp3",false);
 	}
 }
 
@@ -91,8 +105,9 @@ void Player::slide()
 	this->runAction(scaleTo);
 	this->runAction(skewTo);
 
-	_slideTime = steady_clock::now();
+	this->_slideTime = steady_clock::now();
 	_currentlySliding = true;
+	slideeffect->playBackgroundMusic("audio/josie_sounds/slide_1.mp3",false);
 }
 
 
@@ -146,7 +161,7 @@ void Player::_checkJump()
 void Player::_checkSlide()
 {
 	if (_currentlySliding) {
-	    auto millis = duration_cast<std::chrono::milliseconds>(steady_clock::now()-_slideTime).count();
+	    auto millis = duration_cast<std::chrono::milliseconds>(steady_clock::now()-this->_slideTime).count();
 		if (millis > _slideDuration) {
 			this->_unslide();
 		}
