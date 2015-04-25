@@ -14,6 +14,7 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/MainMenuScene.cpp \
+                   ../../Classes/AudioUnit.cpp \
                    ../../Classes/Player.cpp \
 				   ../../Classes/Level.cpp \
 				   ../../Classes/LevelSelectScene.cpp \

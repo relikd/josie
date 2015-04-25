@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "PlayerControl.h"
 #include <sstream>
+#include "AudioUnit.h"
 
 USING_NS_CC;
 
@@ -71,7 +72,7 @@ void Level::pause(Ref* pSender)
 void Level::addTilemap()
 {
 	//Add TileMap
-	//läd Tilemap aus Resource Ordner in Abhänggkeit der übergebenen level-Nummer
+	//lÃ¤d Tilemap aus Resource Ordner in AbhÃ¤nggkeit der Ã¼bergebenen level-Nummer
 	std::ostringstream tilemap;
 		tilemap << "tilemaps/"<< _res_index <<"."<<_res_index_sub << ".tmx";
 	auto map = TMXTiledMap::create(tilemap.str());
@@ -80,14 +81,13 @@ void Level::addTilemap()
 	{
 		static_cast<SpriteBatchNode*>(child)->getTexture()->setAntiAliasTexParameters();
 	}
-
 }
 
 void Level::addBackground()
 {
 	//index to string for background loading
 	std::ostringstream s;
-		s << "backgrounds/bg_"<< _res_index <<"."<<_res_index_sub << ".png";
+	s << "backgrounds/bg_"<< _res_index <<"."<<_res_index_sub << ".png";
 
 	//Add Background Image
 		auto background = Sprite::create(s.str());
@@ -97,8 +97,10 @@ void Level::addBackground()
 
 Player* Level::addPlayer()
 {
+	AudioUnit *au = AudioUnit::initWithLevel(1,1);
+	au->playBackground();
 	//Add Player
-	Player *josie = Player::initWithLevel(this);
+	Player *josie = Player::initWithLevel(this, au);
 	josie->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
 	this->addChild(josie, 1);
 	josie->scheduleUpdate();

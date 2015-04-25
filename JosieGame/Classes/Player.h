@@ -2,15 +2,18 @@
 #define _PLAYER_H_
 
 #include "cocos2d.h"
-class Level;
 #include <chrono>
+class Level;
+class AudioUnit;
+
+
 
 class Player : public cocos2d::Sprite
 {
 public:
 	Player();
 	~Player();
-	static Player* initWithLevel(Level* level);
+	static Player* initWithLevel(Level* level, AudioUnit *audio);
 
 	void update(float dt);
 
@@ -29,6 +32,7 @@ private:
 	void _checkJump();
 	void _checkSlide();
 	Level *_level;
+	AudioUnit *_audioUnit;
 	std::chrono::steady_clock::time_point _slideTime;
 };
 
