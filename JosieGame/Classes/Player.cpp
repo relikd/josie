@@ -11,15 +11,14 @@ const float _maxDeltaY = 20; // pixel
 const float _runSpeed = 7.0;
 
 float _upForce; // continuously changed during jump
-float _jumpHeight;
 
 
 Player::Player() {
 	this->_level = NULL;
 	_upForce=0;
-	_jumpHeight=0;
 	_isRunning=true;
-	_isSliding = false;
+	_isSliding=false;
+	_isOnGround=false;
 }
 Player::~Player() {
 	this->unscheduleUpdate();
@@ -103,7 +102,7 @@ void Player::run(bool r)
 
 void Player::jump()
 {
-	if (_jumpHeight < 0.01) {
+	if (_isOnGround) {
 		_upForce=_jumpPower;
 		_level->audioUnit->playJosieJumpSound();
 	}
@@ -140,46 +139,48 @@ void Player::slide(bool s)
 
 void Player::_checkRun()
 {
-	// TODO: collision detection
-	if (_isRunning) {
-		float screenWidth = Director::getInstance()->getVisibleSize().width;
-		float newX = this->getPositionX()+_runSpeed;
-		if (newX > screenWidth) newX-=screenWidth;
-		this->setPositionX(newX);
+	if (_isRunning){
+
+		Vec2 myOrigin = this->getBoundingBox().origin;
+		Size mySize = this->getContentSize();
+		myOrigin.x += mySize.width + _runSpeed;
+		TilePropertyType first = _level->getTileProperty(myOrigin);
+		myOrigin.y += mySize.height;
+		TilePropertyType second = _level->getTileProperty(myOrigin);
+
+		if (first != TilePropertyCollision && second != TilePropertyCollision)
+		{
+			float newX = this->getPositionX();
+			newX += _runSpeed;
+			float screenWidth = Director::getInstance()->getVisibleSize().width;
+			if (newX > screenWidth) newX-=screenWidth;
+			this->setPositionX(newX);
+		}
 	}
 }
 
 void Player::_checkJump()
 {
-	/*Vec2 oldAnchor = this->getAnchorPoint();
-	this->setAnchorPoint(Vec2(1,0));
-	Vec2 newPos = this->getPosition();
-	newPos.y -= _gravity;
-	TilePropertyType tpt = _level->getTileProperty(newPos);
+	Vec2 oldPos = this->getPosition();
 
-	if (tpt != TilePropertyCollision)
-		this->setPosition(newPos);
-	// restore anchor
-	this->setAnchorPoint(oldAnchor);
-
-	return;*/
 	_upForce = fmax(_upForce - _gravity, 0);
-	float deltaY = _maxDeltaY*(_upForce/_jumpPower);
-	float oldY = this->getPositionY();
 
 	if (_upForce > 0.01) // as long as jump force is stronger than gravity
 	{
-		_jumpHeight+=deltaY;
-		this->setPositionY(oldY+deltaY);
+		float deltaY = _maxDeltaY*(_upForce/_jumpPower);
+		this->setPositionY(oldPos.y+deltaY);
+		_isOnGround=false;
 	}
-	else if (_jumpHeight > 0.0) // gravity is decreasing height continuously
+	else
 	{
-		//float delY =_maxDeltaY*(_gravity/_jumpHeight);
-		float newHeight = _jumpHeight-_gravity;
-		_jumpHeight=fmax(newHeight,0);
-		float newPosition = oldY-_gravity;
-		if (newHeight < 0.0) newPosition-=newHeight; //correct height
-		this->setPositionY(newPosition);
+		oldPos.y -= _gravity;
+		TilePropertyType tpt = _level->getTileProperty(oldPos);
+		if (tpt != TilePropertyCollision) {
+			this->setPosition(oldPos);
+			_isOnGround = false; // in case Josie falls of the cliff
+		} else {
+			_isOnGround = true;
+		}
 	}
 }
 

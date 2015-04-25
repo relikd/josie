@@ -31,6 +31,7 @@ private:
 	Level *_level;
 	bool _isSliding;
 	bool _isRunning;
+	bool _isOnGround;
 };
 
 #endif // _PLAYER_H_
