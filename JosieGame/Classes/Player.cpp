@@ -8,13 +8,10 @@ using namespace cocos2d;
 const float _gravity = 9.81;
 const float _jumpPower = 300;
 const float _maxDeltaY = 20; // pixel
-const int _slideDuration = 1.5;
+const float _runSpeed = 7.0;
 
 float _upForce; // continuously changed during jump
 float _jumpHeight;
-bool _isRunning;
-
-bool _currentlySliding;
 
 
 Player::Player() {
@@ -22,7 +19,7 @@ Player::Player() {
 	_upForce=0;
 	_jumpHeight=0;
 	_isRunning=true;
-	_currentlySliding = false;
+	_isSliding = false;
 }
 Player::~Player() {
 	this->unscheduleUpdate();
@@ -95,55 +92,45 @@ void Player::onExitTransitionDidStart()
 // Player interaction
 //
 
-void Player::stopRun()
+void Player::run(bool r)
 {
-	_isRunning=false;
-	_level->audioUnit->playJosieStopRunSound();
-}
+	if (_isRunning == r) return; // only update on state change
 
-void Player::continueRun()
-{
-	_isRunning=true;
-	CCLOG("TileType: %d",_level->getTileProperty(this->getPosition()));
+	_isRunning = r;
+
+	if (!_isRunning) _level->audioUnit->playJosieStopRunSound();
 }
 
 void Player::jump()
 {
-
 	if (_jumpHeight < 0.01) {
 		_upForce=_jumpPower;
 		_level->audioUnit->playJosieJumpSound();
 	}
 }
 
-void unslideCallback(Player *player) {
-	player->unslide();
-}
-
-void Player::slide()
+void Player::slide(bool s)
 {
-	auto scaleTo = ScaleTo::create(0.1, 1, 0.5); // scale y by half in 0.1sec
-	auto skewTo = SkewTo::create(0.1, -30, 0);
-	this->runAction(scaleTo);
-	this->runAction(skewTo);
+	if (_isSliding == s) return; // don't update while sliding
 
-	_currentlySliding = true;
-	_level->audioUnit->playJosieSlideSound();
+	_isSliding = s;
 
-	DelayTime *delayAction = DelayTime::create(_slideDuration);
-	CallFunc *callSelectorAction = CallFunc::create(CC_CALLBACK_0(Player::unslide,this));
-	this->runAction(Sequence::create(delayAction, callSelectorAction, NULL));
-}
+	ScaleTo *scaleTo;
+	SkewTo *skewTo;
 
-void Player::unslide()
-{
-	_currentlySliding = false;
+	if (_isSliding) {
+		scaleTo = ScaleTo::create(0.1, 1, 0.5); // scale y by half in 0.1sec
+		skewTo = SkewTo::create(0.1, -30, 0);
+		_level->audioUnit->playJosieSlideSound();
+	} else {
+		scaleTo = ScaleTo::create(0.1, 1, 1);
+		skewTo = SkewTo::create(0.1, 0, 0);
+	}
 
-	auto scaleTo = ScaleTo::create(0.1, 1, 1);
-	auto skewTo = SkewTo::create(0.1, 0, 0);
 	this->runAction(scaleTo);
 	this->runAction(skewTo);
 }
+
 
 
 
@@ -154,9 +141,9 @@ void Player::unslide()
 void Player::_checkRun()
 {
 	// TODO: collision detection
-	if (_isRunning || _jumpHeight > 0.0) {
+	if (_isRunning) {
 		float screenWidth = Director::getInstance()->getVisibleSize().width;
-		float newX = this->getPositionX()+7;
+		float newX = this->getPositionX()+_runSpeed;
 		if (newX > screenWidth) newX-=screenWidth;
 		this->setPositionX(newX);
 	}

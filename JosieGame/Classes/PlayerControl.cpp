@@ -98,13 +98,9 @@ void PlayerControl::update(float dt)
 			_level->playerBoss->moveRight();
 		if (_shoot->isSelected())
 			_level->playerBoss->shoot();
-	}
-	else
-	{
-		if (_stay->isSelected())
-			_level->player->stopRun();
-		if (_slide->isSelected())
-			_level->player->slide();
+	} else {
+		_level->player->run(!_stay->isSelected());
+		_level->player->slide(_slide->isSelected());
 	}
 }
 
