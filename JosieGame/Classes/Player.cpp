@@ -20,8 +20,13 @@ bool _currentlySliding;
 
 Player::Player() {
 	this->_level = NULL;
+	_upForce=0;
+	_jumpHeight=0;
+	_isRunning=true;
+	_currentlySliding = false;
 }
 Player::~Player() {
+	this->unscheduleUpdate();
 	CCLOG("Player destroyed");
 }
 
@@ -29,17 +34,10 @@ Player* Player::initWithLevel(Level* level)
 {
 	Player *pl = new Player();
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/JosieMoving.plist");
-	if (pl->initWithSpriteFrameName("Josie-01.png"))
-	//if (pl->initWithFile("josie/josie_static.png"))
-	{
-		pl->autorelease();
-		pl->setAnchorPoint(Vec2(0.5, 0));
-		pl->_level = level;
-		_upForce=0;
-		_jumpHeight=0;
-		_isRunning=true;
-		_currentlySliding = false;
-	}
+	pl->initWithSpriteFrameName("Josie-01.png");
+	pl->autorelease();
+	pl->setAnchorPoint(Vec2(0.5, 0));
+	pl->_level = level;
 	pl->runAction(pl->moving());
 	pl->scheduleUpdate();
 

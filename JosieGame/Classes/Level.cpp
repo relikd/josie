@@ -31,6 +31,7 @@ Level::~Level() {
 Level* Level::initWithLevel(int level, int sublevel)
 {
 	Level *l = new Level();
+	l->autorelease();
 
 	l->currentLevel = level;
 	l->currentSubLevel = sublevel;
