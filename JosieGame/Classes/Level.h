@@ -8,6 +8,12 @@ class AudioUnit;
 
 using namespace cocos2d;
 
+typedef enum TilePropertyType {
+	TilePropertyNone = 0,
+	TilePropertyCollision,
+	TilePropertyCollectable
+}_TilePropertyType;
+
 class Level : public cocos2d::Layer
 {
 public:
@@ -30,8 +36,7 @@ public:
 	void addPlayerControl();
 	void addPauseButton();
 
-	bool getCollision(cocos2d::Point position);
-	bool getCollect(cocos2d::Point position);
+	TilePropertyType getTileProperty(cocos2d::Point position);
 	void collectAt(cocos2d::Point position);
 	// implement the "static create()" method manually
 	CREATE_FUNC(Level);

@@ -5,7 +5,7 @@
 #include <sstream>
 #include "AudioUnit.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 int _res_index;
 int _res_index_sub;
@@ -142,49 +142,35 @@ void Level::addPauseButton()
 }
 
 //wandelt position in Tilemap Koordinate um
-cocos2d::Point Level::getTileAt(cocos2d::Point position) {
+Point Level::getTileAt(Point position) {
 	int x = position.x / _tileMap->getTileSize().width;
 	int y = ((_tileMap->getMapSize().height * _tileMap->getTileSize().height)
 			- position.y) / _tileMap->getTileSize().height;
-	CCLOG("%d#%d",x,y);
 	return Point(x, y);
 }
 
-//gibt an, ob die uebermittelte Position in einem Tile liegt, das die Eigenschaft "Collision" besitzt
-bool Level::getCollision(cocos2d::Point position) {
-	Point TileCoord = getTileAt(position);
-	int tileGID = _metaLayer->getTileGIDAt(TileCoord);
+TilePropertyType Level::getTileProperty(Point position)
+{
+	Point tileCoord = getTileAt(position);
+	int tileGID = _metaLayer->getTileGIDAt(tileCoord);
+	Value propMap = _tileMap->getPropertiesForGID(tileGID);
 
-	auto propMap = _tileMap->getPropertiesForGID(tileGID);
-
-	if (propMap.getType() == cocos2d::Value::Type::MAP) {
-		auto collision = propMap.asValueMap()["Collision"];
-			return collision.asBool();
+	if (propMap.getType() == Value::Type::MAP) {
+		if (propMap.asValueMap()["Collectible"].asBool()) {
+			return TilePropertyCollectable;
+		} else if (propMap.asValueMap()["Collision"].asBool()) {
+			return TilePropertyCollision;
+		}
 	}
-	return false;
-	//TODO:
+	return TilePropertyNone;
 }
 
-//gibt an, ob die uebermittelte Position in einem Tile liegt, das die Eigenschaft "Collectible" besitzt
-bool Level::getCollect(cocos2d::Point position) {
-	//TODO: Implement
-	Point TileCoord = getTileAt(position);
-	int tileGID = _metaLayer->getTileGIDAt(TileCoord);
-
-	auto propMap = _tileMap->getPropertiesForGID(tileGID);
-
-	if (propMap.getType() == cocos2d::Value::Type::MAP) {
-		auto collect = propMap.asValueMap()["Collectible"];
-			return collect.asBool();
-	}
-	return false;
-}
-
-//entfernt an übergebener Position das Tile aus dem Foreground_layer und das dazugehörige Tile aus dem Meta_layer
-void Level::collectAt(cocos2d::Point position)
+//entfernt an ï¿½bergebener Position das Tile aus dem Foreground_layer und das dazugehï¿½rige Tile aus dem Meta_layer
+void Level::collectAt(Point position)
 {
 	Point TileCoord = getTileAt(position);
-	cocos2d::TMXLayer* Foreground = _tileMap->getLayer("Foreground_layer");
-	if(getCollect(TileCoord))_metaLayer->removeTileAt(TileCoord);//verhindert, dass Collision Tiles entfernt werden können;
+	TMXLayer* Foreground = _tileMap->getLayer("Foreground_layer");
+	if (getTileProperty(TileCoord) == TilePropertyCollectable)
+		_metaLayer->removeTileAt(TileCoord);//verhindert, dass Collision Tiles entfernt werden kï¿½nnen;
 	Foreground->removeTileAt(TileCoord);
 }

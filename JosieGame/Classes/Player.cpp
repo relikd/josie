@@ -107,6 +107,7 @@ void Player::stopRun()
 void Player::continueRun()
 {
 	_isRunning=true;
+	CCLOG("%d",_level->getTileProperty(this->getPosition()));
 }
 
 void Player::jump()
