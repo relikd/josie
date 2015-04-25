@@ -1,6 +1,8 @@
 #include "PlayerControl.h"
-#include "Player.h"
 #include "Level.h"
+#include "Player.h"
+#include "PlayerBoss.h"
+
 
 using namespace cocos2d;
 
@@ -19,11 +21,13 @@ PlayerControl* PlayerControl::initWithLevel(Level* level)
 	PlayerControl *pc = new PlayerControl();
 	pc->init();
 	pc->autorelease();
+	pc->_level = level;
 	if (level->isBossLevel())
 		pc->addBossControls();
 	else
 		pc->addLevelControls();
-	pc->_level = level;
+
+	pc->scheduleUpdate();
 	return pc;
 }
 
@@ -65,6 +69,52 @@ void PlayerControl::addLevelControls()
 
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_listenerLevel, 30);
 }
+MenuItemImage *_left;
+MenuItemImage *_right;
+MenuItemImage *_bjump;
+MenuItemImage *_shoot;
+void PlayerControl::addBossControls()
+{
+	float screenWidth = Director::getInstance()->getVisibleSize().width;
 
-void PlayerControl::addBossControls(){}
+	_left = MenuItemImage::create("buttons/left.png","buttons/left.png");
+	_right = MenuItemImage::create("buttons/right.png","buttons/right.png");
+	_bjump = MenuItemImage::create("buttons/jump.png","buttons/jump.png", CC_CALLBACK_1(PlayerControl::test, this));
+	_shoot = MenuItemImage::create("buttons/shoot.png","buttons/shoot.png");
+
+	_left->setScale(0.7);
+	_right->setScale(0.7);
+	_bjump->setScale(0.7);
+	_shoot->setScale(0.7);
+
+	_left->setOpacity(128);
+	_right->setOpacity(128);
+	_bjump->setOpacity(128);
+	_shoot->setOpacity(128);
+
+	_left->setPosition(Vec2(150,300));
+	_right->setPosition(Vec2(300,120));
+	_bjump->setPosition(Vec2(screenWidth-300,120));
+	_shoot->setPosition(Vec2(screenWidth-150,300));
+
+	auto levelmenu = Menu::create(_left,_right,_bjump,_shoot, NULL);
+	levelmenu->setPosition(Vec2::ZERO);
+	_level->addChild(levelmenu,1);
+}
+
+void PlayerControl::update(float dt)
+{
+	if (_left->isSelected())
+		_level->playerBoss->moveLeft();
+	if (_right->isSelected())
+		_level->playerBoss->moveRight();
+	if (_shoot->isSelected())
+		_level->playerBoss->shoot();
+}
+
+
+void PlayerControl::test(Ref* pSender) {
+	CCLOG("test callback");
+	//_level->player->jump();
+}
 
