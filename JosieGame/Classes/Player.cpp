@@ -20,24 +20,23 @@ bool _currentlySliding;
 
 Player::Player() {
 	this->_level = NULL;
-	this->_audioUnit = NULL;
 }
 Player::~Player() {
 	CCLOG("Player destroyed");
 }
 
-Player* Player::initWithLevel(Level* level, AudioUnit* audio)
+Player* Player::initWithLevel(Level* level)
 {
 	Player *pl = new Player();
 	if (pl->initWithFile("josie/josie_static.png"))
 	{
+		pl->autorelease();
+		pl->setAnchorPoint(Vec2(0.5, 0));
+		pl->_level = level;
 		_upForce=0;
 		_jumpHeight=0;
 		_isRunning=true;
 		_currentlySliding = false;
-		pl->setAnchorPoint(Vec2(0.5, 0));
-		pl->_level = level;
-		pl->_audioUnit = audio;
 	}
 	return pl;
 }
@@ -74,7 +73,7 @@ void Player::onExitTransitionDidStart()
 void Player::stopRun()
 {
 	_isRunning=false;
-	this->_audioUnit->playJosieStopRunSound();
+	_level->audioUnit->playJosieStopRunSound();
 }
 
 void Player::continueRun()
@@ -87,7 +86,7 @@ void Player::jump()
 
 	if (_jumpHeight < 0.01) {
 		_upForce=_jumpPower;
-		this->_audioUnit->playJosieJumpSound();
+		_level->audioUnit->playJosieJumpSound();
 	}
 }
 
@@ -100,7 +99,7 @@ void Player::slide()
 
 	this->_slideTime = steady_clock::now();
 	_currentlySliding = true;
-	this->_audioUnit->playJosieSlideSound();
+	_level->audioUnit->playJosieSlideSound();
 }
 
 
