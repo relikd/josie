@@ -1,6 +1,7 @@
 #include <cmath>
 #include "Player.h"
-#include "SimpleAudioEngine.h"
+#include "Level.h"
+#include "AudioUnit.h"
 
 using namespace cocos2d;
 using namespace std::chrono;
@@ -16,20 +17,16 @@ bool _isRunning;
 
 bool _currentlySliding;
 
-auto jumpeffect = CocosDenshion::SimpleAudioEngine::getInstance();
-auto slideeffect = CocosDenshion::SimpleAudioEngine::getInstance();
-auto stopeffect = CocosDenshion::SimpleAudioEngine::getInstance();
-
 
 Player::Player() {
 	this->_level = NULL;
+	this->_audioUnit = NULL;
 }
 Player::~Player() {
-	jumpeffect->unloadEffect("audio/josie_sounds/jump_1.mp3");
-	CCLOG("jumpeffect unloaded");
+	CCLOG("Player destroyed");
 }
 
-Player* Player::initWithLevel(Level* level)
+Player* Player::initWithLevel(Level* level, AudioUnit* audio)
 {
 	Player *pl = new Player();
 	if (pl->initWithFile("josie/josie_static.png"))
@@ -40,11 +37,7 @@ Player* Player::initWithLevel(Level* level)
 		_currentlySliding = false;
 		pl->setAnchorPoint(Vec2(0.5, 0));
 		pl->_level = level;
-
-
-		jumpeffect->preloadBackgroundMusic("audio/josie_sounds/jump_1.mp3");
-		slideeffect->preloadEffect("audio/josie_sounds/slide_1.mp3");
-		stopeffect->preloadEffect("audio/josie_sounds/stop_1.mp3");
+		pl->_audioUnit = audio;
 	}
 	return pl;
 }
@@ -81,7 +74,7 @@ void Player::onExitTransitionDidStart()
 void Player::stopRun()
 {
 	_isRunning=false;
-	stopeffect->playBackgroundMusic("audio/josie_sounds/stop_1.mp3",false);
+	this->_audioUnit->playJosieStopRunSound();
 }
 
 void Player::continueRun()
@@ -94,7 +87,7 @@ void Player::jump()
 
 	if (_jumpHeight < 0.01) {
 		_upForce=_jumpPower;
-		jumpeffect->playBackgroundMusic("audio/josie_sounds/jump_1.mp3",false);
+		this->_audioUnit->playJosieJumpSound();
 	}
 }
 
@@ -107,7 +100,7 @@ void Player::slide()
 
 	this->_slideTime = steady_clock::now();
 	_currentlySliding = true;
-	slideeffect->playBackgroundMusic("audio/josie_sounds/slide_1.mp3",false);
+	this->_audioUnit->playJosieSlideSound();
 }
 
 

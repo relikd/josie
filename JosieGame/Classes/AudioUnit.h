@@ -1,22 +1,27 @@
-/*
- * AudioUnit.h
- *
- *  Created on: 24.04.2015
- *      Author: danielmugge
- */
-
 #ifndef AUDIOUNIT_H_
 #define AUDIOUNIT_H_
 
-
-namespace cocos2d {
-
-class AudioUnit {
+class AudioUnit
+{
 public:
 	AudioUnit();
-	virtual ~AudioUnit();
-};
+	~AudioUnit();
+	static AudioUnit* initWithLevel(int lvl, int sub_lvl);
+	void playBackground();
+	void playJosieJumpSound();
+	void playJosieSlideSound();
+	void playJosieStopRunSound();
 
-} /* namespace cocos2d */
+private:
+	int _level;
+	int _sublevel;
+
+	bool isBossLevel();
+
+	void preloadJosieActions_Level();
+	void preloadJosieActions_Boss();
+	void unloadJosieActions_Level();
+	void unloadJosieActions_Boss();
+};
 
 #endif /* AUDIOUNIT_H_ */
