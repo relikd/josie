@@ -14,20 +14,17 @@ typedef enum TilePropertyType {
 	TilePropertyCollectable
 }_TilePropertyType;
 
-class Level : public cocos2d::Layer
+class Level : public cocos2d::Scene
 {
 public:
 	Level();
 	~Level();
-	// there's no 'id' in cpp, so we recommend returning the class instance pointer
-	static cocos2d::Scene* createScene(int level, int sublevel);
-
-	// Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-	virtual bool init();
+	static Level* initWithLevel(int level, int sublevel);
 
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 	void pause(cocos2d::Ref* pSender);
+	bool isBossLevel();
 
 	void addTilemap();
 	void addBackground();
@@ -39,11 +36,13 @@ public:
 	TilePropertyType getTileProperty(cocos2d::Point position);
 	void collectAt(cocos2d::Point position);
 	// implement the "static create()" method manually
-	CREATE_FUNC(Level);
+	//CREATE_FUNC(Level);
 
 	Player *player;
 	PlayerControl *playerControl;
 	AudioUnit *audioUnit;
+	int currentLevel;
+	int currentSubLevel;
 private:
 
 	cocos2d::Point getTileAt(cocos2d::Point position);

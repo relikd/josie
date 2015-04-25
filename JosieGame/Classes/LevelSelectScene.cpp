@@ -87,6 +87,6 @@ void LevelSelect::backToMainMenu(Ref* pSender)
 
 void LevelSelect::startLevel(Ref* pSender,int level,int sublevel)
 {
-	auto levelxx = Level::createScene(level, sublevel);
+	auto levelxx = Level::initWithLevel(level, sublevel);
 	Director::getInstance()->pushScene(levelxx);
 }
