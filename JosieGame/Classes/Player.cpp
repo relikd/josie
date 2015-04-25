@@ -28,7 +28,9 @@ Player::~Player() {
 Player* Player::initWithLevel(Level* level)
 {
 	Player *pl = new Player();
-	if (pl->initWithFile("josie/josie_static.png"))
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/JosieMoving.plist");
+	if (pl->initWithSpriteFrameName("Josie-01.png"))
+	//if (pl->initWithFile("josie/josie_static.png"))
 	{
 		pl->autorelease();
 		pl->setAnchorPoint(Vec2(0.5, 0));
@@ -38,7 +40,33 @@ Player* Player::initWithLevel(Level* level)
 		_isRunning=true;
 		_currentlySliding = false;
 	}
+	pl->runAction(pl->moving());
+
 	return pl;
+}
+
+RepeatForever* Player::moving()
+{
+    // 3. repeat the frame
+    int numFrame = 4;
+
+    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+    SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
+
+    char file[100] = {0};
+
+	for (int i = 1; i < numFrame; i++) {
+		sprintf(file, "Josie-%02d.png", i);
+		SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+		frames.pushBack(frame);
+	}
+
+
+    Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
+    Animate *animate = Animate::create(animation);
+
+    RepeatForever *repeat = RepeatForever::create(animate);
+    return repeat;
 }
 
 void Player::update(float dt)
