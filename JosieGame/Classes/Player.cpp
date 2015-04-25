@@ -118,7 +118,7 @@ void Player::slide(bool s)
 	SkewTo *skewTo;
 
 	if (_isSliding) {
-		scaleTo = ScaleTo::create(0.1, 1, 0.5); // scale y by half in 0.1sec
+		scaleTo = ScaleTo::create(0.1, 1, 0.3); // scale y to 0.3 in 0.1sec
 		skewTo = SkewTo::create(0.1, -30, 0);
 		_level->audioUnit->playJosieSlideSound();
 	} else {
@@ -142,7 +142,8 @@ void Player::_checkRun()
 	if (_isRunning){
 
 		Vec2 myOrigin = this->getBoundingBox().origin;
-		Size mySize = this->getContentSize();
+		Size mySize = this->getBoundingBox().size;
+		CCLOG("%f##%f",mySize.height,mySize.width);
 		myOrigin.x += mySize.width + _runSpeed;
 		TilePropertyType first = _level->getTileProperty(myOrigin);
 		myOrigin.y += mySize.height;
