@@ -15,7 +15,7 @@ public:
 	void addBossControls();
 
 	void update(float dt);
-	void test(cocos2d::Ref* pSender);
+	void jumpCallback(cocos2d::Ref* pSender);
 private:
 	Level* _level;
 	cocos2d::EventListenerTouchOneByOne *_listenerLevel;
