@@ -9,7 +9,8 @@ PlayerControl::PlayerControl() {
 	this->_listenerLevel = NULL;
 }
 PlayerControl::~PlayerControl() {
-	Director::getInstance()->getEventDispatcher()->removeEventListener(_listenerLevel);
+	if (!_level->isBossLevel())
+		Director::getInstance()->getEventDispatcher()->removeEventListener(_listenerLevel);
 	CCLOG("PlayerControl destroyed");
 }
 
@@ -18,7 +19,10 @@ PlayerControl* PlayerControl::initWithLevel(Level* level)
 	PlayerControl *pc = new PlayerControl();
 	pc->init();
 	pc->autorelease();
-	pc->addLevelControls();
+	if (level->isBossLevel())
+		pc->addBossControls();
+	else
+		pc->addLevelControls();
 	pc->_level = level;
 	return pc;
 }

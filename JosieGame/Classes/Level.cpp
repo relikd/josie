@@ -8,9 +8,6 @@
 
 using namespace cocos2d;
 
-int _res_index;
-int _res_index_sub;
-
 Size visibleSize;
 Vec2 origin;
 
@@ -24,44 +21,30 @@ Level::Level() {
 	_tileMap = NULL;
 	_tilemapBackground = NULL;
 	_metaLayer = NULL;
+
+	currentLevel = -1;
+	currentSubLevel = -1;
 }
 Level::~Level() {
 }
 
-Scene* Level::createScene(int level, int sublevel) {
+Level* Level::initWithLevel(int level, int sublevel)
+{
+	Level *l = new Level();
 
-	_res_index = level;
-	_res_index_sub = sublevel;
+	l->currentLevel = level;
+	l->currentSubLevel = sublevel;
 
-	// 'scene' is an autorelease object
-	auto scene = Scene::create();
+	l->addBackground();
+	l->addTilemap();
+	l->addPauseButton();
 
-	// 'layer' is an autorelease object
-	auto layer = Level::create();
-
-	// add layer as a child to scene
-	scene->addChild(layer);
+	l->addAudio();
+	l->addPlayer();
+	l->addPlayerControl();
 
 	// return the scene
-	return scene;
-}
-
-// on "init" you need to initialize your instance
-bool Level::init() {
-	if (!Layer::init()) {
-		return false;
-	}
-
-	addBackground();
-
-	addTilemap();
-
-	addPauseButton();
-	addAudio();
-	addPlayer();
-	addPlayerControl();
-	return true;
-
+	return l;
 }
 
 //Method Called by Pausebutton -> "goes back" to MainMenu
@@ -71,10 +54,21 @@ void Level::pause(Ref* pSender) {
 	Director::getInstance()->popScene();
 }
 
+bool Level::isBossLevel()
+{
+	return (currentSubLevel == 0);
+}
+
+
+
+//
+// ADD to Scene
+//
+
 void Level::addTilemap() { //Add TileMap
 //lade Tilemap aus Resource Ordner in Abhaenggkeit der uebergebenen level-Nummer
 	std::ostringstream tilemap;
-	tilemap << "tilemaps/" << _res_index << "." << _res_index_sub << ".tmx";
+	tilemap << "tilemaps/" << currentLevel << "." << currentSubLevel << ".tmx";
 	_tileMap = TMXTiledMap::create(tilemap.str());
 	_tilemapBackground = _tileMap->getLayer("Background_layer");
 	_metaLayer = _tileMap->getLayer("Meta_layer");
@@ -88,7 +82,7 @@ void Level::addTilemap() { //Add TileMap
 void Level::addBackground() {
 	//index to string for background loading
 	std::ostringstream s;
-	s << "backgrounds/bg_" << _res_index << "." << _res_index_sub << ".png";
+	s << "backgrounds/bg_" << currentLevel << "." << currentSubLevel << ".png";
 
 	//Add Background Image
 	auto background = Sprite::create(s.str());
@@ -99,13 +93,13 @@ void Level::addBackground() {
 }
 
 void Level::addAudio() {
-	audioUnit = AudioUnit::initWithLevel(1, 1);
+	audioUnit = AudioUnit::initWithLevel(this);
 	audioUnit->playBackground();
 }
 
 void Level::addPlayer() {
 	//Add Player
-	if (_res_index_sub==0) {
+	if (this->isBossLevel()) {
 		player = (Player*)PlayerBoss::initWithLevel(this);
 	} else {
 		player = Player::initWithLevel(this);
@@ -134,6 +128,12 @@ void Level::addPauseButton() {
 
 }
 
+
+
+//
+// Tilemap collision etc.
+//
+
 //wandelt position in Tilemap Koordinate um
 Point Level::getTileAt(Point position) {
 	int x = position.x / _tileMap->getTileSize().width;
@@ -157,7 +157,7 @@ TilePropertyType Level::getTileProperty(Point position) {
 	return TilePropertyNone;
 }
 
-//entfernt an �bergebener Position das Tile aus dem Foreground_layer und das dazugeh�rige Tile aus dem Meta_layer
+//entfernt an uebergebener Position das Tile aus dem Foreground_layer und das dazugehoerige Tile aus dem Meta_layer
 void Level::collectAt(Point position) {
 	Point TileCoord = getTileAt(position);
 	if (getTileProperty(TileCoord) == TilePropertyCollectable) {

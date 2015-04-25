@@ -1,5 +1,6 @@
 #include "AudioUnit.h"
 #include "SimpleAudioEngine.h"
+#include "Level.h"
 #include <cstdlib>
 #include <sstream>
 #include "cocos2d.h"
@@ -8,37 +9,28 @@ using namespace CocosDenshion;
 
 AudioUnit::AudioUnit()
 {
-	this->_level=-1;
-	this->_sublevel=-1;
+	this->_level=NULL;
 }
 AudioUnit::~AudioUnit()
 {
 	CCLOG("DSTROY");
-	if (this->isBossLevel())
+	if (_level->isBossLevel())
 		this->unloadJosieActions_Boss();
 	else
 		this->unloadJosieActions_Level();
 }
 
-AudioUnit* AudioUnit::initWithLevel(int lvl, int sub_lvl)
+AudioUnit* AudioUnit::initWithLevel(Level* lvl)
 {
 	AudioUnit *au = new AudioUnit();
-
 	au->_level=lvl;
-	au->_sublevel=sub_lvl;
 
-	if (au->isBossLevel())
+	if (lvl->isBossLevel())
 		au->preloadJosieActions_Boss();
 	else
 		au->preloadJosieActions_Level();
 
-
 	return au;
-}
-
-bool AudioUnit::isBossLevel()
-{
-	return (this->_sublevel == 0);
 }
 
 
@@ -126,7 +118,7 @@ void AudioUnit::playBackground()
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->setBackgroundMusicVolume(1.0);
 
-	if (this->isBossLevel())
+	if (_level->isBossLevel())
 		NULL;
 	else
 		engine->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
