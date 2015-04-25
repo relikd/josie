@@ -41,7 +41,7 @@ Player* Player::initWithLevel(Level* level)
 		_currentlySliding = false;
 	}
 	pl->runAction(pl->moving());
-
+	pl->scheduleUpdate();
 
 	return pl;
 }
@@ -107,7 +107,7 @@ void Player::stopRun()
 void Player::continueRun()
 {
 	_isRunning=true;
-	CCLOG("%d",_level->getTileProperty(this->getPosition()));
+	CCLOG("TileType: %d",_level->getTileProperty(this->getPosition()));
 }
 
 void Player::jump()
