@@ -32,6 +32,7 @@ public:
 
 	bool getCollision(cocos2d::Point position);
 	bool getCollect(cocos2d::Point position);
+	void collectAt(cocos2d::Point position);
 	// implement the "static create()" method manually
 	CREATE_FUNC(Level);
 
