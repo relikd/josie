@@ -19,16 +19,18 @@ public:
 	void onExitTransitionDidStart();
 
 	// Player interaction
-	void stopRun();
-	void continueRun();
+	void run(bool r);
 	void jump();
-	void slide();
-	void unslide();
+	void slide(bool s);
 private:
 	void _checkRun();
 	void _checkJump();
-	Level *_level;
+
 	cocos2d::RepeatForever* moving();
+
+	Level *_level;
+	bool _isSliding;
+	bool _isRunning;
 };
 
 #endif // _PLAYER_H_
