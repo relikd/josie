@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 class Player;
+class PlayerBoss;
 class PlayerControl;
 class AudioUnit;
 
@@ -39,6 +40,7 @@ public:
 	//CREATE_FUNC(Level);
 
 	Player *player;
+	PlayerBoss *playerBoss;
 	PlayerControl *playerControl;
 	AudioUnit *audioUnit;
 	int currentLevel;

@@ -15,6 +15,7 @@ Level::Level() {
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 	player = NULL;
+	playerBoss = NULL;
 	playerControl = NULL;
 	audioUnit = NULL;
 
@@ -44,7 +45,6 @@ Level* Level::initWithLevel(int level, int sublevel)
 	l->addPlayer();
 	l->addPlayerControl();
 
-	// return the scene
 	return l;
 }
 
@@ -101,13 +101,14 @@ void Level::addAudio() {
 void Level::addPlayer() {
 	//Add Player
 	if (this->isBossLevel()) {
-		player = (Player*)PlayerBoss::initWithLevel(this);
+		playerBoss = PlayerBoss::initWithLevel(this);
+		playerBoss->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y+188));
+		this->addChild(playerBoss, 1);
 	} else {
 		player = Player::initWithLevel(this);
+		player->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
+		this->addChild(player, 1);
 	}
-
-	player->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
-	this->addChild(player, 1);
 }
 
 void Level::addPlayerControl() {

@@ -9,6 +9,10 @@ public:
 	PlayerBoss();
 	virtual ~PlayerBoss();
 	static PlayerBoss* initWithLevel(Level* level);
+
+	void moveLeft();
+	void moveRight();
+	void shoot();
 };
 
 #endif /* PLAYERBOSS_H_ */
