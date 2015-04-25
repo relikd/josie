@@ -2,14 +2,13 @@
 #include "Player.h"
 #include "Level.h"
 #include "AudioUnit.h"
-#include "run_after.h"
 
 using namespace cocos2d;
 
 const float _gravity = 9.81;
 const float _jumpPower = 300;
 const float _maxDeltaY = 20; // pixel
-const int _slideDuration = 1000;
+const int _slideDuration = 1.5;
 
 float _upForce; // continuously changed during jump
 float _jumpHeight;
@@ -131,7 +130,9 @@ void Player::slide()
 	_currentlySliding = true;
 	_level->audioUnit->playJosieSlideSound();
 
-	run_after tmp(_slideDuration, true, &unslideCallback, this);
+	DelayTime *delayAction = DelayTime::create(_slideDuration);
+	CallFunc *callSelectorAction = CallFunc::create(CC_CALLBACK_0(Player::unslide,this));
+	this->runAction(Sequence::create(delayAction, callSelectorAction, NULL));
 }
 
 void Player::unslide()
@@ -163,6 +164,18 @@ void Player::_checkRun()
 
 void Player::_checkJump()
 {
+	/*Vec2 oldAnchor = this->getAnchorPoint();
+	this->setAnchorPoint(Vec2(1,0));
+	Vec2 newPos = this->getPosition();
+	newPos.y -= _gravity;
+	TilePropertyType tpt = _level->getTileProperty(newPos);
+
+	if (tpt != TilePropertyCollision)
+		this->setPosition(newPos);
+	// restore anchor
+	this->setAnchorPoint(oldAnchor);
+
+	return;*/
 	_upForce = fmax(_upForce - _gravity, 0);
 	float deltaY = _maxDeltaY*(_upForce/_jumpPower);
 	float oldY = this->getPositionY();
