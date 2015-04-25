@@ -23,12 +23,10 @@ private:
 	// Boss buttons
 	cocos2d::MenuItemImage *_left;
 	cocos2d::MenuItemImage *_right;
-	cocos2d::MenuItemImage *_bjump;
 	cocos2d::MenuItemImage *_shoot;
 	// Level buttons
 	cocos2d::MenuItemImage *_stay;
 	cocos2d::MenuItemImage *_slide;
-	cocos2d::MenuItemImage *_ljump;
 };
 
 #endif /* PLAYERCONTROL_H_ */
