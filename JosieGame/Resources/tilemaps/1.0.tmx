@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="9" tilewidth="128" tileheight="128" nextobjectid="1">
+ <tileset firstgid="1" name="Tileset_grafik" tilewidth="128" tileheight="128">
+  <image source="SpriteSheet01.png" width="897" height="131"/>
+ </tileset>
+ <tileset firstgid="8" name="Tileset_Meta" tilewidth="128" tileheight="128">
+  <image source="Untitled-0001-default.png" width="484" height="228"/>
+  <tile id="0">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background_layer" width="17" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgxWwUYBhgJECDANMFGAQAABJLACI
+  </data>
+ </layer>
+ <layer name="Meta_layer" width="17" height="9">
+  <data encoding="base64" compression="zlib">
+   eJzjYKAMcEDxqBmD04zBgAHxRAGB
+  </data>
+ </layer>
+ <layer name="Foreground_layer" width="17" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4C2AAACZAAB
+  </data>
+ </layer>
+</map>
