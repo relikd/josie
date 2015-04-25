@@ -13,6 +13,7 @@ public:
 	void moveLeft();
 	void moveRight();
 	void shoot();
+	void jump();
 };
 
 #endif /* PLAYERBOSS_H_ */

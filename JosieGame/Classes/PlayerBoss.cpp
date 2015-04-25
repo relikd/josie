@@ -27,3 +27,7 @@ void PlayerBoss::shoot()
 {
 	// TODO: shoot particle
 }
+void PlayerBoss::jump()
+{
+	// TODO: jump
+}
