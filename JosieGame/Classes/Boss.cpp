@@ -34,8 +34,8 @@ Boss* Boss::initWithLevel(Level* level)
 		boss->setAnchorPoint(Vec2(0.5,1));
 		boss->_level = level;
 
-		setHealth(30.0f);
-		_isAlive=true;
+		boss->setHealth(30.0f);
+		boss->_isAlive=true;
 	}
 
 	return boss;
@@ -52,7 +52,7 @@ void Boss::setHealth(float health)
 
 void Boss::reduceHealth(float dmg)
 {
-	afterBeingHit = _health-dmg;
+	float afterBeingHit = _health-dmg;
 
 	if(afterBeingHit <= 0.0f)
 	{
