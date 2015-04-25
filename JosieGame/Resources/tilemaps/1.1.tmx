@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="61" height="34" tilewidth="32" tileheight="32" nextobjectid="1">
- <tileset firstgid="1" name="example_tileset" tilewidth="32" tileheight="32">
-  <image source="Tiles_32x32.png" width="256" height="256"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="9" tilewidth="128" tileheight="128" nextobjectid="9">
+ <tileset firstgid="1" name="FirstPrototypeTileset" tilewidth="128" tileheight="128">
+  <image source="SpriteSheet01.png" width="897" height="131"/>
  </tileset>
- <layer name="Kachelebene 1" width="61" height="34">
+ <tileset firstgid="8" name="meta_tiles" tilewidth="128" tileheight="128">
+  <image source="Untitled-0001-default.png" width="484" height="228"/>
+  <tile id="0">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background_layer" width="30" height="9">
   <data encoding="base64" compression="zlib">
-   eJztlNkKwyAQRe2S/oWv7Usfqvn/f2sKCmJ0RkdjLNwDF7J5nc0oBQAAAAAwF89Nb6fXybHMjq9V7zqhB+CfwLy2E9YQdQQljJyZeK/ZZnQ9OwAAAABKM890cK9V+nvOO17DeeiEKP/cHqn3l0ZdM7HcOngfpWXTx2kR6JHJ+S70m0G2U87SmlIKPW1BrDUyzt805NwjhlxPqHxz60rqmOs9lzPVX/8ujMuq/R495oCTDdZw60ae55IeULPwu16FHrU5x36Ss33E/yCesdSeVu3PjyTnFlFetWdXqtbZNgNj9foC9IUYTQ==
+   eJxjYBgFuAArFI/aix8wYsHUsJcND8YF8KnFZx4yxuYfGCZFDwzgMw8ZM+HBhPSwQzETkr3I4uwEzGfHgZHlkdUDAICnAXQ=
+  </data>
+ </layer>
+ <objectgroup name="Object_layer">
+  <object id="8" name="PlayerSpawn" x="169.061" y="776.606" width="54.5455" height="63.6364"/>
+ </objectgroup>
+ <layer name="Meta_layer" width="30" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFuAAHFA81eznpbC8HFkwLe8n1FzFmIItj8w8hN+JTi888WmB62AsAMp4ChQ==
+  </data>
+ </layer>
+ <layer name="Foreground_layer" width="30" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFww2wDLQDaASYaWgGNcweSQAAGdQADg==
   </data>
  </layer>
 </map>

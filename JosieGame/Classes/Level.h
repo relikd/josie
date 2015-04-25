@@ -29,6 +29,9 @@ public:
 	void addPlayer();
 	void addPlayerControl();
 	void addPauseButton();
+
+	bool getCollision(cocos2d::Point position);
+	bool getCollect(cocos2d::Point position);
 	// implement the "static create()" method manually
 	CREATE_FUNC(Level);
 
@@ -36,8 +39,15 @@ public:
 	PlayerControl *playerControl;
 	AudioUnit *audioUnit;
 private:
+
+	cocos2d::Point getTileAt(cocos2d::Point position);
 	Size visibleSize;
 	Vec2 origin;
+
+
+	cocos2d::TMXTiledMap *_tileMap;
+	cocos2d::TMXLayer *_tilemapBackground;
+	cocos2d::TMXLayer *_metaLayer;
 };
 
 #endif 

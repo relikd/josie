@@ -21,6 +21,10 @@ Level::Level()
 	player=NULL;
 	playerControl=NULL;
 	audioUnit=NULL;
+
+	_tileMap = NULL;
+	_tilemapBackground = NULL;
+	_metaLayer = NULL;
 }
 Level::~Level(){}
 
@@ -74,15 +78,16 @@ void Level::pause(Ref* pSender)
 }
 
 void Level::addTilemap()
-{
-	//Add TileMap
-	//lÃ¤d Tilemap aus Resource Ordner in AbhÃ¤nggkeit der Ã¼bergebenen level-Nummer
+{//Add TileMap
+	//läd Tilemap aus Resource Ordner in Abhänggkeit der übergebenen level-Nummer
 	std::ostringstream tilemap;
-		tilemap << "tilemaps/"<< _res_index <<"."<<_res_index_sub << ".tmx";
-	auto map = TMXTiledMap::create(tilemap.str());
-	this->addChild(map, 0);
-	for (const auto& child : map->getChildren())
-	{
+	tilemap << "tilemaps/" << _res_index << "." << _res_index_sub << ".tmx";
+	_tileMap = TMXTiledMap::create(tilemap.str());
+	_tilemapBackground = _tileMap->layerNamed("Background_layer");
+	_metaLayer = _tileMap->layerNamed("Meta_layer");
+	_metaLayer->setVisible(false);
+	this->addChild(_tileMap, 0);
+	for (const auto& child : _tileMap->getChildren()) {
 		static_cast<SpriteBatchNode*>(child)->getTexture()->setAntiAliasTexParameters();
 	}
 }
@@ -134,4 +139,43 @@ void Level::addPauseButton()
 			    menu->setPosition(Vec2::ZERO);
 			    this->addChild(menu, 1);
 
+}
+
+//wandelt position in Tilemap Koordinate um
+cocos2d::Point Level::getTileAt(cocos2d::Point position) {
+	int x = position.x / _tileMap->getTileSize().width;
+	int y = ((_tileMap->getMapSize().height * _tileMap->getTileSize().height)
+			- position.y) / _tileMap->getTileSize().height;
+
+	return Point(x, y);
+}
+
+//gibt an, ob die übermittelte Position in einem Tile liegt, das die Eigenschaft "Collision" besitzt
+bool Level::getCollision(cocos2d::Point position) {
+	Point TileCoord = getTileAt(position);
+	int tileGID = _metaLayer->getTileGIDAt(TileCoord);
+
+	auto propMap = _tileMap->getPropertiesForGID(tileGID);
+
+	if (propMap.getType() == cocos2d::Value::Type::MAP) {
+		auto collision = propMap.asValueMap()["Collision"];
+			return collision.asBool();
+	}
+	return false;
+	//TODO:
+}
+
+//gibt an, ob die übermittelte Position in einem Tile liegt, das die Eigenschaft "Collectible" besitzt
+bool Level::getCollect(cocos2d::Point position) {
+	//TODO: Implement
+	Point TileCoord = getTileAt(position);
+	int tileGID = _metaLayer->getTileGIDAt(TileCoord);
+
+	auto propMap = _tileMap->getPropertiesForGID(tileGID);
+
+	if (propMap.getType() == cocos2d::Value::Type::MAP) {
+		auto collect = propMap.asValueMap()["Collectible"];
+			return collect.asBool();
+	}
+	return false;
 }
