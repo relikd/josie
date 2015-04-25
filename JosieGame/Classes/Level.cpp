@@ -79,12 +79,12 @@ void Level::pause(Ref* pSender)
 
 void Level::addTilemap()
 {//Add TileMap
-	//läd Tilemap aus Resource Ordner in Abhänggkeit der übergebenen level-Nummer
+	//lade Tilemap aus Resource Ordner in Abhaenggkeit der uebergebenen level-Nummer
 	std::ostringstream tilemap;
 	tilemap << "tilemaps/" << _res_index << "." << _res_index_sub << ".tmx";
 	_tileMap = TMXTiledMap::create(tilemap.str());
-	_tilemapBackground = _tileMap->layerNamed("Background_layer");
-	_metaLayer = _tileMap->layerNamed("Meta_layer");
+	_tilemapBackground = _tileMap->getLayer("Background_layer");
+	_metaLayer = _tileMap->getLayer("Meta_layer");
 	_metaLayer->setVisible(false);
 	this->addChild(_tileMap, 0);
 	for (const auto& child : _tileMap->getChildren()) {
@@ -150,7 +150,7 @@ cocos2d::Point Level::getTileAt(cocos2d::Point position) {
 	return Point(x, y);
 }
 
-//gibt an, ob die übermittelte Position in einem Tile liegt, das die Eigenschaft "Collision" besitzt
+//gibt an, ob die uebermittelte Position in einem Tile liegt, das die Eigenschaft "Collision" besitzt
 bool Level::getCollision(cocos2d::Point position) {
 	Point TileCoord = getTileAt(position);
 	int tileGID = _metaLayer->getTileGIDAt(TileCoord);
@@ -165,7 +165,7 @@ bool Level::getCollision(cocos2d::Point position) {
 	//TODO:
 }
 
-//gibt an, ob die übermittelte Position in einem Tile liegt, das die Eigenschaft "Collectible" besitzt
+//gibt an, ob die uebermittelte Position in einem Tile liegt, das die Eigenschaft "Collectible" besitzt
 bool Level::getCollect(cocos2d::Point position) {
 	//TODO: Implement
 	Point TileCoord = getTileAt(position);

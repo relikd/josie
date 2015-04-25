@@ -2,9 +2,9 @@
 #include "Player.h"
 #include "Level.h"
 #include "AudioUnit.h"
+#include "run_after.h"
 
 using namespace cocos2d;
-using namespace std::chrono;
 
 const float _gravity = 9.81;
 const float _jumpPower = 300;
@@ -42,6 +42,7 @@ Player* Player::initWithLevel(Level* level)
 	}
 	pl->runAction(pl->moving());
 
+
 	return pl;
 }
 
@@ -73,7 +74,6 @@ void Player::update(float dt)
 {
 	this->_checkRun();
 	this->_checkJump();
-	this->_checkSlide();
 }
 
 
@@ -118,6 +118,10 @@ void Player::jump()
 	}
 }
 
+void unslideCallback(Player *player) {
+	player->unslide();
+}
+
 void Player::slide()
 {
 	auto scaleTo = ScaleTo::create(0.1, 1, 0.5); // scale y by half in 0.1sec
@@ -125,17 +129,13 @@ void Player::slide()
 	this->runAction(scaleTo);
 	this->runAction(skewTo);
 
-	this->_slideTime = steady_clock::now();
 	_currentlySliding = true;
 	_level->audioUnit->playJosieSlideSound();
+
+	run_after tmp(_slideDuration, true, &unslideCallback, this);
 }
 
-
-//
-// private functions
-//
-
-void Player::_unslide()
+void Player::unslide()
 {
 	_currentlySliding = false;
 
@@ -144,6 +144,12 @@ void Player::_unslide()
 	this->runAction(scaleTo);
 	this->runAction(skewTo);
 }
+
+
+
+//
+// private functions
+//
 
 void Player::_checkRun()
 {
@@ -175,16 +181,6 @@ void Player::_checkJump()
 		float newPosition = oldY-_gravity;
 		if (newHeight < 0.0) newPosition-=newHeight; //correct height
 		this->setPositionY(newPosition);
-	}
-}
-
-void Player::_checkSlide()
-{
-	if (_currentlySliding) {
-	    auto millis = duration_cast<std::chrono::milliseconds>(steady_clock::now()-this->_slideTime).count();
-		if (millis > _slideDuration) {
-			this->_unslide();
-		}
 	}
 }
 
