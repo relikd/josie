@@ -59,7 +59,7 @@ bool LevelSelect::init()
 
     	//Opens same level as level1_1, will be changed later when there's a tilemap for the bossfight
     auto Level1_4 = LabelTTF::create("Level 1.4 (Boss)","fonts/Marker Felt.ttf", 70);
-    auto lvl1_4 = MenuItemLabel::create(Level1_4,CC_CALLBACK_1(LevelSelect::startLevel, this, 1,1));
+    auto lvl1_4 = MenuItemLabel::create(Level1_4,CC_CALLBACK_1(LevelSelect::startLevel, this, 1,0));
     lvl1_4->setPosition(Vec2(
     						origin.x + visibleSize.width/2,
 							origin.y + visibleSize.height/3));
