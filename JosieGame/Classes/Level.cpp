@@ -16,9 +16,11 @@ Vec2 origin;
 
 Level::Level()
 {
-
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
+	player=NULL;
+	playerControl=NULL;
+	audioUnit=NULL;
 }
 Level::~Level(){}
 
@@ -55,9 +57,9 @@ bool Level::init()
 	addTilemap();
 
 	addPauseButton();
-
-    Player* josie = addPlayer();
-    addPlayerControl(josie);
+	addAudio();
+    addPlayer();
+    addPlayerControl();
 	return true;
 
 }
@@ -66,6 +68,8 @@ bool Level::init()
 //Method Called by Pausebutton -> "goes back" to MainMenu
 void Level::pause(Ref* pSender)
 {
+	audioUnit->stopBackground();
+	delete audioUnit;
 	Director::getInstance()->popScene();
 }
 
@@ -95,23 +99,27 @@ void Level::addBackground()
 		this->addChild(background, 0);
 }
 
-Player* Level::addPlayer()
+void Level::addAudio()
 {
-	AudioUnit *au = AudioUnit::initWithLevel(1,1);
-	au->playBackground();
-	//Add Player
-	Player *josie = Player::initWithLevel(this, au);
-	josie->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
-	this->addChild(josie, 1);
-	josie->scheduleUpdate();
-	return josie;
+	audioUnit = AudioUnit::initWithLevel(1,1);
+	audioUnit->playBackground();
 }
 
-void Level::addPlayerControl(Player* player)
+void Level::addPlayer()
+{
+	//Add Player
+	player = Player::initWithLevel(this);
+	player->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
+	this->addChild(player, 1);
+	player->scheduleUpdate();
+
+}
+
+void Level::addPlayerControl()
 {
 	//add control to scene
-    PlayerControl *pc = PlayerControl::initWithPlayer(player);
-    this->addChild(pc,-1);
+    playerControl = PlayerControl::initWithLevel(this);
+    this->addChild(playerControl,-1);
 }
 
 void Level::addPauseButton()

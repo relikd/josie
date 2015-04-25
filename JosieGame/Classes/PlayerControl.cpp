@@ -1,62 +1,65 @@
 #include "PlayerControl.h"
+#include "Player.h"
+#include "Level.h"
 
 using namespace cocos2d;
 
 PlayerControl::PlayerControl() {
-	this->_player = NULL;
+	this->_level = NULL;
+	this->_listenerLevel = NULL;
 }
 PlayerControl::~PlayerControl() {
-	// TODO: controls wieder löschen wenn die Scene gewechselt wird!
+	Director::getInstance()->getEventDispatcher()->removeEventListener(_listenerLevel);
 	CCLOG("PlayerControl destroyed");
 }
 
-PlayerControl* PlayerControl::initWithPlayer(Player* player)
+PlayerControl* PlayerControl::initWithLevel(Level* level)
 {
 	PlayerControl *pc = new PlayerControl();
 	pc->init();
 	pc->autorelease();
 	pc->addLevelControls();
-	pc->_player = player;
+	pc->_level = level;
 	return pc;
 }
 
 void PlayerControl::addLevelControls()
 {
-	auto listener = cocos2d::EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(true);
+	_listenerLevel = EventListenerTouchOneByOne::create();
+	_listenerLevel->setSwallowTouches(true);
 
-	listener->onTouchBegan = [&](Touch* touch, Event* event)
+	_listenerLevel->onTouchBegan = [&](Touch* touch, Event* event)
 	{
 		Vec2 p = touch->getLocation();
 		Size screenSize = Director::getInstance()->getVisibleSize();
 
 		if (p.x < screenSize.width/2) // left side screen
 		{
-			this->_player->stopRun();
+			_level->player->stopRun();
 			return true; // because we need to continue afterwards
 		}
 		else // right side screen
 		{
 			if (p.y < screenSize.height/2) // lower right side
 			{
-				this->_player->slide();
+				_level->player->slide();
 			}
 			else // upper right side
 			{
-				this->_player->jump();
+				_level->player->jump();
 			}
 		}
 		return false;
 	};
 
-	listener->onTouchEnded = [=](Touch* touch, Event* event)
+	_listenerLevel->onTouchEnded = [=](Touch* touch, Event* event)
 	{
-		this->_player->continueRun();
+		_level->player->continueRun();
 	};
 
 	//listener->onTouchMoved = [=](Touch* touch, Event* event){};
 
-	cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(listener, 30);
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_listenerLevel, 30);
 }
 
 void PlayerControl::addBossControls(){}

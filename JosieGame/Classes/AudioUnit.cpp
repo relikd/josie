@@ -13,6 +13,7 @@ AudioUnit::AudioUnit()
 }
 AudioUnit::~AudioUnit()
 {
+	CCLOG("DSTROY");
 	if (this->isBossLevel())
 		this->unloadJosieActions_Boss();
 	else
@@ -22,6 +23,7 @@ AudioUnit::~AudioUnit()
 AudioUnit* AudioUnit::initWithLevel(int lvl, int sub_lvl)
 {
 	AudioUnit *au = new AudioUnit();
+
 	au->_level=lvl;
 	au->_sublevel=sub_lvl;
 
@@ -128,4 +130,10 @@ void AudioUnit::playBackground()
 		NULL;
 	else
 		engine->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
+}
+
+void AudioUnit::stopBackground()
+{
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->stopBackgroundMusic(true);
 }

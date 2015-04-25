@@ -8,6 +8,7 @@ public:
 	~AudioUnit();
 	static AudioUnit* initWithLevel(int lvl, int sub_lvl);
 	void playBackground();
+	void stopBackground();
 	void playJosieJumpSound();
 	void playJosieSlideSound();
 	void playJosieStopRunSound();

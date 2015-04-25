@@ -2,9 +2,12 @@
 #define __LEVEL_SCENE_H__
 
 #include "cocos2d.h"
-#include "SimpleAudioEngine.h"
 class Player;
-USING_NS_CC;
+class PlayerControl;
+class AudioUnit;
+
+using namespace cocos2d;
+
 class Level : public cocos2d::Layer
 {
 public:
@@ -19,13 +22,19 @@ public:
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 	void pause(cocos2d::Ref* pSender);
+
 	void addTilemap();
 	void addBackground();
-	Player* addPlayer();
-	void addPlayerControl(Player* player);
+	void addAudio();
+	void addPlayer();
+	void addPlayerControl();
 	void addPauseButton();
 	// implement the "static create()" method manually
 	CREATE_FUNC(Level);
+
+	Player *player;
+	PlayerControl *playerControl;
+	AudioUnit *audioUnit;
 private:
 	Size visibleSize;
 	Vec2 origin;
