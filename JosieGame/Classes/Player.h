@@ -16,7 +16,6 @@ public:
 
 	void update(float dt);
 
-
 	// Enter & Exit Scene
 	void onEnterTransitionDidFinish();
 	void onExitTransitionDidStart();
@@ -26,13 +25,11 @@ public:
 	void continueRun();
 	void jump();
 	void slide();
+	void unslide();
 private:
-	void _unslide();
 	void _checkRun();
 	void _checkJump();
-	void _checkSlide();
 	Level *_level;
-	std::chrono::steady_clock::time_point _slideTime;
 	cocos2d::RepeatForever* moving();
 };
 
