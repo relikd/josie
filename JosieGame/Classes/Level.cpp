@@ -146,7 +146,7 @@ cocos2d::Point Level::getTileAt(cocos2d::Point position) {
 	int x = position.x / _tileMap->getTileSize().width;
 	int y = ((_tileMap->getMapSize().height * _tileMap->getTileSize().height)
 			- position.y) / _tileMap->getTileSize().height;
-
+	CCLOG("%d#%d",x,y);
 	return Point(x, y);
 }
 
@@ -178,4 +178,13 @@ bool Level::getCollect(cocos2d::Point position) {
 			return collect.asBool();
 	}
 	return false;
+}
+
+//entfernt an übergebener Position das Tile aus dem Foreground_layer und das dazugehörige Tile aus dem Meta_layer
+void Level::collectAt(cocos2d::Point position)
+{
+	Point TileCoord = getTileAt(position);
+	cocos2d::TMXLayer* Foreground = _tileMap->getLayer("Foreground_layer");
+	if(getCollect(TileCoord))_metaLayer->removeTileAt(TileCoord);//verhindert, dass Collision Tiles entfernt werden können;
+	Foreground->removeTileAt(TileCoord);
 }
