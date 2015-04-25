@@ -5,8 +5,6 @@
 #include <chrono>
 class Level;
 
-
-
 class Player : public cocos2d::Sprite
 {
 public:

@@ -1,6 +1,7 @@
 #include "Level.h"
 #include "SimpleAudioEngine.h"
 #include "Player.h"
+#include "PlayerBoss.h"
 #include "PlayerControl.h"
 #include <sstream>
 #include "AudioUnit.h"
@@ -104,11 +105,14 @@ void Level::addAudio() {
 
 void Level::addPlayer() {
 	//Add Player
-	player = Player::initWithLevel(this);
+	if (_res_index_sub==0) {
+		player = (Player*)PlayerBoss::initWithLevel(this);
+	} else {
+		player = Player::initWithLevel(this);
+	}
+
 	player->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
 	this->addChild(player, 1);
-	player->scheduleUpdate();
-
 }
 
 void Level::addPlayerControl() {
