@@ -9,10 +9,17 @@ using namespace cocos2d;
 PlayerControl::PlayerControl() {
 	this->_level = NULL;
 	this->_listenerLevel = NULL;
+	this->_left = NULL;
+	this->_right = NULL;
+	this->_bjump = NULL;
+	this->_shoot = NULL;
+	this->_stay = NULL;
+	this->_slide = NULL;
+	this->_ljump = NULL;
 }
 PlayerControl::~PlayerControl() {
-	if (!_level->isBossLevel())
-		Director::getInstance()->getEventDispatcher()->removeEventListener(_listenerLevel);
+	//if (!_level->isBossLevel())
+	//	Director::getInstance()->getEventDispatcher()->removeEventListener(_listenerLevel);
 	CCLOG("PlayerControl destroyed");
 }
 
@@ -33,6 +40,29 @@ PlayerControl* PlayerControl::initWithLevel(Level* level)
 
 void PlayerControl::addLevelControls()
 {
+	float screenWidth = Director::getInstance()->getVisibleSize().width;
+
+		_stay = MenuItemImage::create("buttons/left.png","buttons/left.png");
+		_slide = MenuItemImage::create("buttons/right.png","buttons/right.png");
+		_ljump = MenuItemImage::create("buttons/jump.png","buttons/jump.png", CC_CALLBACK_1(PlayerControl::test, this));
+
+		_stay->setScale(0.7);
+		_slide->setScale(0.7);
+		_ljump->setScale(0.7);
+
+		_stay->setOpacity(128);
+		_slide->setOpacity(128);
+		_ljump->setOpacity(128);
+
+		_stay->setPosition(Vec2(150,150));
+		_slide->setPosition(Vec2(screenWidth-300,120));
+		_ljump->setPosition(Vec2(screenWidth-150,300));
+
+		auto levelmenu = Menu::create(_stay,_slide,_ljump, NULL);
+		levelmenu->setPosition(Vec2::ZERO);
+		_level->addChild(levelmenu,1);
+
+	return;
 	_listenerLevel = EventListenerTouchOneByOne::create();
 	_listenerLevel->setSwallowTouches(true);
 
@@ -69,10 +99,7 @@ void PlayerControl::addLevelControls()
 
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_listenerLevel, 30);
 }
-MenuItemImage *_left;
-MenuItemImage *_right;
-MenuItemImage *_bjump;
-MenuItemImage *_shoot;
+
 void PlayerControl::addBossControls()
 {
 	float screenWidth = Director::getInstance()->getVisibleSize().width;
@@ -104,12 +131,25 @@ void PlayerControl::addBossControls()
 
 void PlayerControl::update(float dt)
 {
-	if (_left->isSelected())
-		_level->playerBoss->moveLeft();
-	if (_right->isSelected())
-		_level->playerBoss->moveRight();
-	if (_shoot->isSelected())
-		_level->playerBoss->shoot();
+	if (_level->isBossLevel())
+	{
+		if (this->_left->isSelected())
+			_level->playerBoss->moveLeft();
+		if (this->_right->isSelected())
+			_level->playerBoss->moveRight();
+		if (this->_shoot->isSelected())
+			_level->playerBoss->shoot();
+	}
+	else
+	{
+		if (this->_stay->isSelected())
+			_level->player->stopRun();
+		if (this->_slide->isSelected())
+			_level->player->slide();
+		if (this->_ljump->isSelected())
+			_level->player->jump();
+	}
+
 }
 
 
