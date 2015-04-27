@@ -2,7 +2,6 @@
 #define _PLAYER_H_
 
 #include "cocos2d.h"
-#include <chrono>
 class Level;
 
 class Player : public cocos2d::Sprite
@@ -23,8 +22,10 @@ public:
 	void jump();
 	void slide(bool s);
 private:
+	bool _canStandUp();
 	void _checkRun();
 	void _checkJump();
+	void _checkAlive();
 
 	cocos2d::RepeatForever* moving();
 

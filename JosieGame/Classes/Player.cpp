@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Level.h"
 #include "AudioUnit.h"
+#include "MapController.h"
 
 using namespace cocos2d;
 
@@ -62,11 +63,17 @@ RepeatForever* Player::moving()
     RepeatForever *repeat = RepeatForever::create(animate);
     return repeat;
 }
-
+float _timeDiff = 0.0;
 void Player::update(float dt)
 {
 	this->_checkRun();
 	this->_checkJump();
+	_timeDiff+=dt;
+	if (_timeDiff > 0.33f)
+	{
+		_timeDiff = 0.0;
+		this->_checkAlive();
+	}
 }
 
 
@@ -102,7 +109,7 @@ void Player::run(bool r)
 
 void Player::jump()
 {
-	if (_isOnGround) {
+	if (_isOnGround && !_isSliding) {
 		_upForce=_jumpPower;
 		_level->audioUnit->playJosieJumpSound();
 	}
@@ -111,6 +118,7 @@ void Player::jump()
 void Player::slide(bool s)
 {
 	if (_isSliding == s) return; // don't update while sliding
+	if (_isSliding && !this->_canStandUp()) return; // keep sliding
 
 	_isSliding = s;
 
@@ -137,17 +145,49 @@ void Player::slide(bool s)
 // private functions
 //
 
+bool Player::_canStandUp()
+{
+	if (!_isSliding) return true; // already standing
+
+	float scaleX = this->getScaleX();
+	float scaleY = this->getScaleY();
+	this->setScale(1,1);
+
+	Vec2 myOrigin = this->getBoundingBox().origin;
+	Size mySize = this->getBoundingBox().size;
+
+	this->setScale(scaleX,scaleY);
+	myOrigin.y += mySize.height;
+	Point a = myOrigin;
+	myOrigin.x += mySize.width;
+	Point b = myOrigin;
+	return !_level->tileManager->hasCollisionBetweenPoints(a,b);
+
+
+	myOrigin.y += mySize.height;
+	TilePropertyType first = _level->tileManager->getTileProperty(myOrigin); // up left
+	myOrigin.x += mySize.width;
+	TilePropertyType second = _level->tileManager->getTileProperty(myOrigin); // up right
+
+	if (first == TilePropertyCollision || second == TilePropertyCollision) {
+		return false;
+	}
+
+	return true;
+}
+
 void Player::_checkRun()
 {
 	if (_isRunning){
 
 		Vec2 myOrigin = this->getBoundingBox().origin;
 		Size mySize = this->getBoundingBox().size;
-		CCLOG("%f##%f",mySize.height,mySize.width);
+		float currentScaleY = this->getScaleY();
+
 		myOrigin.x += mySize.width + _runSpeed;
-		TilePropertyType first = _level->getTileProperty(myOrigin);
+		TilePropertyType first = _level->tileManager->getTileProperty(myOrigin);
 		myOrigin.y += mySize.height;
-		TilePropertyType second = _level->getTileProperty(myOrigin);
+		TilePropertyType second = _level->tileManager->getTileProperty(myOrigin);
 
 		if (first != TilePropertyCollision && second != TilePropertyCollision)
 		{
@@ -175,7 +215,7 @@ void Player::_checkJump()
 	else
 	{
 		oldPos.y -= _gravity;
-		TilePropertyType tpt = _level->getTileProperty(oldPos);
+		TilePropertyType tpt = _level->tileManager->getTileProperty(oldPos);
 		if (tpt != TilePropertyCollision) {
 			this->setPosition(oldPos);
 			_isOnGround = false; // in case Josie falls of the cliff
@@ -185,3 +225,10 @@ void Player::_checkJump()
 	}
 }
 
+void Player::_checkAlive()
+{
+	if (this->getPositionY()<-200) {
+		// KAABUUUUMMM! #splash
+		this->setPosition(100,258);
+	}
+}
