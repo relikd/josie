@@ -5,6 +5,7 @@
 #include "PlayerControl.h"
 #include <sstream>
 #include "AudioUnit.h"
+#include "MapController.h"
 
 using namespace cocos2d;
 
@@ -18,10 +19,7 @@ Level::Level() {
 	playerBoss = NULL;
 	playerControl = NULL;
 	audioUnit = NULL;
-
-	_tileMap = NULL;
-	_tilemapBackground = NULL;
-	_metaLayer = NULL;
+	tileManager = NULL;
 
 	currentLevel = -1;
 	currentSubLevel = -1;
@@ -67,17 +65,8 @@ bool Level::isBossLevel()
 //
 
 void Level::addTilemap() { //Add TileMap
-//lade Tilemap aus Resource Ordner in Abhaenggkeit der uebergebenen level-Nummer
-	std::ostringstream tilemap;
-	tilemap << "tilemaps/" << currentLevel << "." << currentSubLevel << ".tmx";
-	_tileMap = TMXTiledMap::create(tilemap.str());
-	_tilemapBackground = _tileMap->getLayer("Background_layer");
-	_metaLayer = _tileMap->getLayer("Meta_layer");
-	_metaLayer->setVisible(false);
-	this->addChild(_tileMap, 0);
-	for (const auto& child : _tileMap->getChildren()) {
-		static_cast<SpriteBatchNode*>(child)->getTexture()->setAntiAliasTexParameters();
-	}
+	tileManager = MapController::initWithLevel(this);
+	this->addChild(tileManager->map,0);
 }
 
 void Level::addBackground() {
@@ -128,43 +117,4 @@ void Level::addPauseButton() {
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 
-}
-
-
-
-//
-// Tilemap collision etc.
-//
-
-//wandelt position in Tilemap Koordinate um
-Point Level::getTileAt(Point position) {
-	int x = position.x / _tileMap->getTileSize().width;
-	int y = ((_tileMap->getMapSize().height * _tileMap->getTileSize().height)
-			- position.y) / _tileMap->getTileSize().height;
-	return Point(x, y);
-}
-
-TilePropertyType Level::getTileProperty(Point position) {
-	Point tileCoord = getTileAt(position);
-	int tileGID = _metaLayer->getTileGIDAt(tileCoord);
-	Value propMap = _tileMap->getPropertiesForGID(tileGID);
-
-	if (propMap.getType() == Value::Type::MAP) {
-		if (propMap.asValueMap()["Collectible"].asBool()) {
-			return TilePropertyCollectable;
-		} else if (propMap.asValueMap()["Collision"].asBool()) {
-			return TilePropertyCollision;
-		}
-	}
-	return TilePropertyNone;
-}
-
-//entfernt an uebergebener Position das Tile aus dem Foreground_layer und das dazugehoerige Tile aus dem Meta_layer
-void Level::collectAt(Point position) {
-	Point TileCoord = getTileAt(position);
-	if (getTileProperty(TileCoord) == TilePropertyCollectable) {
-		_metaLayer->removeTileAt(TileCoord); //verhindert, dass Collision Tiles entfernt werden k�nnen;
-		TMXLayer* Foreground = _tileMap->getLayer("Foreground_layer");
-		Foreground->removeTileAt(TileCoord);
-	}
 }
