@@ -158,6 +158,7 @@ bool Player::_canStandUp()
 	Size mySize = this->getBoundingBox().size;
 
 	this->setScale(scaleX,scaleY);
+	myOrigin.x += offset;
 	myOrigin.y += mySize.height;
 	Point a = myOrigin;
 	myOrigin.x += mySize.width;
@@ -193,12 +194,8 @@ void Player::_checkRun()
 		if (first != TilePropertyCollision && second != TilePropertyCollision)
 		{
 
-			_level->moveable->setPositionX(_level->moveable->getPositionX()-_runSpeed);
+			_level->moveLevelAtSpeed(_runSpeed);
 			offset += _runSpeed;
-			//CCLOG("######  %d  ######",_level->tileManager->getTileProperty(Vec2(this->getPositionX(),120.0f)));
-			CCLOG("### %f ## %f ###",myOrigin.x ,myOrigin.y);
-			CCLOG("++++++++++++++++   %f",_level->moveable->getPositionX() );
-			CCLOG("Position of tile checked : %f",myOrigin.x + offset);
 		}
 	}
 }
@@ -218,7 +215,7 @@ void Player::_checkJump()
 	else
 	{
 		oldPos.y -= _gravity;
-		TilePropertyType tpt = _level->tileManager->getTileProperty(oldPos);
+		TilePropertyType tpt = _level->tileManager->getTileProperty(Vec2(oldPos.x + offset, oldPos.y ));
 		if (tpt != TilePropertyCollision) {
 			this->setPosition(oldPos);
 			_isOnGround = false; // in case Josie falls of the cliff
@@ -232,6 +229,9 @@ void Player::_checkAlive()
 {
 	if (this->getPositionY()<-200) {
 		// KAABUUUUMMM! #splash
-		this->setPosition(100,258);
+		this->setPosition(Vec2(216, 512));
+		_level->moveable->setPositionX(0);
+		offset = 0;
+
 	}
 }

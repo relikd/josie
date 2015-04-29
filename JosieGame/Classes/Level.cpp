@@ -86,7 +86,7 @@ void Level::addPlayer() {
 		this->addChild(playerBoss, 1);
 	} else {
 		player = Player::initWithLevel(this);
-		player->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 288));
+		player->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 512));
 		this->addChild(player, 1);
 	}
 }
@@ -95,5 +95,9 @@ void Level::addPlayer() {
 void Level::addHUD(){
 	auto toAdd = HUD_Layer::createForLevel(this);
 	this-> addChild(toAdd, -1);
+}
+
+void Level::moveLevelAtSpeed(float speed){
+	moveable->setPositionX( moveable->getPositionX() - speed );
 }
 
