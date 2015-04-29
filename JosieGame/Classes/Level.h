@@ -26,6 +26,7 @@ public:
 	void addAudio();
 	void addHUD();
 	void addPlayer();
+	void moveLevelAtSpeed(float speed);
 
 
 
