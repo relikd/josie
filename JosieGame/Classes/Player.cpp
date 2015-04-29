@@ -30,7 +30,7 @@ Player* Player::initWithLevel(Level* level)
 {
 	Player *pl = new Player();
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/JosieMoving.plist");
-	pl->initWithSpriteFrameName("Josie-01.png");
+	pl->initWithSpriteFrameName("josiemove0000");
 	pl->autorelease();
 	pl->setAnchorPoint(Vec2(0.5, 0));
 	pl->_level = level;
@@ -43,7 +43,7 @@ Player* Player::initWithLevel(Level* level)
 RepeatForever* Player::moving()
 {
     // 3. repeat the frame
-    int numFrame = 4;
+    int numFrame = 6;
 
     cocos2d::Vector<cocos2d::SpriteFrame *> frames;
     SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
@@ -51,7 +51,7 @@ RepeatForever* Player::moving()
     char file[100] = {0};
 
 	for (int i = 1; i < numFrame; i++) {
-		sprintf(file, "Josie-%02d.png", i);
+		sprintf(file, "josiemove%04d", i);
 		SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
 		frames.pushBack(frame);
 	}
