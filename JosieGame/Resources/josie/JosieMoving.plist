@@ -4,79 +4,117 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>Josie-01.png</key>
+			<key>josiemove0000</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{256,256}}</string>
+				<string>{{2,2},{216,256}}</string>
 				<key>spriteOffset</key>
-				<string>{0,0}</string>
+				<string>{-2,-1}</string>
 				<key>spriteSize</key>
-				<string>{256,256}</string>
+				<string>{218,258}</string>
 				<key>spriteSourceSize</key>
-				<string>{256,256}</string>
+				<string>{216,256}</string>
 				<key>spriteTrimmed</key>
-				<false/>
+				<true/>
 				<key>textureRect</key>
-				<string>{{0,0},{256,256}}</string>
+				<string>{{0,0},{216,256}}</string>
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>Josie-02.png</key>
+			<key>josiemove0001</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{256,256}}</string>
+				<string>{{2,2},{216,256}}</string>
 				<key>spriteOffset</key>
-				<string>{0,0}</string>
+				<string>{-1,-1}</string>
 				<key>spriteSize</key>
-				<string>{256,256}</string>
+				<string>{218,258}</string>
 				<key>spriteSourceSize</key>
-				<string>{256,256}</string>
+				<string>{216,256}</string>
 				<key>spriteTrimmed</key>
-				<false/>
+				<true/>
 				<key>textureRect</key>
-				<string>{{256,0},{256,256}}</string>
+				<string>{{216,0},{216,256}}</string>
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>Josie-03.png</key>
+			<key>josiemove0002</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{256,257}}</string>
+				<string>{{2,0},{216,258}}</string>
 				<key>spriteOffset</key>
 				<string>{0,0}</string>
 				<key>spriteSize</key>
-				<string>{256,257}</string>
+				<string>{218,258}</string>
 				<key>spriteSourceSize</key>
-				<string>{256,257}</string>
+				<string>{216,258}</string>
 				<key>spriteTrimmed</key>
-				<false/>
+				<true/>
 				<key>textureRect</key>
-				<string>{{0,256},{256,257}}</string>
+				<string>{{0,256},{216,258}}</string>
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>Josie-04.png</key>
+			<key>josiemove0003</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{256,257}}</string>
+				<string>{{2,0},{216,258}}</string>
 				<key>spriteOffset</key>
 				<string>{0,0}</string>
 				<key>spriteSize</key>
-				<string>{256,257}</string>
+				<string>{218,258}</string>
 				<key>spriteSourceSize</key>
-				<string>{256,257}</string>
+				<string>{216,258}</string>
 				<key>spriteTrimmed</key>
-				<false/>
+				<true/>
 				<key>textureRect</key>
-				<string>{{256,256},{256,257}}</string>
+				<string>{{216,256},{216,258}}</string>
+				<key>textureRotated</key>
+				<false/>
+			</dict>
+			<key>josiemove0004</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{2,0},{216,258}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{218,258}</string>
+				<key>spriteSourceSize</key>
+				<string>{216,258}</string>
+				<key>spriteTrimmed</key>
+				<true/>
+				<key>textureRect</key>
+				<string>{{0,514},{216,258}}</string>
+				<key>textureRotated</key>
+				<false/>
+			</dict>
+			<key>josiemove0005</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{2,2},{216,256}}</string>
+				<key>spriteOffset</key>
+				<string>{-1,-1}</string>
+				<key>spriteSize</key>
+				<string>{218,258}</string>
+				<key>spriteSourceSize</key>
+				<string>{216,256}</string>
+				<key>spriteTrimmed</key>
+				<true/>
+				<key>textureRect</key>
+				<string>{{216,514},{216,256}}</string>
 				<key>textureRotated</key>
 				<false/>
 			</dict>
@@ -86,7 +124,7 @@
 			<key>format</key>
 			<integer>3</integer>
 			<key>size</key>
-			<string>{512,512}</string>
+			<string>{432,770}</string>
 			<key>target</key>
 			<dict>
 				<key>name</key>
