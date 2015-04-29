@@ -4,9 +4,9 @@
 #include "cocos2d.h"
 class Player;
 class PlayerBoss;
-class PlayerControl;
 class AudioUnit;
 class MapController;
+class HUDLayer;
 
 using namespace cocos2d;
 
@@ -23,11 +23,10 @@ public:
 	bool isBossLevel();
 
 	void addTilemap();
-	void addBackground();
 	void addAudio();
+	void addHUD();
 	void addPlayer();
-	void addPlayerControl();
-	void addPauseButton();
+
 
 
 	// implement the "static create()" method manually
@@ -35,9 +34,10 @@ public:
 
 	Player *player;
 	PlayerBoss *playerBoss;
-	PlayerControl *playerControl;
 	AudioUnit *audioUnit;
 	MapController *tileManager;
+	HUDLayer* HUD;
+	Layer* moveable;
 	int currentLevel;
 	int currentSubLevel;
 private:

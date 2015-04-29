@@ -20,6 +20,7 @@ Player::Player() {
 	_isRunning=true;
 	_isSliding=false;
 	_isOnGround=false;
+	offset = 0.0f;
 }
 Player::~Player() {
 	this->unscheduleUpdate();
@@ -185,17 +186,19 @@ void Player::_checkRun()
 		float currentScaleY = this->getScaleY();
 
 		myOrigin.x += mySize.width + _runSpeed;
-		TilePropertyType first = _level->tileManager->getTileProperty(myOrigin);
+		TilePropertyType first = _level->tileManager->getTileProperty(Vec2(myOrigin.x + offset, myOrigin.y ));
 		myOrigin.y += mySize.height;
-		TilePropertyType second = _level->tileManager->getTileProperty(myOrigin);
+		TilePropertyType second = _level->tileManager->getTileProperty(Vec2(myOrigin.x + offset, myOrigin.y ));
 
 		if (first != TilePropertyCollision && second != TilePropertyCollision)
 		{
-			float newX = this->getPositionX();
-			newX += _runSpeed;
-			float screenWidth = Director::getInstance()->getVisibleSize().width;
-			if (newX > screenWidth) newX-=screenWidth;
-			this->setPositionX(newX);
+
+			_level->moveable->setPositionX(_level->moveable->getPositionX()-_runSpeed);
+			offset += _runSpeed;
+			//CCLOG("######  %d  ######",_level->tileManager->getTileProperty(Vec2(this->getPositionX(),120.0f)));
+			CCLOG("### %f ## %f ###",myOrigin.x ,myOrigin.y);
+			CCLOG("++++++++++++++++   %f",_level->moveable->getPositionX() );
+			CCLOG("Position of tile checked : %f",myOrigin.x + offset);
 		}
 	}
 }

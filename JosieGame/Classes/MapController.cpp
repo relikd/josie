@@ -12,6 +12,7 @@ MapController::MapController() {
 	_tilemapBackground = NULL;
 	_metaLayer = NULL;
 	map = NULL;
+	level = NULL;
 }
 MapController::~MapController() {}
 
@@ -31,7 +32,7 @@ void MapController::initOptions()
 {
 	_tilemapBackground = map->getLayer("Background_layer");
 	_metaLayer = map->getLayer("Meta_layer");
-	_metaLayer->setVisible(false);
+	_metaLayer->setVisible(true);
 
 	for (const auto& child : map->getChildren()) {
 		static_cast<SpriteBatchNode*>(child)->getTexture()->setAntiAliasTexParameters();
@@ -72,7 +73,7 @@ bool MapController::hasCollisionBetweenPoints(cocos2d::Point a, cocos2d::Point b
 
 //wandelt position in Tilemap Koordinate um
 Point MapController::getTileAt(Point position) {
-	int x = position.x / map->getTileSize().width;
+	int x = position.x  / map->getTileSize().width;
 	int y = ((map->getMapSize().height * map->getTileSize().height)
 			- position.y) / map->getTileSize().height;
 	return Point(x, y);

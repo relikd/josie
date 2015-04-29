@@ -26,6 +26,7 @@ private:
 	cocos2d::Point getTileAt(cocos2d::Point position);
 public:
 	cocos2d::TMXTiledMap *map;
+	Level* level;
 };
 
 #endif /* MAPCONTROLLER_H_ */
