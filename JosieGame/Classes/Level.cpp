@@ -1,10 +1,10 @@
 #include "Level.h"
 #include "Player.h"
 #include "PlayerBoss.h"
-#include "PlayerControl.h"
 #include <sstream>
 #include "AudioUnit.h"
 #include "MapController.h"
+#include "HUD_Layer.h"
 
 using namespace cocos2d;
 
@@ -16,9 +16,10 @@ Level::Level() {
 	origin = Director::getInstance()->getVisibleOrigin();
 	player = NULL;
 	playerBoss = NULL;
-	playerControl = NULL;
 	audioUnit = NULL;
 	tileManager = NULL;
+	HUD = NULL;
+	moveable = NULL;
 
 	currentLevel = -1;
 	currentSubLevel = -1;
@@ -34,13 +35,11 @@ Level* Level::initWithLevel(int level, int sublevel)
 	l->currentLevel = level;
 	l->currentSubLevel = sublevel;
 
-	l->addBackground();
+	l->addHUD();
 	l->addTilemap();
-	l->addPauseButton();
 
 	l->addAudio();
 	l->addPlayer();
-	l->addPlayerControl();
 
 	return l;
 }
@@ -65,21 +64,14 @@ bool Level::isBossLevel()
 
 void Level::addTilemap() { //Add TileMap
 	tileManager = MapController::initWithLevel(this);
-	this->addChild(tileManager->map,0);
+	moveable = Layer::create() ;
+
+	moveable->addChild(tileManager->map,0);
+
+	this-> addChild(moveable,0);
 }
 
-void Level::addBackground() {
-	//index to string for background loading
-	std::ostringstream s;
-	s << "backgrounds/bg_" << currentLevel << "." << currentSubLevel << ".png";
 
-	//Add Background Image
-	auto background = Sprite::create(s.str());
-	background->setPosition(
-			Vec2(visibleSize.width / 2 + origin.x,
-					visibleSize.height / 2 + origin.y));
-	this->addChild(background, 0);
-}
 
 void Level::addAudio() {
 	audioUnit = AudioUnit::initWithLevel(this);
@@ -99,21 +91,9 @@ void Level::addPlayer() {
 	}
 }
 
-void Level::addPlayerControl() {
-	//add control to scene
-	playerControl = PlayerControl::initWithLevel(this);
-	this->addChild(playerControl, -1);
+
+void Level::addHUD(){
+	auto toAdd = HUD_Layer::createForLevel(this);
+	this-> addChild(toAdd, -1);
 }
 
-void Level::addPauseButton() {
-	//Add Pause Button in upper right corner
-	auto pause = MenuItemImage::create("buttons/pausebutton.png",
-			"buttons/pausebutton.png", CC_CALLBACK_1(Level::pause, this));
-	pause->setPosition(
-			origin.x + visibleSize.width - pause->getContentSize().width,
-			origin.y + visibleSize.height - pause->getContentSize().height);
-	auto menu = Menu::create(pause, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 1);
-
-}
