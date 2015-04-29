@@ -15,6 +15,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/MainMenuScene.cpp \
                    ../../Classes/AudioUnit.cpp \
+                   ../../Classes/Projectile.cpp \
                    ../../Classes/Player.cpp \
                    ../../Classes/PlayerBoss.cpp \
                    ../../Classes/Boss.cpp \

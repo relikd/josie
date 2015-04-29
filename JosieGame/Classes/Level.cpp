@@ -1,5 +1,4 @@
 #include "Level.h"
-#include "SimpleAudioEngine.h"
 #include "Player.h"
 #include "PlayerBoss.h"
 #include "PlayerControl.h"
@@ -91,7 +90,7 @@ void Level::addPlayer() {
 	//Add Player
 	if (this->isBossLevel()) {
 		playerBoss = PlayerBoss::initWithLevel(this);
-		playerBoss->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y+188));
+		playerBoss->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 60));
 		this->addChild(playerBoss, 1);
 	} else {
 		player = Player::initWithLevel(this);

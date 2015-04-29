@@ -64,15 +64,6 @@ bool MainMenu::init()
 					origin.y + visibleSize.height
 							- startbutton->getContentSize().height * 2 - 20));
 
-	auto boss = LabelTTF::create("Boss Test", "fonts/Marker Felt.ttf", 70);
-	auto devButtonBoss = MenuItemLabel::create(boss,
-			CC_CALLBACK_1(MainMenu::developBoss, this));
-	devButtonBoss->setPosition(
-			Vec2(
-					origin.x + visibleSize.width / 2
-							+ startbutton->getContentSize().width,
-					origin.y + visibleSize.height
-							- startbutton->getContentSize().height * 2 - 20));
 
 	auto cut = LabelTTF::create("CutScene Test", "fonts/Marker Felt.ttf", 70);
 	auto devButtonCut = MenuItemLabel::create(cut,
@@ -87,7 +78,7 @@ bool MainMenu::init()
 
 
 	// create menu, it's an autorelease object
-		    auto menu = Menu::create(closeItem,startbutton,devButtonShop, devButtonBoss,devButtonCut, NULL);
+		    auto menu = Menu::create(closeItem,startbutton,devButtonShop,devButtonCut, NULL);
 		    menu->setPosition(Vec2::ZERO);
 		    this->addChild(menu, 1);
 
@@ -142,10 +133,6 @@ void MainMenu::play(Ref* pSender)
 
 //The following methods are only for developmentprocess, to test the different scenes
 void MainMenu::developShop(Ref* pSender)
-{
-
-}
-void MainMenu::developBoss(Ref* pSender)
 {
 
 }
