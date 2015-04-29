@@ -14,6 +14,9 @@ public:
 	void moveRight();
 	void shoot();
 	void jump();
+
+private:
+	Level* _level;
 };
 
 #endif /* PLAYERBOSS_H_ */
