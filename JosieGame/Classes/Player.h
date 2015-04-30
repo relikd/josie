@@ -4,8 +4,7 @@
 #include "cocos2d.h"
 class Level;
 
-class Player : public cocos2d::Sprite
-{
+class Player: public cocos2d::Sprite {
 public:
 	Player();
 	~Player();
@@ -22,6 +21,7 @@ private:
 	void _checkRun();
 	void _checkJump();
 	void _checkAlive();
+	cocos2d::Rect addOffsetToBBox();
 
 	cocos2d::RepeatForever* moving();
 
