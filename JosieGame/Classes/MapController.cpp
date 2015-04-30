@@ -19,6 +19,7 @@ MapController::MapController() {
 	_tilemapBackground = NULL;
 	_metaLayer = NULL;
 	map = NULL;
+	mapOffsetX = 0.0f;
 
 	_collisionMap = new long[1];
 }
@@ -149,7 +150,7 @@ void MapController::collectAt(Point position) {
 
 // wandelt Position in Tilemap Koordinate um
 Point MapController::getTileAt(Point position) {
-	int x = position.x / map->getTileSize().width;
+	int x = (position.x + mapOffsetX) / map->getTileSize().width;
 	int y = ((map->getMapSize().height * map->getTileSize().height)
 			- position.y) / map->getTileSize().height;
 	return Point(x, y);
@@ -159,9 +160,9 @@ TilePointOffset MapController::getTilePointOffset(Point point)
 {
 	TilePointOffset tpo;
 	float y = ((map->getMapSize().height * map->getTileSize().height) - point.y);
-	tpo.offsetX = fmod(point.x, map->getTileSize().width);
+	tpo.offsetX = fmod(point.x + mapOffsetX, map->getTileSize().width);
 	tpo.offsetY = fmod(y, map->getTileSize().height);
-	tpo.x = point.x / map->getTileSize().width;
+	tpo.x = (point.x + mapOffsetX) / map->getTileSize().width;
 	tpo.y = (y / map->getTileSize().height);
 	return tpo;
 }

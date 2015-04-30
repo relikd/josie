@@ -12,6 +12,7 @@ const float _maxDeltaY = 20; // pixel
 const float _runSpeed = 7.0;
 
 float _upForce; // continuously changed during jump
+float _timeDiff = 0.0;
 
 Player::Player() {
 	this->_level = NULL;
@@ -19,7 +20,6 @@ Player::Player() {
 	_isRunning = true;
 	_isSliding = false;
 	_isOnGround = false;
-	offset = 0.0f;
 }
 Player::~Player() {
 	this->unscheduleUpdate();
@@ -61,7 +61,7 @@ RepeatForever* Player::moving() {
 	RepeatForever *repeat = RepeatForever::create(animate);
 	return repeat;
 }
-float _timeDiff = 0.0;
+
 void Player::update(float dt) {
 	this->_checkRun();
 	this->_checkJump();
@@ -70,7 +70,6 @@ void Player::update(float dt) {
 		_timeDiff = 0.0;
 		this->_checkAlive();
 	}
-
 }
 
 //
@@ -126,28 +125,20 @@ bool Player::_canStandUp() {
 	if (!_isSliding)
 		return true; // already standing
 
-	float air = _level->tileManager->collisionDiffTop(this->addOffsetToBBox());
+	float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
 	float scaleY = this->getScaleY();
-	float height = this->addOffsetToBBox().size.height;
+	float height = this->getBoundingBox().size.height;
 
 	// TODO: evtl. Skalierung in die Breite beachten
-	return ((height / scaleY) - height) < air;
+	return ((height / scaleY) - height -3.0) < air; // TODO: Josie 2px kleiner machen
 }
 
 void Player::_checkRun() {
 	if (_isRunning) {
-		float dist = _level->tileManager->collisionDiffRight(
-				this->addOffsetToBBox());
+		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
 		if (dist > 0.01) {
-			//float newX = this->getPositionX();
-			//newX += (dist < _runSpeed) ? dist : _runSpeed;
-			//float screenWidth = Director::getInstance()->getVisibleSize().width;
-			//if (newX > screenWidth)
-			//	newX -= screenWidth;
-			//this->setPositionX(newX);
 			dist = (dist < _runSpeed) ? dist : _runSpeed;
 			_level->moveLevelAtSpeed(dist);
-			offset += dist;
 		}
 	}
 }
@@ -155,10 +146,8 @@ void Player::_checkRun() {
 void Player::_checkJump() {
 	_upForce = fmax(_upForce - _gravity, 0);
 
-	if (_upForce > 0.01) // as long as jump force is stronger than gravity
-			{
-		float air = _level->tileManager->collisionDiffTop(
-				this->addOffsetToBBox());
+	if (_upForce > 0.01) {// as long as jump force is stronger than gravity
+		float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
 		if (air > 0.01) {
 			float deltaY = _maxDeltaY * (_upForce / _jumpPower);
 			if (air < deltaY)
@@ -167,8 +156,7 @@ void Player::_checkJump() {
 		}
 		_isOnGround = false;
 	} else {
-		float height = _level->tileManager->collisionDiffBottom(
-				this->addOffsetToBBox());
+		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
 		if (height > 0.01) {
 			float y = this->getPositionY();
 			y -= (height < _gravity) ? height : _gravity;
@@ -184,16 +172,7 @@ void Player::_checkAlive() {
 	if (this->getPositionY() < -200) {
 		// KAABUUUUMMM! #splash
 		this->setPosition(Vec2(216, 512));
-		_level->moveable->setPositionX(0);
-		offset = 0;
+		_level->resetLevelPosition();
 	}
 }
 
-Rect Player::addOffsetToBBox() {
-	float x = this->getBoundingBox().origin.x + offset;
-	float y = this->getBoundingBox().origin.y;
-	float width = this->getBoundingBox().size.width;
-	float height = this->getBoundingBox().size.height;
-
-	return Rect(x, y, width, height);
-}

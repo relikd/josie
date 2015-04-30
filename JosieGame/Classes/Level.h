@@ -22,16 +22,8 @@ public:
 	void pause(cocos2d::Ref* pSender);
 	bool isBossLevel();
 
-	void addTilemap();
-	void addAudio();
-	void addHUD();
-	void addPlayer();
 	void moveLevelAtSpeed(float speed);
-
-
-
-	// implement the "static create()" method manually
-	//CREATE_FUNC(Level);
+	void resetLevelPosition(float position = 0.0f);
 
 	Player *player;
 	PlayerBoss *playerBoss;
@@ -42,6 +34,10 @@ public:
 	int currentLevel;
 	int currentSubLevel;
 private:
+	void addTilemap();
+	void addAudio();
+	void addHUD();
+	void addPlayer();
 	Size visibleSize;
 	Vec2 origin;
 };

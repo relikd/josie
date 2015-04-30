@@ -100,5 +100,13 @@ void Level::addHUD(){
 
 void Level::moveLevelAtSpeed(float speed){
 	moveable->setPositionX( moveable->getPositionX() - speed );
+	tileManager->mapOffsetX += speed;
+}
+
+void Level::resetLevelPosition(float position) // 0.0f if no parameter
+{
+	moveable->setPositionX( position );
+	CCLOG("%1.3f", position);
+	tileManager->mapOffsetX = position;
 }
 

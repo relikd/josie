@@ -16,6 +16,7 @@ public:
 	~MapController();
 
 	cocos2d::TMXTiledMap *map;
+	float mapOffsetX;
 
 	static MapController* initWithLevel(Level *lvl);
 	void initOptions();
