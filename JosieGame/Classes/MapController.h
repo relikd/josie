@@ -15,18 +15,23 @@ public:
 	MapController();
 	~MapController();
 
+	cocos2d::TMXTiledMap *map;
+
 	static MapController* initWithLevel(Level *lvl);
 	void initOptions();
 
-	TilePropertyType getTileProperty(cocos2d::Point position);
-	TilePropertyType getTilePropertyFromGID(cocos2d::Point gid);
+	float collisionDiffTop(cocos2d::Rect bounds);
+	float collisionDiffBottom(cocos2d::Rect bounds);
+	float collisionDiffRight(cocos2d::Rect bounds);
+
+	TilePropertyType getTileProperty(cocos2d::Point position); // currently not used
 	void collectAt(cocos2d::Point position);
-	bool hasCollisionBetweenPoints(cocos2d::Point a, cocos2d::Point b);
 private:
 	cocos2d::Point getTileAt(cocos2d::Point position);
-public:
-	cocos2d::TMXTiledMap *map;
-	Level* level;
+	struct TilePointOffset getTilePointOffset(cocos2d::Point point);
+	void initCollisionMap();
+	int getGIDForCollision();
+	long getColumnBitmapForGID(int x, int tile_gid);
 };
 
 #endif /* MAPCONTROLLER_H_ */

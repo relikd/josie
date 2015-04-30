@@ -13,10 +13,6 @@ public:
 
 	void update(float dt);
 
-	// Enter & Exit Scene
-	void onEnterTransitionDidFinish();
-	void onExitTransitionDidStart();
-
 	// Player interaction
 	void run(bool r);
 	void jump();
