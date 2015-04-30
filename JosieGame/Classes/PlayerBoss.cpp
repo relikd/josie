@@ -32,14 +32,9 @@ void PlayerBoss::moveRight()
 }
 void PlayerBoss::shoot()
 {
-	Projectile* projectile = Projectile::init(0,0);
-	projectile->setPosition(this->getPositionX(), this->getPositionY() + this->getContentSize().height);
+	Projectile* projectile = Projectile::init(this->getBoundingBox().getMidX(), this->getBoundingBox().getMaxY());
 	_level->addChild(projectile,1);
 	projectile->runAction(MoveTo::create(3.0f,Vec2(this->getPositionX(),900)));
-
-	//projectile->killProjectile();
-
-
 }
 void PlayerBoss::jump()
 {
