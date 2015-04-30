@@ -13,13 +13,12 @@ const float _runSpeed = 7.0;
 
 float _upForce; // continuously changed during jump
 
-
 Player::Player() {
 	this->_level = NULL;
-	_upForce=0;
-	_isRunning=true;
-	_isSliding=false;
-	_isOnGround=false;
+	_upForce = 0;
+	_isRunning = true;
+	_isSliding = false;
+	_isOnGround = false;
 	offset = 0.0f;
 }
 Player::~Player() {
@@ -27,10 +26,10 @@ Player::~Player() {
 	CCLOG("Player destroyed");
 }
 
-Player* Player::initWithLevel(Level* level)
-{
+Player* Player::initWithLevel(Level* level) {
 	Player *pl = new Player();
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/JosieMoving.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(
+			"josie/JosieMoving.plist");
 	pl->initWithSpriteFrameName("josiemove0000");
 	pl->autorelease();
 	pl->setAnchorPoint(Vec2(0.5, 0));
@@ -41,15 +40,14 @@ Player* Player::initWithLevel(Level* level)
 	return pl;
 }
 
-RepeatForever* Player::moving()
-{
-    // 3. repeat the frame
-    int numFrame = 6;
+RepeatForever* Player::moving() {
+	// 3. repeat the frame
+	int numFrame = 6;
 
-    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
-    SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
+	cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+	SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
 
-    char file[100] = {0};
+	char file[100] = { 0 };
 
 	for (int i = 1; i < numFrame; i++) {
 		sprintf(file, "josiemove%04d", i);
@@ -57,54 +55,50 @@ RepeatForever* Player::moving()
 		frames.pushBack(frame);
 	}
 
+	Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
+	Animate *animate = Animate::create(animation);
 
-    Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
-    Animate *animate = Animate::create(animation);
-
-    RepeatForever *repeat = RepeatForever::create(animate);
-    return repeat;
+	RepeatForever *repeat = RepeatForever::create(animate);
+	return repeat;
 }
 float _timeDiff = 0.0;
-void Player::update(float dt)
-{
+void Player::update(float dt) {
 	this->_checkRun();
 	this->_checkJump();
-	_timeDiff+=dt;
-	if (_timeDiff > 0.33f)
-	{
+	_timeDiff += dt;
+	if (_timeDiff > 0.33f) {
 		_timeDiff = 0.0;
 		this->_checkAlive();
 	}
 
 }
 
-
-
 //
 // Player interaction
 //
 
-void Player::run(bool r)
-{
-	if (_isRunning == r) return; // only update on state change
+void Player::run(bool r) {
+	if (_isRunning == r)
+		return; // only update on state change
 
 	_isRunning = r;
 
-	if (!_isRunning) _level->audioUnit->playJosieStopRunSound();
+	if (!_isRunning)
+		_level->audioUnit->playJosieStopRunSound();
 }
 
-void Player::jump()
-{
+void Player::jump() {
 	if (_isOnGround && !_isSliding) {
-		_upForce=_jumpPower;
+		_upForce = _jumpPower;
 		_level->audioUnit->playJosieJumpSound();
 	}
 }
 
-void Player::slide(bool s)
-{
-	if (_isSliding == s) return; // don't update while sliding
-	if (_isSliding && !this->_canStandUp()) return; // keep sliding
+void Player::slide(bool s) {
+	if (_isSliding == s)
+		return; // don't update while sliding
+	if (_isSliding && !this->_canStandUp())
+		return; // keep sliding
 
 	_isSliding = s;
 
@@ -124,63 +118,60 @@ void Player::slide(bool s)
 	this->runAction(skewTo);
 }
 
-
-
-
 //
 // private functions
 //
 
-bool Player::_canStandUp()
-{
-	if (!_isSliding) return true; // already standing
+bool Player::_canStandUp() {
+	if (!_isSliding)
+		return true; // already standing
 
-	float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
+	float air = _level->tileManager->collisionDiffTop(this->addOffsetToBBox());
 	float scaleY = this->getScaleY();
-	float height = this->getBoundingBox().size.height;
+	float height = this->addOffsetToBBox().size.height;
 
 	// TODO: evtl. Skalierung in die Breite beachten
-	return ((height/scaleY)-height) < air;
+	return ((height / scaleY) - height) < air;
 }
 
-void Player::_checkRun()
-{
-	if (_isRunning)
-	{
-		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
+void Player::_checkRun() {
+	if (_isRunning) {
+		float dist = _level->tileManager->collisionDiffRight(
+				this->addOffsetToBBox());
 		if (dist > 0.01) {
-			float newX = this->getPositionX();
-			newX += (dist<_runSpeed) ? dist : _runSpeed;
-			float screenWidth = Director::getInstance()->getVisibleSize().width;
-			if (newX > screenWidth) newX-=screenWidth;
-			this->setPositionX(newX);
-			//_level->moveLevelAtSpeed(_runSpeed);
-			//offset += _runSpeed;
+			//float newX = this->getPositionX();
+			//newX += (dist < _runSpeed) ? dist : _runSpeed;
+			//float screenWidth = Director::getInstance()->getVisibleSize().width;
+			//if (newX > screenWidth)
+			//	newX -= screenWidth;
+			//this->setPositionX(newX);
+			dist = (dist < _runSpeed) ? dist : _runSpeed;
+			_level->moveLevelAtSpeed(dist);
+			offset += dist;
 		}
 	}
 }
 
-void Player::_checkJump()
-{
+void Player::_checkJump() {
 	_upForce = fmax(_upForce - _gravity, 0);
 
 	if (_upForce > 0.01) // as long as jump force is stronger than gravity
-	{
-		float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
-		if (air > 0.01)
-		{
-			float deltaY = _maxDeltaY*(_upForce/_jumpPower);
-			if (air<deltaY) deltaY=air;
-			this->setPositionY(this->getPositionY()+deltaY);
+			{
+		float air = _level->tileManager->collisionDiffTop(
+				this->addOffsetToBBox());
+		if (air > 0.01) {
+			float deltaY = _maxDeltaY * (_upForce / _jumpPower);
+			if (air < deltaY)
+				deltaY = air;
+			this->setPositionY(this->getPositionY() + deltaY);
 		}
-		_isOnGround=false;
-	}
-	else
-	{
-		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
+		_isOnGround = false;
+	} else {
+		float height = _level->tileManager->collisionDiffBottom(
+				this->addOffsetToBBox());
 		if (height > 0.01) {
 			float y = this->getPositionY();
-			y -= (height<_gravity) ? height : _gravity;
+			y -= (height < _gravity) ? height : _gravity;
 			this->setPositionY(y);
 			_isOnGround = false; // in case Josie falls of the cliff
 		} else {
@@ -189,12 +180,20 @@ void Player::_checkJump()
 	}
 }
 
-void Player::_checkAlive()
-{
-	if (this->getPositionY()<-200) {
+void Player::_checkAlive() {
+	if (this->getPositionY() < -200) {
 		// KAABUUUUMMM! #splash
 		this->setPosition(Vec2(216, 512));
 		_level->moveable->setPositionX(0);
 		offset = 0;
 	}
+}
+
+Rect Player::addOffsetToBBox() {
+	float x = this->getBoundingBox().origin.x + offset;
+	float y = this->getBoundingBox().origin.y;
+	float width = this->getBoundingBox().size.width;
+	float height = this->getBoundingBox().size.height;
+
+	return Rect(x, y, width, height);
 }
