@@ -8,12 +8,8 @@
 
 using namespace cocos2d;
 
-Size visibleSize;
-Vec2 origin;
 
 Level::Level() {
-	visibleSize = Director::getInstance()->getVisibleSize();
-	origin = Director::getInstance()->getVisibleOrigin();
 	player = NULL;
 	playerBoss = NULL;
 	audioUnit = NULL;
@@ -80,6 +76,8 @@ void Level::addAudio() {
 }
 
 void Level::addPlayer() {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Point origin = Director::getInstance()->getVisibleOrigin();
 	//Add Player
 	if (this->isBossLevel()) {
 		playerBoss = PlayerBoss::initWithLevel(this);
