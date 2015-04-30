@@ -75,24 +75,9 @@ void Player::update(float dt)
 		_timeDiff = 0.0;
 		this->_checkAlive();
 	}
+
 }
 
-
-//
-// Enter & Exit Scene
-//
-
-void Player::onEnterTransitionDidFinish()
-{
-   Node::onEnterTransitionDidFinish();
-   CCLOG("player sprite open");
-}
-
-void Player::onExitTransitionDidStart()
-{
-   Node::onExitTransitionDidStart();
-   CCLOG("player sprite close");
-}
 
 
 //
@@ -150,74 +135,53 @@ bool Player::_canStandUp()
 {
 	if (!_isSliding) return true; // already standing
 
-	float scaleX = this->getScaleX();
+	float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
 	float scaleY = this->getScaleY();
-	this->setScale(1,1);
+	float height = this->getBoundingBox().size.height;
 
-	Vec2 myOrigin = this->getBoundingBox().origin;
-	Size mySize = this->getBoundingBox().size;
-
-	this->setScale(scaleX,scaleY);
-	myOrigin.x += offset;
-	myOrigin.y += mySize.height;
-	Point a = myOrigin;
-	myOrigin.x += mySize.width;
-	Point b = myOrigin;
-	return !_level->tileManager->hasCollisionBetweenPoints(a,b);
-
-
-	myOrigin.y += mySize.height;
-	TilePropertyType first = _level->tileManager->getTileProperty(myOrigin); // up left
-	myOrigin.x += mySize.width;
-	TilePropertyType second = _level->tileManager->getTileProperty(myOrigin); // up right
-
-	if (first == TilePropertyCollision || second == TilePropertyCollision) {
-		return false;
-	}
-
-	return true;
+	// TODO: evtl. Skalierung in die Breite beachten
+	return ((height/scaleY)-height) < air;
 }
 
 void Player::_checkRun()
 {
-	if (_isRunning){
-
-		Vec2 myOrigin = this->getBoundingBox().origin;
-		Size mySize = this->getBoundingBox().size;
-		float currentScaleY = this->getScaleY();
-
-		myOrigin.x += mySize.width + _runSpeed;
-		TilePropertyType first = _level->tileManager->getTileProperty(Vec2(myOrigin.x + offset, myOrigin.y ));
-		myOrigin.y += mySize.height;
-		TilePropertyType second = _level->tileManager->getTileProperty(Vec2(myOrigin.x + offset, myOrigin.y ));
-
-		if (first != TilePropertyCollision && second != TilePropertyCollision)
-		{
-
-			_level->moveLevelAtSpeed(_runSpeed);
-			offset += _runSpeed;
+	if (_isRunning)
+	{
+		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
+		if (dist > 0.01) {
+			float newX = this->getPositionX();
+			newX += (dist<_runSpeed) ? dist : _runSpeed;
+			float screenWidth = Director::getInstance()->getVisibleSize().width;
+			if (newX > screenWidth) newX-=screenWidth;
+			this->setPositionX(newX);
+			//_level->moveLevelAtSpeed(_runSpeed);
+			//offset += _runSpeed;
 		}
 	}
 }
 
 void Player::_checkJump()
 {
-	Vec2 oldPos = this->getPosition();
-
 	_upForce = fmax(_upForce - _gravity, 0);
 
 	if (_upForce > 0.01) // as long as jump force is stronger than gravity
 	{
-		float deltaY = _maxDeltaY*(_upForce/_jumpPower);
-		this->setPositionY(oldPos.y+deltaY);
+		float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
+		if (air > 0.01)
+		{
+			float deltaY = _maxDeltaY*(_upForce/_jumpPower);
+			if (air<deltaY) deltaY=air;
+			this->setPositionY(this->getPositionY()+deltaY);
+		}
 		_isOnGround=false;
 	}
 	else
 	{
-		oldPos.y -= _gravity;
-		TilePropertyType tpt = _level->tileManager->getTileProperty(Vec2(oldPos.x + offset, oldPos.y ));
-		if (tpt != TilePropertyCollision) {
-			this->setPosition(oldPos);
+		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
+		if (height > 0.01) {
+			float y = this->getPositionY();
+			y -= (height<_gravity) ? height : _gravity;
+			this->setPositionY(y);
 			_isOnGround = false; // in case Josie falls of the cliff
 		} else {
 			_isOnGround = true;
@@ -232,6 +196,5 @@ void Player::_checkAlive()
 		this->setPosition(Vec2(216, 512));
 		_level->moveable->setPositionX(0);
 		offset = 0;
-
 	}
 }

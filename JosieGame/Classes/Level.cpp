@@ -48,6 +48,7 @@ Level* Level::initWithLevel(int level, int sublevel)
 void Level::pause(Ref* pSender) {
 	audioUnit->stopBackground();
 	delete audioUnit;
+	delete tileManager;
 	Director::getInstance()->popScene();
 }
 
