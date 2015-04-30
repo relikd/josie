@@ -21,7 +21,6 @@ private:
 	void _checkRun();
 	void _checkJump();
 	void _checkAlive();
-	cocos2d::Rect addOffsetToBBox();
 
 	cocos2d::RepeatForever* moving();
 
@@ -29,7 +28,6 @@ private:
 	bool _isSliding;
 	bool _isRunning;
 	bool _isOnGround;
-	float offset;
 };
 
 #endif // _PLAYER_H_
