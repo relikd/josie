@@ -38,8 +38,6 @@ private:
 	void addAudio();
 	void addHUD();
 	void addPlayer();
-	Size visibleSize;
-	Vec2 origin;
 };
 
 #endif 
