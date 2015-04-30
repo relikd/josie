@@ -1,45 +1,31 @@
-/*
- * Projectile.cpp
- *
- *  Created on: 27.04.2015
- *      Author: danielmugge
- */
-
 #include "Projectile.h"
 
 using namespace cocos2d;
 
-Projectile::Projectile() {
-
-	_isAlive = true;
-	CCLOG("projectile is Alive");
-	_xPos = 0.0f;
-	_yPos = 0.0f;
-
-}
-
+Projectile::Projectile() {}
 Projectile::~Projectile() {
-	CCLOG("projectile destroyed");
-	this->removeFromParent();
+	CCLOG("Projectile destroyed");
 }
 
 Projectile* Projectile::init(float x , float y)
 {
 	Projectile* pr = new Projectile();
 	pr->initWithFile("particles/std_bullet.png");
+	pr->setPosition(x,y);
 	pr->autorelease();
-	pr->_xPos = x;
-	pr->_yPos = y;
+	pr->scheduleUpdate();
 
-
-	CCLOG("Projectile has been initialized");
 	return pr;
+}
+
+void Projectile::update(float dt)
+{
+	if (this->getPositionY() >= 900) this->killProjectile();
 }
 
 void Projectile::killProjectile()
 {
-	CCLOG("Projectile should be not alive anymore");
-	_isAlive = false;
+	this->removeFromParent();
 }
 
 

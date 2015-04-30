@@ -10,13 +10,12 @@ public:
 	~Player();
 	static Player* initWithLevel(Level* level);
 
-	void update(float dt);
-
 	// Player interaction
 	void run(bool r);
 	void jump();
 	void slide(bool s);
 private:
+	void update(float dt);
 	bool _canStandUp();
 	void _checkRun();
 	void _checkJump();
