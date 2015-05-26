@@ -8,7 +8,6 @@
 #include "LevelSelectScene.h"
 #include "Level.h"
 
-
 USING_NS_CC;
 
 LevelSelect::LevelSelect() {
@@ -20,73 +19,89 @@ LevelSelect::~LevelSelect() {
 	CCLOG("SelectScreen destroyed");
 }
 
+Scene* LevelSelect::createScene() {
+	// 'scene' is an autorelease object
+	auto scene = Scene::create();
 
-Scene* LevelSelect::createScene()
-{
-    // 'scene' is an autorelease object
-    auto scene = Scene::create();
+	// 'layer' is an autorelease object
+	auto layer = LevelSelect::create();
 
-    // 'layer' is an autorelease object
-    auto layer = LevelSelect::create();
+	// add layer as a child to scene
+	scene->addChild(layer);
 
-    // add layer as a child to scene
-    scene->addChild(layer);
-
-    // return the scene
-    return scene;
+	// return the scene
+	return scene;
 }
 
 // on "init" you need to initialize your instance
-bool LevelSelect::init()
-{
-    //////////////////////////////
-    // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
+bool LevelSelect::init() {
+	//////////////////////////////
+	// 1. super init first
+	if (!Layer::init()) {
+		return false;
+	}
 
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto Level1_1 = LabelTTF::create("Level 1.1", "fonts/Marker Felt.ttf", 70);
-    	auto lvl1_1 = MenuItemLabel::create(Level1_1,
-    			CC_CALLBACK_1(LevelSelect::startLevel, this,1 ,1));
-    	lvl1_1->setPosition(
-    			Vec2(
-    					origin.x + visibleSize.width / 2,
-    					origin.y + visibleSize.height/ 2));
+	//Button for Level 1.1
+	auto lvl1_1 = MenuItemImage::create(
+			"buttons/levelselectbuttons/level_selectbutton1.1.png",
+			"buttons/levelselectbuttons/level_selectbutton1.1.png",
+			CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));
+	lvl1_1->setPosition(
+			Vec2((origin.x + visibleSize.width / 10)  * 2,
+					origin.y + visibleSize.height / 2));
 
-    	//Opens same level as level1_1, will be changed later when there's a tilemap for the bossfight
-    auto Level1_4 = LabelTTF::create("Level 1.4 (Boss)","fonts/Marker Felt.ttf", 70);
-    auto lvl1_4 = MenuItemLabel::create(Level1_4,CC_CALLBACK_1(LevelSelect::startLevel, this, 1,0));
-    lvl1_4->setPosition(Vec2(
-    						origin.x + visibleSize.width/2,
-							origin.y + visibleSize.height/3));
+	//Button for Level 1.2
+	auto lvl1_2 = MenuItemImage::create(
+			"buttons/levelselectbuttons/level_selectbutton1.2.png",
+			"buttons/levelselectbuttons/level_selectbutton1.2.png",
+			CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));
+	lvl1_2->setPosition(
+			Vec2((origin.x + visibleSize.width / 10)  * 4,
+					origin.y + visibleSize.height / 2));
+
+	//Button for Level 1.3
+	auto lvl1_3 = MenuItemImage::create(
+			"buttons/levelselectbuttons/level_selectbutton1.3.png",
+			"buttons/levelselectbuttons/level_selectbutton1.3.png",
+			CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));
+	lvl1_3->setPosition(
+			Vec2((origin.x + visibleSize.width / 10)  * 6,
+					origin.y + visibleSize.height / 2));
+
+	//Button for BossLevel (1.0)
+	auto lvl1_0 = MenuItemImage::create(
+			"buttons/levelselectbuttons/level_selectbutton1.0.png",
+			"buttons/levelselectbuttons/level_selectbutton1.0.png",
+			CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 0));
+	lvl1_0->setPosition(
+			Vec2((origin.x + visibleSize.width / 10) * 8,
+					origin.y + visibleSize.height / 2));
 
 
-    auto pause = MenuItemImage::create("buttons/pausebutton.png",
-    									"buttons/pausebutton.png", CC_CALLBACK_1(LevelSelect::backToMainMenu, this));
-	pause->setPosition(Vec2(
-			origin.x + visibleSize.width - pause->getContentSize().width,
-			origin.y + visibleSize.height - pause->getContentSize().height));
+	auto pause = MenuItemImage::create("buttons/pausebutton.png",
+			"buttons/pausebutton.png",
+			CC_CALLBACK_1(LevelSelect::backToMainMenu, this));
+	pause->setPosition(
+			Vec2(origin.x + visibleSize.width - pause->getContentSize().width,
+					origin.y + visibleSize.height
+							- pause->getContentSize().height));
 
-    auto levelmenu = Menu::create(lvl1_1,lvl1_4,pause, NULL);
-    levelmenu->setPosition(Vec2::ZERO);
-    this->addChild(levelmenu,1);
+	auto levelmenu = Menu::create(lvl1_1, lvl1_2,lvl1_3, lvl1_0, pause, NULL);
+	levelmenu->setPosition(Vec2::ZERO);
+	this->addChild(levelmenu, 1);
 
-    return true;
+	return true;
 
 }
 
-
-void LevelSelect::backToMainMenu(Ref* pSender)
-{
+void LevelSelect::backToMainMenu(Ref* pSender) {
 	Director::getInstance()->popScene();
 }
 
-void LevelSelect::startLevel(Ref* pSender,int level,int sublevel)
-{
+void LevelSelect::startLevel(Ref* pSender, int level, int sublevel) {
 	auto levelxx = Level::initWithLevel(level, sublevel);
 	Director::getInstance()->pushScene(levelxx);
 }
