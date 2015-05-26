@@ -30,11 +30,14 @@ void PlayerBoss::moveRight()
 {
 	this->setPositionX( this->getPositionX() + walkspeed );
 }
-void PlayerBoss::shoot()
+void PlayerBoss::shoot(int counterForShoot)
 {
-	Projectile* projectile = Projectile::init(this->getBoundingBox().getMidX(), this->getBoundingBox().getMaxY());
-	_level->addChild(projectile,1);
-	projectile->runAction(MoveTo::create(3.0f,Vec2(this->getPositionX(),900)));
+	if(counterForShoot == 0)
+	{
+		Projectile* projectile = Projectile::init(this->getBoundingBox().getMidX(), this->getBoundingBox().getMaxY());
+		_level->addChild(projectile,1);
+		projectile->runAction(MoveTo::create(2.0f,Vec2(this->getPositionX(),900)));
+	}
 }
 void PlayerBoss::jump()
 {

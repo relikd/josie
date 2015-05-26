@@ -28,7 +28,7 @@ Boss::~Boss() {
 Boss* Boss::initWithLevel(Level* level)
 {
 	Boss *boss = new Boss();
-	if(boss->initWithFile("boss/boss1.0.png"))
+	if(boss->initWithFile("boss_sprites/boss1.0.png"))
 	{
 		boss->autorelease();
 		boss->setAnchorPoint(Vec2(0.5,1));

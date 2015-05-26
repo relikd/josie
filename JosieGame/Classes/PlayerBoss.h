@@ -12,7 +12,7 @@ public:
 
 	void moveLeft();
 	void moveRight();
-	void shoot();
+	void shoot(int counterForShoot);
 	void jump();
 private:
 	Level* _level;
