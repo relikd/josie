@@ -6,6 +6,8 @@
 
 using namespace cocos2d;
 
+int counterForShoot = 0;
+
 PlayerControl::PlayerControl() {
 	this->_level = NULL;
 	this->_listenerLevel = NULL;
@@ -90,6 +92,12 @@ void PlayerControl::addBossControls()
 
 void PlayerControl::update(float dt)
 {
+	counterForShoot++;
+	if(counterForShoot >= 10)
+		{
+			counterForShoot  = 0;
+		}
+
 	if (_level->isBossLevel())
 	{
 		if (_left->isSelected())
@@ -97,7 +105,7 @@ void PlayerControl::update(float dt)
 		if (_right->isSelected())
 			_level->playerBoss->moveRight();
 		if (_shoot->isSelected())
-			_level->playerBoss->shoot();
+			_level->playerBoss->shoot(counterForShoot);
 	} else {
 		_level->player->run(!_stay->isSelected());
 		_level->player->slide(_slide->isSelected());

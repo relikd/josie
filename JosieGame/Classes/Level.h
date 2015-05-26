@@ -4,9 +4,11 @@
 #include "cocos2d.h"
 class Player;
 class PlayerBoss;
+class Boss;
 class AudioUnit;
 class MapController;
 class HUDLayer;
+
 
 using namespace cocos2d;
 
@@ -27,6 +29,7 @@ public:
 
 	Player *player;
 	PlayerBoss *playerBoss;
+	Boss *boss;
 	AudioUnit *audioUnit;
 	MapController *tileManager;
 	HUDLayer* HUD;

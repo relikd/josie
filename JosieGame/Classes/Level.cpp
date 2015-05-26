@@ -5,6 +5,7 @@
 #include "AudioUnit.h"
 #include "MapController.h"
 #include "HUD_Layer.h"
+#include "Boss.h"
 
 using namespace cocos2d;
 
@@ -12,6 +13,7 @@ using namespace cocos2d;
 Level::Level() {
 	player = NULL;
 	playerBoss = NULL;
+	boss = NULL;
 	audioUnit = NULL;
 	tileManager = NULL;
 	HUD = NULL;
@@ -83,6 +85,12 @@ void Level::addPlayer() {
 		playerBoss = PlayerBoss::initWithLevel(this);
 		playerBoss->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 60));
 		this->addChild(playerBoss, 1);
+
+		//Adding Boss in this method for testing
+		boss = Boss::initWithLevel(this);
+		boss->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height));
+		this->addChild(boss,1);
+
 	} else {
 		player = Player::initWithLevel(this);
 		player->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 512));
