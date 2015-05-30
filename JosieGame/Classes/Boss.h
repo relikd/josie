@@ -19,19 +19,23 @@ public:
 	static Boss* initWithLevel(Level* level);
 
 
-	void useAttack();
+	void update(float dt);
+	void useAttack(int attackID);
 	void reduceHealth(float dmg);
 	void setHealth(float health);
-
+	void loadWeapons();
 
 	float getHealth() { return _health ;}
 	bool isAlive() { return _isAlive ; }
 
 
 private:
+	float _attackTimer;
 	float _health;
 	bool _isAlive;
 	Level* _level;
+	Sprite* left;
+	Sprite* right;
 
 
 };

@@ -6,6 +6,7 @@
  */
 
 #include "Boss.h"
+#include "Level.h"
 
 USING_NS_CC;
 
@@ -14,11 +15,16 @@ bool _isAlive;
 
 
 
+
+
+
 Boss::Boss() {
+	this->_attackTimer = 7;
 	this->_isAlive = true;
 	this->_health = 0;
 	this->_level = NULL;
-
+	this->left = NULL;
+	this->right = NULL;
 }
 
 Boss::~Boss() {
@@ -33,6 +39,8 @@ Boss* Boss::initWithLevel(Level* level)
 		boss->autorelease();
 		boss->setAnchorPoint(Vec2(0.5,1));
 		boss->_level = level;
+		boss->loadWeapons();
+		boss->scheduleUpdate();
 
 		boss->setHealth(30.0f);
 		boss->_isAlive=true;
@@ -41,8 +49,96 @@ Boss* Boss::initWithLevel(Level* level)
 	return boss;
 }
 
-void Boss::useAttack(){
 
+
+void Boss::update(float dt)
+{
+	int att = (arc4random() % 4) + 1;
+	_attackTimer -= dt;
+	if(_attackTimer <= 0)
+	{
+		CCLOG("%f",_attackTimer);
+		CCLOG("%d",att);
+		useAttack(att);
+		_attackTimer = 7;
+	}
+
+
+	//CCLOG("%f",_attackTimer);
+}
+
+void Boss::loadWeapons()
+{
+	left = Sprite::create("boss_sprites/tree_hand_left.png");
+	right = Sprite::create("boss_sprites/tree_hand_right.png");
+	left->setPosition(Vec2(400,600));
+	left->setScale(1.7);
+	right->setPosition(Vec2(1520,600));
+	right->setScale(1.7);
+	_level->addChild(left,1);
+	_level->addChild(right,1);
+}
+
+
+void Boss::useAttack(int attackID){
+	switch(attackID){
+	case 1:
+	{
+		auto left_rotate = RotateTo::create(1.0,90.0f);
+		auto right_rotate = RotateTo::create(1.0, 270.0f);
+		auto left_rotate_back = RotateTo::create(0.2,0.0f);
+		auto right_rotate_back = RotateTo::create(0.2, 0.0f);
+		auto left_down = MoveTo::create(0.2,Vec2(400,100));
+		auto left_up = MoveTo::create(1.0,Vec2(400,600));
+		auto right_down = MoveTo::create(0.2,Vec2(1520,100));
+		auto right_up = MoveTo::create(1.0,Vec2(1520,600));
+		auto sequence_for_left = Sequence::create(left_rotate,left_down,left_up,left_rotate_back, nullptr);
+		auto sequence_for_right = Sequence::create(right_rotate,right_down,right_up, right_rotate_back,nullptr);
+		left->runAction(sequence_for_left);
+		right->runAction(sequence_for_right);
+		break;
+	}
+	case 2:
+	{
+		auto left_rotate = RotateTo::create(2.0,30.0f);
+		//auto right_rotate = RotateTo::create(0.2, 240.0f);
+		auto left_rotate_back = RotateTo::create(0.2,0.0f);
+		//auto right_rotate_back = RotateTo::create(0.2, 0.0f);
+		auto left_down = MoveTo::create(0.2,Vec2(1520,100));
+		auto left_up = MoveTo::create(1.0,Vec2(400,600));
+		//auto right_down = MoveTo::create(0.2,Vec2(400,100));
+		//auto right_up = MoveTo::create(1.0,Vec2(1520,600));
+		auto sequence  = Sequence::create(left_rotate, left_down, left_up, left_rotate_back, nullptr);
+		left->runAction(sequence);
+		break;
+	}
+	case 3:
+	{
+		auto right_rotate = RotateTo::create(2.0, 30.0f);
+		auto right_rotate_back = RotateTo::create(0.2, 0.0f);
+		auto right_down = MoveTo::create(0.2,Vec2(400,100));
+		auto right_up = MoveTo::create(1.0,Vec2(1520,600));
+		auto sequence = Sequence::create(right_rotate, right_down, right_up,right_rotate_back, nullptr);
+		right->runAction(sequence);
+		break;
+	}
+	case 4:
+	{
+		auto left_to_mid = MoveTo::create(1.0,Vec2(832,600));
+		auto right_to_mid = MoveTo::create(1.0, Vec2(1088,600));
+		auto mid_to_left = MoveTo::create(1.0,Vec2(400,600));
+		auto mid_to_right = MoveTo::create(1.0, Vec2(1520,600));
+		auto left_down = MoveTo::create(0.2,Vec2(832,100));
+		auto left_up = MoveTo::create(1.0,Vec2(832,600));
+		auto right_down = MoveTo::create(0.2,Vec2(1088,100));
+		auto right_up = MoveTo::create(1.0,Vec2(1088,600));
+		auto sequence_for_left = Sequence::create(left_to_mid,left_down, left_up,mid_to_left,nullptr);
+		auto sequence_for_right = Sequence::create(right_to_mid, right_down, right_up, mid_to_right,nullptr);
+		left->runAction(sequence_for_left);
+		right->runAction(sequence_for_right);
+		break;
+	}
+	}
 }
 
 void Boss::setHealth(float health)
