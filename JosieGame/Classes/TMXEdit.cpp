@@ -9,10 +9,11 @@
 
 using namespace cocos2d;
 
-const int minPartLength = 2;
+const int minPartLength = 1;
 const int minHeight = 8;
 const int maxHeight = 5;
-
+const int holeFreq = 4;//lower Value means more holes
+const int maxHoleSize = 2;
 //GIDs
 const int gras = 6;
 const int topDirt = 1;
@@ -56,11 +57,15 @@ void TMXEdit::fillGround(int ymin,int ymax){
 	{
 		placeGround(x,y);
 
+
 		if (x%startNext==0) //bestimmt wann eine neue Höhe ermittelt werden soll
 		{
 			y = ymin - (arc4random()%(ymin-ymax)); // bestimmt die neue Höhe
-			startNext = x + minPartLength+(arc4random()%minPartLength);
+			startNext =1 + x + minPartLength+(arc4random()%minPartLength);
 		}
+		else if (arc4random()%holeFreq == 0 ){
+					x+= 2 + (arc4random()%maxHoleSize);
+				}
 	}
 }
 
