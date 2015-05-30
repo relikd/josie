@@ -20,7 +20,7 @@ Projectile* Projectile::init(float x , float y)
 
 void Projectile::update(float dt)
 {
-	if (this->getPositionY() >= 900) this->killProjectile();
+	if (this->getPositionY() >= 1100) this->killProjectile();
 }
 
 void Projectile::killProjectile()
