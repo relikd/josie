@@ -14,6 +14,8 @@ public:
 	void moveRight();
 	void shoot(int counterForShoot);
 	void jump();
+
+	void useShot(int id);
 private:
 	Level* _level;
 };
