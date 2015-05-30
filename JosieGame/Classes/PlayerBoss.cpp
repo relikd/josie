@@ -10,7 +10,9 @@ const float walkspeed = 11.0;
 PlayerBoss::PlayerBoss() {
 	_level = NULL;
 }
-PlayerBoss::~PlayerBoss() {}
+PlayerBoss::~PlayerBoss() {
+	CCLOG("~BOSSPLAYER");
+}
 
 PlayerBoss* PlayerBoss::initWithLevel(Level* level)
 {

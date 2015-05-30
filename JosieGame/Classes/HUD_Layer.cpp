@@ -25,6 +25,7 @@ HUD_Layer::HUD_Layer() {
 
 HUD_Layer::~HUD_Layer() {
 	// TODO Auto-generated destructor stub
+	CCLOG("~HUD");
 }
 
 } /* namespace cocos2d */
@@ -38,6 +39,7 @@ HUD_Layer* HUD_Layer::createForLevel(Level* level)
 	toCreate->addBackground(level);
 	toCreate->addPauseButton(level);
 	toCreate->addPlayerControl(level);
+	toCreate->autorelease();
 	return toCreate;
 }
 
