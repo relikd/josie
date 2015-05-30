@@ -5,6 +5,7 @@
 #include "AudioUnit.h"
 #include "MapController.h"
 #include "HUD_Layer.h"
+#include "TMXEdit.h"
 #include "Boss.h"
 
 using namespace cocos2d;
@@ -63,7 +64,16 @@ bool Level::isBossLevel()
 //
 
 void Level::addTilemap() { //Add TileMap
+	if (currentLevel == 0){
+		std::ostringstream mapstr;
+			mapstr << "tilemaps/0.1.tmx";
+			TMXTiledMap* map = TMXEdit::makeMap();
+
+		tileManager = MapController::initWithObject(map);
+	}
+	else{
 	tileManager = MapController::initWithLevel(this);
+	}
 	moveable = Layer::create() ;
 
 	moveable->addChild(tileManager->map,0);

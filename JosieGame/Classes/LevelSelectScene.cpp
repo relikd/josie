@@ -66,7 +66,7 @@ bool LevelSelect::init() {
 	auto lvl1_3 = MenuItemImage::create(
 			"buttons/levelselectbuttons/level_selectbutton1.3.png",
 			"buttons/levelselectbuttons/level_selectbutton1.3.png",
-			CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));
+			CC_CALLBACK_1(LevelSelect::startLevel, this, 0, 1));//TODO: ruft derzeit rnd level 0.1, soll 1.3 rufen, sobald0.1 eigenen utton hat
 	lvl1_3->setPosition(
 			Vec2((origin.x + visibleSize.width / 10)  * 6,
 					origin.y + visibleSize.height / 2));
