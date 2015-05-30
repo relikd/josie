@@ -22,7 +22,7 @@ Level::Level() {
 	currentLevel = -1;
 	currentSubLevel = -1;
 }
-Level::~Level() {
+Level::~Level() {CCLOG("del Level");
 }
 
 Level* Level::initWithLevel(int level, int sublevel)
@@ -44,9 +44,12 @@ Level* Level::initWithLevel(int level, int sublevel)
 
 //Method Called by Pausebutton -> "goes back" to MainMenu
 void Level::pause(Ref* pSender) {
+
 	audioUnit->stopBackground();
 	delete audioUnit;
 	delete tileManager;
+	this->removeAllChildren();
+	//delete player;
 	Director::getInstance()->popScene();
 }
 

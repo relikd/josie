@@ -18,6 +18,7 @@ PlayerControl::PlayerControl() {
 	this->_slide = NULL;
 }
 PlayerControl::~PlayerControl() {
+	this->unscheduleUpdate();
 	CCLOG("PlayerControl destroyed");
 }
 
@@ -107,6 +108,7 @@ void PlayerControl::update(float dt)
 		if (_shoot->isSelected())
 			_level->playerBoss->shoot(counterForShoot);
 	} else {
+
 		_level->player->run(!_stay->isSelected());
 		_level->player->slide(_slide->isSelected());
 	}
