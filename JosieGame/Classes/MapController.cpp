@@ -39,6 +39,16 @@ MapController* MapController::initWithLevel(Level *lvl)
 
 	return tmc;
 }
+//initialisiert MAp nicht aus Datei direkt sondern aus gegebenem TMXTiledMap Objekt
+MapController* MapController::initWithObject(TMXTiledMap* map)
+{
+	MapController* tmc = new MapController();
+
+	tmc->map = map;
+	tmc->initOptions();
+
+	return tmc;
+}
 
 void MapController::initOptions()
 {

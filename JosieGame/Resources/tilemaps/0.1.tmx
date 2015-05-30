@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="800" height="9" tilewidth="128" tileheight="128" nextobjectid="9">
+ <tileset firstgid="1" name="FirstPrototypeTileset" tilewidth="128" tileheight="128">
+  <image source="SpriteSheet01.png" width="897" height="131"/>
+ </tileset>
+ <tileset firstgid="8" name="meta_tiles" tilewidth="128" tileheight="128">
+  <image source="Untitled-0001-default.png" width="484" height="228"/>
+  <tile id="0">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background_layer" width="800" height="9">
+  <data encoding="base64" compression="zlib">
+   eJztw7EJAAAIAzBd/P9kXyi4SQKpAgAAAAAAAAAAAAAAAAAAAAAAAAAAgJ8mCAAAcNVhAACAqwUu7gBB
+  </data>
+ </layer>
+ <layer name="Meta_layer" width="800" height="9">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAIA7Cd+FeMhQXeNmkCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXE0ZAADgawFTHABR
+  </data>
+ </layer>
+ <layer name="Foreground_layer" width="800" height="9">
+  <data encoding="base64" compression="zlib">
+   eJztzkEJAAAIBLB72T+yJQ4E2RIsAQAAAAAAAAAAAAAAAAAAAAAAAAAAgH/mOgAAAAAAAFC2Bo8ABw==
+  </data>
+ </layer>
+</map>

@@ -19,6 +19,7 @@ public:
 	float mapOffsetX;
 
 	static MapController* initWithLevel(Level *lvl);
+	static MapController* initWithObject(TMXTiledMap* map);
 	void initOptions();
 
 	float collisionDiffTop(cocos2d::Rect bounds);
