@@ -24,6 +24,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/Cutscene.cpp \
 				   ../../Classes/MapController.cpp \
 				   ../../Classes/HUD_Layer.cpp \
+				   ../../Classes/ShopScene.cpp \
 				   ../../Classes/PlayerControl.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
