@@ -44,12 +44,10 @@ Level* Level::initWithLevel(int level, int sublevel)
 
 //Method Called by Pausebutton -> "goes back" to MainMenu
 void Level::pause(Ref* pSender) {
-
 	audioUnit->stopBackground();
 	delete audioUnit;
 	delete tileManager;
 	this->removeAllChildren();
-	//delete player;
 	Director::getInstance()->popScene();
 }
 
