@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "Cutscene.h"
 #include "LevelSelectScene.h"
+#include "ShopScene.h"
 
 USING_NS_CC;
 
@@ -134,7 +135,8 @@ void MainMenu::play(Ref* pSender)
 //The following methods are only for developmentprocess, to test the different scenes
 void MainMenu::developShop(Ref* pSender)
 {
-
+	auto shop = ShopScene::createScene();
+	Director::getInstance()->pushScene(shop);
 }
 void MainMenu::developCut(Ref* pSender)
 {
