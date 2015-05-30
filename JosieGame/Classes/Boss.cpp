@@ -7,6 +7,8 @@
 
 #include "Boss.h"
 #include "Level.h"
+//
+#include "PlayerBoss.h"
 
 USING_NS_CC;
 
@@ -39,6 +41,8 @@ Boss* Boss::initWithLevel(Level* level)
 		boss->autorelease();
 		boss->setAnchorPoint(Vec2(0.5,1));
 		boss->_level = level;
+		//
+		//boss->_playerBoss =
 		boss->loadWeapons();
 		boss->scheduleUpdate();
 
@@ -79,6 +83,11 @@ void Boss::loadWeapons()
 	_level->addChild(right,1);
 }
 
+void Boss::checkPlayerHit()
+{
+
+}
+
 
 void Boss::useAttack(int attackID){
 	switch(attackID){
@@ -101,13 +110,9 @@ void Boss::useAttack(int attackID){
 	case 2:
 	{
 		auto left_rotate = RotateTo::create(2.0,30.0f);
-		//auto right_rotate = RotateTo::create(0.2, 240.0f);
 		auto left_rotate_back = RotateTo::create(0.2,0.0f);
-		//auto right_rotate_back = RotateTo::create(0.2, 0.0f);
 		auto left_down = MoveTo::create(0.2,Vec2(1520,100));
 		auto left_up = MoveTo::create(1.0,Vec2(400,600));
-		//auto right_down = MoveTo::create(0.2,Vec2(400,100));
-		//auto right_up = MoveTo::create(1.0,Vec2(1520,600));
 		auto sequence  = Sequence::create(left_rotate, left_down, left_up, left_rotate_back, nullptr);
 		left->runAction(sequence);
 		break;

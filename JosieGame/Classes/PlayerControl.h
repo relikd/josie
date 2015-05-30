@@ -18,6 +18,7 @@ public:
 	void jumpCallback(cocos2d::Ref* pSender);
 private:
 	Level* _level;
+	float _counterForShoot;
 	cocos2d::EventListenerTouchOneByOne *_listenerLevel;
 
 	// Boss buttons

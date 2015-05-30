@@ -6,10 +6,11 @@
 
 using namespace cocos2d;
 
-int counterForShoot = 0;
+
 
 PlayerControl::PlayerControl() {
 	this->_level = NULL;
+	this->_counterForShoot = 0;
 	this->_listenerLevel = NULL;
 	this->_left = NULL;
 	this->_right = NULL;
@@ -86,17 +87,22 @@ void PlayerControl::addBossControls()
 	jump->setPosition(Vec2(screenWidth-300,120));
 	_shoot->setPosition(Vec2(screenWidth-150,300));
 
-	auto levelmenu = Menu::create(_left,_right,jump,_shoot, NULL);
+	auto levelmenu = Menu::create(_left,_right,jump, NULL);
 	levelmenu->setPosition(Vec2::ZERO);
 	_level->addChild(levelmenu,1);
+	auto shootbutton = Menu::create(_shoot, NULL);
+	shootbutton->setPosition(Vec2::ZERO);
+	_level->addChild(shootbutton,1);
 }
 
 void PlayerControl::update(float dt)
 {
-	counterForShoot++;
-	if(counterForShoot >= 10)
+	_counterForShoot += dt;
+	//CCLOG("%f",dt);
+	CCLOG("%f", this->_counterForShoot);
+	if(_counterForShoot >= 1.0)
 		{
-			counterForShoot  = 0;
+			_counterForShoot  = 0;
 		}
 
 	if (_level->isBossLevel())
@@ -106,7 +112,7 @@ void PlayerControl::update(float dt)
 		if (_right->isSelected())
 			_level->playerBoss->moveRight();
 		if (_shoot->isSelected())
-			_level->playerBoss->shoot(counterForShoot);
+			_level->playerBoss->shoot(_counterForShoot);
 	} else {
 
 		_level->player->run(!_stay->isSelected());
