@@ -12,7 +12,7 @@ public:
 
 	void moveLeft();
 	void moveRight();
-	void shoot(int counterForShoot);
+	void shoot(float counterForShoot);
 	void jump();
 
 	void useShot(int id);

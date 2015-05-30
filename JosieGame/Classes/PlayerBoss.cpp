@@ -4,7 +4,7 @@
 
 using namespace cocos2d;
 
-const float walkspeed = 11.0;
+const float walkspeed = 22.0;
 
 PlayerBoss::PlayerBoss() {
 	_level = NULL;
@@ -28,9 +28,9 @@ void PlayerBoss::moveLeft() {
 void PlayerBoss::moveRight() {
 	this->setPositionX(this->getPositionX() + walkspeed);
 }
-void PlayerBoss::shoot(int counterForShoot) {
-	if (counterForShoot == 0) {
-	this->useShot(4);
+void PlayerBoss::shoot(float counterForShoot) {
+	if (counterForShoot == 0.0) {
+	this->useShot(1);
 	}
 }
 void PlayerBoss::jump() {

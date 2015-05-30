@@ -10,6 +10,8 @@
 
 #include "cocos2d.h"
 class Level;
+//
+class PlayerBoss;
 
 class Boss : public cocos2d::Sprite
 {
@@ -24,6 +26,7 @@ public:
 	void reduceHealth(float dmg);
 	void setHealth(float health);
 	void loadWeapons();
+	void checkPlayerHit(Sprite left, Sprite right, PlayerBoss playerboss);
 
 	float getHealth() { return _health ;}
 	bool isAlive() { return _isAlive ; }
@@ -34,6 +37,8 @@ private:
 	float _health;
 	bool _isAlive;
 	Level* _level;
+	//
+	PlayerBoss* _playerBoss;
 	Sprite* left;
 	Sprite* right;
 
