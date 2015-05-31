@@ -27,7 +27,8 @@ public:
 	    CREATE_FUNC(Cutscene);
 
 		void play(cocos2d::Ref* pSender);
-		void pause(cocos2d::Ref* pSender);
+		void talk(cocos2d::Ref* pSender);
+		void talk1(cocos2d::Ref* pSender,int level, int sublevel);
 
 
 
