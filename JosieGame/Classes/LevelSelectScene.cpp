@@ -7,7 +7,7 @@
 
 #include "LevelSelectScene.h"
 #include "Level.h"
-
+#include "Cutscene.h"
 USING_NS_CC;
 
 LevelSelect::LevelSelect() {
@@ -48,7 +48,7 @@ bool LevelSelect::init() {
 	auto lvl1_1 = MenuItemImage::create(
 			"buttons/levelselectbuttons/level_selectbutton1.1.png",
 			"buttons/levelselectbuttons/level_selectbutton1.1.png",
-			CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));
+			CC_CALLBACK_1(LevelSelect::testTalk, this));
 	lvl1_1->setPosition(
 			Vec2((origin.x + visibleSize.width / 10)  * 2,
 					origin.y + visibleSize.height / 2));
@@ -104,4 +104,8 @@ void LevelSelect::backToMainMenu(Ref* pSender) {
 void LevelSelect::startLevel(Ref* pSender, int level, int sublevel) {
 	auto levelxx = Level::initWithLevel(level, sublevel);
 	Director::getInstance()->pushScene(levelxx);
+}
+void LevelSelect::testTalk(Ref* pSender){
+	auto levelxxx = Cutscene::createScene();
+	Director::getInstance()->pushScene(levelxxx);
 }

@@ -25,6 +25,7 @@ public:
     // a selector callback
     void backToMainMenu(cocos2d::Ref* pSender);
     void startLevel(cocos2d::Ref* pSender,int level, int sublevel);
+    void testTalk(cocos2d::Ref* pSender);
 
     // implement the "static create()" method manually
     CREATE_FUNC(LevelSelect);

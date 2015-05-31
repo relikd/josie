@@ -8,6 +8,7 @@
 #include "Cutscene.h"
 #include <ui/UIText.h>
 #include "MainMenuScene.h"
+#include "Level.h"
 USING_NS_CC;
 
 Cutscene::Cutscene() {
@@ -44,51 +45,81 @@ bool Cutscene::init() {
 
 	// add "Cutscene" splash screen"
 	auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
+	background->setPosition(
+			Vec2(visibleSize.width / 2 + origin.x,
+					visibleSize.height / 2 + origin.y));
+	this->addChild(background, 0);
+	//add Ground
+	auto testground = Sprite::create("testground.png");
+	testground->setPosition(
+			Vec2(origin.x + visibleSize.width / 2,
+					origin.y + testground->getContentSize().height / 2));
+	this->addChild(testground, 1);
+
+	//create Josie
+	Sprite* josie = Sprite::create("josie/josie_static.png");
+	josie->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+	josie->setPosition(Vec2(-100, 90));
+	this->addChild(josie, 1);
+	auto moveTo = MoveTo::create(1.5, Vec2(1350, 90));
+	josie->runAction(moveTo);
+
+	//add speechbubble
+	auto talk = MenuItemImage::create("buttons/talk/talk1.1.png",
+			"buttons/talk1.1.png", CC_CALLBACK_1(Cutscene::talk, this));
+	FadeIn* fadeInText = FadeIn::create(3.0f);
+	talk->setPosition(990, 800);
+	auto menu = Menu::create(talk, NULL);
+	menu->setPosition(Vec2::ZERO);
+	talk->setScale(3.0);
+	talk->setOpacity(0);
+	talk->runAction(fadeInText);
+	this->addChild(menu, 1);
+
+	return true;
+}
+
+void Cutscene::talk(Ref* pSender) {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	this->removeAllChildren();
+	auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
 
 	// position the sprite on the center of the screen
 	background->setPosition(
 			Vec2(visibleSize.width / 2 + origin.x,
 					visibleSize.height / 2 + origin.y));
-
-	// add the sprite as a child to this layer
-
 	this->addChild(background, 0);
 
-	//Add Pause Button in upper right corner
-	auto pause = MenuItemImage::create("buttons/pausebutton.png",
-			"buttons/pausebutton.png", CC_CALLBACK_1(Cutscene::pause, this));
-	pause->setPosition(
-			origin.x + visibleSize.width - pause->getContentSize().width,
-			origin.y + visibleSize.height - pause->getContentSize().height);
-	auto menu = Menu::create(pause, NULL);
+	auto testground = Sprite::create("testground.png");
+	testground->setPosition(
+			Vec2(origin.x + visibleSize.width / 2,
+					origin.y + testground->getContentSize().height / 2));
+	this->addChild(testground, 1);
+
+	auto talk = MenuItemImage::create("buttons/talk/talk1.2.png",
+			"buttons/talk/talk1.2.png",
+			CC_CALLBACK_1(Cutscene::talk1, this, 1, 1));
+	talk->setPosition(Vec2(940, 800));
+	auto menu = Menu::create(talk, NULL);
 	menu->setPosition(Vec2::ZERO);
+	talk->setScale(3.0);
 	this->addChild(menu, 1);
+	FadeIn* fadeInText = FadeIn::create(2.0f);
+	talk->setOpacity(0);
+	talk->runAction(fadeInText);
 
-	auto textbox = Sprite::create("textbox.png");
-	textbox->setPosition(
-			Vec2(origin.x + visibleSize.width / 2,
-					origin.y + visibleSize.height
-							- textbox->getContentSize().height * 3 - 20));
-	background->addChild(textbox, 1);
-	textbox->setScale(3.0);
-
-	auto label1 = Label::createWithTTF("Josie hat Hunger",
-			"fonts/Marker Felt.ttf", 36);
-	label1->setPosition(
-			Vec2(origin.x + visibleSize.width / 2,
-					origin.y + visibleSize.height
-							- textbox->getContentSize().height * 3 - 20));
-
-	label1->enableShadow();
-	label1->setColor(Color3B::BLACK);
-	label1->setScale(2.0);
-	this->addChild(label1);
-
-	return true;
+	Sprite* josie = Sprite::create("josie/josie_static.png");
+	josie->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+	josie->setPosition(Vec2(1350, 90));
+	this->addChild(josie, 1);
+	auto moveTo = MoveTo::create(1, Vec2(500, 90));
+	josie->runAction(moveTo);
 }
-//Method Called by Pausebutton -> "goes back" to MainMenu
-void Cutscene::pause(Ref* pSender) {
-	auto mainmenu = MainMenu::createScene();
-	Director::getInstance()->pushScene(mainmenu);
+
+void Cutscene::talk1(Ref* pSender, int level, int sublevel) {
+	auto levelxx = Level::initWithLevel(level, sublevel);
+	Director::getInstance()->popScene();
+	Director::getInstance()->pushScene(levelxx);
 }
 
