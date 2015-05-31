@@ -135,7 +135,7 @@ void MainMenu::play(Ref* pSender)
 //The following methods are only for developmentprocess, to test the different scenes
 void MainMenu::developShop(Ref* pSender)
 {
-	auto shop = ShopScene::createScene();
+	ShopScene *shop = ShopScene::initShop();
 	Director::getInstance()->pushScene(shop);
 }
 void MainMenu::developCut(Ref* pSender)

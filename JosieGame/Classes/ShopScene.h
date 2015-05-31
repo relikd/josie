@@ -3,24 +3,26 @@
 
 #include "cocos2d.h"
 
-class ShopScene : public cocos2d::Layer {
+class ShopScene : public cocos2d::Scene {
 public:
 	ShopScene();
 	virtual ~ShopScene();
 	void createButtons();
 
-	static cocos2d::Scene* createScene();
+	static ShopScene* initShop();
 
 	void perkDisable(cocos2d::MenuItemImage *btn);
 	void perkEnable(cocos2d::MenuItemImage *btn);
 	void perkEquip(cocos2d::MenuItemImage *btn);
 
-	void upgradeShoot(Ref* p);
-	void upgradeDamage(Ref* p);
-	void upgradeFrequency(Ref* p);
-	void upgradeSpeed(Ref* p);
-	void upgradeShield(Ref* p);
-	void upgradeHeart(Ref* p);
+	int priceForColumn(int column);
+	void updateDisabledButtons();
+
+	void upgrade(Ref* p);
+
+private:
+	cocos2d::Layer *_equippedLayer;
+	cocos2d::Menu *_menu;
 };
 
 #endif /* SHOPSCENE_H_ */

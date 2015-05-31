@@ -1,31 +1,40 @@
 #include "ShopScene.h"
 
+#define TAG_OFFSET 333
+
 using namespace cocos2d;
 // temporary
 int credits = 60;
-int shot=2;
 int dmg=1;
+int shot=2;
 int freq=4;
 int speed=1;
 bool heart = 0;
 bool shield = 1;
 
-ShopScene::ShopScene() {}
+ShopScene::ShopScene() {
+	_equippedLayer = NULL;
+	_menu = NULL;
+}
 
 ShopScene::~ShopScene() {}
 
-Scene* ShopScene::createScene()
+ShopScene* ShopScene::initShop()
 {
-    auto scene = Scene::create();
-    ShopScene *layer = (ShopScene*)ShopScene::create();
+	ShopScene *scene = new ShopScene();
+    scene->_equippedLayer = Layer::create();
+    scene->_menu = Menu::create();
+    scene->_menu->setPosition(Vec2::ZERO);
 
     Sprite *bg = Sprite::create("backgrounds/bg_shop.png");
     bg->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
-    layer->addChild(bg,1);
 
-    layer->createButtons();
+    scene->addChild(bg);
+    scene->addChild(scene->_menu);
+    scene->addChild(scene->_equippedLayer);
 
-    scene->addChild(layer);
+    scene->createButtons();
+
     return scene;
 }
 
@@ -34,117 +43,81 @@ void ShopScene::createButtons()
 	float btn_size = 200;
 	float btn_padding = 30;
 	float x1 = 165;
-	float x2 = x1 + 1*(btn_size + btn_padding);
-	float x3 = x1 + 2*(btn_size + btn_padding);
-	float x4 = x1 + 3*(btn_size + btn_padding);
 	float y1 = 165;
-	float y2 = y1 + 1*(btn_size + btn_padding);
-	float y3 = y1 + 2*(btn_size + btn_padding);
-	float y4 = y1 + 3*(btn_size + btn_padding);
 
+	//Menu *m = Menu::create();
+	for (int row=0; row<4; row++)
+	{
+		std::ostringstream btnstr;
+		btnstr << "buttons/shopbuttons/";
+		switch (row) {
+			case 3: btnstr << "dmg"; break;
+			case 2: btnstr << "shot"; break;
+			case 1: btnstr << "frequency"; break;
+			case 0: btnstr << "special"; break;
+		}
 
-	MenuItemImage *btn_damage_1 = MenuItemImage::create("buttons/shopbuttons/dmg.png","buttons/shopbuttons/dmg.png", CC_CALLBACK_1(ShopScene::upgradeDamage, this));
-	MenuItemImage *btn_damage_2 = MenuItemImage::create("buttons/shopbuttons/dmgX2.png","buttons/shopbuttons/dmgX2.png", CC_CALLBACK_1(ShopScene::upgradeDamage, this));
-	MenuItemImage *btn_damage_3 = MenuItemImage::create("buttons/shopbuttons/dmgX3.png","buttons/shopbuttons/dmgX3.png", CC_CALLBACK_1(ShopScene::upgradeDamage, this));
-	MenuItemImage *btn_damage_4 = MenuItemImage::create("buttons/shopbuttons/dmgX4.png","buttons/shopbuttons/dmgX4.png", CC_CALLBACK_1(ShopScene::upgradeDamage, this));
-	btn_damage_1->setPosition(Point(x1,y4));
-	btn_damage_2->setPosition(Point(x2,y4));
-	btn_damage_3->setPosition(Point(x3,y4));
-	btn_damage_4->setPosition(Point(x4,y4));
+		for (int column=0; column<4; column++)
+		{
+			std::ostringstream btnfullstr;
+			btnfullstr << btnstr.str() << column+1 << ".png";
 
-	MenuItemImage *btn_shoot_1 = MenuItemImage::create("buttons/shopbuttons/shot1.png","buttons/shopbuttons/shot1.png", CC_CALLBACK_1(ShopScene::upgradeShoot, this));
-	MenuItemImage *btn_shoot_2 = MenuItemImage::create("buttons/shopbuttons/shot2.png","buttons/shopbuttons/shot2.png", CC_CALLBACK_1(ShopScene::upgradeShoot, this));
-	MenuItemImage *btn_shoot_3 = MenuItemImage::create("buttons/shopbuttons/shot3.png","buttons/shopbuttons/shot3.png", CC_CALLBACK_1(ShopScene::upgradeShoot, this));
-	MenuItemImage *btn_shoot_4 = MenuItemImage::create("buttons/shopbuttons/shot4.png","buttons/shopbuttons/shot4.png", CC_CALLBACK_1(ShopScene::upgradeShoot, this));
-	btn_shoot_1->setPosition(Point(x1,y3));
-	btn_shoot_2->setPosition(Point(x2,y3));
-	btn_shoot_3->setPosition(Point(x3,y3));
-	btn_shoot_4->setPosition(Point(x4,y3));
-
-	MenuItemImage *btn_freq_1 = MenuItemImage::create("buttons/shopbuttons/frequency.png","buttons/shopbuttons/frequency.png", CC_CALLBACK_1(ShopScene::upgradeFrequency, this));
-	MenuItemImage *btn_freq_2 = MenuItemImage::create("buttons/shopbuttons/frequencyX2.png","buttons/shopbuttons/frequencyX2.png", CC_CALLBACK_1(ShopScene::upgradeFrequency, this));
-	MenuItemImage *btn_freq_3 = MenuItemImage::create("buttons/shopbuttons/frequencyX3.png","buttons/shopbuttons/frequencyX3.png", CC_CALLBACK_1(ShopScene::upgradeFrequency, this));
-	MenuItemImage *btn_freq_4 = MenuItemImage::create("buttons/shopbuttons/frequencyX4.png","buttons/shopbuttons/frequencyX4.png", CC_CALLBACK_1(ShopScene::upgradeFrequency, this));
-	btn_freq_1->setPosition(Point(x1,y2));
-	btn_freq_2->setPosition(Point(x2,y2));
-	btn_freq_3->setPosition(Point(x3,y2));
-	btn_freq_4->setPosition(Point(x4,y2));
-
-	MenuItemImage *btn_speed_1 = MenuItemImage::create("buttons/shopbuttons/movespeed.png","buttons/shopbuttons/movespeed.png", CC_CALLBACK_1(ShopScene::upgradeSpeed, this));
-	MenuItemImage *btn_speed_2 = MenuItemImage::create("buttons/shopbuttons/movespeedX2.png","buttons/shopbuttons/movespeedX2.png", CC_CALLBACK_1(ShopScene::upgradeSpeed, this));
-	MenuItemImage *btn_shield = MenuItemImage::create("buttons/shopbuttons/shield.png","buttons/shopbuttons/shield.png", CC_CALLBACK_1(ShopScene::upgradeShield, this));
-	MenuItemImage *btn_life = MenuItemImage::create("buttons/shopbuttons/extralife.png","buttons/shopbuttons/extralife.png", CC_CALLBACK_1(ShopScene::upgradeHeart, this));
-	btn_speed_1->setPosition(Point(x1,y1));
-	btn_speed_2->setPosition(Point(x2,y1));
-	btn_shield->setPosition(Point(x3,y1));
-	btn_life->setPosition(Point(x4,y1));
-
-
-	// assign the next button for activation
-	btn_damage_2->setUserObject(btn_damage_3);
-	btn_damage_3->setUserObject(btn_damage_4);
-	btn_shoot_2->setUserObject(btn_shoot_3);
-	btn_shoot_3->setUserObject(btn_shoot_4);
-	btn_freq_2->setUserObject(btn_freq_3);
-	btn_freq_3->setUserObject(btn_freq_4);
-
-	Menu *menu = Menu::create(btn_shoot_1, btn_shoot_2, btn_shoot_3, btn_shoot_4, btn_damage_1, btn_damage_2, btn_damage_3, btn_damage_4, btn_freq_1, btn_freq_2, btn_freq_3, btn_freq_4, btn_speed_1, btn_speed_2, btn_shield, btn_life, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 1);
-
-
-	perkDisable(btn_damage_2);
-	perkDisable(btn_damage_3);
-	perkDisable(btn_damage_4);
-	perkDisable(btn_shoot_2);
-	perkDisable(btn_shoot_3);
-	perkDisable(btn_shoot_4);
-	perkDisable(btn_freq_2);
-	perkDisable(btn_freq_3);
-	perkDisable(btn_freq_4);
-	perkDisable(btn_speed_2);
-	perkDisable(btn_shield);
-	perkDisable(btn_life);
-
-	// bought equipment
-	perkEquip(btn_damage_1);
-	if (dmg>1) perkEquip(btn_damage_2);
-	if (dmg>2) perkEquip(btn_damage_3);
-	if (dmg>3) perkEquip(btn_damage_4);
-	perkEquip(btn_shoot_1);
-	if (shot>1) perkEquip(btn_shoot_2);
-	if (shot>2) perkEquip(btn_shoot_3);
-	if (shot>3) perkEquip(btn_shoot_4);
-	perkEquip(btn_freq_1);
-	if (freq>1) perkEquip(btn_freq_2);
-	if (freq>2) perkEquip(btn_freq_3);
-	if (freq>3) perkEquip(btn_freq_4);
-	perkEquip(btn_speed_1);
-	if (speed>1) perkEquip(btn_speed_2);
-	if (shield) perkEquip(btn_shield);
-	if (heart) perkEquip(btn_life);
-
-	// deactivate those with not enough money
-	if (credits > 40) {
-		if (dmg==3) perkEnable(btn_damage_4);
-		if (shot==3) perkEnable(btn_shoot_4);
-		if (freq==3) perkEnable(btn_freq_4);
-		perkEnable(btn_life);
+			MenuItemImage *mii = MenuItemImage::create(btnfullstr.str(), btnfullstr.str(), CC_CALLBACK_1(ShopScene::upgrade, this));
+			mii->setPosition(x1 + column*(btn_size + btn_padding), y1 + row*(btn_size + btn_padding));
+			mii->setTag((row<<2) + column + TAG_OFFSET);
+			_menu->addChild(mii, 2);
+		}
 	}
-	if (credits > 20) {
-		if (dmg==2) perkEnable(btn_damage_3);
-		if (shot==2) perkEnable(btn_shoot_3);
-		if (freq==2) perkEnable(btn_freq_3);
-		perkEnable(btn_shield);
+
+	updateDisabledButtons();
+}
+
+void ShopScene::updateDisabledButtons()
+{
+	_equippedLayer->removeAllChildren();
+
+	for (int i = 0; i<16; i++)
+	{
+		MenuItemImage *im = (MenuItemImage*)_menu->getChildByTag(i + TAG_OFFSET);
+		int column = i&3;
+		int row = i>>2;
+
+		int perkVal = 0;
+		if (row == 3) perkVal = dmg;
+		else if (row == 2) perkVal = shot;
+		else if (row == 1) perkVal = freq;
+		else perkVal = speed;
+
+		perkDisable(im);
+
+		if (perkVal > column) {
+			perkEquip(im);
+		} else if (perkVal == column && credits >= priceForColumn(column)) {
+			perkEnable(im);
+		}
 	}
-	if (credits > 10) {
-		if (dmg==1) perkEnable(btn_damage_2);
-		if (shot==1) perkEnable(btn_shoot_2);
-		if (freq==1) perkEnable(btn_freq_2);
-		if (speed==1) perkEnable(btn_speed_2);
+
+	// extra processing for extra life and shield
+	MenuItemImage *mshield = (MenuItemImage*)_menu->getChildByTag(2 + TAG_OFFSET);
+	MenuItemImage *mextralife = (MenuItemImage*)_menu->getChildByTag(3 + TAG_OFFSET);
+	if (shield) perkEquip(mshield);
+	if (heart) perkEquip(mextralife);
+	if (credits >= priceForColumn(2)) {
+		perkEnable(mshield);
+		if (credits >= priceForColumn(3))
+			perkEnable(mextralife);
 	}
 }
 
+int ShopScene::priceForColumn(int column)
+{
+	switch (column) {
+		case 0: return 0;
+		case 1: return 10;
+		case 2: return 20;
+		case 3: return 40;
+	}
+}
 
 void ShopScene::perkDisable(MenuItemImage *btn) {
 	btn->setEnabled(false);
@@ -161,50 +134,23 @@ void ShopScene::perkEquip(MenuItemImage *btn) {
 
 	Sprite *frame = Sprite::create("buttons/shopbuttons/purchased.png");
 	frame->setPosition(btn->getPosition());
-	this->addChild(frame, 2);
-
-	MenuItemImage *nextButton = (MenuItemImage*)btn->getUserObject();
-	if (nextButton) {
-		perkEnable(nextButton);
-	}
+	_equippedLayer->addChild(frame);
 }
 
-void ShopScene::upgradeDamage(Ref* p)
+void ShopScene::upgrade(Ref* p)
 {
-	perkEquip((MenuItemImage*)p);
-	int price = (1<<dmg) * 10;
-	CCLOG("price: %d", price);
-	credits -= price;
-	CCLOG("CREDITS: %d", credits);
-	dmg++;
-}
+	int tag = ((MenuItemImage*)p)->getTag()-TAG_OFFSET;
+	int row = tag>>2;
+	int column = tag&3;
 
-void ShopScene::upgradeShoot(Ref* p)
-{
-	perkEquip((MenuItemImage*)p);
-	CCLOG("upgrade shoot");
-}
+	if (row == 3) dmg++;
+	else if (row == 2) shot++;
+	else if (row == 1) freq++;
+	else if (column<2) speed++;
+	else if (column==2) shield=true;
+	else if (column==3) heart=true;
 
-void ShopScene::upgradeFrequency(Ref* p)
-{
-	perkEquip((MenuItemImage*)p);
-	CCLOG("upgrade frequency");
-}
+	credits -= priceForColumn(column);
 
-void ShopScene::upgradeSpeed(Ref* p)
-{
-	perkEquip((MenuItemImage*)p);
-	CCLOG("upgrade speed");
-}
-
-void ShopScene::upgradeShield(Ref* p)
-{
-	perkEquip((MenuItemImage*)p);
-	CCLOG("upgrade shield");
-}
-
-void ShopScene::upgradeHeart(Ref* p)
-{
-	perkEquip((MenuItemImage*)p);
-	CCLOG("upgrade life");
+	updateDisabledButtons();
 }
