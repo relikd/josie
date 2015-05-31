@@ -6,15 +6,16 @@ using namespace cocos2d;
 // temporary
 int credits = 60;
 int dmg=1;
-int shot=2;
-int freq=4;
+int shot=1;
+int freq=1;
 int speed=1;
 bool heart = 0;
-bool shield = 1;
+bool shield = 0;
 
 ShopScene::ShopScene() {
 	_equippedLayer = NULL;
 	_menu = NULL;
+	_txtCredits = NULL;
 }
 
 ShopScene::~ShopScene() {}
@@ -24,7 +25,6 @@ ShopScene* ShopScene::initShop()
 	ShopScene *scene = new ShopScene();
     scene->_equippedLayer = Layer::create();
     scene->_menu = Menu::create();
-    scene->_menu->setPosition(Vec2::ZERO);
 
     Sprite *bg = Sprite::create("backgrounds/bg_shop.png");
     bg->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
@@ -33,9 +33,30 @@ ShopScene* ShopScene::initShop()
     scene->addChild(scene->_menu);
     scene->addChild(scene->_equippedLayer);
 
+    scene->createLabels();
     scene->createButtons();
+    scene->_menu->setPosition(Vec2::ZERO);
 
     return scene;
+}
+
+void ShopScene::createLabels() {
+	_txtCredits = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 90);
+	_txtCredits->setAnchorPoint(Point::ANCHOR_TOP_RIGHT);
+	_txtCredits->setPosition(1740,1050); // 30px padding
+	_txtCredits->setColor(Color3B(165,42,42));
+
+	Label *l1 = Label::createWithTTF("10", "fonts/Marker Felt.ttf", 60);
+	Label *l2 = Label::createWithTTF("20", "fonts/Marker Felt.ttf", 60);
+	Label *l3 = Label::createWithTTF("40", "fonts/Marker Felt.ttf", 60);
+	l1->setPosition(180+200+30, 1000);
+	l2->setPosition(l1->getPositionX()+200+30,l1->getPositionY());
+	l3->setPosition(l2->getPositionX()+200+30,l2->getPositionY());
+
+	this->addChild(_txtCredits);
+	this->addChild(l1);
+	this->addChild(l2);
+	this->addChild(l3);
 }
 
 void ShopScene::createButtons()
@@ -69,11 +90,15 @@ void ShopScene::createButtons()
 		}
 	}
 
-	updateDisabledButtons();
+	updateButtonState();
 }
 
-void ShopScene::updateDisabledButtons()
+void ShopScene::updateButtonState()
 {
+	std::ostringstream crstr;
+	crstr << credits;
+	_txtCredits->setString(crstr.str());
+
 	_equippedLayer->removeAllChildren();
 
 	for (int i = 0; i<16; i++)
@@ -119,24 +144,6 @@ int ShopScene::priceForColumn(int column)
 	}
 }
 
-void ShopScene::perkDisable(MenuItemImage *btn) {
-	btn->setEnabled(false);
-	btn->setOpacity(128);
-}
-void ShopScene::perkEnable(MenuItemImage *btn) {
-	btn->setEnabled(true);
-	btn->setOpacity(255);;
-}
-
-void ShopScene::perkEquip(MenuItemImage *btn) {
-	btn->setEnabled(false);
-	btn->setOpacity(255);
-
-	Sprite *frame = Sprite::create("buttons/shopbuttons/purchased.png");
-	frame->setPosition(btn->getPosition());
-	_equippedLayer->addChild(frame);
-}
-
 void ShopScene::upgrade(Ref* p)
 {
 	int tag = ((MenuItemImage*)p)->getTag()-TAG_OFFSET;
@@ -152,5 +159,24 @@ void ShopScene::upgrade(Ref* p)
 
 	credits -= priceForColumn(column);
 
-	updateDisabledButtons();
+	updateButtonState();
+}
+
+void ShopScene::perkDisable(MenuItemImage *btn) {
+	btn->setEnabled(false);
+	btn->setOpacity(128);
+}
+
+void ShopScene::perkEnable(MenuItemImage *btn) {
+	btn->setEnabled(true);
+	btn->setOpacity(255);;
+}
+
+void ShopScene::perkEquip(MenuItemImage *btn) {
+	btn->setEnabled(false);
+	btn->setOpacity(255);
+
+	Sprite *frame = Sprite::create("buttons/shopbuttons/purchased.png");
+	frame->setPosition(btn->getPosition());
+	_equippedLayer->addChild(frame);
 }
