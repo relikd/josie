@@ -18,7 +18,7 @@ class Boss : public cocos2d::Sprite
 public:
 	Boss();
 	virtual ~Boss();
-	static Boss* initWithLevel(Level* level);
+	static Boss* initWithLevel(Level* level,PlayerBoss* playerboss);
 
 
 	void update(float dt);
@@ -26,7 +26,7 @@ public:
 	void reduceHealth(float dmg);
 	void setHealth(float health);
 	void loadWeapons();
-	void checkPlayerHit(Sprite left, Sprite right, PlayerBoss playerboss);
+	void checkPlayerHit(Sprite* weapon, PlayerBoss* target);
 
 	float getHealth() { return _health ;}
 	bool isAlive() { return _isAlive ; }

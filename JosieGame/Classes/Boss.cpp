@@ -33,7 +33,7 @@ Boss::~Boss() {
 	// TODO Auto-generated destructor stub
 }
 
-Boss* Boss::initWithLevel(Level* level)
+Boss* Boss::initWithLevel(Level* level, PlayerBoss* playerboss)
 {
 	Boss *boss = new Boss();
 	if(boss->initWithFile("boss_sprites/boss1.0.png"))
@@ -42,7 +42,7 @@ Boss* Boss::initWithLevel(Level* level)
 		boss->setAnchorPoint(Vec2(0.5,1));
 		boss->_level = level;
 		//
-		//boss->_playerBoss =
+		boss->_playerBoss = playerboss;
 		boss->loadWeapons();
 		boss->scheduleUpdate();
 
@@ -67,8 +67,11 @@ void Boss::update(float dt)
 		_attackTimer = 7;
 	}
 
+	checkPlayerHit(left, _playerBoss);
+	checkPlayerHit(right, _playerBoss);
 
-	//CCLOG("%f",_attackTimer);
+
+
 }
 
 void Boss::loadWeapons()
@@ -83,9 +86,18 @@ void Boss::loadWeapons()
 	_level->addChild(right,1);
 }
 
-void Boss::checkPlayerHit()
+void Boss::checkPlayerHit(Sprite* weapon, PlayerBoss* target)
 {
-
+	if(weapon->getBoundingBox().intersectsRect(target->getBoundingBox()))
+	{
+		auto fadeout = FadeOut::create(0.2);
+		auto fadein = FadeIn::create(0.2);
+		auto blinking = Sequence::create(fadeout,fadein,nullptr);
+		for(int i = 0; i<=5;i++)
+		{
+			target->runAction(blinking);
+		}
+	}
 }
 
 

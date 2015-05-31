@@ -98,7 +98,7 @@ void Level::addPlayer() {
 		this->addChild(playerBoss, 1);
 
 		//Adding Boss in this method for testing
-		boss = Boss::initWithLevel(this);
+		boss = Boss::initWithLevel(this, playerBoss);
 		boss->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height));
 		this->addChild(boss,1);
 
