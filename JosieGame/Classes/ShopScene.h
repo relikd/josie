@@ -7,22 +7,23 @@ class ShopScene : public cocos2d::Scene {
 public:
 	ShopScene();
 	virtual ~ShopScene();
-	void createButtons();
-
 	static ShopScene* initShop();
+
+	void createLabels();
+	void createButtons();
+	void updateButtonState();
+
+	int priceForColumn(int column);
+	void upgrade(Ref* p);
 
 	void perkDisable(cocos2d::MenuItemImage *btn);
 	void perkEnable(cocos2d::MenuItemImage *btn);
 	void perkEquip(cocos2d::MenuItemImage *btn);
 
-	int priceForColumn(int column);
-	void updateDisabledButtons();
-
-	void upgrade(Ref* p);
-
 private:
 	cocos2d::Layer *_equippedLayer;
 	cocos2d::Menu *_menu;
+	cocos2d::Label *_txtCredits;
 };
 
 #endif /* SHOPSCENE_H_ */
