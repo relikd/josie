@@ -1,17 +1,13 @@
 #include "PlayerControl.h"
-#include "Level.h"
 #include "Player.h"
 #include "PlayerBoss.h"
 
-
 using namespace cocos2d;
 
-
-
 PlayerControl::PlayerControl() {
-	this->_level = NULL;
-	this->_counterForShoot = 0;
-	this->_listenerLevel = NULL;
+	this->_player = NULL;
+	this->_bossplayer = NULL;
+	this->_timeSinceLastShot = 0;
 	this->_left = NULL;
 	this->_right = NULL;
 	this->_shoot = NULL;
@@ -20,19 +16,25 @@ PlayerControl::PlayerControl() {
 }
 PlayerControl::~PlayerControl() {
 	this->unscheduleUpdate();
-	CCLOG("PlayerControl destroyed");
+	CCLOG("~PlayerControl");
 }
 
-PlayerControl* PlayerControl::initWithLevel(Level* level)
+PlayerControl* PlayerControl::initWithPlayer(Player* p)
 {
 	PlayerControl *pc = new PlayerControl();
-	pc->init();
 	pc->autorelease();
-	pc->_level = level;
-	if (level->isBossLevel())
-		pc->addBossControls();
-	else
-		pc->addLevelControls();
+	pc->_player = p;
+	pc->addLevelControls();
+
+	pc->scheduleUpdate();
+	return pc;
+}
+PlayerControl* PlayerControl::initWithBossPlayer(PlayerBoss* p)
+{
+	PlayerControl *pc = new PlayerControl();
+	pc->autorelease();
+	pc->_bossplayer = p;
+	pc->addBossControls();
 
 	pc->scheduleUpdate();
 	return pc;
@@ -60,7 +62,7 @@ void PlayerControl::addLevelControls()
 
 	auto levelmenu = Menu::create(_stay,_slide,jump, NULL);
 	levelmenu->setPosition(Vec2::ZERO);
-	_level->addChild(levelmenu,1);
+	this->addChild(levelmenu,1);
 }
 
 void PlayerControl::addBossControls()
@@ -69,61 +71,51 @@ void PlayerControl::addBossControls()
 
 	_left = MenuItemImage::create("buttons/left.png","buttons/left.png");
 	_right = MenuItemImage::create("buttons/right.png","buttons/right.png");
-	MenuItemImage* jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png", CC_CALLBACK_1(PlayerControl::jumpCallback, this));
 	_shoot = MenuItemImage::create("buttons/shoot.png","buttons/shoot.png");
 
 	_left->setScale(0.7);
 	_right->setScale(0.7);
-	jump->setScale(0.7);
 	_shoot->setScale(0.7);
 
 	_left->setOpacity(128);
 	_right->setOpacity(128);
-	jump->setOpacity(128);
 	_shoot->setOpacity(128);
 
 	_left->setPosition(Vec2(150,300));
 	_right->setPosition(Vec2(300,120));
-	jump->setPosition(Vec2(screenWidth-300,120));
-	_shoot->setPosition(Vec2(screenWidth-150,300));
+	_shoot->setPosition(Vec2(screenWidth-150,120));
 
-	auto levelmenu = Menu::create(_left,_right,jump, NULL);
+	auto levelmenu = Menu::create(_left,_right, NULL);
 	levelmenu->setPosition(Vec2::ZERO);
-	_level->addChild(levelmenu,1);
+	this->addChild(levelmenu,1);
 	auto shootbutton = Menu::create(_shoot, NULL);
 	shootbutton->setPosition(Vec2::ZERO);
-	_level->addChild(shootbutton,1);
+	this->addChild(shootbutton,1);
 }
 
 void PlayerControl::update(float dt)
 {
-	_counterForShoot += dt;
-
-	if(_counterForShoot >= 1.0)
-		{
-			_counterForShoot  = 0;
-		}
-
-	if (_level->isBossLevel())
+	if (_bossplayer)
 	{
-		if (_left->isSelected())
-			_level->playerBoss->moveLeft();
-		if (_right->isSelected())
-			_level->playerBoss->moveRight();
+		_timeSinceLastShot += dt;
+		if (_left->isSelected()) _bossplayer->moveLeft();
+		if (_right->isSelected()) _bossplayer->moveRight();
 		if (_shoot->isSelected())
-			_level->playerBoss->shoot(_counterForShoot);
-	} else {
-
-		_level->player->run(!_stay->isSelected());
-		_level->player->slide(_slide->isSelected());
+		{
+			if (_bossplayer->shoot(_timeSinceLastShot)) {
+				_timeSinceLastShot = 0;
+			}
+		}
+	}
+	else if (_player)
+	{
+		_player->run(!_stay->isSelected());
+		_player->slide(_slide->isSelected());
 	}
 }
 
 void PlayerControl::jumpCallback(Ref* pSender)
 {
-	if (_level->isBossLevel())
-		_level->playerBoss->jump();
-	else
-		_level->player->jump();
+	if (_player) _player->jump();
 }
 

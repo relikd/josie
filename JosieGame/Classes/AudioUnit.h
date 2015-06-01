@@ -1,14 +1,12 @@
 #ifndef AUDIOUNIT_H_
 #define AUDIOUNIT_H_
 
-class Level;
-
 class AudioUnit
 {
 public:
 	AudioUnit();
 	~AudioUnit();
-	static AudioUnit* initWithLevel(Level *lvl);
+	static AudioUnit* initWithBoss(bool isBoss);
 	void playBackground();
 	void stopBackground();
 	void playJosieJumpSound();
@@ -16,7 +14,7 @@ public:
 	void playJosieStopRunSound();
 
 private:
-	Level* _level;
+	bool _isBoss;
 	void preloadJosieActions_Level();
 	void preloadJosieActions_Boss();
 	void unloadJosieActions_Level();

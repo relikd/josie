@@ -7,16 +7,14 @@
 
 #include "LevelSelectScene.h"
 #include "Level.h"
+#include "BossLevel.h"
 #include "Cutscene.h"
 USING_NS_CC;
 
-LevelSelect::LevelSelect() {
-	CCLOG("SlectScreen generated");
-
-}
+LevelSelect::LevelSelect() {}
 
 LevelSelect::~LevelSelect() {
-	CCLOG("SelectScreen destroyed");
+	CCLOG("~SelectScreen");
 }
 
 Scene* LevelSelect::createScene() {
@@ -102,8 +100,13 @@ void LevelSelect::backToMainMenu(Ref* pSender) {
 }
 
 void LevelSelect::startLevel(Ref* pSender, int level, int sublevel) {
-	auto levelxx = Level::initWithLevel(level, sublevel);
-	Director::getInstance()->pushScene(levelxx);
+	if (sublevel == 0) {
+		BossLevel *levelxx = BossLevel::initWithOptions();
+		Director::getInstance()->pushScene(levelxx);
+	} else {
+		Level *levelxx = Level::initWithLevel(level, sublevel);
+		Director::getInstance()->pushScene(levelxx);
+	}
 }
 void LevelSelect::testTalk(Ref* pSender){
 	auto levelxxx = Cutscene::createScene();

@@ -79,9 +79,9 @@ bool MainMenu::init()
 
 
 	// create menu, it's an autorelease object
-		    auto menu = Menu::create(closeItem,startbutton,devButtonShop,devButtonCut, NULL);
-		    menu->setPosition(Vec2::ZERO);
-		    this->addChild(menu, 1);
+	auto menu = Menu::create(closeItem,startbutton,devButtonShop,devButtonCut, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 1);
 
 	// Adding the Josie-Logo to Layer 1
     auto josielogo = Sprite::create("josielogo.png");

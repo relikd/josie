@@ -1,29 +1,23 @@
 #include "Level.h"
-#include "Player.h"
-#include "PlayerBoss.h"
 #include <sstream>
+#include "Player.h"
+#include "TMXEdit.h"
 #include "AudioUnit.h"
 #include "MapController.h"
-#include "HUD_Layer.h"
-#include "TMXEdit.h"
-#include "Boss.h"
+#include "PlayerControl.h"
 
 using namespace cocos2d;
 
 
 Level::Level() {
-	player = NULL;
-	playerBoss = NULL;
-	boss = NULL;
 	audioUnit = NULL;
 	tileManager = NULL;
-	HUD = NULL;
 	moveable = NULL;
-
 	currentLevel = -1;
 	currentSubLevel = -1;
 }
-Level::~Level() {CCLOG("del Level");
+Level::~Level() {
+	CCLOG("~Level");
 }
 
 Level* Level::initWithLevel(int level, int sublevel)
@@ -34,11 +28,11 @@ Level* Level::initWithLevel(int level, int sublevel)
 	l->currentLevel = level;
 	l->currentSubLevel = sublevel;
 
-	l->addHUD();
+	l->addBackground();
 	l->addTilemap();
-
-	l->addAudio();
 	l->addPlayer();
+	l->addAudio();
+	l->addPauseButton();
 
 	return l;
 }
@@ -52,68 +46,71 @@ void Level::pause(Ref* pSender) {
 	Director::getInstance()->popScene();
 }
 
-bool Level::isBossLevel()
-{
-	return (currentSubLevel == 0);
+
+//
+// Create the UI
+//
+void Level::addPauseButton() {
+	MenuItemImage *pause = MenuItemImage::create("buttons/pausebutton.png", "buttons/pausebutton.png", CC_CALLBACK_1(Level::pause, this));
+	pause->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+	pause->setPosition(1920,1080);
+
+	Menu *menu = Menu::create(pause, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu);
 }
 
+void Level::addBackground() {
+	//index to string for background loading
+	std::ostringstream s;
+	s << "backgrounds/bg_" << currentLevel << "." << currentSubLevel << ".png";
 
-
-//
-// ADD to Scene
-//
+	//Add Background Image
+	Sprite *background = Sprite::create(s.str());
+	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	this->addChild(background);
+}
 
 void Level::addTilemap() { //Add TileMap
-	if (currentLevel == 0){
+	if (currentLevel == 0)
+	{
 		std::ostringstream mapstr;
-			mapstr << "tilemaps/0.1.tmx";
-			TMXTiledMap* map = TMXEdit::makeMap();
+		mapstr << "tilemaps/0.1.tmx";
+		TMXTiledMap* map = TMXEdit::makeMap();
 
 		tileManager = MapController::initWithObject(map);
 	}
-	else{
-	tileManager = MapController::initWithLevel(this);
+	else
+	{
+		tileManager = MapController::initWithLevel(this);
 	}
 	moveable = Layer::create() ;
 
-	moveable->addChild(tileManager->map,0);
+	moveable->addChild(tileManager->map);
 
-	this-> addChild(moveable,0);
+	this->addChild(moveable);
 }
 
+void Level::addPlayer()
+{
+	//Add Player
+	Player *player = Player::initWithLevel(this);
+	player->setPosition(Vec2(380, 512));
+	this->addChild(player);
 
+	PlayerControl *playerControl = PlayerControl::initWithPlayer(player);
+	this->addChild(playerControl);
+}
 
 void Level::addAudio() {
-	audioUnit = AudioUnit::initWithLevel(this);
+	audioUnit = AudioUnit::initWithBoss(false);
 	audioUnit->playBackground();
 }
 
-void Level::addPlayer() {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Point origin = Director::getInstance()->getVisibleOrigin();
-	//Add Player
-	if (this->isBossLevel()) {
-		playerBoss = PlayerBoss::initWithLevel(this);
-		playerBoss->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 60));
-		playerBoss->setScale(0.7);//Josie needs to be smaller in BossLevel
-		this->addChild(playerBoss, 1);
 
-		//Adding Boss in this method for testing
-		boss = Boss::initWithLevel(this, playerBoss);
-		this->addChild(boss,1);
-
-	} else {
-		player = Player::initWithLevel(this);
-		player->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 512));
-		this->addChild(player, 1);
-	}
-}
-
-
-void Level::addHUD(){
-	auto toAdd = HUD_Layer::createForLevel(this);
-	this-> addChild(toAdd, -1);
-}
+//
+// Level moving
+//
 
 void Level::moveLevelAtSpeed(float speed){
 	moveable->setPositionX( moveable->getPositionX() - speed );
