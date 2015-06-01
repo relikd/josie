@@ -8,6 +8,7 @@ const float walkspeed = 22.0;
 
 PlayerBoss::PlayerBoss() {
 	_level = NULL;
+
 }
 PlayerBoss::~PlayerBoss() {
 	CCLOG("~BOSSPLAYER");
@@ -19,6 +20,7 @@ PlayerBoss* PlayerBoss::initWithLevel(Level* level) {
 	bp->autorelease();
 	bp->setAnchorPoint(Vec2(0.5, 0));
 	bp->_level = level;
+	bp->projectiles = cocos2d::Vector<Projectile*>{200};
 	return bp;
 }
 
@@ -42,35 +44,38 @@ void PlayerBoss::useShot(int id) {
 	case 1: {
 		Projectile* projectile_mid = Projectile::init(
 					this->getBoundingBox().getMidX(),
-					this->getBoundingBox().getMaxY());
+					this->getBoundingBox().getMaxY(),this);
 		_level->addChild(projectile_mid, 1);
 		projectile_mid->runAction(
 				MoveTo::create(2.0f, Vec2(this->getPositionX(), 1100)));
+		this->projectiles.pushBack(projectile_mid);
 	} break;
 	case 2: {
 		Projectile* projectile_midright = Projectile::init(
 				this->getBoundingBox().getMidX() + 20,
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		Projectile* projectile_midleft = Projectile::init(
 				this->getBoundingBox().getMidX() - 20,
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		_level->addChild(projectile_midleft, 1);
 		_level->addChild(projectile_midright, 1);
 		projectile_midleft->runAction(
 				MoveTo::create(2.0f, Vec2(this->getPositionX() - 20, 1100)));
 		projectile_midright->runAction(
 				MoveTo::create(2.0f, Vec2(this->getPositionX() + 20, 1100)));
+		this->projectiles.pushBack(projectile_midright);
+		this->projectiles.pushBack(projectile_midleft);
 	}break;
 	case 3: {
 		Projectile* projectile_mid = Projectile::init(
 				this->getBoundingBox().getMidX(),
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		Projectile* projectile_left = Projectile::init(
 				this->getBoundingBox().getMidX() - 40,
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		Projectile* projectile_right = Projectile::init(
 				this->getBoundingBox().getMidX() + 40,
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		_level->addChild(projectile_mid, 1);
 		_level->addChild(projectile_left, 1);
 		_level->addChild(projectile_right, 1);
@@ -84,16 +89,16 @@ void PlayerBoss::useShot(int id) {
 	case 4: {
 		Projectile* projectile_midright = Projectile::init(
 				this->getBoundingBox().getMidX() + 20,
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		Projectile* projectile_midleft = Projectile::init(
 				this->getBoundingBox().getMidX() - 20,
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		Projectile* projectile_left = Projectile::init(
 				this->getBoundingBox().getMidX() - 40,
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		Projectile* projectile_right = Projectile::init(
 				this->getBoundingBox().getMidX() + 40,
-				this->getBoundingBox().getMaxY());
+				this->getBoundingBox().getMaxY(),this);
 		_level->addChild(projectile_midleft, 1);
 		_level->addChild(projectile_midright, 1);
 		_level->addChild(projectile_left, 1);

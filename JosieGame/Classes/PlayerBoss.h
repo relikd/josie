@@ -2,6 +2,7 @@
 #define PLAYERBOSS_H_
 
 #include "cocos2d.h"
+class Projectile;
 class Level;
 
 class PlayerBoss : public cocos2d::Sprite {
@@ -16,8 +17,10 @@ public:
 	void jump();
 
 	void useShot(int id);
+	cocos2d::Vector<Projectile*> projectiles;
 private:
 	Level* _level;
+
 };
 
 #endif /* PLAYERBOSS_H_ */

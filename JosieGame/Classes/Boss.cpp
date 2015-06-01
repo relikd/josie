@@ -9,15 +9,10 @@
 #include "Level.h"
 //
 #include "PlayerBoss.h"
+#include "Projectile.h"
+//#include "CCProgressTimer.h"
 
 USING_NS_CC;
-
-float _health;
-bool _isAlive;
-
-
-
-
 
 
 Boss::Boss() {
@@ -27,6 +22,8 @@ Boss::Boss() {
 	this->_level = NULL;
 	this->left = NULL;
 	this->right = NULL;
+	this->_playerBoss = NULL;
+	this->_healthbar = NULL;
 }
 
 Boss::~Boss() {
@@ -38,8 +35,10 @@ Boss* Boss::initWithLevel(Level* level, PlayerBoss* playerboss)
 	Boss *boss = new Boss();
 	if(boss->initWithFile("boss_sprites/boss1.0.png"))
 	{
+
 		boss->autorelease();
 		boss->setAnchorPoint(Vec2(0.5,1));
+		boss->setPosition(960,1080);
 		boss->_level = level;
 		//
 		boss->_playerBoss = playerboss;
@@ -48,6 +47,14 @@ Boss* Boss::initWithLevel(Level* level, PlayerBoss* playerboss)
 
 		boss->setHealth(30.0f);
 		boss->_isAlive=true;
+
+		boss->_healthbar = ProgressTimer::create(Sprite::create("boss_sprites/healthbar.png"));
+		boss->_healthbar->setType(ProgressTimer::Type::BAR);
+		boss->_healthbar->setPercentage(100.0);
+		boss->_healthbar->setBarChangeRate(Vec2(1,0));
+		boss->_healthbar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+		boss->_healthbar->setPosition(960,256);
+		boss->addChild(boss->_healthbar,50);
 	}
 
 	return boss;
@@ -61,14 +68,13 @@ void Boss::update(float dt)
 	_attackTimer -= dt;
 	if(_attackTimer <= 0)
 	{
-		CCLOG("%f",_attackTimer);
-		CCLOG("%d",att);
 		useAttack(att);
 		_attackTimer = 7;
 	}
 
 	checkPlayerHit(left, _playerBoss);
 	checkPlayerHit(right, _playerBoss);
+	checkBossHit();
 
 
 
@@ -90,12 +96,19 @@ void Boss::checkPlayerHit(Sprite* weapon, PlayerBoss* target)
 {
 	if(weapon->getBoundingBox().intersectsRect(target->getBoundingBox()))
 	{
-		auto fadeout = FadeOut::create(0.2);
-		auto fadein = FadeIn::create(0.2);
-		auto blinking = Sequence::create(fadeout,fadein,nullptr);
-		for(int i = 0; i<=5;i++)
-		{
-			target->runAction(blinking);
+		CCLOG("Player was hit");
+	}
+}
+
+void Boss::checkBossHit(){
+	for(Projectile* pr: this->_playerBoss->projectiles)
+	{
+		if(this->_healthbar->getPercentage() == 0)
+			this->_isAlive = false;
+		if(pr->checkCollision(this->left) || pr->checkCollision(this->right)){
+			this->_healthbar->setPercentage(_healthbar->getPercentage() - 10);
+			//_playerBoss->projectiles.eraseObject(pr);
+			return;
 		}
 	}
 }
