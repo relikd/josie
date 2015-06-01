@@ -2,20 +2,20 @@
 #define PROJECTILE_H_
 
 #include "cocos2d.h"
-class PlayerBoss;
+class BossLevel;
 
 class Projectile : public cocos2d::Sprite
 {
 public:
 	Projectile();
 	virtual ~Projectile();
-	static Projectile* init(float x, float y,PlayerBoss* playerboss);
+	static Projectile* shoot(cocos2d::Vec2 start_pos, float end_x, BossLevel* level);
 
-	bool checkCollision(Sprite* target);
+	bool hasCollision(Sprite* target);
 	void killProjectile();
 private:
 	void update(float dt);
-	PlayerBoss* _playerboss;
+	BossLevel* _level;
 };
 
 #endif /* PROJECTILE_H_ */

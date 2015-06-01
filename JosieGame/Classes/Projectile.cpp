@@ -1,26 +1,34 @@
 #include "Projectile.h"
-#include "PlayerBoss.h"
+#include "BossLevel.h"
 
 using namespace cocos2d;
 
-Projectile::Projectile() {}
+Projectile::Projectile() {
+	_level = NULL;
+}
 Projectile::~Projectile() {
-	CCLOG("Projectile destroyed");
+	CCLOG("~Projectile");
 }
 
-Projectile* Projectile::init(float x , float y, PlayerBoss* playerboss)
+Projectile* Projectile::shoot(Vec2 start_pos, float end_x, BossLevel* level)
 {
 	Projectile* pr = new Projectile();
-	pr->initWithFile("particles/std_bullet.png");
-	pr->setPosition(x,y);
-	pr->autorelease();
-	pr->_playerboss = playerboss;
-	pr->scheduleUpdate();
+	if (pr->initWithFile("particles/std_bullet.png"))
+	{
+		pr->setPosition(start_pos);
+		pr->_level = level;
+
+		level->addChild(pr, 1);
+		level->projectiles.pushBack(pr);
+
+		pr->runAction(MoveTo::create(2.0f, Vec2(end_x, 1100)));
+		pr->scheduleUpdate();
+	}
 
 	return pr;
 }
 
-bool Projectile::checkCollision(Sprite* target)
+bool Projectile::hasCollision(Sprite* target)
 {
 	if(this->getBoundingBox().intersectsRect(target->getBoundingBox()))
 	{
@@ -37,7 +45,7 @@ void Projectile::update(float dt)
 
 void Projectile::killProjectile()
 {
-	_playerboss->projectiles.eraseObject(this);
+	_level->projectiles.eraseObject(this);
 	this->removeFromParent();
 }
 

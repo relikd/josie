@@ -25,7 +25,7 @@ MapController::MapController() {
 }
 MapController::~MapController() {
 	delete _collisionMap;
-	CCLOG("MapController destroyed");
+	CCLOG("~MapController");
 }
 
 MapController* MapController::initWithLevel(Level *lvl)
