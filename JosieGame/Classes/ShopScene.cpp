@@ -1,30 +1,29 @@
 #include "ShopScene.h"
 
 #define TAG_OFFSET 333
+#define BUTTON_SIZE 200
+#define BUTTON_PADDING 30
+#define SAVE_PERK_STATE false // TODO: active before App release
 
 using namespace cocos2d;
-// temporary
-int credits = 60;
-int dmg=1;
-int shot=1;
-int freq=1;
-int speed=1;
-bool heart = 0;
-bool shield = 0;
 
 ShopScene::ShopScene() {
 	_equippedLayer = NULL;
 	_menu = NULL;
-	_txtCredits = NULL;
 }
 
-ShopScene::~ShopScene() {}
+ShopScene::~ShopScene() {
+	CCLOG("~Shop");
+}
 
 ShopScene* ShopScene::initShop()
 {
 	ShopScene *scene = new ShopScene();
+	scene->autorelease();
     scene->_equippedLayer = Layer::create();
     scene->_menu = Menu::create();
+    scene->_menu->setPosition(Vec2::ZERO);
+
 
     Sprite *bg = Sprite::create("backgrounds/bg_shop.png");
     bg->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
@@ -35,38 +34,60 @@ ShopScene* ShopScene::initShop()
 
     scene->createLabels();
     scene->createButtons();
-    scene->_menu->setPosition(Vec2::ZERO);
+
+	scene->updateButtonState();
+
+	 MenuItemImage *btn_fight = MenuItemImage::create("buttons/endbutton_notpushed.png", "buttons/endbutton_pushed.png", CC_CALLBACK_0(ShopScene::fight, scene));
+	 btn_fight->setPosition(1400, 200);
+	 scene->_menu->addChild(btn_fight);
 
     return scene;
 }
 
-void ShopScene::createLabels() {
-	_txtCredits = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 90);
-	_txtCredits->setAnchorPoint(Point::ANCHOR_TOP_RIGHT);
-	_txtCredits->setPosition(1740,1050); // 30px padding
-	_txtCredits->setColor(Color3B(165,42,42));
+void ShopScene::fight()
+{
+	Director::getInstance()->popScene();
+}
 
+int ShopScene::priceForColumn(int column)
+{
+	switch (column) {
+		case 0: return 0;
+		case 1: return 10;
+		case 2: return 20;
+		case 3: return 40;
+	}
+}
+
+void ShopScene::createLabels() {
 	Label *l1 = Label::createWithTTF("10", "fonts/Marker Felt.ttf", 60);
 	Label *l2 = Label::createWithTTF("20", "fonts/Marker Felt.ttf", 60);
 	Label *l3 = Label::createWithTTF("40", "fonts/Marker Felt.ttf", 60);
-	l1->setPosition(180+200+30, 1000);
-	l2->setPosition(l1->getPositionX()+200+30,l1->getPositionY());
-	l3->setPosition(l2->getPositionX()+200+30,l2->getPositionY());
+	l1->setPosition(180+BUTTON_SIZE+BUTTON_PADDING, 1005);
+	l2->setPosition(l1->getPositionX()+BUTTON_SIZE+BUTTON_PADDING,l1->getPositionY());
+	l3->setPosition(l2->getPositionX()+BUTTON_SIZE+BUTTON_PADDING,l2->getPositionY());
 
-	this->addChild(_txtCredits);
+	Label *lshield = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 90);
+	lshield->setAnchorPoint(Point::ANCHOR_TOP_LEFT);
+	lshield->setPosition(1120,1050); // 30px padding
+	lshield->setColor(Color3B(42,42,165));
+	lshield->setName("txt_shield_count");
+
+	Label *lcredits = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 90);
+	lcredits->setAnchorPoint(Point::ANCHOR_TOP_RIGHT);
+	lcredits->setPosition(1770,1050); // 30px padding
+	lcredits->setColor(Color3B(165,42,42));
+	lcredits->setName("txt_credits");
+
 	this->addChild(l1);
 	this->addChild(l2);
 	this->addChild(l3);
+	this->addChild(lshield);
+	this->addChild(lcredits);
 }
 
 void ShopScene::createButtons()
 {
-	float btn_size = 200;
-	float btn_padding = 30;
-	float x1 = 165;
-	float y1 = 165;
-
-	//Menu *m = Menu::create();
 	for (int row=0; row<4; row++)
 	{
 		std::ostringstream btnstr;
@@ -84,63 +105,10 @@ void ShopScene::createButtons()
 			btnfullstr << btnstr.str() << column+1 << ".png";
 
 			MenuItemImage *mii = MenuItemImage::create(btnfullstr.str(), btnfullstr.str(), CC_CALLBACK_1(ShopScene::upgrade, this));
-			mii->setPosition(x1 + column*(btn_size + btn_padding), y1 + row*(btn_size + btn_padding));
+			mii->setPosition(165 + column*(BUTTON_SIZE + BUTTON_PADDING), 165 + row*(BUTTON_SIZE + BUTTON_PADDING));
 			mii->setTag((row<<2) + column + TAG_OFFSET);
 			_menu->addChild(mii, 2);
 		}
-	}
-
-	updateButtonState();
-}
-
-void ShopScene::updateButtonState()
-{
-	std::ostringstream crstr;
-	crstr << credits;
-	_txtCredits->setString(crstr.str());
-
-	_equippedLayer->removeAllChildren();
-
-	for (int i = 0; i<16; i++)
-	{
-		MenuItemImage *im = (MenuItemImage*)_menu->getChildByTag(i + TAG_OFFSET);
-		int column = i&3;
-		int row = i>>2;
-
-		int perkVal = 0;
-		if (row == 3) perkVal = dmg;
-		else if (row == 2) perkVal = shot;
-		else if (row == 1) perkVal = freq;
-		else perkVal = speed;
-
-		perkDisable(im);
-
-		if (perkVal > column) {
-			perkEquip(im);
-		} else if (perkVal == column && credits >= priceForColumn(column)) {
-			perkEnable(im);
-		}
-	}
-
-	// extra processing for extra life and shield
-	MenuItemImage *mshield = (MenuItemImage*)_menu->getChildByTag(2 + TAG_OFFSET);
-	MenuItemImage *mextralife = (MenuItemImage*)_menu->getChildByTag(3 + TAG_OFFSET);
-	if (shield) perkEquip(mshield);
-	if (heart) perkEquip(mextralife);
-	if (credits >= priceForColumn(2)) {
-		perkEnable(mshield);
-		if (credits >= priceForColumn(3))
-			perkEnable(mextralife);
-	}
-}
-
-int ShopScene::priceForColumn(int column)
-{
-	switch (column) {
-		case 0: return 0;
-		case 1: return 10;
-		case 2: return 20;
-		case 3: return 40;
 	}
 }
 
@@ -150,18 +118,63 @@ void ShopScene::upgrade(Ref* p)
 	int row = tag>>2;
 	int column = tag&3;
 
-	if (row == 3) dmg++;
-	else if (row == 2) shot++;
-	else if (row == 1) freq++;
-	else if (column<2) speed++;
-	else if (column==2) shield=true;
-	else if (column==3) heart=true;
-
-	credits -= priceForColumn(column);
-
+	perkUp(row, column);
+	spendMoney(priceForColumn(column));
 	updateButtonState();
 }
 
+
+//
+// UserDefaults Manager
+//
+int ShopScene::perkGetValue(int row, int column) {
+	UserDefault *ud = UserDefault::getInstance();
+	switch (row) {
+	case 3: return ud->getIntegerForKey("josie_perk_damage");
+	case 2: return ud->getIntegerForKey("josie_perk_shoot");
+	case 1: return ud->getIntegerForKey("josie_perk_frequency");
+	default:
+		switch (column) {
+		case 3: return (int)ud->getBoolForKey("josie_perk_extralife");
+		case 2: return ud->getIntegerForKey("josie_perk_shied");
+		default: return ud->getIntegerForKey("josie_perk_playerspeed");
+		}
+	}
+}
+
+void ShopScene::perkSetValue(int row, int column, int newValue) {
+	UserDefault *ud = UserDefault::getInstance();
+	switch (row) {
+	case 3: ud->setIntegerForKey("josie_perk_damage", newValue); break;
+	case 2: ud->setIntegerForKey("josie_perk_shoot", newValue); break;
+	case 1: ud->setIntegerForKey("josie_perk_frequency", newValue); break;
+	default:
+		switch (column) {
+		case 3: ud->setBoolForKey("josie_perk_extralife", (bool)newValue); break;
+		case 2: ud->setIntegerForKey("josie_perk_shied", newValue); break;
+		default: ud->setIntegerForKey("josie_perk_playerspeed", newValue); break;
+		}
+	}
+	if (SAVE_PERK_STATE) ud->flush();
+}
+
+void ShopScene::perkUp(int row, int column) {
+	perkSetValue(row, column, 1+ perkGetValue(row, column));
+}
+
+void ShopScene::spendMoney(int coins) {
+	UserDefault *ud = UserDefault::getInstance();
+	int credits = ud->getIntegerForKey("josie_credits");
+	credits -= coins;
+	if (credits < 0) credits = 0;
+	ud->setIntegerForKey("josie_credits", credits);
+	if (SAVE_PERK_STATE) ud->flush();
+}
+
+
+//
+// Button appearance
+//
 void ShopScene::perkDisable(MenuItemImage *btn) {
 	btn->setEnabled(false);
 	btn->setOpacity(128);
@@ -179,4 +192,48 @@ void ShopScene::perkEquip(MenuItemImage *btn) {
 	Sprite *frame = Sprite::create("buttons/shopbuttons/purchased.png");
 	frame->setPosition(btn->getPosition());
 	_equippedLayer->addChild(frame);
+}
+
+void ShopScene::updateButtonState()
+{
+	UserDefault *ud = UserDefault::getInstance();
+	int credits = ud->getIntegerForKey("josie_credits");
+	int shields = ud->getIntegerForKey("josie_perk_shied");
+	std::ostringstream str_cr, str_sh;
+	str_cr << credits;
+	str_sh << shields;
+	((Label*)this->getChildByName("txt_credits"))->setString(str_cr.str());
+	((Label*)this->getChildByName("txt_shield_count"))->setString(str_sh.str());
+
+	_equippedLayer->removeAllChildren();
+
+	for (int i = 0; i<16; i++)
+	{
+		MenuItemImage *im = (MenuItemImage*)_menu->getChildByTag(i + TAG_OFFSET);
+		int row = i>>2;
+		int column = i&3;
+		int perkVal = perkGetValue(row, column);
+
+		if (i == 3) // extra life
+		{
+			if (perkVal) perkEquip(im);
+			else if (credits >= priceForColumn(column)) perkEnable(im);
+			else perkDisable(im);
+			continue;
+		}
+		else if (i == 2) // shield
+		{
+			if (credits >= priceForColumn(column)) perkEnable(im);
+			else perkDisable(im);
+			continue;
+		}
+
+		if (perkVal > column) {
+			perkEquip(im);
+		} else if (perkVal == column && credits >= priceForColumn(column)) {
+			perkEnable(im);
+		} else {
+			perkDisable(im);
+		}
+	}
 }

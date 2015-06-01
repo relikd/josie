@@ -41,6 +41,17 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
+
+    UserDefault *ud = UserDefault::getInstance();
+    ud->setIntegerForKey("josie_credits", 60);
+    ud->setIntegerForKey("josie_perk_damage", 1);
+    ud->setIntegerForKey("josie_perk_shoot", 1);
+    ud->setIntegerForKey("josie_perk_frequency", 1);
+    ud->setIntegerForKey("josie_perk_playerspeed", 1);
+    ud->setIntegerForKey("josie_perk_shied", 0);
+    ud->setBoolForKey("josie_perk_extralife", false);
+    // ud->flush(); // no flush to reset settings after restart
+
     // create a scene. it's an autorelease object
     auto scene = MainMenu::createScene();
 
