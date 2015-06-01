@@ -98,8 +98,7 @@ void PlayerControl::addBossControls()
 void PlayerControl::update(float dt)
 {
 	_counterForShoot += dt;
-	//CCLOG("%f",dt);
-	CCLOG("%f", this->_counterForShoot);
+
 	if(_counterForShoot >= 1.0)
 		{
 			_counterForShoot  = 0;

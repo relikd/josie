@@ -95,11 +95,11 @@ void Level::addPlayer() {
 	if (this->isBossLevel()) {
 		playerBoss = PlayerBoss::initWithLevel(this);
 		playerBoss->setPosition(Vec2(origin.x + visibleSize.width / 5, origin.y + 60));
+		playerBoss->setScale(0.7);//Josie needs to be smaller in BossLevel
 		this->addChild(playerBoss, 1);
 
 		//Adding Boss in this method for testing
 		boss = Boss::initWithLevel(this, playerBoss);
-		boss->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height));
 		this->addChild(boss,1);
 
 	} else {
