@@ -9,23 +9,23 @@ using namespace CocosDenshion;
 
 AudioUnit::AudioUnit()
 {
-	this->_level=NULL;
+	_isBoss = false;
 }
 AudioUnit::~AudioUnit()
 {
-	CCLOG("DSTROY");
-	if (_level->isBossLevel())
-		this->unloadJosieActions_Boss();
+	CCLOG("~AudioUnit");
+	if (_isBoss)
+		unloadJosieActions_Boss();
 	else
-		this->unloadJosieActions_Level();
+		unloadJosieActions_Level();
 }
 
-AudioUnit* AudioUnit::initWithLevel(Level* lvl)
+AudioUnit* AudioUnit::initWithBoss(bool isBoss)
 {
 	AudioUnit *au = new AudioUnit();
-	au->_level=lvl;
+	au->_isBoss = isBoss;
 
-	if (lvl->isBossLevel())
+	if (isBoss)
 		au->preloadJosieActions_Boss();
 	else
 		au->preloadJosieActions_Level();
@@ -118,7 +118,7 @@ void AudioUnit::playBackground()
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->setBackgroundMusicVolume(1.0);
 
-	if (_level->isBossLevel())
+	if (_isBoss)
 		NULL;
 	else
 		engine->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);

@@ -2,22 +2,24 @@
 #define PLAYERBOSS_H_
 
 #include "cocos2d.h"
-class Level;
+class Projectile;
+class BossLevel;
 
 class PlayerBoss : public cocos2d::Sprite {
 public:
 	PlayerBoss();
 	virtual ~PlayerBoss();
-	static PlayerBoss* initWithLevel(Level* level);
+	static PlayerBoss* initWithLevel(BossLevel* level);
 
 	void moveLeft();
 	void moveRight();
-	void shoot(float counterForShoot);
-	void jump();
+	bool shoot(float timeSinceLastShot);
 
 	void useShot(int id);
+	cocos2d::Vector<Projectile*> projectiles;
 private:
-	Level* _level;
+	BossLevel* _level;
+
 };
 
 #endif /* PLAYERBOSS_H_ */

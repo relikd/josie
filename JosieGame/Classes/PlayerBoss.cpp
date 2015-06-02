@@ -1,111 +1,66 @@
 #include "PlayerBoss.h"
 #include "Projectile.h"
-#include "Level.h"
+#include "BossLevel.h"
 
 using namespace cocos2d;
 
 const float walkspeed = 22.0;
+const float frequency = 1.0;
 
 PlayerBoss::PlayerBoss() {
 	_level = NULL;
 }
 PlayerBoss::~PlayerBoss() {
-	CCLOG("~BOSSPLAYER");
+	CCLOG("~PlayerBoss");
 }
 
-PlayerBoss* PlayerBoss::initWithLevel(Level* level) {
+PlayerBoss* PlayerBoss::initWithLevel(BossLevel* level) {
 	PlayerBoss *bp = new PlayerBoss();
 	bp->initWithFile("josie/josie_transformed_static.png");
 	bp->autorelease();
-	bp->setAnchorPoint(Vec2(0.5, 0));
+	bp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	bp->_level = level;
+
 	return bp;
 }
 
 void PlayerBoss::moveLeft() {
 	this->setPositionX(this->getPositionX() - walkspeed);
 }
+
 void PlayerBoss::moveRight() {
 	this->setPositionX(this->getPositionX() + walkspeed);
 }
-void PlayerBoss::shoot(float counterForShoot) {
-	if (counterForShoot == 0.0) {
-	this->useShot(1);
+
+bool PlayerBoss::shoot(float timeSinceLastShot)
+{
+	if (timeSinceLastShot >= frequency) {
+		this->useShot(1);
+		return true;
 	}
-}
-void PlayerBoss::jump() {
-	// TODO: jump
+	return false;
 }
 
-void PlayerBoss::useShot(int id) {
-	switch (id) {
-	case 1: {
-		Projectile* projectile_mid = Projectile::init(
-					this->getBoundingBox().getMidX(),
-					this->getBoundingBox().getMaxY());
-		_level->addChild(projectile_mid, 1);
-		projectile_mid->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX(), 1100)));
-	} break;
-	case 2: {
-		Projectile* projectile_midright = Projectile::init(
-				this->getBoundingBox().getMidX() + 20,
-				this->getBoundingBox().getMaxY());
-		Projectile* projectile_midleft = Projectile::init(
-				this->getBoundingBox().getMidX() - 20,
-				this->getBoundingBox().getMaxY());
-		_level->addChild(projectile_midleft, 1);
-		_level->addChild(projectile_midright, 1);
-		projectile_midleft->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX() - 20, 1100)));
-		projectile_midright->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX() + 20, 1100)));
-	}break;
-	case 3: {
-		Projectile* projectile_mid = Projectile::init(
-				this->getBoundingBox().getMidX(),
-				this->getBoundingBox().getMaxY());
-		Projectile* projectile_left = Projectile::init(
-				this->getBoundingBox().getMidX() - 40,
-				this->getBoundingBox().getMaxY());
-		Projectile* projectile_right = Projectile::init(
-				this->getBoundingBox().getMidX() + 40,
-				this->getBoundingBox().getMaxY());
-		_level->addChild(projectile_mid, 1);
-		_level->addChild(projectile_left, 1);
-		_level->addChild(projectile_right, 1);
-		projectile_mid->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX(), 1100)));
-		projectile_left->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX() - 300, 1100)));
-		projectile_right->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX() + 300, 1100)));
-	}break;
-	case 4: {
-		Projectile* projectile_midright = Projectile::init(
-				this->getBoundingBox().getMidX() + 20,
-				this->getBoundingBox().getMaxY());
-		Projectile* projectile_midleft = Projectile::init(
-				this->getBoundingBox().getMidX() - 20,
-				this->getBoundingBox().getMaxY());
-		Projectile* projectile_left = Projectile::init(
-				this->getBoundingBox().getMidX() - 40,
-				this->getBoundingBox().getMaxY());
-		Projectile* projectile_right = Projectile::init(
-				this->getBoundingBox().getMidX() + 40,
-				this->getBoundingBox().getMaxY());
-		_level->addChild(projectile_midleft, 1);
-		_level->addChild(projectile_midright, 1);
-		_level->addChild(projectile_left, 1);
-		_level->addChild(projectile_right, 1);
-		projectile_midleft->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX() - 20, 1100)));
-		projectile_midright->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX() + 20, 1100)));
-		projectile_left->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX() - 300, 1100)));
-		projectile_right->runAction(
-				MoveTo::create(2.0f, Vec2(this->getPositionX() + 300, 1100)));
-	}break;
+void PlayerBoss::useShot(int id)
+{
+	Vec2 pos = Vec2(this->getPositionX(), this->getBoundingBox().getMaxY());
+
+	if (id&1) { // singleshot
+		Projectile::shoot(pos, this->getPositionX(), _level);
+	}
+	else // doubleshot
+	{
+		pos.x -= 20;
+		Projectile::shoot(pos, this->getPositionX() - 20, _level);
+		pos.x += 40;
+		Projectile::shoot(pos, this->getPositionX() + 20, _level);
+		pos.x -= 20;
+	}
+
+	if (id>2) { // spreadshot
+		pos.x -= 40;
+		Projectile::shoot(pos, this->getPositionX() - 300, _level);
+		pos.x += 80;
+		Projectile::shoot(pos, this->getPositionX() + 300, _level);
 	}
 }

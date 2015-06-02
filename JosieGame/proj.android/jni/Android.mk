@@ -18,14 +18,13 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Projectile.cpp \
                    ../../Classes/Player.cpp \
                    ../../Classes/PlayerBoss.cpp \
-                   ../../Classes/Boss.cpp \
 				   ../../Classes/Level.cpp \
 				   ../../Classes/LevelSelectScene.cpp \
 				   ../../Classes/Cutscene.cpp \
 				   ../../Classes/MapController.cpp \
-				   ../../Classes/HUD_Layer.cpp \
 				   ../../Classes/ShopScene.cpp \
 				   ../../Classes/TMXEdit.cpp \
+				   ../../Classes/BossLevel.cpp \
 				   ../../Classes/PlayerControl.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
