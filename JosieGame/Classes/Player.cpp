@@ -23,7 +23,7 @@ Player::Player() {
 }
 Player::~Player() {
 	this->unscheduleUpdate();
-	CCLOG("Player destroyed");
+	CCLOG("~Player");
 }
 
 Player* Player::initWithLevel(Level* level) {
