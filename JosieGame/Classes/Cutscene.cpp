@@ -9,6 +9,7 @@
 #include <ui/UIText.h>
 #include "MainMenuScene.h"
 #include "Level.h"
+
 USING_NS_CC;
 
 Cutscene::Cutscene() {
@@ -122,4 +123,5 @@ void Cutscene::talk1(Ref* pSender, int level, int sublevel) {
 	Director::getInstance()->popScene();
 	Director::getInstance()->pushScene(levelxx);
 }
+
 
