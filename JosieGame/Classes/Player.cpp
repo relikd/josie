@@ -6,7 +6,7 @@
 
 using namespace cocos2d;
 
-#define DEFAULT_PLAYER_SCALE 0.7
+#define DEFAULT_PLAYER_SCALE 0.5
 
 const float _gravity = 9.81;
 const float _jumpPower = 300;
@@ -31,8 +31,8 @@ Player::~Player() {
 Player* Player::initWithLevel(Level* level) {
 	Player *pl = new Player();
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(
-			"josie/JosieMoving.plist");
-	pl->initWithSpriteFrameName("josiemove0000");
+			"josie/josiewalk.plist");
+	pl->initWithSpriteFrameName("josiewalk0000");
 	pl->setScale(DEFAULT_PLAYER_SCALE);
 	pl->autorelease();
 	pl->setAnchorPoint(Vec2(0.5, 0));
@@ -59,8 +59,8 @@ RepeatForever* Player::moving() {
 
 	char file[100] = { 0 };
 
-	for (int i = 1; i < numFrame; i++) {
-		sprintf(file, "josiemove%04d", i);
+	for (int i = 0; i < numFrame; i++) {
+		sprintf(file, "josiewalk%04d", i);
 		SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
 		frames.pushBack(frame);
 	}
@@ -71,6 +71,7 @@ RepeatForever* Player::moving() {
 	RepeatForever *repeat = RepeatForever::create(animate);
 	return repeat;
 }
+
 
 void Player::update(float dt) {
 	this->_checkRun();
