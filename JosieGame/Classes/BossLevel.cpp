@@ -23,7 +23,7 @@ BossLevel* BossLevel::initWithOptions()
 {
 	BossLevel *boss = new BossLevel();
 	boss->autorelease();
-	boss->_health_max = 31;
+	boss->_health_max = 10;
 	boss->_health = boss->_health_max;
 
 	boss->createUI();
@@ -119,7 +119,8 @@ void BossLevel::checkBossHit()
 	for(Projectile* pr: this->projectiles)
 	{
 		if(pr->hasCollision(this->left) || pr->hasCollision(this->right)){
-			reduceHealth(5);
+			int projectile_damage = UserDefault::getInstance()->getIntegerForKey("josie_perk_damage");
+			reduceHealth(projectile_damage);
 			return;
 		}
 	}
