@@ -20,6 +20,7 @@ public:
 private:
 	BossLevel* _level;
 
+
 };
 
 #endif /* PLAYERBOSS_H_ */
