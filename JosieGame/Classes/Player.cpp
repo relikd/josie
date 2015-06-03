@@ -70,6 +70,7 @@ void Player::update(float dt) {
 		_timeDiff = 0.0;
 		this->_checkAlive();
 	}
+	_level->tileManager->tryCollect(this->getBoundingBox());
 }
 
 //

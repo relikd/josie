@@ -8,15 +8,8 @@ using namespace cocos2d;
 
 typedef struct TilePointOffset { int x; int y; float offsetX; float offsetY; }_TilePointOffset;
 
-// private VARS
-long *_collisionMap;
-
-TMXLayer *_tilemapBackground;
-TMXLayer *_metaLayer;
-
 
 MapController::MapController() {
-	_tilemapBackground = NULL;
 	_metaLayer = NULL;
 	map = NULL;
 	mapOffsetX = 0.0f;
@@ -52,7 +45,7 @@ MapController* MapController::initWithObject(TMXTiledMap* map)
 
 void MapController::initOptions()
 {
-	_tilemapBackground = map->getLayer("Background_layer");
+	//_tilemapBackground = map->getLayer("Background_layer");
 	_metaLayer = map->getLayer("Meta_layer");
 	_metaLayer->setVisible(true);
 
@@ -60,6 +53,7 @@ void MapController::initOptions()
 		static_cast<SpriteBatchNode*>(child)->getTexture()->setAntiAliasTexParameters();
 	}
 	this->initCollisionMap();
+	this->initCollectableArray();
 }
 
 
@@ -127,29 +121,26 @@ float MapController::collisionDiffRight(Rect bounds)
 // :::::::::: Other Functionality ::::::::::
 //
 
-TilePropertyType MapController::getTileProperty(Point position) {
-	Point tileCoord = getTileAt(position);
-	int tileGID = _metaLayer->getTileGIDAt(tileCoord);
-	Value propMap = map->getPropertiesForGID(tileGID);
+bool MapController::tryCollect(Rect playerBounds)
+{
+	Size s = map->getTileSize();
 
-	if (propMap.getType() == Value::Type::MAP) {
-		if (propMap.asValueMap()["Collectible"].asBool()) {
-			return TilePropertyCollectable;
-		} else if (propMap.asValueMap()["Collision"].asBool()) {
-			return TilePropertyCollision;
+	for(int i=0; i<200; i++)
+	{
+		IntPoint p = _coinArray[i];
+		if (p.x==0 && p.y==0) break; // never place a coin at 0,0
+
+		Rect n;
+		n.origin.x = p.x*s.width - mapOffsetX;
+		n.origin.y = ((map->getMapSize().height-1) * map->getTileSize().height) - p.y*s.height;
+		n.size = s;
+
+		if (playerBounds.intersectsRect(n)) {
+			_coinArray[i] = {0,1};
+			collectAt(Vec2(p.x,p.y));
 		}
 	}
-	return TilePropertyNone;
-}
-
-//entfernt an uebergebener Position das Tile aus dem Foreground_layer und das dazugehoerige Tile aus dem Meta_layer
-void MapController::collectAt(Point position) {
-	Point TileCoord = getTileAt(position);
-	if (getTileProperty(TileCoord) == TilePropertyCollectable) {
-		_metaLayer->removeTileAt(TileCoord); //verhindert, dass Collision Tiles entfernt werden k�nnen;
-		TMXLayer* Foreground = map->getLayer("Foreground_layer");
-		Foreground->removeTileAt(TileCoord);
-	}
+	return false;
 }
 
 
@@ -159,11 +150,16 @@ void MapController::collectAt(Point position) {
 //
 
 // wandelt Position in Tilemap Koordinate um
-Point MapController::getTileAt(Point position) {
+/*Point MapController::getTileAt(Point position) {
 	int x = (position.x + mapOffsetX) / map->getTileSize().width;
 	int y = ((map->getMapSize().height * map->getTileSize().height)
 			- position.y) / map->getTileSize().height;
 	return Point(x, y);
+}*/
+
+void MapController::collectAt(Point tileCoord) {
+	_metaLayer->removeTileAt(tileCoord);
+	map->getLayer("Foreground_layer")->removeTileAt(tileCoord);
 }
 
 TilePointOffset MapController::getTilePointOffset(Point point)
@@ -175,6 +171,25 @@ TilePointOffset MapController::getTilePointOffset(Point point)
 	tpo.x = (point.x + mapOffsetX) / map->getTileSize().width;
 	tpo.y = (y / map->getTileSize().height);
 	return tpo;
+}
+
+void MapController::initCollectableArray()
+{
+	int mapWidth = (int)map->getMapSize().width;
+	int mapHeight = (int)map->getMapSize().height;
+	int collectGID = getGIDForCollectable();
+	int counter = 0;
+
+	for (int x=0; x<mapWidth; x++)
+	{
+		for (int y=0; y<mapHeight; y++)
+		{
+			if (collectGID == _metaLayer->getTileGIDAt(Vec2(x,y))) {
+				_coinArray[counter++] = {x,y};
+				if (counter==200) return; // can save only 200 coins
+			}
+		}
+	}
 }
 
 void MapController::initCollisionMap()
@@ -191,6 +206,17 @@ void MapController::initCollisionMap()
 	}
 }
 
+long MapController::getColumnBitmapForGID(int x, int tile_gid)
+{
+	long col=0;
+	for (int i=map->getMapSize().height; i>0; i--) {
+		col<<=1;
+		int gid = _metaLayer->getTileGIDAt(Vec2(x,i-1));
+		col |= (gid==tile_gid);
+	}
+	return col;
+}
+
 int MapController::getGIDForCollision()
 {
 	for (int i=0; i<999; i++) {
@@ -203,15 +229,14 @@ int MapController::getGIDForCollision()
 	return -1;
 }
 
-long MapController::getColumnBitmapForGID(int x, int tile_gid)
+int MapController::getGIDForCollectable()
 {
-	long col=0;
-	for (int i=map->getMapSize().height; i>0; i--) {
-		col<<=1;
-		int gid = _metaLayer->getTileGIDAt(Vec2(x,i-1));
-		col |= (gid==tile_gid);
+	for (int i=0; i<999; i++) {
+		Value propMap = map->getPropertiesForGID(i);
+		if (propMap.getType() == Value::Type::MAP &&
+			propMap.asValueMap()["Collectible"].asBool()) {
+			return i;
+		}
 	}
-	return col;
+	return -1;
 }
-
-

@@ -1,14 +1,11 @@
 #ifndef MAPCONTROLLER_H_
 #define MAPCONTROLLER_H_
 
-#include "cocos2d.h"
-class Level;
+typedef struct IntPoint { int x; int y; }_IntPoint;
 
-typedef enum TilePropertyType {
-	TilePropertyNone = 0,
-	TilePropertyCollision,
-	TilePropertyCollectable
-}_TilePropertyType;
+#include "cocos2d.h"
+
+class Level;
 
 class MapController : public cocos2d::TMXTiledMap {
 public:
@@ -26,14 +23,19 @@ public:
 	float collisionDiffBottom(cocos2d::Rect bounds);
 	float collisionDiffRight(cocos2d::Rect bounds);
 
-	TilePropertyType getTileProperty(cocos2d::Point position); // currently not used
-	void collectAt(cocos2d::Point position);
+	bool tryCollect(cocos2d::Rect playerBounds);
 private:
-	cocos2d::Point getTileAt(cocos2d::Point position);
+	long *_collisionMap;
+	IntPoint _coinArray[200];
+	cocos2d::TMXLayer *_metaLayer;
+
+	void collectAt(cocos2d::Point tileCoord);
 	struct TilePointOffset getTilePointOffset(cocos2d::Point point);
+	void initCollectableArray();
 	void initCollisionMap();
-	int getGIDForCollision();
 	long getColumnBitmapForGID(int x, int tile_gid);
+	int getGIDForCollision();
+	int getGIDForCollectable();
 };
 
 #endif /* MAPCONTROLLER_H_ */
