@@ -6,6 +6,8 @@
 
 using namespace cocos2d;
 
+#define DEFAULT_PLAYER_SCALE 0.7
+
 const float _gravity = 9.81;
 const float _jumpPower = 300;
 const float _maxDeltaY = 20; // pixel
@@ -31,6 +33,7 @@ Player* Player::initWithLevel(Level* level) {
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(
 			"josie/JosieMoving.plist");
 	pl->initWithSpriteFrameName("josiemove0000");
+	pl->setScale(DEFAULT_PLAYER_SCALE);
 	pl->autorelease();
 	pl->setAnchorPoint(Vec2(0.5, 0));
 	pl->_level = level;
@@ -38,6 +41,13 @@ Player* Player::initWithLevel(Level* level) {
 	pl->scheduleUpdate();
 
 	return pl;
+}
+
+Rect Player::getBodyBounds() {
+	Rect b = this->getBoundingBox();
+	b.size.width *= 0.9;
+	b.size.height *= 0.97;
+	return b;
 }
 
 RepeatForever* Player::moving() {
@@ -70,7 +80,7 @@ void Player::update(float dt) {
 		_timeDiff = 0.0;
 		this->_checkAlive();
 	}
-	_level->tileManager->tryCollect(this->getBoundingBox());
+	_level->tileManager->tryCollect(this->getBodyBounds());
 }
 
 //
@@ -106,11 +116,11 @@ void Player::slide(bool s) {
 	SkewTo *skewTo;
 
 	if (_isSliding) {
-		scaleTo = ScaleTo::create(0.1, 1, 0.3); // scale y to 0.3 in 0.1sec
+		scaleTo = ScaleTo::create(0.1, DEFAULT_PLAYER_SCALE, 0.2); // scale y to 0.3 in 0.1sec
 		skewTo = SkewTo::create(0.1, -30, 0);
 		_level->audioUnit->playJosieSlideSound();
 	} else {
-		scaleTo = ScaleTo::create(0.1, 1, 1);
+		scaleTo = ScaleTo::create(0.1, DEFAULT_PLAYER_SCALE, DEFAULT_PLAYER_SCALE);
 		skewTo = SkewTo::create(0.1, 0, 0);
 	}
 
@@ -126,17 +136,17 @@ bool Player::_canStandUp() {
 	if (!_isSliding)
 		return true; // already standing
 
-	float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
+	float air = _level->tileManager->collisionDiffTop(this->getBodyBounds());
 	float scaleY = this->getScaleY();
-	float height = this->getBoundingBox().size.height;
+	float height = this->getBodyBounds().size.height;
 
 	// TODO: evtl. Skalierung in die Breite beachten
-	return ((height / scaleY) - height -3.0) < air; // TODO: Josie 2px kleiner machen
+	return ((height / (scaleY / DEFAULT_PLAYER_SCALE)) - height -3.0) < air;
 }
 
 void Player::_checkRun() {
 	if (_isRunning) {
-		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
+		float dist = _level->tileManager->collisionDiffRight(this->getBodyBounds());
 		if (dist > 0.01) {
 			dist = (dist < _runSpeed) ? dist : _runSpeed;
 			_level->moveLevelAtSpeed(dist);
@@ -148,16 +158,18 @@ void Player::_checkJump() {
 	_upForce = fmax(_upForce - _gravity, 0);
 
 	if (_upForce > 0.01) {// as long as jump force is stronger than gravity
-		float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
+		float air = _level->tileManager->collisionDiffTop(this->getBodyBounds());
 		if (air > 0.01) {
 			float deltaY = _maxDeltaY * (_upForce / _jumpPower);
 			if (air < deltaY)
 				deltaY = air;
 			this->setPositionY(this->getPositionY() + deltaY);
+		} else {
+			_upForce = 0;
 		}
 		_isOnGround = false;
 	} else {
-		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
+		float height = _level->tileManager->collisionDiffBottom(this->getBodyBounds());
 		if (height > 0.01) {
 			float y = this->getPositionY();
 			y -= (height < _gravity) ? height : _gravity;

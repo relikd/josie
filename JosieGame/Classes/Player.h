@@ -9,6 +9,7 @@ public:
 	Player();
 	~Player();
 	static Player* initWithLevel(Level* level);
+	cocos2d::Rect getBodyBounds();
 
 	// Player interaction
 	void run(bool r);

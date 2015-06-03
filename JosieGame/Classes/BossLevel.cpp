@@ -82,14 +82,27 @@ void BossLevel::createUI()
 
 void BossLevel::loadWeapons()
 {
-	left = Sprite::create("boss_sprites/tree_hand_left.png");
-	right = Sprite::create("boss_sprites/tree_hand_right.png");
+	left = Sprite::create();
+	right = Sprite::create();
+
+	left->setContentSize(Size(185,150));
+	right->setContentSize(Size(185,150));
 	left->setPosition(Vec2(400,600));
-	left->setScale(1.7);
 	right->setPosition(Vec2(1520,600));
+	left->setScale(1.7);
 	right->setScale(1.7);
-	this->addChild(left,1);
-	this->addChild(right,1);
+
+	Sprite *l = Sprite::create("boss_sprites/tree_hand_left.png");
+	Sprite *r = Sprite::create("boss_sprites/tree_hand_right.png");
+	l->setAnchorPoint(Vec2::ZERO);
+	r->setAnchorPoint(Vec2::ZERO);
+	l->setPosition(-66, 8);
+	r->setPosition(-5, 8);
+	left->addChild(l);
+	right->addChild(r);
+
+	this->addChild(left, 1);
+	this->addChild(right, 1);
 }
 
 void BossLevel::update(float dt)
