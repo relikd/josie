@@ -15,6 +15,7 @@ PlayerBoss::~PlayerBoss() {
 }
 
 PlayerBoss* PlayerBoss::initWithLevel(BossLevel* level) {
+
 	PlayerBoss *bp = new PlayerBoss();
 	bp->initWithFile("josie/josie_transformed_static.png");
 	bp->autorelease();
@@ -34,8 +35,9 @@ void PlayerBoss::moveRight() {
 
 bool PlayerBoss::shoot(float timeSinceLastShot)
 {
-	if (timeSinceLastShot >= frequency) {
-		this->useShot(1);
+	UserDefault* ud = UserDefault::getInstance();
+	if (timeSinceLastShot >= 1.4-(ud->getIntegerForKey("josie_perk_frequency")*0.3)) {
+		this->useShot(ud->getIntegerForKey("josie_perk_shoot"));
 		return true;
 	}
 	return false;
