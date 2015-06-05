@@ -198,11 +198,14 @@ void MapController::initCollisionMap()
 	int collisionGID = this->getGIDForCollision();
 
 	delete _collisionMap;
-	_collisionMap = new long[mapWidth]; // remember to free space
+	_collisionMap = new long[mapWidth+6]; // remember to free space
 
-	for (int x=0; x<mapWidth; x++) {
-		long column = this->getColumnBitmapForGID(x, collisionGID);
-		_collisionMap[x] = column;
+	for (int x=0; x<mapWidth+6; x++) {
+		_collisionMap[x] = 0; // just a few extra columns for collision
+		if (x<mapWidth) {
+			long column = this->getColumnBitmapForGID(x, collisionGID);
+			_collisionMap[x] = column;
+		}
 	}
 }
 

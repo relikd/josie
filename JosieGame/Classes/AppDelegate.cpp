@@ -52,6 +52,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
     ud->setBoolForKey("josie_perk_extralife", false);
     // ud->flush(); // no flush to reset settings after restart
 
+    // preload animation frames
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiewalk.plist", "josie/josiewalk.png");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiestartmoving.plist", "josie/josiestartmoving.png");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiejump.plist", "josie/josiejump.png");
+
+
     // create a scene. it's an autorelease object
     auto scene = MainMenu::createScene();
 

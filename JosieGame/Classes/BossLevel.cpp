@@ -2,6 +2,7 @@
 #include "Projectile.h"
 #include "PlayerBoss.h"
 #include "PlayerControl.h"
+#include "CollisionLayer.h"
 
 using namespace cocos2d;
 
@@ -50,9 +51,8 @@ void BossLevel::createUI()
 	enemy->setPosition(1920/2, 1080);
 
 	// load Player
-	_playerBoss = PlayerBoss::initWithLevel(this);
-	_playerBoss->setPosition(Vec2(200, 60));
-	_playerBoss->setScale(0.7);
+	_playerBoss = PlayerBoss::createWithLevel(this);
+	_playerBoss->setPosition(200, 60);
 
 	// Player Controls
 	PlayerControl *playerControl = PlayerControl::initWithBossPlayer(_playerBoss);
@@ -71,35 +71,26 @@ void BossLevel::createUI()
 	_healthbar->setPosition(1920/2, 1080);
 	_healthbar->setScale(0.7);
 
-	this->addChild(background);
-	this->addChild(enemy);
-	this->addChild(map);
-	this->addChild(_playerBoss);
-	this->addChild(playerControl);
-	this->addChild(healthbar_frame);
-	this->addChild(_healthbar);
+	this->addChild(background,-1);
+	this->addChild(enemy,-1);
+	this->addChild(map,1);
+	this->addChild(_playerBoss,1);
+	this->addChild(playerControl,2);
+	this->addChild(healthbar_frame,2);
+	this->addChild(_healthbar,2);
 }
 
 void BossLevel::loadWeapons()
 {
-	left = Sprite::create();
-	right = Sprite::create();
+	left = CollisionLayer::createWithSize(185,140);
+	right = CollisionLayer::createWithSize(185,140);
+	left->insertImage("boss_sprites/tree_hand_left.png", Vec2::ANCHOR_BOTTOM_LEFT, Vec2(-66,-15));
+	right->insertImage("boss_sprites/tree_hand_right.png", Vec2::ANCHOR_BOTTOM_LEFT, Vec2(-5,-15));
 
-	left->setContentSize(Size(185,150));
-	right->setContentSize(Size(185,150));
 	left->setPosition(Vec2(400,600));
 	right->setPosition(Vec2(1520,600));
 	left->setScale(1.7);
 	right->setScale(1.7);
-
-	Sprite *l = Sprite::create("boss_sprites/tree_hand_left.png");
-	Sprite *r = Sprite::create("boss_sprites/tree_hand_right.png");
-	l->setAnchorPoint(Vec2::ZERO);
-	r->setAnchorPoint(Vec2::ZERO);
-	l->setPosition(-66, 8);
-	r->setPosition(-5, 8);
-	left->addChild(l);
-	right->addChild(r);
 
 	this->addChild(left, 1);
 	this->addChild(right, 1);
@@ -114,16 +105,16 @@ void BossLevel::update(float dt)
 		_attackTimer = 7; // every 7 seconds an attack
 	}
 
-	checkPlayerHit(left, _playerBoss);
-	checkPlayerHit(right, _playerBoss);
+	checkPlayerHit(left);
+	checkPlayerHit(right);
 	checkBossHit();
 }
 
-void BossLevel::checkPlayerHit(Sprite* weapon, PlayerBoss* target)
+void BossLevel::checkPlayerHit(CollisionLayer* weapon)
 {
-	if(weapon->getBoundingBox().intersectsRect(target->getBoundingBox()))
+	if (weapon->getCollision(_playerBoss))
 	{
-		//CCLOG("Player was hit");
+		CCLOG("Player was hit");
 	}
 }
 
@@ -131,7 +122,7 @@ void BossLevel::checkBossHit()
 {
 	for(Projectile* pr: this->projectiles)
 	{
-		if(pr->hasCollision(this->left) || pr->hasCollision(this->right)){
+		if(pr->hasCollision((Sprite*)this->left) || pr->hasCollision((Sprite*)this->right)){
 			int projectile_damage = UserDefault::getInstance()->getIntegerForKey("josie_perk_damage");
 			reduceHealth(projectile_damage);
 			return;

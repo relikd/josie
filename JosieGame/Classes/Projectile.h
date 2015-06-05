@@ -12,7 +12,7 @@ public:
 	static Projectile* shoot(cocos2d::Vec2 start_pos, float end_x, BossLevel* level);
 
 	bool hasCollision(Sprite* target);
-	void killProjectile();
+	void killProjectile(bool enemyHit);
 private:
 	void update(float dt);
 	BossLevel* _level;
