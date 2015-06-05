@@ -25,7 +25,7 @@ private:
 	virtual void onEnterTransitionDidFinish();
 
 	Animate* animationWithFrame(const std::string& name, int frameCount, float delay=0.1);
-	void willStartRunning();
+	void startRunningAfterAnimation(FiniteTimeAction *animation);
 	void startRunningCallback();
 	void endRunning();
 

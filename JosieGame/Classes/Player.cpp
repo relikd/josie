@@ -39,8 +39,6 @@ Player* Player::initWithLevel(Level* level) {
 		pl->_level = level;
 
 		pl->insertImageFrameName("josiestartmove0000", Vec2(pl->getContentSize().width/2-5, -5), Vec2::ANCHOR_MIDDLE_BOTTOM);
-		pl->willStartRunning();
-
 		pl->scheduleUpdate();
 	}
 
@@ -66,7 +64,7 @@ void Player::setPlayerOnGround(float pos_x) {
 
 void Player::onEnterTransitionDidFinish()
 {
-
+	this->_isRunning = false;
 }
 
 
@@ -92,11 +90,10 @@ Animate* Player::animationWithFrame(const std::string& name, int frameCount, flo
 	return animate;
 }
 
-void Player::willStartRunning()
+void Player::startRunningAfterAnimation(FiniteTimeAction *animation)
 {
-	auto startwalk = animationWithFrame("josiestartmove", 4, 0.01);
-	auto run = CallFuncN::create(CC_CALLBACK_0(Player::startRunningCallback, this));
-	Sequence *seq = Sequence::createWithTwoActions(startwalk, run);
+	CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(Player::startRunningCallback, this));
+	Sequence *seq = Sequence::createWithTwoActions(animation, call);
 	spriteImage->runAction(seq);
 }
 
@@ -114,6 +111,7 @@ void Player::endRunning()
 	spriteImage->runAction(animationWithFrame("josiestartmove", 4, 0.01)->reverse());
 }
 
+
 //
 // Player interaction
 //
@@ -125,7 +123,7 @@ void Player::run(bool r) {
 	_isRunning = r;
 
 	if (_isRunning)
-		willStartRunning();
+		startRunningAfterAnimation(animationWithFrame("josiestartmove", 4, 0.01));
 	else
 		endRunning();
 }
@@ -134,6 +132,9 @@ void Player::jump() {
 	if (_isOnGround && !_isSliding) {
 		_upForce = _jumpPower;
 		_level->audioUnit->playJosieJumpSound();
+
+		spriteImage->stopAllActions();
+		startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.02));
 	}
 }
 
@@ -215,9 +216,8 @@ void Player::_checkJump() {
 }
 
 void Player::_checkAlive() {
-	if (this->getPositionY() < -200) {
+	if (this->getPositionY() < -100) {
 		// KAABUUUUMMM! #splash
-		//this->setPosition(Vec2(216, 512));
 		this->setPlayerOnGround(216);
 		_level->resetLevelPosition();
 	}
