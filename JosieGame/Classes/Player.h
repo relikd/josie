@@ -9,6 +9,7 @@ public:
 	Player();
 	~Player();
 	static Player* initWithLevel(Level* level);
+	void setPlayerOnGround(float pos_x);
 
 	// Player interaction
 	void run(bool r);
@@ -21,8 +22,12 @@ private:
 	void _checkJump();
 	void _checkAlive();
 
-	RepeatForever* animationWithFrame(const std::string& name, int frameCount);
-	Sprite *_animationSprite;
+	virtual void onEnterTransitionDidFinish();
+
+	Animate* animationWithFrame(const std::string& name, int frameCount, float delay=0.1);
+	void willStartRunning();
+	void startRunningCallback();
+	void endRunning();
 
 	Level *_level;
 	bool _isSliding;
