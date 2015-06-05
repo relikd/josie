@@ -31,19 +31,15 @@ Player::~Player() {
 
 Player* Player::initWithLevel(Level* level) {
 	Player *pl = new Player();
-	if (pl->initWithSize(160,245))
+	if (pl->initCollisionSize(160,245))
 	{
 		pl->autorelease();
 		pl->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		pl->setScale(DEFAULT_PLAYER_SCALE);
 		pl->_level = level;
 
-		pl->_animationSprite = Sprite::createWithSpriteFrameName("josiestartmove0000");
-		pl->_animationSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		pl->_animationSprite->setPosition(pl->getContentSize().width/2-5, -5);
-		pl->addChild(pl->_animationSprite);
-
-		pl->_animationSprite->runAction(pl->animationWithFrame("josiewalk", 5));
+		pl->insertImageFrameName("josiestartmove0000", Vec2(pl->getContentSize().width/2-5, -5), Vec2::ANCHOR_MIDDLE_BOTTOM);
+		pl->spriteImage->runAction(pl->animationWithFrame("josiewalk", 5));
 		pl->scheduleUpdate();
 	}
 

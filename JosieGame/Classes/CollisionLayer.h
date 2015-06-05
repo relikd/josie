@@ -12,9 +12,12 @@ public:
 
 	static CollisionLayer* createWithSize(float width, float height);
 	static CollisionLayer* createWithNode(Node* node);
-	bool initWithSize(float width, float height);
+	bool initCollisionSize(float width, float height);
 
-	void insertImage(const std::string& filename, Vec2 anchor = Vec2::ANCHOR_MIDDLE, Vec2 offset = Vec2::ZERO);
+	Sprite *spriteImage;
+	void insertImageName(const std::string& filename, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
+	void insertImageFrameName(const std::string& name, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
+	void insertSprite(Sprite* sprite, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
 
 	bool getCollision(CollisionLayer* other);
 private:

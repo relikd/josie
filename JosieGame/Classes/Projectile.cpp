@@ -13,10 +13,11 @@ Projectile::~Projectile() {
 Projectile* Projectile::shoot(Vec2 start_pos, float end_x, BossLevel* level)
 {
 	Projectile* pr = new Projectile();
-	if (pr->initWithFile("particles/std_bullet.png"))
+	if (pr->initCollisionSize(26,26))
 	{
 		pr->setPosition(start_pos);
 		pr->_level = level;
+		pr->insertImageName("particles/std_bullet.png", pr->getContentSize()/2);
 
 		level->addChild(pr);
 		level->projectiles.pushBack(pr);

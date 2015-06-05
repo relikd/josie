@@ -82,10 +82,10 @@ void BossLevel::createUI()
 
 void BossLevel::loadWeapons()
 {
-	left = CollisionLayer::createWithSize(185,140);
-	right = CollisionLayer::createWithSize(185,140);
-	left->insertImage("boss_sprites/tree_hand_left.png", Vec2::ANCHOR_BOTTOM_LEFT, Vec2(-66,-15));
-	right->insertImage("boss_sprites/tree_hand_right.png", Vec2::ANCHOR_BOTTOM_LEFT, Vec2(-5,-15));
+	left = CollisionLayer::createWithSize(180,140);
+	right = CollisionLayer::createWithSize(180,140);
+	left->insertImageName("boss_sprites/tree_hand_left.png", Vec2(-66,-15), Vec2::ANCHOR_BOTTOM_LEFT);
+	right->insertImageName("boss_sprites/tree_hand_right.png", Vec2(-10,-15), Vec2::ANCHOR_BOTTOM_LEFT);
 
 	left->setPosition(Vec2(400,600));
 	right->setPosition(Vec2(1520,600));
