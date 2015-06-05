@@ -95,7 +95,7 @@ void Level::addPlayer()
 {
 	//Add Player
 	Player *player = Player::initWithLevel(this);
-	player->setPosition(Vec2(380, 512));
+	player->setPlayerOnGround(216);
 	this->addChild(player);
 
 	PlayerControl *playerControl = PlayerControl::initWithPlayer(player);

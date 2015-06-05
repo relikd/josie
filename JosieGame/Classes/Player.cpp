@@ -7,18 +7,18 @@
 using namespace cocos2d;
 
 #define DEFAULT_PLAYER_SCALE 0.5
+#define PLAYER_RUN_SPEED 7.0
 
 const float _gravity = 9.81;
 const float _jumpPower = 300;
 const float _maxDeltaY = 20; // pixel
-const float _runSpeed = 7.0;
+float _runSpeed = 0;
 
 float _upForce; // continuously changed during jump
 float _timeDiff = 0.0;
 
 Player::Player() {
 	_level = nullptr;
-	_animationSprite = nullptr;
 	_upForce = 0;
 	_isRunning = true;
 	_isSliding = false;
@@ -39,33 +39,13 @@ Player* Player::initWithLevel(Level* level) {
 		pl->_level = level;
 
 		pl->insertImageFrameName("josiestartmove0000", Vec2(pl->getContentSize().width/2-5, -5), Vec2::ANCHOR_MIDDLE_BOTTOM);
-		pl->spriteImage->runAction(pl->animationWithFrame("josiewalk", 5));
+		pl->willStartRunning();
+
 		pl->scheduleUpdate();
 	}
 
 	return pl;
 }
-
-RepeatForever* Player::animationWithFrame(const std::string& name, int frameCount)
-{
-	Vector<SpriteFrame *> frames;
-	SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
-
-	char file[50] = { 0 };
-
-	for (int i = 0; i <= frameCount; i++) {
-		sprintf(file, "%s%04d", name.c_str(), i);
-		SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
-		frames.pushBack(frame);
-	}
-
-	Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
-	Animate *animate = Animate::create(animation);
-
-	RepeatForever *repeat = RepeatForever::create(animate);
-	return repeat;
-}
-
 
 void Player::update(float dt) {
 	this->_checkRun();
@@ -78,6 +58,62 @@ void Player::update(float dt) {
 	_level->tileManager->tryCollect(this->getBoundingBox());
 }
 
+void Player::setPlayerOnGround(float pos_x) {
+	this->setPosition(pos_x,1000);
+	float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
+	this->setPositionY(1000-height);
+}
+
+void Player::onEnterTransitionDidFinish()
+{
+
+}
+
+
+//
+// Animation
+//
+
+Animate* Player::animationWithFrame(const std::string& name, int frameCount, float delay)
+{
+	Vector<SpriteFrame *> frames;
+	SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
+
+	char file[50] = { 0 };
+
+	for (int i = 0; i < frameCount; i++) {
+		sprintf(file, "%s%04d", name.c_str(), i);
+		SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+		frames.pushBack(frame);
+	}
+
+	Animation *animation = Animation::createWithSpriteFrames(frames, delay);
+	Animate *animate = Animate::create(animation);
+	return animate;
+}
+
+void Player::willStartRunning()
+{
+	auto startwalk = animationWithFrame("josiestartmove", 4, 0.01);
+	auto run = CallFuncN::create(CC_CALLBACK_0(Player::startRunningCallback, this));
+	Sequence *seq = Sequence::createWithTwoActions(startwalk, run);
+	spriteImage->runAction(seq);
+}
+
+void Player::startRunningCallback()
+{
+	_runSpeed = PLAYER_RUN_SPEED;
+	spriteImage->runAction(RepeatForever::create(animationWithFrame("josiewalk", 6)));
+}
+
+void Player::endRunning()
+{
+	spriteImage->stopAllActions();
+	_runSpeed = 0;
+	_level->audioUnit->playJosieStopRunSound();
+	spriteImage->runAction(animationWithFrame("josiestartmove", 4, 0.01)->reverse());
+}
+
 //
 // Player interaction
 //
@@ -88,8 +124,10 @@ void Player::run(bool r) {
 
 	_isRunning = r;
 
-	if (!_isRunning)
-		_level->audioUnit->playJosieStopRunSound();
+	if (_isRunning)
+		willStartRunning();
+	else
+		endRunning();
 }
 
 void Player::jump() {
@@ -179,7 +217,8 @@ void Player::_checkJump() {
 void Player::_checkAlive() {
 	if (this->getPositionY() < -200) {
 		// KAABUUUUMMM! #splash
-		this->setPosition(Vec2(216, 512));
+		//this->setPosition(Vec2(216, 512));
+		this->setPlayerOnGround(216);
 		_level->resetLevelPosition();
 	}
 }
