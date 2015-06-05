@@ -1,15 +1,15 @@
 #ifndef PROJECTILE_H_
 #define PROJECTILE_H_
 
-#include "cocos2d.h"
+#include "CollisionLayer.h"
 class BossLevel;
 
-class Projectile : public cocos2d::Sprite
+class Projectile : public CollisionLayer
 {
 public:
 	Projectile();
 	virtual ~Projectile();
-	static Projectile* shoot(cocos2d::Vec2 start_pos, float end_x, BossLevel* level);
+	static Projectile* shoot(Vec2 start_pos, float end_x, BossLevel* level);
 
 	bool hasCollision(Sprite* target);
 	void killProjectile(bool enemyHit);

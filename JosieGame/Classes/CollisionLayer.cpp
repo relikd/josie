@@ -10,7 +10,7 @@
 #include "CollisionLayer.h"
 
 
-CollisionLayer::CollisionLayer() {}
+CollisionLayer::CollisionLayer() : spriteImage(nullptr) {}
 CollisionLayer::~CollisionLayer() {
 	CCLOG("~CollisionLayer");
 }
@@ -19,7 +19,7 @@ CollisionLayer::~CollisionLayer() {
 CollisionLayer* CollisionLayer::createWithSize(float width, float height)
 {
 	CollisionLayer *cl = new CollisionLayer();
-	cl->initWithSize(width, height);
+	cl->initCollisionSize(width, height);
 	cl->autorelease();
 
 	return cl;
@@ -34,7 +34,7 @@ CollisionLayer* CollisionLayer::createWithNode(Node* node) {
 	return other;
 }
 
-bool CollisionLayer::initWithSize(float width, float height)
+bool CollisionLayer::initCollisionSize(float width, float height)
 {
 	if (initWithColor(Color4B(255,0,0,(DEBUG_COLLISION?255:0)), width, height)) {
 		this->ignoreAnchorPointForPosition(false);
@@ -44,12 +44,23 @@ bool CollisionLayer::initWithSize(float width, float height)
 }
 
 
-void CollisionLayer::insertImage(const std::string& filename, Vec2 anchor, Vec2 offset)
+void CollisionLayer::insertImageName(const std::string& filename, Vec2 offset, Vec2 anchor)
 {
-	Sprite *s = Sprite::create(filename);
-	s->setAnchorPoint(anchor);
-	s->setPosition(offset.x, offset.y);
-	this->addChild(s);
+	insertSprite(Sprite::create(filename), offset, anchor);
+}
+
+void CollisionLayer::insertImageFrameName(const std::string& name, Vec2 offset, Vec2 anchor)
+{
+	insertSprite(Sprite::createWithSpriteFrameName(name), offset, anchor);
+}
+
+void CollisionLayer::insertSprite(Sprite* sprite, Vec2 offset, Vec2 anchor)
+{
+	this->removeAllChildren();
+	spriteImage = sprite;
+	spriteImage->setAnchorPoint(anchor);
+	spriteImage->setPosition(offset.x, offset.y);
+	this->addChild(spriteImage);
 }
 
 bool CollisionLayer::getCollision(CollisionLayer* other) {

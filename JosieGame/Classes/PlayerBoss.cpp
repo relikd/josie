@@ -20,10 +20,10 @@ PlayerBoss::~PlayerBoss() {
 PlayerBoss* PlayerBoss::createWithLevel(BossLevel* level) {
 
 	PlayerBoss *bp = new PlayerBoss();
-	if (bp->initWithSize(154,185)) {
+	if (bp->initCollisionSize(154,185)) {
 		bp->_level = level;
 		bp->autorelease();
-		bp->insertImage("josie/josie_transformed_static.png", Vec2::ANCHOR_MIDDLE_BOTTOM, Vec2(bp->getContentSize().width/2, 0));
+		bp->insertImageName("josie/josie_transformed_static.png", Vec2(bp->getContentSize().width/2, 0), Vec2::ANCHOR_MIDDLE_BOTTOM);
 		bp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		bp->setScale(DEFAULT_BOSSPLAYER_SCALE);
 	}
