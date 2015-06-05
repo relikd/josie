@@ -1,15 +1,14 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "cocos2d.h"
+#include "CollisionLayer.h"
 class Level;
 
-class Player: public cocos2d::Sprite {
+class Player: public CollisionLayer {
 public:
 	Player();
 	~Player();
 	static Player* initWithLevel(Level* level);
-	cocos2d::Rect getBodyBounds();
 
 	// Player interaction
 	void run(bool r);
@@ -22,7 +21,8 @@ private:
 	void _checkJump();
 	void _checkAlive();
 
-	cocos2d::RepeatForever* moving();
+	RepeatForever* animationWithFrame(const std::string& name, int frameCount);
+	Sprite *_animationSprite;
 
 	Level *_level;
 	bool _isSliding;

@@ -1,15 +1,17 @@
 #ifndef PLAYERBOSS_H_
 #define PLAYERBOSS_H_
 
-#include "cocos2d.h"
+#include "CollisionLayer.h"
 class Projectile;
 class BossLevel;
 
-class PlayerBoss : public cocos2d::Sprite {
+
+class PlayerBoss : public CollisionLayer {
 public:
 	PlayerBoss();
 	virtual ~PlayerBoss();
-	static PlayerBoss* initWithLevel(BossLevel* level);
+
+	static PlayerBoss* createWithLevel(BossLevel* level);
 
 	void moveLeft();
 	void moveRight();
@@ -19,8 +21,7 @@ public:
 	cocos2d::Vector<Projectile*> projectiles;
 private:
 	BossLevel* _level;
-
-
+	float _min_x, _max_x;
 };
 
 #endif /* PLAYERBOSS_H_ */

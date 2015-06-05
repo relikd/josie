@@ -3,6 +3,7 @@
 
 class Projectile;
 class PlayerBoss;
+class CollisionLayer;
 
 #include "cocos2d.h"
 
@@ -24,15 +25,15 @@ private:
 	void update(float dt);
 	void reduceHealth(float dmg);
 	void useAttack(int attackID);
-	void checkPlayerHit(cocos2d::Sprite* weapon, PlayerBoss* target);
+	void checkPlayerHit(CollisionLayer* weapon);
 	void checkBossHit();
 	void finishAnimation(bool won);
 
 	float _health;
 	float _health_max;
 	cocos2d::ProgressTimer* _healthbar;
-	cocos2d::Sprite* left;
-	cocos2d::Sprite* right;
+	CollisionLayer* left;
+	CollisionLayer* right;
 	float _attackTimer;
 	PlayerBoss* _playerBoss;
 };

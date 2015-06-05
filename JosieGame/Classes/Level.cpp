@@ -120,7 +120,6 @@ void Level::moveLevelAtSpeed(float speed){
 void Level::resetLevelPosition(float position) // 0.0f if no parameter
 {
 	moveable->setPositionX( position );
-	CCLOG("%1.3f", position);
 	tileManager->mapOffsetX = position;
 }
 

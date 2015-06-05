@@ -17,7 +17,8 @@ float _upForce; // continuously changed during jump
 float _timeDiff = 0.0;
 
 Player::Player() {
-	this->_level = NULL;
+	_level = nullptr;
+	_animationSprite = nullptr;
 	_upForce = 0;
 	_isRunning = true;
 	_isSliding = false;
@@ -30,37 +31,34 @@ Player::~Player() {
 
 Player* Player::initWithLevel(Level* level) {
 	Player *pl = new Player();
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(
-			"josie/josiewalk.plist");
-	pl->initWithSpriteFrameName("josiewalk0000");
-	pl->setScale(DEFAULT_PLAYER_SCALE);
-	pl->autorelease();
-	pl->setAnchorPoint(Vec2(0.5, 0));
-	pl->_level = level;
-	pl->runAction(pl->moving());
-	pl->scheduleUpdate();
+	if (pl->initWithSize(160,245))
+	{
+		pl->autorelease();
+		pl->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		pl->setScale(DEFAULT_PLAYER_SCALE);
+		pl->_level = level;
+
+		pl->_animationSprite = Sprite::createWithSpriteFrameName("josiestartmove0000");
+		pl->_animationSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		pl->_animationSprite->setPosition(pl->getContentSize().width/2-5, -5);
+		pl->addChild(pl->_animationSprite);
+
+		pl->_animationSprite->runAction(pl->animationWithFrame("josiewalk", 5));
+		pl->scheduleUpdate();
+	}
 
 	return pl;
 }
 
-Rect Player::getBodyBounds() {
-	Rect b = this->getBoundingBox();
-	b.size.width *= 0.9;
-	b.size.height *= 0.97;
-	return b;
-}
-
-RepeatForever* Player::moving() {
-	// 3. repeat the frame
-	int numFrame = 6;
-
-	cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+RepeatForever* Player::animationWithFrame(const std::string& name, int frameCount)
+{
+	Vector<SpriteFrame *> frames;
 	SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
 
-	char file[100] = { 0 };
+	char file[50] = { 0 };
 
-	for (int i = 0; i < numFrame; i++) {
-		sprintf(file, "josiewalk%04d", i);
+	for (int i = 0; i <= frameCount; i++) {
+		sprintf(file, "%s%04d", name.c_str(), i);
 		SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
 		frames.pushBack(frame);
 	}
@@ -81,7 +79,7 @@ void Player::update(float dt) {
 		_timeDiff = 0.0;
 		this->_checkAlive();
 	}
-	_level->tileManager->tryCollect(this->getBodyBounds());
+	_level->tileManager->tryCollect(this->getBoundingBox());
 }
 
 //
@@ -137,9 +135,9 @@ bool Player::_canStandUp() {
 	if (!_isSliding)
 		return true; // already standing
 
-	float air = _level->tileManager->collisionDiffTop(this->getBodyBounds());
+	float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
 	float scaleY = this->getScaleY();
-	float height = this->getBodyBounds().size.height;
+	float height = this->getBoundingBox().size.height;
 
 	// TODO: evtl. Skalierung in die Breite beachten
 	return ((height / (scaleY / DEFAULT_PLAYER_SCALE)) - height -3.0) < air;
@@ -147,7 +145,7 @@ bool Player::_canStandUp() {
 
 void Player::_checkRun() {
 	if (_isRunning) {
-		float dist = _level->tileManager->collisionDiffRight(this->getBodyBounds());
+		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
 		if (dist > 0.01) {
 			dist = (dist < _runSpeed) ? dist : _runSpeed;
 			_level->moveLevelAtSpeed(dist);
@@ -159,7 +157,7 @@ void Player::_checkJump() {
 	_upForce = fmax(_upForce - _gravity, 0);
 
 	if (_upForce > 0.01) {// as long as jump force is stronger than gravity
-		float air = _level->tileManager->collisionDiffTop(this->getBodyBounds());
+		float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
 		if (air > 0.01) {
 			float deltaY = _maxDeltaY * (_upForce / _jumpPower);
 			if (air < deltaY)
@@ -170,7 +168,7 @@ void Player::_checkJump() {
 		}
 		_isOnGround = false;
 	} else {
-		float height = _level->tileManager->collisionDiffBottom(this->getBodyBounds());
+		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
 		if (height > 0.01) {
 			float y = this->getPositionY();
 			y -= (height < _gravity) ? height : _gravity;

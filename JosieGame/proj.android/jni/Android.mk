@@ -13,19 +13,20 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
-                   ../../Classes/MainMenuScene.cpp \
                    ../../Classes/AudioUnit.cpp \
-                   ../../Classes/Projectile.cpp \
-                   ../../Classes/Player.cpp \
-                   ../../Classes/PlayerBoss.cpp \
+				   ../../Classes/BossLevel.cpp \
+				   ../../Classes/CollisionLayer.cpp \
+				   ../../Classes/Cutscene.cpp \
 				   ../../Classes/Level.cpp \
 				   ../../Classes/LevelSelectScene.cpp \
-				   ../../Classes/Cutscene.cpp \
+                   ../../Classes/MainMenuScene.cpp \
 				   ../../Classes/MapController.cpp \
+                   ../../Classes/Player.cpp \
+                   ../../Classes/PlayerBoss.cpp \
+				   ../../Classes/PlayerControl.cpp \
+                   ../../Classes/Projectile.cpp \
 				   ../../Classes/ShopScene.cpp \
-				   ../../Classes/TMXEdit.cpp \
-				   ../../Classes/BossLevel.cpp \
-				   ../../Classes/PlayerControl.cpp
+				   ../../Classes/TMXEdit.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

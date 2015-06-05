@@ -18,7 +18,7 @@ Projectile* Projectile::shoot(Vec2 start_pos, float end_x, BossLevel* level)
 		pr->setPosition(start_pos);
 		pr->_level = level;
 
-		level->addChild(pr, 1);
+		level->addChild(pr);
 		level->projectiles.pushBack(pr);
 
 		pr->runAction(MoveTo::create(2.0f, Vec2(end_x, 1100)));
@@ -32,7 +32,7 @@ bool Projectile::hasCollision(Sprite* target)
 {
 	if(this->getBoundingBox().intersectsRect(target->getBoundingBox()))
 	{
-		this->killProjectile();
+		this->killProjectile(true);
 		return true;
 	}
 	return false;
@@ -40,13 +40,18 @@ bool Projectile::hasCollision(Sprite* target)
 
 void Projectile::update(float dt)
 {
-	if (this->getPositionY() >= 1100) this->killProjectile();
+	if (this->getPositionY() >= 1100)
+		this->killProjectile(false);
 }
 
-void Projectile::killProjectile()
+void Projectile::killProjectile(bool enemyHit)
 {
 	_level->projectiles.eraseObject(this);
 	this->removeFromParent();
+
+	if (enemyHit) {
+		// fanzy animation
+	}
 }
 
 
