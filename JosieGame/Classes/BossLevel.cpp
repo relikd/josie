@@ -73,8 +73,8 @@ void BossLevel::createUI()
 
 	this->addChild(background,-1);
 	this->addChild(enemy,-1);
+	this->addChild(_playerBoss,0);
 	this->addChild(map,1);
-	this->addChild(_playerBoss,1);
 	this->addChild(playerControl,2);
 	this->addChild(healthbar_frame,2);
 	this->addChild(_healthbar,2);
@@ -92,8 +92,8 @@ void BossLevel::loadWeapons()
 	left->setScale(1.7);
 	right->setScale(1.7);
 
-	this->addChild(left, 1);
-	this->addChild(right, 1);
+	this->addChild(left, 0);
+	this->addChild(right, 0);
 }
 
 void BossLevel::update(float dt)
