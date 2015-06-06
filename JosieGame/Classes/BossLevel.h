@@ -23,19 +23,25 @@ private:
 	void createUI();
 	void loadWeapons();
 	void update(float dt);
-	void reduceHealth(float dmg);
-	void useAttack(int attackID);
+
 	void checkPlayerHit(CollisionLayer* weapon);
 	void checkBossHit();
-	void finishAnimation(bool won);
+
+	void reduceBossHealth(float dmg);
+	void reducePlayerHealth();
+
+	void battleEndedWon(bool won);
+	void bossAttack();
 
 	float _health;
 	float _health_max;
+	int _playerHealth;
 	cocos2d::ProgressTimer* _healthbar;
 	CollisionLayer* left;
 	CollisionLayer* right;
-	float _attackTimer;
 	PlayerBoss* _playerBoss;
+	float _attackTimer;
+	float _timeSinceLastHit;
 };
 
 #endif /* BOSSLEVEL_H_ */

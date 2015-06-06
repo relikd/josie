@@ -6,14 +6,18 @@
 
 using namespace cocos2d;
 
+#define BOSSPLAYER_IMMORTAL_TIME 3.0
+
 BossLevel::BossLevel() {
 	_health = 0;
 	_health_max = 0;
-	_healthbar = NULL;
-	left = NULL;
-	right = NULL;
+	_playerHealth = 3;
+	_healthbar = nullptr;
+	left = nullptr;
+	right = nullptr;
+	_playerBoss = nullptr;
 	_attackTimer = 0;
-	_playerBoss = NULL;
+	_timeSinceLastHit = BOSSPLAYER_IMMORTAL_TIME;
 }
 
 BossLevel::~BossLevel() {
@@ -29,7 +33,7 @@ BossLevel* BossLevel::initWithOptions()
 
 	boss->createUI();
 	boss->loadWeapons();
-	boss->projectiles = Vector<Projectile*>{200};
+	boss->projectiles = Vector<Projectile*>{200}; // maybe more if frequency rises
 
 	boss->scheduleUpdate();
 
@@ -99,9 +103,10 @@ void BossLevel::loadWeapons()
 void BossLevel::update(float dt)
 {
 	_attackTimer -= dt;
+	_timeSinceLastHit += dt;
+
 	if(_attackTimer < 0) {
-		int att = (arc4random() % 4) + 1;
-		useAttack(att);
+		bossAttack();
 		_attackTimer = 7; // every 7 seconds an attack
 	}
 
@@ -112,9 +117,10 @@ void BossLevel::update(float dt)
 
 void BossLevel::checkPlayerHit(CollisionLayer* weapon)
 {
-	if (weapon->getCollision(_playerBoss))
+	if (_timeSinceLastHit > BOSSPLAYER_IMMORTAL_TIME && weapon->getCollision(_playerBoss))
 	{
-		CCLOG("Player was hit");
+		_timeSinceLastHit = 0;
+		reducePlayerHealth();
 	}
 }
 
@@ -127,31 +133,47 @@ void BossLevel::checkBossHit()
 			pr->killProjectile(true);
 
 			int projectile_damage = UserDefault::getInstance()->getIntegerForKey("josie_perk_damage");
-			reduceHealth(projectile_damage);
+			reduceBossHealth(projectile_damage);
 			return;
 		}
 	}
 }
 
-void BossLevel::reduceHealth(float dmg)
+
+//
+// Logical Game Management
+//
+
+void BossLevel::reduceBossHealth(float dmg)
 {
 	_health -= dmg;
 	if (_health <= 0) {
 		_health = 0;
-		finishAnimation(true);
+		battleEndedWon(true);
 	}
 	_healthbar->setPercentage(100 * _health / _health_max);
 }
 
-void BossLevel::finishAnimation(bool won)
+void BossLevel::reducePlayerHealth()
+{
+	_playerBoss->runAction(Blink::create(BOSSPLAYER_IMMORTAL_TIME, 15));
+	_playerHealth--;
+	if (_playerHealth == 0)
+		battleEndedWon(false);
+	// TODO: deactivate weapons?
+	// TODO: reduce player heart
+}
+
+void BossLevel::battleEndedWon(bool won)
 {
 	// TODO: some crazy fanzy animation
 	Director::getInstance()->popScene();
 }
 
 
-void BossLevel::useAttack(int attackID)
+void BossLevel::bossAttack()
 {
+	int attackID = (arc4random() % 4) + 1;
 	switch(attackID) {
 	case 1:
 	{
