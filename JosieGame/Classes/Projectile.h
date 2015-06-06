@@ -11,8 +11,7 @@ public:
 	virtual ~Projectile();
 	static Projectile* shoot(Vec2 start_pos, float end_x, BossLevel* level);
 
-	bool hasCollision(Sprite* target);
-	void killProjectile(bool enemyHit);
+	void killProjectile(bool enemyHit=false);
 private:
 	void update(float dt);
 	BossLevel* _level;

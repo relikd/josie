@@ -3,9 +3,7 @@
 
 using namespace cocos2d;
 
-Projectile::Projectile() {
-	_level = NULL;
-}
+Projectile::Projectile() : _level(nullptr) {}
 Projectile::~Projectile() {
 	CCLOG("~Projectile");
 }
@@ -29,20 +27,10 @@ Projectile* Projectile::shoot(Vec2 start_pos, float end_x, BossLevel* level)
 	return pr;
 }
 
-bool Projectile::hasCollision(Sprite* target)
-{
-	if(this->getBoundingBox().intersectsRect(target->getBoundingBox()))
-	{
-		this->killProjectile(true);
-		return true;
-	}
-	return false;
-}
-
 void Projectile::update(float dt)
 {
 	if (this->getPositionY() >= 1100)
-		this->killProjectile(false);
+		this->killProjectile();
 }
 
 void Projectile::killProjectile(bool enemyHit)

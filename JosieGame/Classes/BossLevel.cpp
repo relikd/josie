@@ -122,7 +122,10 @@ void BossLevel::checkBossHit()
 {
 	for(Projectile* pr: this->projectiles)
 	{
-		if(pr->hasCollision((Sprite*)this->left) || pr->hasCollision((Sprite*)this->right)){
+		if (pr->getCollision(left) || pr->getCollision(right))
+		{
+			pr->killProjectile(true);
+
 			int projectile_damage = UserDefault::getInstance()->getIntegerForKey("josie_perk_damage");
 			reduceHealth(projectile_damage);
 			return;
