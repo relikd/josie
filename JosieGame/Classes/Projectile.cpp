@@ -13,24 +13,21 @@ Projectile* Projectile::shoot(Vec2 start_pos, float end_x, BossLevel* level)
 	Projectile* pr = new Projectile();
 	if (pr->initCollisionSize(26,26))
 	{
+		pr->autorelease();
 		pr->setPosition(start_pos);
 		pr->_level = level;
 		pr->insertImageName("particles/std_bullet.png", pr->getContentSize()/2);
 
-		level->addChild(pr);
+		level->addChild(pr, 0);
 		level->projectiles.pushBack(pr);
 
-		pr->runAction(MoveTo::create(2.0f, Vec2(end_x, 1100)));
-		pr->scheduleUpdate();
+		MoveTo *shoot = MoveTo::create(2.0f, Vec2(end_x, 1100));
+		CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(Projectile::killProjectile, pr, false));
+		Sequence *seq = Sequence::createWithTwoActions(shoot, call);
+		pr->runAction(seq);
 	}
 
 	return pr;
-}
-
-void Projectile::update(float dt)
-{
-	if (this->getPositionY() >= 1100)
-		this->killProjectile();
 }
 
 void Projectile::killProjectile(bool enemyHit)

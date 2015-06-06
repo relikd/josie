@@ -13,7 +13,6 @@ public:
 
 	void killProjectile(bool enemyHit=false);
 private:
-	void update(float dt);
 	BossLevel* _level;
 };
 
