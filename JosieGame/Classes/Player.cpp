@@ -6,7 +6,7 @@
 
 using namespace cocos2d;
 
-#define DEFAULT_PLAYER_SCALE 0.5
+#define DEFAULT_PLAYER_SCALE 0.55
 #define PLAYER_RUN_SPEED 7.0
 
 const float _gravity = 9.81;
@@ -34,7 +34,7 @@ Player* Player::initWithLevel(Level* level) {
 	if (pl->initCollisionSize(160,245))
 	{
 		pl->autorelease();
-		pl->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		pl->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 		pl->setScale(DEFAULT_PLAYER_SCALE);
 		pl->_level = level;
 
@@ -146,20 +146,12 @@ void Player::slide(bool s) {
 
 	_isSliding = s;
 
-	ScaleTo *scaleTo;
-	SkewTo *skewTo;
-
 	if (_isSliding) {
-		scaleTo = ScaleTo::create(0.1, DEFAULT_PLAYER_SCALE, 0.2); // scale y to 0.3 in 0.1sec
-		skewTo = SkewTo::create(0.1, -30, 0);
+		this->runAction(ScaleTo::create(0.1, DEFAULT_PLAYER_SCALE/2));
 		_level->audioUnit->playJosieSlideSound();
 	} else {
-		scaleTo = ScaleTo::create(0.1, DEFAULT_PLAYER_SCALE, DEFAULT_PLAYER_SCALE);
-		skewTo = SkewTo::create(0.1, 0, 0);
+		this->runAction(ScaleTo::create(0.1, DEFAULT_PLAYER_SCALE));
 	}
-
-	this->runAction(scaleTo);
-	this->runAction(skewTo);
 }
 
 //
