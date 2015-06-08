@@ -76,6 +76,8 @@ float MapController::collisionDiffTop(Rect bounds)
 			else distance += map->getTileSize().height;
 			col>>=1;
 		}
+		if (col&1) // already in collision
+			return pos.offsetY -0.1f - map->getTileSize().height;
 		if (distance < topDistance) topDistance = distance;
 	}
 	return topDistance + pos.offsetY -0.1f;
@@ -90,12 +92,13 @@ float MapController::collisionDiffBottom(Rect bounds)
 	{
 		long col = _collisionMap[pos.x+i];
 		int distance = 0;
-		col >>= pos.y;
+		col >>= pos.y-1;
 		if (col==0) continue; // infinite distance. something like a hole
 		while (!(col&1)) {
 			col>>=1;
 			distance += map->getTileSize().height;
 		}
+		distance -= map->getTileSize().height;
 		if (distance < bottomDistance) bottomDistance = distance;
 	}
 	return bottomDistance - pos.offsetY -0.1f;
@@ -104,13 +107,17 @@ float MapController::collisionDiffBottom(Rect bounds)
 float MapController::collisionDiffRight(Rect bounds)
 {
 	TilePointOffset pos = this->getTilePointOffset(Vec2(bounds.getMaxX(), bounds.getMaxY()));
-	int numTiles = ceil((pos.offsetY+bounds.size.height) / map->getTileSize().height);
+	int playerHeightInTiles = ceil((pos.offsetY+bounds.size.height) / map->getTileSize().height);
 
-	long col = _collisionMap[pos.x+1];
-	col >>= pos.y;
-	while (numTiles--) {
-		if (col&1) return map->getTileSize().width - pos.offsetX -0.1f;
-		col>>=1;
+	for (int i=0; i<2; i++) // get current and next column
+	{
+		int numTiles = playerHeightInTiles;
+		long col = _collisionMap[pos.x+i];
+		col >>= pos.y;
+		while (numTiles--) {
+			if (col&1) return i*map->getTileSize().width - pos.offsetX -0.1f;
+			col>>=1;
+		}
 	}
 	return 2*map->getTileSize().width - pos.offsetX; // collision at least one tile away
 }
