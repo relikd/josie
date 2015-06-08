@@ -34,7 +34,7 @@ Player* Player::initWithLevel(Level* level) {
 	if (pl->initCollisionSize(160,245))
 	{
 		pl->autorelease();
-		pl->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		pl->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 		pl->setScale(PLAYER_SCALE_DEFAULT);
 		pl->_level = level;
 
@@ -43,17 +43,6 @@ Player* Player::initWithLevel(Level* level) {
 	}
 
 	return pl;
-}
-
-void Player::update(float dt) {
-	this->_checkRun();
-	this->_checkJump();
-	_timeDiff += dt;
-	if (_timeDiff > 0.33f) {
-		_timeDiff = 0.0;
-		this->_checkAlive();
-	}
-	_level->tileManager->tryCollect(this->getBoundingBox());
 }
 
 void Player::setPlayerOnGround(float pos_x) {
@@ -116,7 +105,7 @@ void Player::endRunning()
 //
 
 void Player::run(bool r) {
-	if (_isRunning == r)
+	if (_isRunning == r || !_isOnGround)
 		return; // only update on state change
 
 	_isRunning = r;
@@ -154,20 +143,32 @@ void Player::slide(bool s) {
 	}
 }
 
+
 //
 // private functions
 //
+
+void Player::update(float dt) {
+	this->_checkRun();
+	this->_checkJump();
+	_timeDiff += dt;
+	if (_timeDiff > 0.33f) {
+		_timeDiff = 0.0;
+		_level->tileManager->tryCollect(this->getBoundingBox());
+		this->_checkAlive();
+	}
+}
 
 bool Player::_canStandUp() {
 	if (!_isSliding)
 		return true; // already standing
 
+	float oldScale = this->getScale();
+	this->setScale(PLAYER_SCALE_DEFAULT);
 	float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
-	float scaleY = this->getScaleY();
-	float height = this->getBoundingBox().size.height;
+	this->setScale(oldScale);
 
-	// TODO: evtl. Skalierung in die Breite beachten
-	return ((height / (scaleY / PLAYER_SCALE_DEFAULT)) - height -3.0) < air;
+	return (air>0.01);
 }
 
 void Player::_checkRun() {
@@ -194,7 +195,7 @@ void Player::_checkJump() {
 		_isOnGround = false;
 	} else {
 		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
-		if (height > 0.01) {
+		if (height > 0.1) {
 			float y = this->getPositionY();
 			y -= (height < _gravity) ? height : _gravity;
 			this->setPositionY(y);
