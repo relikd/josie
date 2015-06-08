@@ -6,13 +6,12 @@
 
 using namespace cocos2d;
 
-#define DEFAULT_PLAYER_SCALE 0.5
+#define PLAYER_SCALE_DEFAULT 0.55
 #define PLAYER_RUN_SPEED 7.0
 
 const float _gravity = 9.81;
 const float _jumpPower = 300;
 const float _maxDeltaY = 20; // pixel
-float _runSpeed = 0;
 
 float _upForce; // continuously changed during jump
 float _timeDiff = 0.0;
@@ -20,9 +19,10 @@ float _timeDiff = 0.0;
 Player::Player() {
 	_level = nullptr;
 	_upForce = 0;
-	_isRunning = true;
+	_isRunning = false;
 	_isSliding = false;
 	_isOnGround = false;
+	_shouldPerformDownJumpAnimation = false;
 }
 Player::~Player() {
 	this->unscheduleUpdate();
@@ -34,8 +34,8 @@ Player* Player::initWithLevel(Level* level) {
 	if (pl->initCollisionSize(160,245))
 	{
 		pl->autorelease();
-		pl->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		pl->setScale(DEFAULT_PLAYER_SCALE);
+		pl->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+		pl->setScale(PLAYER_SCALE_DEFAULT);
 		pl->_level = level;
 
 		pl->insertImageFrameName("josiestartmove0000", Vec2(pl->getContentSize().width/2-5, -5), Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -43,17 +43,6 @@ Player* Player::initWithLevel(Level* level) {
 	}
 
 	return pl;
-}
-
-void Player::update(float dt) {
-	this->_checkRun();
-	this->_checkJump();
-	_timeDiff += dt;
-	if (_timeDiff > 0.33f) {
-		_timeDiff = 0.0;
-		this->_checkAlive();
-	}
-	_level->tileManager->tryCollect(this->getBoundingBox());
 }
 
 void Player::setPlayerOnGround(float pos_x) {
@@ -64,7 +53,7 @@ void Player::setPlayerOnGround(float pos_x) {
 
 void Player::onEnterTransitionDidFinish()
 {
-	this->_isRunning = false;
+
 }
 
 
@@ -99,14 +88,13 @@ void Player::startRunningAfterAnimation(FiniteTimeAction *animation)
 
 void Player::startRunningCallback()
 {
-	_runSpeed = PLAYER_RUN_SPEED;
+	spriteImage->stopAllActions();
 	spriteImage->runAction(RepeatForever::create(animationWithFrame("josiewalk", 6)));
 }
 
 void Player::endRunning()
 {
 	spriteImage->stopAllActions();
-	_runSpeed = 0;
 	_level->audioUnit->playJosieStopRunSound();
 	spriteImage->runAction(animationWithFrame("josiestartmove", 4, 0.01)->reverse());
 }
@@ -117,7 +105,7 @@ void Player::endRunning()
 //
 
 void Player::run(bool r) {
-	if (_isRunning == r)
+	if (_isRunning == r || !_isOnGround)
 		return; // only update on state change
 
 	_isRunning = r;
@@ -131,10 +119,11 @@ void Player::run(bool r) {
 void Player::jump() {
 	if (_isOnGround && !_isSliding) {
 		_upForce = _jumpPower;
+		_shouldPerformDownJumpAnimation = true;
 		_level->audioUnit->playJosieJumpSound();
 
 		spriteImage->stopAllActions();
-		startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.02));
+		spriteImage->runAction(animationWithFrame("josiejump", 6, 0.01));
 	}
 }
 
@@ -146,45 +135,47 @@ void Player::slide(bool s) {
 
 	_isSliding = s;
 
-	ScaleTo *scaleTo;
-	SkewTo *skewTo;
-
 	if (_isSliding) {
-		scaleTo = ScaleTo::create(0.1, DEFAULT_PLAYER_SCALE, 0.2); // scale y to 0.3 in 0.1sec
-		skewTo = SkewTo::create(0.1, -30, 0);
+		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT/2));
 		_level->audioUnit->playJosieSlideSound();
 	} else {
-		scaleTo = ScaleTo::create(0.1, DEFAULT_PLAYER_SCALE, DEFAULT_PLAYER_SCALE);
-		skewTo = SkewTo::create(0.1, 0, 0);
+		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT));
 	}
-
-	this->runAction(scaleTo);
-	this->runAction(skewTo);
 }
+
 
 //
 // private functions
 //
 
+void Player::update(float dt) {
+	this->_checkRun();
+	this->_checkJump();
+	_timeDiff += dt;
+	if (_timeDiff > 0.33f) {
+		_timeDiff = 0.0;
+		_level->tileManager->tryCollect(this->getBoundingBox());
+		this->_checkAlive();
+	}
+}
+
 bool Player::_canStandUp() {
 	if (!_isSliding)
 		return true; // already standing
 
+	float oldScale = this->getScale();
+	this->setScale(PLAYER_SCALE_DEFAULT);
 	float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
-	float scaleY = this->getScaleY();
-	float height = this->getBoundingBox().size.height;
+	this->setScale(oldScale);
 
-	// TODO: evtl. Skalierung in die Breite beachten
-	return ((height / (scaleY / DEFAULT_PLAYER_SCALE)) - height -3.0) < air;
+	return (air>0.01);
 }
 
 void Player::_checkRun() {
 	if (_isRunning) {
 		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
-		if (dist > 0.01) {
-			dist = (dist < _runSpeed) ? dist : _runSpeed;
-			_level->moveLevelAtSpeed(dist);
-		}
+		dist = (dist < PLAYER_RUN_SPEED) ? dist : PLAYER_RUN_SPEED;
+		_level->moveLevelAtSpeed(dist);
 	}
 }
 
@@ -204,11 +195,17 @@ void Player::_checkJump() {
 		_isOnGround = false;
 	} else {
 		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
-		if (height > 0.01) {
+		if (height > 0.1) {
 			float y = this->getPositionY();
 			y -= (height < _gravity) ? height : _gravity;
 			this->setPositionY(y);
 			_isOnGround = false; // in case Josie falls of the cliff
+
+			if (height < 3*_gravity && _shouldPerformDownJumpAnimation) {
+				_shouldPerformDownJumpAnimation = false;
+				startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse());
+			}
+
 		} else {
 			_isOnGround = true;
 		}
