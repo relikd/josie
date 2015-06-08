@@ -33,6 +33,7 @@ private:
 	bool _isSliding;
 	bool _isRunning;
 	bool _isOnGround;
+	bool _shouldPerformDownJumpAnimation;
 };
 
 #endif // _PLAYER_H_
