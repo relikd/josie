@@ -34,7 +34,7 @@ Player* Player::initWithLevel(Level* level) {
 	if (pl->initCollisionSize(160,245))
 	{
 		pl->autorelease();
-		pl->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+		pl->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		pl->setScale(DEFAULT_PLAYER_SCALE);
 		pl->_level = level;
 
@@ -173,10 +173,8 @@ bool Player::_canStandUp() {
 void Player::_checkRun() {
 	if (_isRunning) {
 		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
-		if (dist > 0.01) {
-			dist = (dist < _runSpeed) ? dist : _runSpeed;
-			_level->moveLevelAtSpeed(dist);
-		}
+		dist = (dist < _runSpeed) ? dist : _runSpeed;
+		_level->moveLevelAtSpeed(dist);
 	}
 }
 
