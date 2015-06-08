@@ -30,6 +30,8 @@ private:
 	void reduceBossHealth(float dmg);
 	void reducePlayerHealth();
 
+	//void updatePlayerHealth(int newValue);
+
 	void battleEndedWon(bool won);
 	void bossAttack();
 
@@ -37,6 +39,7 @@ private:
 	float _health_max;
 	int _playerHealth;
 	cocos2d::ProgressTimer* _healthbar;
+	cocos2d::ProgressTimer* _playerhealthbar;
 	CollisionLayer* left;
 	CollisionLayer* right;
 	PlayerBoss* _playerBoss;

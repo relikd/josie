@@ -13,6 +13,7 @@ BossLevel::BossLevel() {
 	_health_max = 0;
 	_playerHealth = 3;
 	_healthbar = nullptr;
+	_playerhealthbar = nullptr;
 	left = nullptr;
 	right = nullptr;
 	_playerBoss = nullptr;
@@ -42,21 +43,13 @@ BossLevel* BossLevel::initWithOptions()
 
 void BossLevel::createUI()
 {
-	// TODO: durch static image ersetzen
-	TMXTiledMap *map = TMXTiledMap::create("tilemaps/1.0.tmx");
-
 	// Background Image
 	Sprite *background = Sprite::create("backgrounds/bg_1.0.png");
 	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 
-	// Baumkrone / Gegner
-	Sprite *enemy = Sprite::create("boss_sprites/boss1.0.png");
-	enemy->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	enemy->setPosition(1920/2, 1080);
-
 	// load Player
 	_playerBoss = PlayerBoss::createWithLevel(this);
-	_playerBoss->setPosition(200, 60);
+	_playerBoss->setPosition((1920/2), 128);
 
 	// Player Controls
 	PlayerControl *playerControl = PlayerControl::initWithBossPlayer(_playerBoss);
@@ -75,13 +68,21 @@ void BossLevel::createUI()
 	_healthbar->setPosition(1920/2, 1080);
 	_healthbar->setScale(0.7);
 
+	_playerhealthbar = ProgressTimer::create(Sprite::create("boss_sprites/josieheart.png"));
+	_playerhealthbar->setType(ProgressTimer::Type::BAR);
+	_playerhealthbar->setPercentage(100.0);
+	_playerhealthbar->setPercentage((_playerHealth/4.0) *100.0); //100 Percent if LifeUpgrade was purchased
+	_playerhealthbar->setBarChangeRate(Vec2(1,0));
+	_playerhealthbar->setMidpoint(Vec2(0.0,1.0));
+	_playerhealthbar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	_playerhealthbar->setPosition(1920/2,13);
+
 	this->addChild(background,-1);
-	this->addChild(enemy,-1);
 	this->addChild(_playerBoss,0);
-	this->addChild(map,1);
 	this->addChild(playerControl,2);
 	this->addChild(healthbar_frame,2);
 	this->addChild(_healthbar,2);
+	this->addChild(_playerhealthbar,2);
 }
 
 void BossLevel::loadWeapons()
@@ -162,7 +163,10 @@ void BossLevel::reducePlayerHealth()
 		battleEndedWon(false);
 	// TODO: deactivate weapons?
 	// TODO: reduce player heart
+	_playerhealthbar->setPercentage((_playerHealth/4.0)*100.0);
 }
+
+
 
 void BossLevel::battleEndedWon(bool won)
 {
