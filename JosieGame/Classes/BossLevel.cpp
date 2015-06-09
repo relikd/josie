@@ -3,20 +3,17 @@
 #include "PlayerBoss.h"
 #include "PlayerControl.h"
 #include "CollisionLayer.h"
+#include "BossLevelHUD.h"
 
 using namespace cocos2d;
 
 #define BOSSPLAYER_IMMORTAL_TIME 3.0
 
 BossLevel::BossLevel() {
-	_health = 0;
-	_health_max = 0;
-	_playerHealth = 3;
-	_healthbar = nullptr;
-	_playerhealthbar = nullptr;
+	_hud = nullptr;
+	_playerBoss = nullptr;
 	left = nullptr;
 	right = nullptr;
-	_playerBoss = nullptr;
 	_attackTimer = 0;
 	_timeSinceLastHit = BOSSPLAYER_IMMORTAL_TIME;
 }
@@ -29,8 +26,6 @@ BossLevel* BossLevel::initWithOptions()
 {
 	BossLevel *boss = new BossLevel();
 	boss->autorelease();
-	boss->_health_max = 10;
-	boss->_health = boss->_health_max;
 
 	boss->createUI();
 	boss->loadWeapons();
@@ -51,38 +46,13 @@ void BossLevel::createUI()
 	_playerBoss = PlayerBoss::createWithLevel(this);
 	_playerBoss->setPosition((1920/2), 128);
 
-	// Player Controls
+	_hud = BossLevelHUD::initWithBossHealth(10);
 	PlayerControl *playerControl = PlayerControl::initWithBossPlayer(_playerBoss);
-
-	// Lebensanzeige
-	Sprite *healthbar_frame = Sprite::create("boss_sprites/healthbar_frame.png");
-	healthbar_frame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	healthbar_frame->setPosition(1920/2, 1080);
-	healthbar_frame->setScale(0.7);
-
-	_healthbar = ProgressTimer::create(Sprite::create("boss_sprites/healthbar.png"));
-	_healthbar->setType(ProgressTimer::Type::BAR);
-	_healthbar->setPercentage(100.0);
-	_healthbar->setBarChangeRate(Vec2(1,0));
-	_healthbar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	_healthbar->setPosition(1920/2, 1080);
-	_healthbar->setScale(0.7);
-
-	_playerhealthbar = ProgressTimer::create(Sprite::create("boss_sprites/josieheart.png"));
-	_playerhealthbar->setType(ProgressTimer::Type::BAR);
-	_playerhealthbar->setPercentage(100.0);
-	_playerhealthbar->setPercentage((_playerHealth/4.0) *100.0); //100 Percent if LifeUpgrade was purchased
-	_playerhealthbar->setBarChangeRate(Vec2(1,0));
-	_playerhealthbar->setMidpoint(Vec2(0.0,1.0));
-	_playerhealthbar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_playerhealthbar->setPosition(1920/2,13);
 
 	this->addChild(background,-1);
 	this->addChild(_playerBoss,0);
+	this->addChild(_hud,2);
 	this->addChild(playerControl,2);
-	this->addChild(healthbar_frame,2);
-	this->addChild(_healthbar,2);
-	this->addChild(_playerhealthbar,2);
 }
 
 void BossLevel::loadWeapons()
@@ -121,7 +91,10 @@ void BossLevel::checkPlayerHit(CollisionLayer* weapon)
 	if (_timeSinceLastHit > BOSSPLAYER_IMMORTAL_TIME && weapon->getCollision(_playerBoss))
 	{
 		_timeSinceLastHit = 0;
-		reducePlayerHealth();
+		_playerBoss->runAction(Blink::create(BOSSPLAYER_IMMORTAL_TIME, 15));
+		if (_hud->reducePlayerHealth() == false) {
+			battleEndedWon(false);
+		}
 	}
 }
 
@@ -132,9 +105,11 @@ void BossLevel::checkBossHit()
 		if (pr->getCollision(left) || pr->getCollision(right))
 		{
 			pr->killProjectile(true);
-
 			int projectile_damage = UserDefault::getInstance()->getIntegerForKey("josie_perk_damage");
-			reduceBossHealth(projectile_damage);
+
+			if (_hud->reduceBossHealth(projectile_damage) == false) {
+				battleEndedWon(true);
+			}
 			return;
 		}
 	}
@@ -144,29 +119,6 @@ void BossLevel::checkBossHit()
 //
 // Logical Game Management
 //
-
-void BossLevel::reduceBossHealth(float dmg)
-{
-	_health -= dmg;
-	if (_health <= 0) {
-		_health = 0;
-		battleEndedWon(true);
-	}
-	_healthbar->setPercentage(100 * _health / _health_max);
-}
-
-void BossLevel::reducePlayerHealth()
-{
-	_playerBoss->runAction(Blink::create(BOSSPLAYER_IMMORTAL_TIME, 15));
-	_playerHealth--;
-	if (_playerHealth == 0)
-		battleEndedWon(false);
-	// TODO: deactivate weapons?
-	// TODO: reduce player heart
-	_playerhealthbar->setPercentage((_playerHealth/4.0)*100.0);
-}
-
-
 
 void BossLevel::battleEndedWon(bool won)
 {

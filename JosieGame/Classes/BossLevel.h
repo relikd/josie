@@ -4,6 +4,7 @@
 class Projectile;
 class PlayerBoss;
 class CollisionLayer;
+class BossLevelHUD;
 
 #include "cocos2d.h"
 
@@ -13,9 +14,6 @@ public:
 	BossLevel();
 	virtual ~BossLevel();
 	static BossLevel* initWithOptions();
-
-	float getHealth() { return _health;}
-	bool isAlive() { return (_health>0); }
 
 	cocos2d::Vector<Projectile*> projectiles;
 
@@ -27,22 +25,13 @@ private:
 	void checkPlayerHit(CollisionLayer* weapon);
 	void checkBossHit();
 
-	void reduceBossHealth(float dmg);
-	void reducePlayerHealth();
-
-	//void updatePlayerHealth(int newValue);
-
 	void battleEndedWon(bool won);
 	void bossAttack();
 
-	float _health;
-	float _health_max;
-	int _playerHealth;
-	cocos2d::ProgressTimer* _healthbar;
-	cocos2d::ProgressTimer* _playerhealthbar;
+	BossLevelHUD* _hud;
+	PlayerBoss* _playerBoss;
 	CollisionLayer* left;
 	CollisionLayer* right;
-	PlayerBoss* _playerBoss;
 	float _attackTimer;
 	float _timeSinceLastHit;
 };
