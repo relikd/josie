@@ -15,6 +15,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/AudioUnit.cpp \
 				   ../../Classes/BossLevel.cpp \
+				   ../../Classes/BossLevelHUD.cpp \
 				   ../../Classes/CollisionLayer.cpp \
 				   ../../Classes/Cutscene.cpp \
 				   ../../Classes/Level.cpp \
