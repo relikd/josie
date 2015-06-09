@@ -11,7 +11,6 @@ using namespace cocos2d;
 
 const float _gravity = 9.81;
 const float _jumpPower = 200;
-const float _maxDeltaY = 20; // pixel
 
 float _upForce; // continuously changed during jump
 
@@ -34,7 +33,7 @@ Player* Player::initWithLevel(Level* level) {
 	if (pl->initCollisionSize(160,245))
 	{
 		pl->autorelease();
-		pl->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+		pl->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		pl->setScale(PLAYER_SCALE_DEFAULT);
 		pl->_level = level;
 
@@ -89,14 +88,14 @@ void Player::startRunningAfterAnimation(FiniteTimeAction *animation)
 void Player::startRunningCallback()
 {
 	spriteImage->stopAllActions();
-	spriteImage->runAction(RepeatForever::create(animationWithFrame("josiewalk", 6)));
+	spriteImage->runAction(RepeatForever::create(animationWithFrame("josiewalk", 6, 0.1)));
 }
 
 void Player::endRunning()
 {
 	spriteImage->stopAllActions();
 	_level->audioUnit->playJosieStopRunSound();
-	spriteImage->runAction(animationWithFrame("josiestartmove", 4, 0.01)->reverse());
+	spriteImage->runAction(animationWithFrame("josiestartmove", 4)->reverse());
 }
 
 
@@ -111,7 +110,7 @@ void Player::run(bool r) {
 	_isRunning = r;
 
 	if (_isRunning)
-		startRunningAfterAnimation(animationWithFrame("josiestartmove", 4, 0.01));
+		startRunningAfterAnimation(animationWithFrame("josiestartmove", 4));
 	else
 		endRunning();
 }
@@ -124,13 +123,12 @@ void Player::jump(float holdingTimeDelta) {
 			_shouldPerformJumpAnimation = true;
 			_level->audioUnit->playJosieJumpSound();
 			spriteImage->stopAllActions();
-			spriteImage->runAction(animationWithFrame("josiejump", 6, 0.01));
+			spriteImage->runAction(animationWithFrame("josiejump", 6));
 		}
 
 		if (_oldJumpHoldingTime <= 0.2) {
 			_oldJumpHoldingTime += holdingTimeDelta;
-			_upForce = 50 + _jumpPower * (_oldJumpHoldingTime / 0.2); // longest duration hold = 2sec
-			//_upForce += 10;
+			_upForce = 50 + _jumpPower * (_oldJumpHoldingTime / 0.2); // longest duration hold = 0.2sec
 		} else {
 			_oldJumpHoldingTime = 999;
 		}
@@ -188,10 +186,11 @@ void Player::_checkRun() {
 void Player::_checkJump() {
 	_upForce = fmax(_upForce - _gravity, 0);
 
-	if (_upForce > 0.01) {// as long as jump force is stronger than gravity
+	if (_upForce > 0.01) // as long as jump force is stronger than gravity
+	{
 		float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
 		if (air > 0.01) {
-			float deltaY = _maxDeltaY * (_upForce / _jumpPower);
+			float deltaY = 20 * (_upForce / _jumpPower);
 			if (air < deltaY)
 				deltaY = air;
 			this->setPositionY(this->getPositionY() + deltaY);
@@ -199,17 +198,17 @@ void Player::_checkJump() {
 			_upForce = 0;
 		}
 		_isOnGround = false;
-	} else {
+	}
+	else
+	{
 		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
-		if (height > 0.1) {
-			float y = this->getPositionY();
-			y -= (height < 2*_gravity) ? height : 2*_gravity;
-			this->setPositionY(y);
-			_isOnGround = false; // in case Josie falls of the cliff
-		} else {
-			_isOnGround = true;
-		}
-		if (height < 3*_gravity && _shouldPerformJumpAnimation) {
+		float y = this->getPositionY();
+		y -= (height < 2*_gravity) ? height : 2*_gravity;
+		this->setPositionY(y);
+
+		_isOnGround = (height < 0.1); // in case Josie falls of the cliff
+
+		if (_shouldPerformJumpAnimation && height < 3*_gravity) {
 			_shouldPerformJumpAnimation = false;
 			startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse());
 		}

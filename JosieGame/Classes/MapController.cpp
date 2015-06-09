@@ -92,13 +92,12 @@ float MapController::collisionDiffBottom(Rect bounds)
 	{
 		long col = _collisionMap[pos.x+i];
 		int distance = 0;
-		col >>= pos.y-1;
+		col >>= pos.y;
 		if (col==0) continue; // infinite distance. something like a hole
 		while (!(col&1)) {
-			col>>=1;
 			distance += map->getTileSize().height;
+			col>>=1;
 		}
-		distance -= map->getTileSize().height;
 		if (distance < bottomDistance) bottomDistance = distance;
 	}
 	return bottomDistance - pos.offsetY -0.1f;
