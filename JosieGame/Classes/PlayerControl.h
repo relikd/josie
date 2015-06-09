@@ -16,6 +16,7 @@ private:
 	Player* _player;
 	PlayerBoss* _bossplayer;
 	float _timeSinceLastShot;
+	float _timeHoldingJump;
 
 	// Boss buttons
 	cocos2d::MenuItemImage *_left;
@@ -29,6 +30,8 @@ private:
 	void addLevelControls();
 	void addBossControls();
 	void update(float dt);
+
+	void jumpCallback();
 };
 
 #endif /* PLAYERCONTROL_H_ */

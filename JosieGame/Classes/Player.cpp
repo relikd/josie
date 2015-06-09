@@ -10,7 +10,7 @@ using namespace cocos2d;
 #define PLAYER_RUN_SPEED 7.0
 
 const float _gravity = 9.81;
-const float _jumpPower = 200;
+const float _jumpPower = 400;
 const float _maxDeltaY = 20; // pixel
 
 float _upForce; // continuously changed during jump
@@ -22,7 +22,6 @@ Player::Player() {
 	_isSliding = false;
 	_isOnGround = false;
 	_shouldPerformJumpAnimation = false;
-	_oldJumpHoldingTime = 999;
 }
 Player::~Player() {
 	this->unscheduleUpdate();
@@ -116,23 +115,18 @@ void Player::run(bool r) {
 		endRunning();
 }
 
-void Player::jump(float holdingTimeDelta) {
-	if (!_isSliding) {
-		if (_isOnGround && _shouldPerformJumpAnimation == false)
+void Player::jump(float holdingTime) {
+	if (_isOnGround && !_isSliding)
+	{
+		if (holdingTime > 0.3) holdingTime = 0.3;
+		_upForce = _jumpPower * (holdingTime / 0.3); // longest duration hold = 1sec
+
+		if (_shouldPerformJumpAnimation == false)
 		{
-			_oldJumpHoldingTime = 0;
 			_shouldPerformJumpAnimation = true;
 			_level->audioUnit->playJosieJumpSound();
 			spriteImage->stopAllActions();
 			spriteImage->runAction(animationWithFrame("josiejump", 6, 0.01));
-		}
-
-		if (_oldJumpHoldingTime <= 0.2) {
-			_oldJumpHoldingTime += holdingTimeDelta;
-			_upForce = 50 + _jumpPower * (_oldJumpHoldingTime / 0.2); // longest duration hold = 2sec
-			//_upForce += 10;
-		} else {
-			_oldJumpHoldingTime = 999;
 		}
 	}
 }

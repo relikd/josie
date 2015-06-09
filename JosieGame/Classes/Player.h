@@ -13,7 +13,7 @@ public:
 
 	// Player interaction
 	void run(bool r);
-	void jump(float holdingTimeDelta);
+	void jump(float holdingTime);
 	void slide(bool s);
 private:
 	void update(float dt);
@@ -34,7 +34,6 @@ private:
 	bool _isRunning;
 	bool _isOnGround;
 	bool _shouldPerformJumpAnimation;
-	float _oldJumpHoldingTime;
 };
 
 #endif // _PLAYER_H_
