@@ -7,7 +7,7 @@
 
 #include "LevelSelectScene.h"
 #include "Level.h"
-#include "BossLevel.h"
+#include "ShopScene.h"
 #include "Cutscene.h"
 USING_NS_CC;
 
@@ -101,8 +101,8 @@ void LevelSelect::backToMainMenu(Ref* pSender) {
 
 void LevelSelect::startLevel(Ref* pSender, int level, int sublevel) {
 	if (sublevel == 0) {
-		BossLevel *levelxx = BossLevel::initWithOptions();
-		Director::getInstance()->pushScene(levelxx);
+		ShopScene *shop = ShopScene::initShop();
+		Director::getInstance()->pushScene(shop);
 	} else {
 		Level *levelxx = Level::initWithLevel(level, sublevel);
 		Director::getInstance()->pushScene(levelxx);
