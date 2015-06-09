@@ -8,7 +8,6 @@ PlayerControl::PlayerControl() {
 	_player = nullptr;
 	_bossplayer = nullptr;
 	_timeSinceLastShot = 0;
-	_timeHoldingJump = 0;
 	_left = nullptr;
 	_right = nullptr;
 	_shoot = nullptr;
@@ -48,7 +47,7 @@ void PlayerControl::addLevelControls()
 
 	_stay = MenuItemImage::create("buttons/left.png","buttons/left.png");
 	_slide = MenuItemImage::create("buttons/right.png","buttons/right.png");
-	_jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png", CC_CALLBACK_0(PlayerControl::jumpCallback, this));
+	_jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png");
 
 	_stay->setScale(0.7);
 	_slide->setScale(0.7);
@@ -113,14 +112,8 @@ void PlayerControl::update(float dt)
 	{
 		_player->run(!_stay->isSelected());
 		_player->slide(_slide->isSelected());
-		if (_jump->isSelected()) {
-			_timeHoldingJump += dt;
-		}
+		if (_jump->isSelected())
+			_player->jump(dt);
 	}
 }
 
-void PlayerControl::jumpCallback()
-{
-	_player->jump(_timeHoldingJump);
-	_timeHoldingJump = 0;
-}
