@@ -5,14 +5,15 @@
 using namespace cocos2d;
 
 PlayerControl::PlayerControl() {
-	this->_player = NULL;
-	this->_bossplayer = NULL;
-	this->_timeSinceLastShot = 0;
-	this->_left = NULL;
-	this->_right = NULL;
-	this->_shoot = NULL;
-	this->_stay = NULL;
-	this->_slide = NULL;
+	_player = nullptr;
+	_bossplayer = nullptr;
+	_timeSinceLastShot = 0;
+	_left = nullptr;
+	_right = nullptr;
+	_shoot = nullptr;
+	_stay = nullptr;
+	_slide = nullptr;
+	_jump = nullptr;
 }
 PlayerControl::~PlayerControl() {
 	this->unscheduleUpdate();
@@ -46,21 +47,21 @@ void PlayerControl::addLevelControls()
 
 	_stay = MenuItemImage::create("buttons/left.png","buttons/left.png");
 	_slide = MenuItemImage::create("buttons/right.png","buttons/right.png");
-	MenuItemImage* jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png", CC_CALLBACK_1(PlayerControl::jumpCallback, this));
+	_jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png");
 
 	_stay->setScale(0.7);
 	_slide->setScale(0.7);
-	jump->setScale(0.7);
+	_jump->setScale(0.7);
 
 	_stay->setOpacity(128);
 	_slide->setOpacity(128);
-	jump->setOpacity(128);
+	_jump->setOpacity(128);
 
 	_stay->setPosition(Vec2(150,150));
 	_slide->setPosition(Vec2(screenWidth-300,120));
-	jump->setPosition(Vec2(screenWidth-150,300));
+	_jump->setPosition(Vec2(screenWidth-150,300));
 
-	auto levelmenu = Menu::create(_stay,_slide,jump, NULL);
+	auto levelmenu = Menu::create(_stay,_slide,_jump, NULL);
 	levelmenu->setPosition(Vec2::ZERO);
 	this->addChild(levelmenu,1);
 }
@@ -111,11 +112,8 @@ void PlayerControl::update(float dt)
 	{
 		_player->run(!_stay->isSelected());
 		_player->slide(_slide->isSelected());
+		if (_jump->isSelected())
+			_player->jump(dt);
 	}
-}
-
-void PlayerControl::jumpCallback(Ref* pSender)
-{
-	if (_player) _player->jump();
 }
 

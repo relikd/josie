@@ -10,11 +10,10 @@ using namespace cocos2d;
 #define PLAYER_RUN_SPEED 7.0
 
 const float _gravity = 9.81;
-const float _jumpPower = 300;
+const float _jumpPower = 200;
 const float _maxDeltaY = 20; // pixel
 
 float _upForce; // continuously changed during jump
-float _timeDiff = 0.0;
 
 Player::Player() {
 	_level = nullptr;
@@ -22,7 +21,8 @@ Player::Player() {
 	_isRunning = false;
 	_isSliding = false;
 	_isOnGround = false;
-	_shouldPerformDownJumpAnimation = false;
+	_shouldPerformJumpAnimation = false;
+	_oldJumpHoldingTime = 999;
 }
 Player::~Player() {
 	this->unscheduleUpdate();
@@ -116,14 +116,24 @@ void Player::run(bool r) {
 		endRunning();
 }
 
-void Player::jump() {
-	if (_isOnGround && !_isSliding) {
-		_upForce = _jumpPower;
-		_shouldPerformDownJumpAnimation = true;
-		_level->audioUnit->playJosieJumpSound();
+void Player::jump(float holdingTimeDelta) {
+	if (!_isSliding) {
+		if (_isOnGround && _shouldPerformJumpAnimation == false)
+		{
+			_oldJumpHoldingTime = 0;
+			_shouldPerformJumpAnimation = true;
+			_level->audioUnit->playJosieJumpSound();
+			spriteImage->stopAllActions();
+			spriteImage->runAction(animationWithFrame("josiejump", 6, 0.01));
+		}
 
-		spriteImage->stopAllActions();
-		spriteImage->runAction(animationWithFrame("josiejump", 6, 0.01));
+		if (_oldJumpHoldingTime <= 0.2) {
+			_oldJumpHoldingTime += holdingTimeDelta;
+			_upForce = 50 + _jumpPower * (_oldJumpHoldingTime / 0.2); // longest duration hold = 2sec
+			//_upForce += 10;
+		} else {
+			_oldJumpHoldingTime = 999;
+		}
 	}
 }
 
@@ -151,12 +161,8 @@ void Player::slide(bool s) {
 void Player::update(float dt) {
 	this->_checkRun();
 	this->_checkJump();
-	_timeDiff += dt;
-	if (_timeDiff > 0.33f) {
-		_timeDiff = 0.0;
-		_level->tileManager->tryCollect(this->getBoundingBox());
-		this->_checkAlive();
-	}
+	this->_checkAlive();
+	_level->tileManager->tryCollect(this->getBoundingBox());
 }
 
 bool Player::_canStandUp() {
@@ -197,17 +203,15 @@ void Player::_checkJump() {
 		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
 		if (height > 0.1) {
 			float y = this->getPositionY();
-			y -= (height < _gravity) ? height : _gravity;
+			y -= (height < 2*_gravity) ? height : 2*_gravity;
 			this->setPositionY(y);
 			_isOnGround = false; // in case Josie falls of the cliff
-
-			if (height < 3*_gravity && _shouldPerformDownJumpAnimation) {
-				_shouldPerformDownJumpAnimation = false;
-				startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse());
-			}
-
 		} else {
 			_isOnGround = true;
+		}
+		if (height < 3*_gravity && _shouldPerformJumpAnimation) {
+			_shouldPerformJumpAnimation = false;
+			startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse());
 		}
 	}
 }

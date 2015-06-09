@@ -24,11 +24,11 @@ private:
 	// Level buttons
 	cocos2d::MenuItemImage *_stay;
 	cocos2d::MenuItemImage *_slide;
+	cocos2d::MenuItemImage *_jump;
 
 	void addLevelControls();
 	void addBossControls();
 	void update(float dt);
-	void jumpCallback(cocos2d::Ref* pSender);
 };
 
 #endif /* PLAYERCONTROL_H_ */
