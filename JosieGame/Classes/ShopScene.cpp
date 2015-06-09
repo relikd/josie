@@ -1,4 +1,5 @@
 #include "ShopScene.h"
+#include "BossLevel.h"
 
 #define TAG_OFFSET 333
 #define BUTTON_SIZE 200
@@ -46,7 +47,8 @@ ShopScene* ShopScene::initShop()
 
 void ShopScene::fight()
 {
-	Director::getInstance()->popScene();
+	BossLevel *bosslvl = BossLevel::initWithOptions();
+	Director::getInstance()->pushScene(bosslvl);
 }
 
 int ShopScene::priceForColumn(int column)

@@ -124,6 +124,7 @@ void BossLevel::battleEndedWon(bool won)
 {
 	// TODO: some crazy fanzy animation
 	Director::getInstance()->popScene();
+	if (won) Director::getInstance()->popScene();
 }
 
 
