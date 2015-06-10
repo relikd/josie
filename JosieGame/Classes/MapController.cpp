@@ -1,8 +1,8 @@
 #include "MapController.h"
 
 #include "Level.h"
-#include <sstream> // string formatter ostringstream
-#include <ctgmath> // fmod()
+#include "CollisionLayer.h"
+#include "Player.h"
 
 using namespace cocos2d;
 
@@ -10,10 +10,8 @@ typedef struct TilePointOffset { int x; int y; float offsetX; float offsetY; }_T
 
 
 MapController::MapController() {
-	_metaLayer = NULL;
 	map = NULL;
 	mapOffsetX = 0.0f;
-
 	_collisionMap = new long[1];
 }
 MapController::~MapController() {
@@ -21,12 +19,13 @@ MapController::~MapController() {
 	CCLOG("~MapController");
 }
 
-MapController* MapController::initWithLevel(Level *lvl)
+MapController* MapController::initWithLevel(int level, int sub_level)
 {
 	MapController* tmc = new MapController();
+	//tmc->autorelease();
 
 	std::ostringstream mapstr;
-	mapstr << "tilemaps/" << lvl->currentLevel << "." << lvl->currentSubLevel << ".tmx";
+	mapstr << "tilemaps/" << level << "." << sub_level << ".tmx";
 	tmc->map = TMXTiledMap::create(mapstr.str());
 	tmc->initOptions();
 
@@ -36,7 +35,7 @@ MapController* MapController::initWithLevel(Level *lvl)
 MapController* MapController::initWithObject(TMXTiledMap* map)
 {
 	MapController* tmc = new MapController();
-
+	//tmc->autorelease();
 	tmc->map = map;
 	tmc->initOptions();
 
@@ -45,9 +44,8 @@ MapController* MapController::initWithObject(TMXTiledMap* map)
 
 void MapController::initOptions()
 {
-	//_tilemapBackground = map->getLayer("Background_layer");
-	_metaLayer = map->getLayer("Meta_layer");
-	_metaLayer->setVisible(true);
+	_coins = Vector<CollisionLayer*>{COINS_PER_LEVEL+1};
+	map->getLayer("Meta_layer")->setVisible(true);
 
 	for (const auto& child : map->getChildren()) {
 		static_cast<SpriteBatchNode*>(child)->getTexture()->setAntiAliasTexParameters();
@@ -55,6 +53,28 @@ void MapController::initOptions()
 	this->initCollisionMap();
 	this->initCollectableArray();
 }
+
+//
+// :::::::::: Gameplay Functionality ::::::::::
+//
+
+bool MapController::tryCollect(Player *player)
+{
+	for(CollisionLayer* coin : this->_coins)
+	{
+		if (player->getCollision(coin)) {
+			_coins.eraseObject(coin);
+			coin->removeFromParent();
+			return true;
+		}
+	}
+	return false;
+}
+
+/*void MapController::collectAt(Point tileCoord) {
+	map->getLayer("Meta_layer")->removeTileAt(tileCoord);
+	map->getLayer("Foreground_layer")->removeTileAt(tileCoord);
+}*/
 
 
 //
@@ -122,77 +142,26 @@ float MapController::collisionDiffRight(Rect bounds)
 }
 
 
-
 //
 // :::::::::: Other Functionality ::::::::::
 //
-
-bool MapController::tryCollect(Rect playerBounds)
-{
-	Size s = map->getTileSize();
-
-	for(int i=0; i<200; i++)
-	{
-		IntPoint p = _coinArray[i];
-		if (p.x==0 && p.y==0) break; // never place a coin at 0,0
-
-		Rect n;
-		n.origin.x = p.x*s.width - mapOffsetX;
-		n.origin.y = ((map->getMapSize().height-1) * map->getTileSize().height) - p.y*s.height;
-		n.size = s;
-
-		if (playerBounds.intersectsRect(n)) {
-			_coinArray[i] = {0,1};
-			collectAt(Vec2(p.x,p.y));
-		}
-	}
-	return false;
-}
-
-
-
-//
-// :::::::::: Internal/Private Functions ::::::::::
-//
-
-// wandelt Position in Tilemap Koordinate um
-/*Point MapController::getTileAt(Point position) {
-	int x = (position.x + mapOffsetX) / map->getTileSize().width;
-	int y = ((map->getMapSize().height * map->getTileSize().height)
-			- position.y) / map->getTileSize().height;
-	return Point(x, y);
-}*/
-
-void MapController::collectAt(Point tileCoord) {
-	_metaLayer->removeTileAt(tileCoord);
-	map->getLayer("Foreground_layer")->removeTileAt(tileCoord);
-}
-
-TilePointOffset MapController::getTilePointOffset(Point point)
-{
-	TilePointOffset tpo;
-	float y = ((map->getMapSize().height * map->getTileSize().height) - point.y);
-	tpo.offsetX = fmod(point.x + mapOffsetX, map->getTileSize().width);
-	tpo.offsetY = fmod(y, map->getTileSize().height);
-	tpo.x = (point.x + mapOffsetX) / map->getTileSize().width;
-	tpo.y = (y / map->getTileSize().height);
-	return tpo;
-}
 
 void MapController::initCollectableArray()
 {
 	int mapWidth = (int)map->getMapSize().width;
 	int mapHeight = (int)map->getMapSize().height;
 	int collectGID = getGIDForCollectable();
-	int counter = 0;
 
 	for (int x=0; x<mapWidth; x++)
 	{
 		for (int y=0; y<mapHeight; y++)
 		{
-			if (collectGID == _metaLayer->getTileGIDAt(Vec2(x,y))) {
-				_coinArray[counter++] = {x,y};
-				if (counter==200) return; // can save only 200 coins
+			if (collectGID == map->getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
+			{
+				CollisionLayer *coin = CollisionLayer::createCoinSprite();
+				coin->setPosition(coordinateFromTilePoint(Vec2(x,y-1))); // 1 tile above collectable
+				_coins.pushBack(coin);
+				map->addChild(coin);
 			}
 		}
 	}
@@ -215,12 +184,45 @@ void MapController::initCollisionMap()
 	}
 }
 
+
+//
+// :::::::::: Internal/Private Functions ::::::::::
+//
+
+// wandelt Position in Tilemap Koordinate um
+/*Point MapController::getTileAt(Point position) {
+	int x = (position.x + mapOffsetX) / map->getTileSize().width;
+	int y = ((map->getMapSize().height * map->getTileSize().height)
+			- position.y) / map->getTileSize().height;
+	return Point(x, y);
+}*/
+
+Point MapController::coordinateFromTilePoint(Point tileCoord)
+{
+	Point pos;
+	pos.x = tileCoord.x * map->getTileSize().width;
+	pos.y = (map->getMapSize().height -1 -tileCoord.y) * map->getTileSize().height;
+	pos += map->getTileSize()/2; // midpoint
+	return pos;
+}
+
+TilePointOffset MapController::getTilePointOffset(Point point)
+{
+	TilePointOffset tpo;
+	float y = ((map->getMapSize().height * map->getTileSize().height) - point.y);
+	tpo.offsetX = fmod(point.x, map->getTileSize().width); // + mapOffsetX
+	tpo.offsetY = fmod(y, map->getTileSize().height);
+	tpo.x = (point.x) / map->getTileSize().width; // + mapOffsetX
+	tpo.y = (y / map->getTileSize().height);
+	return tpo;
+}
+
 long MapController::getColumnBitmapForGID(int x, int tile_gid)
 {
 	long col=0;
 	for (int i=map->getMapSize().height; i>0; i--) {
 		col<<=1;
-		int gid = _metaLayer->getTileGIDAt(Vec2(x,i-1));
+		int gid = map->getLayer("Meta_layer")->getTileGIDAt(Vec2(x,i-1));
 		col |= (gid==tile_gid);
 	}
 	return col;

@@ -43,6 +43,34 @@ bool CollisionLayer::initCollisionSize(float width, float height)
 	return false;
 }
 
+// Custom Sprite Load
+
+CollisionLayer* CollisionLayer::createCoinSprite()
+{
+	CollisionLayer *coin = CollisionLayer::createWithSize(50, 120);
+	if (coin) {
+		Vector<SpriteFrame*> frames;
+		SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
+
+		char file[9] = { 0 };
+
+		for (int i = 0; i < 6; i++) {
+			sprintf(file, "coin%04d", i);
+			SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+			frames.pushBack(frame);
+		}
+
+		Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
+
+		coin->insertSprite(Sprite::create());
+		coin->spriteImage->setPosition(25,60);
+		coin->spriteImage->runAction(RepeatForever::create(Animate::create(animation)));
+	}
+	return coin;
+}
+
+
+
 
 void CollisionLayer::insertImageName(const std::string& filename, Vec2 offset, Vec2 anchor)
 {
