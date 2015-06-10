@@ -56,6 +56,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiewalk.plist", "josie/josiewalk.png");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiestartmoving.plist", "josie/josiestartmoving.png");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiejump.plist", "josie/josiejump.png");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("tilemaps/coin.plist", "tilemaps/coin.png");
 
 
     // create a scene. it's an autorelease object

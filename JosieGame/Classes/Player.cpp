@@ -160,7 +160,7 @@ void Player::update(float dt) {
 	this->_checkRun();
 	this->_checkJump();
 	this->_checkAlive();
-	_level->tileManager->tryCollect(this->getBoundingBox());
+	_level->tileManager->tryCollect(this);
 }
 
 bool Player::_canStandUp() {
@@ -179,6 +179,7 @@ void Player::_checkRun() {
 	if (_isRunning) {
 		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
 		dist = (dist < PLAYER_RUN_SPEED) ? dist : PLAYER_RUN_SPEED;
+		this->setPositionX( this->getPositionX() + dist );
 		_level->moveLevelAtSpeed(dist);
 	}
 }

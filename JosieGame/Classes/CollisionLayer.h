@@ -14,6 +14,9 @@ public:
 	static CollisionLayer* createWithNode(Node* node);
 	bool initCollisionSize(float width, float height);
 
+	// Custom Sprite Load
+	static CollisionLayer* createCoinSprite();
+
 	Sprite *spriteImage;
 	void insertImageName(const std::string& filename, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
 	void insertImageFrameName(const std::string& name, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
