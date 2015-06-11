@@ -5,6 +5,7 @@
 
 class AudioUnit;
 class MapController;
+class LevelHUD;
 
 class Level : public cocos2d::Scene
 {
@@ -13,16 +14,16 @@ public:
 	~Level();
 	static Level* initWithLevel(int level, int sublevel);
 
-
 	void moveLevelAtSpeed(float speed);
 	void resetLevelPosition(float position = 0.0f);
+	void addCoin();
 
 	AudioUnit *audioUnit;
 	MapController *mapManager;
+	LevelHUD *hud;
+	int coins;
 private:
 	void createUI(int lvl, int sublvl);
-	void addPauseButton();
-	void pauseGame();
 };
 
 #endif 

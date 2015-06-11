@@ -4,15 +4,20 @@
 #include "AudioUnit.h"
 #include "MapController.h"
 #include "PlayerControl.h"
+#include "LevelHUD.h"
 
 using namespace cocos2d;
 
 Level::Level() {
 	audioUnit = nullptr;
 	mapManager = nullptr;
+	hud = nullptr;
+	coins = 0;
 }
 Level::~Level() {
 	CCLOG("~Level");
+	audioUnit->stopBackground();
+	delete audioUnit;
 }
 
 Level* Level::initWithLevel(int level, int sublevel) {
@@ -23,7 +28,6 @@ Level* Level::initWithLevel(int level, int sublevel) {
 	l->audioUnit->playBackground();
 
 	l->createUI(level, sublevel);
-	l->addPauseButton();
 
 	return l;
 }
@@ -52,27 +56,15 @@ void Level::createUI(int lvl, int sublvl)
 	player->setPlayerOnGround(216);
 	mapManager->addChild(player);
 
+	char levelName[12];
+	sprintf(levelName, "Level %d.%d", lvl, sublvl);
+	hud = LevelHUD::initWithLevelName(levelName);
+	hud->setCoins(0,4);
+
 	this->addChild(background);
 	this->addChild(mapManager);
 	this->addChild(PlayerControl::initWithPlayer(player));
-}
-
-void Level::addPauseButton() {
-	MenuItemImage *pause = MenuItemImage::create("buttons/pausebutton.png",
-			"buttons/pausebutton.png", CC_CALLBACK_0(Level::pauseGame, this));
-	pause->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	pause->setPosition(1920, 1080);
-
-	Menu *menu = Menu::create(pause, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu);
-}
-
-void Level::pauseGame()
-{
-	audioUnit->stopBackground();
-	delete audioUnit;
-	Director::getInstance()->popScene();
+	this->addChild(hud);
 }
 
 
@@ -89,3 +81,8 @@ void Level::resetLevelPosition(float position) // 0.0f if no parameter
 	mapManager->setPositionX(-position);
 }
 
+void Level::addCoin()
+{
+	coins++;
+	hud->setCoins(coins, 4);
+}
