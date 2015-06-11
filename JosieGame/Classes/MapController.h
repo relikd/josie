@@ -2,12 +2,10 @@
 #define MAPCONTROLLER_H_
 
 typedef struct IntPoint { int x; int y; }_IntPoint;
-#define COINS_PER_LEVEL 20
 
 #include "cocos2d.h"
 
 class CollisionLayer;
-class Player;
 
 class MapController : public cocos2d::TMXTiledMap {
 public:
@@ -17,7 +15,7 @@ public:
 	static MapController* initWithLevel(int level, int sub_level);
 	void initOptions();
 
-	bool tryCollect(Player *player);
+	bool tryCollect(CollisionLayer *player); // no need for Player class
 
 	float collisionDiffTop(cocos2d::Rect bounds);
 	float collisionDiffBottom(cocos2d::Rect bounds);

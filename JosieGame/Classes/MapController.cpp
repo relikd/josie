@@ -1,8 +1,5 @@
 #include "MapController.h"
-
-#include "Level.h"
 #include "CollisionLayer.h"
-#include "Player.h"
 
 using namespace cocos2d;
 
@@ -34,7 +31,6 @@ MapController* MapController::initWithLevel(int level, int sub_level)
 
 void MapController::initOptions()
 {
-	_coins = Vector<CollisionLayer*>{COINS_PER_LEVEL+1};
 	getLayer("Meta_layer")->setVisible(true);
 
 	for (const auto& child : getChildren()) {
@@ -48,7 +44,7 @@ void MapController::initOptions()
 // :::::::::: Gameplay Functionality ::::::::::
 //
 
-bool MapController::tryCollect(Player *player)
+bool MapController::tryCollect(CollisionLayer *player)
 {
 	for(CollisionLayer* coin : this->_coins)
 	{
