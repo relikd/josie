@@ -45,7 +45,7 @@ void BossLevel::createUI()
 	_playerBoss = BossPlayer::createWithLevel(this);
 	_playerBoss->setPosition((1920/2), 108);
 
-	_hud = BossLevelHUD::initWithBossHealth(10, _playerBoss);
+	_hud = BossLevelHUD::initWithBossHealth(10);
 
 	this->addChild(background,-1);
 	this->addChild(_playerBoss,0);
