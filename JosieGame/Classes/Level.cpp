@@ -53,7 +53,6 @@ void Level::createUI(int lvl, int sublvl)
 	//Add Player
 	LevelPlayer *player = LevelPlayer::initWithLevel(this);
 	player->setPlayerOnGround(216);
-	mapManager->addChild(player);
 
 	char levelName[12];
 	sprintf(levelName, "Level %d.%d", lvl, sublvl);
@@ -62,6 +61,7 @@ void Level::createUI(int lvl, int sublvl)
 
 	this->addChild(background);
 	this->addChild(mapManager);
+	mapManager->addChild(player);
 	this->addChild(hud);
 }
 

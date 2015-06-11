@@ -1,7 +1,5 @@
 #include "BossLevelHUD.h"
 
-#include "BossPlayer.h"
-
 using namespace cocos2d;
 
 BossLevelHUD::BossLevelHUD() {
@@ -15,20 +13,17 @@ BossLevelHUD::BossLevelHUD() {
 	_left = nullptr;
 	_right = nullptr;
 	_shoot = nullptr;
-	_bossplayer = nullptr;
-	_timeSinceLastShot = 0;
 }
 
 BossLevelHUD::~BossLevelHUD() {
 	CCLOG("~BossLevelHUD");
 }
 
-BossLevelHUD* BossLevelHUD::initWithBossHealth(float health, BossPlayer* p)
+BossLevelHUD* BossLevelHUD::initWithBossHealth(float health)
 {
 	BossLevelHUD *hud = new BossLevelHUD();
 	hud->autorelease();
 
-	hud->_bossplayer = p;
 	hud->_boss_health_max = health;
 	hud->_boss_health = health;
 
@@ -128,7 +123,7 @@ void BossLevelHUD::addPlayerControls()
 
 
 //
-// Update UI
+// Update UI & BossPlayer Control
 //
 
 void BossLevelHUD::updateShields()
@@ -142,6 +137,17 @@ void BossLevelHUD::updateShields()
 		str_shields << "+" << shields-1;
 
 	((Label*)this->getChildByName("txt_shield_more"))->setString(str_shields.str());
+}
+
+void BossLevelHUD::update(float dt)
+{
+	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
+	if (_left->isSelected())
+		ed->dispatchCustomEvent("BOSS_PLAYER_LEFT");
+	if (_right->isSelected())
+		ed->dispatchCustomEvent("BOSS_PLAYER_RIGHT");
+	if (_shoot->isSelected())
+		ed->dispatchCustomEvent("BOSS_PLAYER_SHOOT");
 }
 
 
@@ -172,23 +178,3 @@ bool BossLevelHUD::reducePlayerHealth()
 	_healthbar_player->setPercentage(100 * _player_health / 4.0);
 	return (_player_health > 0);
 }
-
-
-//
-// Other Functionality
-//
-
-void BossLevelHUD::update(float dt)
-{
-	_timeSinceLastShot += dt;
-	if (_left->isSelected())
-		_bossplayer->moveLeft();
-	if (_right->isSelected())
-		_bossplayer->moveRight();
-	if (_shoot->isSelected()) {
-		if (_bossplayer->shoot(_timeSinceLastShot)) {
-			_timeSinceLastShot = 0;
-		}
-	}
-}
-
