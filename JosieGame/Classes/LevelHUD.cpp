@@ -1,5 +1,6 @@
 #include "LevelHUD.h"
-#include "Player.h"
+
+#include "LevelPlayer.h"
 
 using namespace cocos2d;
 
@@ -19,7 +20,7 @@ LevelHUD::~LevelHUD() {
 	CCLOG("~LevelHUD");
 }
 
-LevelHUD* LevelHUD::initWithLevelName(const std::string& name, Player* player)
+LevelHUD* LevelHUD::initWithLevelName(const std::string& name, LevelPlayer* player)
 {
 	LevelHUD *hud = new LevelHUD();
 	hud->autorelease();

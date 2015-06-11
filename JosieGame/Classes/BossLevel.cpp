@@ -1,8 +1,8 @@
 #include "BossLevel.h"
 #include "Projectile.h"
-#include "PlayerBoss.h"
 #include "CollisionLayer.h"
 #include "BossLevelHUD.h"
+#include "BossPlayer.h"
 
 using namespace cocos2d;
 
@@ -42,7 +42,7 @@ void BossLevel::createUI()
 	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 
 	// load Player
-	_playerBoss = PlayerBoss::createWithLevel(this);
+	_playerBoss = BossPlayer::createWithLevel(this);
 	_playerBoss->setPosition((1920/2), 108);
 
 	_hud = BossLevelHUD::initWithBossHealth(10, _playerBoss);

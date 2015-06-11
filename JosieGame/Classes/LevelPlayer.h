@@ -4,11 +4,11 @@
 #include "CollisionLayer.h"
 class Level;
 
-class Player: public CollisionLayer {
+class LevelPlayer: public CollisionLayer {
 public:
-	Player();
-	~Player();
-	static Player* initWithLevel(Level* level);
+	LevelPlayer();
+	~LevelPlayer();
+	static LevelPlayer* initWithLevel(Level* level);
 	void setPlayerOnGround(float pos_x);
 
 	// Player interaction

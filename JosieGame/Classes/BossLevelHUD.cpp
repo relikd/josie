@@ -1,5 +1,6 @@
 #include "BossLevelHUD.h"
-#include "PlayerBoss.h"
+
+#include "BossPlayer.h"
 
 using namespace cocos2d;
 
@@ -22,7 +23,7 @@ BossLevelHUD::~BossLevelHUD() {
 	CCLOG("~BossLevelHUD");
 }
 
-BossLevelHUD* BossLevelHUD::initWithBossHealth(float health, PlayerBoss* p)
+BossLevelHUD* BossLevelHUD::initWithBossHealth(float health, BossPlayer* p)
 {
 	BossLevelHUD *hud = new BossLevelHUD();
 	hud->autorelease();
