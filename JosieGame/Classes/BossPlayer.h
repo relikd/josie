@@ -1,17 +1,17 @@
-#ifndef PLAYERBOSS_H_
-#define PLAYERBOSS_H_
+#ifndef BOSSPLAYER_H_
+#define BOSSPLAYER_H_
 
 #include "CollisionLayer.h"
 class Projectile;
 class BossLevel;
 
 
-class PlayerBoss : public CollisionLayer {
+class BossPlayer : public CollisionLayer {
 public:
-	PlayerBoss();
-	virtual ~PlayerBoss();
+	BossPlayer();
+	virtual ~BossPlayer();
 
-	static PlayerBoss* createWithLevel(BossLevel* level);
+	static BossPlayer* createWithLevel(BossLevel* level);
 
 	void moveLeft();
 	void moveRight();
@@ -24,4 +24,4 @@ private:
 	float _min_x, _max_x;
 };
 
-#endif /* PLAYERBOSS_H_ */
+#endif /* BOSSPLAYER_H_ */

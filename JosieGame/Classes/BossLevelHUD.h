@@ -3,14 +3,14 @@
 
 #include "cocos2d.h"
 
-class PlayerBoss;
+class BossPlayer;
 
 class BossLevelHUD : public cocos2d::Layer
 {
 public:
 	BossLevelHUD();
 	virtual ~BossLevelHUD();
-	static BossLevelHUD* initWithBossHealth(float health, PlayerBoss* p);
+	static BossLevelHUD* initWithBossHealth(float health, BossPlayer* p);
 
 	bool reduceBossHealth(float dmg); // returns false if killed
 	bool reducePlayerHealth(); // returns false if died
@@ -33,7 +33,7 @@ private:
 	cocos2d::MenuItemImage *_left;
 	cocos2d::MenuItemImage *_right;
 	cocos2d::MenuItemImage *_shoot;
-	PlayerBoss* _bossplayer;
+	BossPlayer* _bossplayer;
 	float _timeSinceLastShot;
 };
 

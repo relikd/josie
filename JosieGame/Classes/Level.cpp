@@ -1,9 +1,9 @@
 #include "Level.h"
-#include "Player.h"
 #include "TMXEdit.h"
 #include "AudioUnit.h"
 #include "MapController.h"
 #include "LevelHUD.h"
+#include "LevelPlayer.h"
 
 using namespace cocos2d;
 
@@ -51,7 +51,7 @@ void Level::createUI(int lvl, int sublvl)
 		mapManager = MapController::initWithLevel(lvl, sublvl);
 
 	//Add Player
-	Player *player = Player::initWithLevel(this);
+	LevelPlayer *player = LevelPlayer::initWithLevel(this);
 	player->setPlayerOnGround(216);
 	mapManager->addChild(player);
 

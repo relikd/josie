@@ -1,5 +1,5 @@
-#include <cmath>
-#include "Player.h"
+#include "LevelPlayer.h"
+
 #include "Level.h"
 #include "AudioUnit.h"
 #include "MapController.h"
@@ -14,7 +14,7 @@ const float _jumpPower = 200;
 
 float _upForce; // continuously changed during jump
 
-Player::Player() {
+LevelPlayer::LevelPlayer() {
 	_level = nullptr;
 	_upForce = 0;
 	_isRunning = false;
@@ -23,13 +23,13 @@ Player::Player() {
 	_shouldPerformJumpAnimation = false;
 	_oldJumpHoldingTime = 999;
 }
-Player::~Player() {
+LevelPlayer::~LevelPlayer() {
 	this->unscheduleUpdate();
 	CCLOG("~Player");
 }
 
-Player* Player::initWithLevel(Level* level) {
-	Player *pl = new Player();
+LevelPlayer* LevelPlayer::initWithLevel(Level* level) {
+	LevelPlayer *pl = new LevelPlayer();
 	if (pl->initCollisionSize(160,245))
 	{
 		pl->autorelease();
@@ -44,13 +44,13 @@ Player* Player::initWithLevel(Level* level) {
 	return pl;
 }
 
-void Player::setPlayerOnGround(float pos_x) {
+void LevelPlayer::setPlayerOnGround(float pos_x) {
 	this->setPosition(pos_x,1000);
 	float height = _level->mapManager->collisionDiffBottom(this->getBoundingBox());
 	this->setPositionY(1000-height);
 }
 
-void Player::onEnterTransitionDidFinish()
+void LevelPlayer::onEnterTransitionDidFinish()
 {
 
 }
@@ -60,7 +60,7 @@ void Player::onEnterTransitionDidFinish()
 // Animation
 //
 
-Animate* Player::animationWithFrame(const std::string& name, int frameCount, float delay)
+Animate* LevelPlayer::animationWithFrame(const std::string& name, int frameCount, float delay)
 {
 	Vector<SpriteFrame *> frames;
 	SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
@@ -78,20 +78,20 @@ Animate* Player::animationWithFrame(const std::string& name, int frameCount, flo
 	return animate;
 }
 
-void Player::startRunningAfterAnimation(FiniteTimeAction *animation)
+void LevelPlayer::startRunningAfterAnimation(FiniteTimeAction *animation)
 {
-	CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(Player::startRunningCallback, this));
+	CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(LevelPlayer::startRunningCallback, this));
 	Sequence *seq = Sequence::createWithTwoActions(animation, call);
 	spriteImage->runAction(seq);
 }
 
-void Player::startRunningCallback()
+void LevelPlayer::startRunningCallback()
 {
 	spriteImage->stopAllActions();
 	spriteImage->runAction(RepeatForever::create(animationWithFrame("josiewalk", 6, 0.1)));
 }
 
-void Player::endRunning()
+void LevelPlayer::endRunning()
 {
 	spriteImage->stopAllActions();
 	_level->audioUnit->playJosieStopRunSound();
@@ -103,7 +103,7 @@ void Player::endRunning()
 // Player interaction
 //
 
-void Player::run(bool r) {
+void LevelPlayer::run(bool r) {
 	if (_isRunning == r || !_isOnGround)
 		return; // only update on state change
 
@@ -115,7 +115,7 @@ void Player::run(bool r) {
 		endRunning();
 }
 
-void Player::jump(float holdingTimeDelta) {
+void LevelPlayer::jump(float holdingTimeDelta) {
 	if (!_isSliding) {
 		if (_isOnGround && _shouldPerformJumpAnimation == false)
 		{
@@ -135,7 +135,7 @@ void Player::jump(float holdingTimeDelta) {
 	}
 }
 
-void Player::slide(bool s) {
+void LevelPlayer::slide(bool s) {
 	if (_isSliding == s)
 		return; // don't update while sliding
 	if (_isSliding && !this->_canStandUp())
@@ -156,7 +156,7 @@ void Player::slide(bool s) {
 // private functions
 //
 
-void Player::update(float dt) {
+void LevelPlayer::update(float dt) {
 	this->_checkRun();
 	this->_checkJump();
 	this->_checkAlive();
@@ -165,7 +165,7 @@ void Player::update(float dt) {
 		_level->addCoin();
 }
 
-bool Player::_canStandUp() {
+bool LevelPlayer::_canStandUp() {
 	if (!_isSliding)
 		return true; // already standing
 
@@ -177,7 +177,7 @@ bool Player::_canStandUp() {
 	return (air>0.01);
 }
 
-void Player::_checkRun() {
+void LevelPlayer::_checkRun() {
 	if (_isRunning) {
 		float dist = _level->mapManager->collisionDiffRight(this->getBoundingBox());
 		dist = (dist < PLAYER_RUN_SPEED) ? dist : PLAYER_RUN_SPEED;
@@ -186,7 +186,7 @@ void Player::_checkRun() {
 	}
 }
 
-void Player::_checkJump() {
+void LevelPlayer::_checkJump() {
 	_upForce = fmax(_upForce - _gravity, 0);
 
 	if (_upForce > 0.01) // as long as jump force is stronger than gravity
@@ -218,7 +218,7 @@ void Player::_checkJump() {
 	}
 }
 
-void Player::_checkAlive() {
+void LevelPlayer::_checkAlive() {
 	if (this->getPositionY() < -100) {
 		// KAABUUUUMMM! #splash
 		this->setPlayerOnGround(216);

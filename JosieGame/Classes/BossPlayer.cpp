@@ -1,4 +1,5 @@
-#include "PlayerBoss.h"
+#include "BossPlayer.h"
+
 #include "Projectile.h"
 #include "BossLevel.h"
 
@@ -8,18 +9,18 @@ using namespace cocos2d;
 
 const float walkspeed = 22.0;
 
-PlayerBoss::PlayerBoss() {
+BossPlayer::BossPlayer() {
 	_level = nullptr;
 	_min_x = 64 + (257/2)*DEFAULT_BOSSPLAYER_SCALE;
 	_max_x = 1920 - 64 - (257/2)*DEFAULT_BOSSPLAYER_SCALE;
 }
-PlayerBoss::~PlayerBoss() {
+BossPlayer::~BossPlayer() {
 	CCLOG("~PlayerBoss");
 }
 
-PlayerBoss* PlayerBoss::createWithLevel(BossLevel* level) {
+BossPlayer* BossPlayer::createWithLevel(BossLevel* level) {
 
-	PlayerBoss *bp = new PlayerBoss();
+	BossPlayer *bp = new BossPlayer();
 	if (bp->initCollisionSize(154,185)) {
 		bp->_level = level;
 		bp->autorelease();
@@ -30,19 +31,19 @@ PlayerBoss* PlayerBoss::createWithLevel(BossLevel* level) {
 	return bp;
 }
 
-void PlayerBoss::moveLeft() {
+void BossPlayer::moveLeft() {
 	float newX = this->getPositionX() - walkspeed;
 	if (newX < _min_x) newX = _min_x;
 	this->setPositionX(newX);
 }
 
-void PlayerBoss::moveRight() {
+void BossPlayer::moveRight() {
 	float newX = this->getPositionX() + walkspeed;
 	if (newX > _max_x) newX = _max_x;
 	this->setPositionX(newX);
 }
 
-bool PlayerBoss::shoot(float timeSinceLastShot)
+bool BossPlayer::shoot(float timeSinceLastShot)
 {
 	UserDefault* ud = UserDefault::getInstance();
 	if (timeSinceLastShot >= 1.4-(ud->getIntegerForKey("josie_perk_frequency")*0.3)) {
@@ -52,7 +53,7 @@ bool PlayerBoss::shoot(float timeSinceLastShot)
 	return false;
 }
 
-void PlayerBoss::useShot(int id)
+void BossPlayer::useShot(int id)
 {
 	Vec2 pos = Vec2(this->getBoundingBox().getMidX(), this->getBoundingBox().getMaxY());
 

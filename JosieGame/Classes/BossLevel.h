@@ -2,7 +2,7 @@
 #define BOSSLEVEL_H_
 
 class Projectile;
-class PlayerBoss;
+class BossPlayer;
 class CollisionLayer;
 class BossLevelHUD;
 
@@ -29,7 +29,7 @@ private:
 	void bossAttack();
 
 	BossLevelHUD* _hud;
-	PlayerBoss* _playerBoss;
+	BossPlayer* _playerBoss;
 	CollisionLayer* left;
 	CollisionLayer* right;
 	float _attackTimer;

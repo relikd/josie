@@ -16,15 +16,15 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AudioUnit.cpp \
 				   ../../Classes/BossLevel.cpp \
 				   ../../Classes/BossLevelHUD.cpp \
+                   ../../Classes/BossPlayer.cpp \
 				   ../../Classes/CollisionLayer.cpp \
 				   ../../Classes/Cutscene.cpp \
 				   ../../Classes/Level.cpp \
 				   ../../Classes/LevelHUD.cpp \
+                   ../../Classes/LevelPlayer.cpp \
 				   ../../Classes/LevelSelectScene.cpp \
                    ../../Classes/MainMenuScene.cpp \
 				   ../../Classes/MapController.cpp \
-                   ../../Classes/Player.cpp \
-                   ../../Classes/PlayerBoss.cpp \
                    ../../Classes/Projectile.cpp \
 				   ../../Classes/ShopScene.cpp \
 				   ../../Classes/TMXEdit.cpp
