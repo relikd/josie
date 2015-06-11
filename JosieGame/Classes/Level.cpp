@@ -3,7 +3,6 @@
 #include "TMXEdit.h"
 #include "AudioUnit.h"
 #include "MapController.h"
-#include "PlayerControl.h"
 #include "LevelHUD.h"
 
 using namespace cocos2d;
@@ -58,18 +57,17 @@ void Level::createUI(int lvl, int sublvl)
 
 	char levelName[12];
 	sprintf(levelName, "Level %d.%d", lvl, sublvl);
-	hud = LevelHUD::initWithLevelName(levelName);
+	hud = LevelHUD::initWithLevelName(levelName, player);
 	hud->setCoins(0,4);
 
 	this->addChild(background);
 	this->addChild(mapManager);
-	this->addChild(PlayerControl::initWithPlayer(player));
 	this->addChild(hud);
 }
 
 
 //
-// Level moving
+// Level Functions
 //
 
 void Level::moveLevelAtSpeed(float speed) {

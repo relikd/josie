@@ -25,7 +25,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/MapController.cpp \
                    ../../Classes/Player.cpp \
                    ../../Classes/PlayerBoss.cpp \
-				   ../../Classes/PlayerControl.cpp \
                    ../../Classes/Projectile.cpp \
 				   ../../Classes/ShopScene.cpp \
 				   ../../Classes/TMXEdit.cpp

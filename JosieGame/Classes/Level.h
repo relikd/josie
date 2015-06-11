@@ -20,9 +20,9 @@ public:
 
 	AudioUnit *audioUnit;
 	MapController *mapManager;
-	LevelHUD *hud;
 	int coins;
 private:
+	LevelHUD *hud;
 	void createUI(int lvl, int sublvl);
 };
 

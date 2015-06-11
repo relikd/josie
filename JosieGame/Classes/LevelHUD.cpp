@@ -1,4 +1,5 @@
 #include "LevelHUD.h"
+#include "Player.h"
 
 using namespace cocos2d;
 
@@ -7,17 +8,25 @@ LevelHUD::LevelHUD() {
 	txt_time = nullptr;
 	_timeRunning = 0;
 	_previousSeconds = 0;
+
+	// Player Control
+	_player = nullptr;
+	_stay = nullptr;
+	_slide = nullptr;
+	_jump = nullptr;
 }
 LevelHUD::~LevelHUD() {
 	CCLOG("~LevelHUD");
 }
 
-LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
+LevelHUD* LevelHUD::initWithLevelName(const std::string& name, Player* player)
 {
 	LevelHUD *hud = new LevelHUD();
 	hud->autorelease();
 
+	hud->_player = player;
 	hud->addStatusBar(name);
+	hud->addPlayerControls();
 	hud->addPauseButton();
 
 	hud->scheduleUpdate();
@@ -25,13 +34,18 @@ LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
 	return hud;
 }
 
+
+//
+// Create UI
+//
+
 void LevelHUD::addStatusBar(const std::string& title)
 {
 	LayerColor *blackbar = LayerColor::create(Color4B(0,0,0,255), 1920, 80);
 	blackbar->setPosition(0, 1000); // layer anchor is 0,0
 
 	Sprite *coinImage = Sprite::createWithSpriteFrameName("coin0000");
-	coinImage->setScale( 65 / coin->getContentSize().height );
+	coinImage->setScale( 65 / coinImage->getContentSize().height );
 	coinImage->setPosition(62, 40);
 
 	txt_coins = Label::createWithTTF("0 / 0", "fonts/Marker Felt.ttf", 48);
@@ -54,6 +68,26 @@ void LevelHUD::addStatusBar(const std::string& title)
 	this->addChild(blackbar);
 }
 
+void LevelHUD::addPlayerControls()
+{
+	_stay = MenuItemImage::create("buttons/left.png","buttons/left.png");
+	_slide = MenuItemImage::create("buttons/right.png","buttons/right.png");
+	_jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png");
+
+	_stay->setScale(0.7);
+	_slide->setScale(0.7);
+	_jump->setScale(0.7);
+
+	_stay->setPosition(Vec2(150,150));
+	_slide->setPosition(Vec2(1920-300,120));
+	_jump->setPosition(Vec2(1920-150,300));
+
+	Menu *menu = Menu::create(_stay,_slide,_jump, NULL);
+	menu->setPosition(Vec2::ZERO);
+	menu->setOpacity(128);
+	this->addChild(menu);
+}
+
 void LevelHUD::addPauseButton() {
 	MenuItemImage *pause = MenuItemImage::create("buttons/pausebutton.png",
 			"buttons/pausebutton.png", CC_CALLBACK_0(LevelHUD::pauseGame, this));
@@ -72,7 +106,7 @@ void LevelHUD::pauseGame()
 
 
 //
-// Gameplay Functionality
+// Update UI
 //
 
 void LevelHUD::setCoins(int count, int max)
@@ -82,18 +116,7 @@ void LevelHUD::setCoins(int count, int max)
 	txt_coins->setString(coins);
 }
 
-
-//
-// Other Functionality
-//
-
-void LevelHUD::update(float dt)
-{
-	_timeRunning += dt;
-	updateStatusBar();
-}
-
-void LevelHUD::updateStatusBar()
+void LevelHUD::updateStatusBarTime()
 {
 	unsigned int minutes = (unsigned int)(_timeRunning / 60);
 	unsigned int seconds = (unsigned int)(_timeRunning - (minutes*60));
@@ -105,4 +128,20 @@ void LevelHUD::updateStatusBar()
 		sprintf(time, "%02d:%02d", minutes, seconds);
 		txt_time->setString(time);
 	}
+}
+
+
+//
+// Other Functionality
+//
+
+void LevelHUD::update(float dt)
+{
+	_timeRunning += dt;
+	updateStatusBarTime();
+
+	_player->run(!_stay->isSelected());
+	_player->slide(_slide->isSelected());
+	if (_jump->isSelected())
+		_player->jump(dt);
 }
