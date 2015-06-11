@@ -46,7 +46,7 @@ Player* Player::initWithLevel(Level* level) {
 
 void Player::setPlayerOnGround(float pos_x) {
 	this->setPosition(pos_x,1000);
-	float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
+	float height = _level->mapManager->collisionDiffBottom(this->getBoundingBox());
 	this->setPositionY(1000-height);
 }
 
@@ -160,7 +160,7 @@ void Player::update(float dt) {
 	this->_checkRun();
 	this->_checkJump();
 	this->_checkAlive();
-	_level->tileManager->tryCollect(this);
+	_level->mapManager->tryCollect(this);
 }
 
 bool Player::_canStandUp() {
@@ -169,7 +169,7 @@ bool Player::_canStandUp() {
 
 	float oldScale = this->getScale();
 	this->setScale(PLAYER_SCALE_DEFAULT);
-	float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
+	float air = _level->mapManager->collisionDiffTop(this->getBoundingBox());
 	this->setScale(oldScale);
 
 	return (air>0.01);
@@ -177,7 +177,7 @@ bool Player::_canStandUp() {
 
 void Player::_checkRun() {
 	if (_isRunning) {
-		float dist = _level->tileManager->collisionDiffRight(this->getBoundingBox());
+		float dist = _level->mapManager->collisionDiffRight(this->getBoundingBox());
 		dist = (dist < PLAYER_RUN_SPEED) ? dist : PLAYER_RUN_SPEED;
 		this->setPositionX( this->getPositionX() + dist );
 		_level->moveLevelAtSpeed(dist);
@@ -189,7 +189,7 @@ void Player::_checkJump() {
 
 	if (_upForce > 0.01) // as long as jump force is stronger than gravity
 	{
-		float air = _level->tileManager->collisionDiffTop(this->getBoundingBox());
+		float air = _level->mapManager->collisionDiffTop(this->getBoundingBox());
 		if (air > 0.01) {
 			float deltaY = 20 * (_upForce / _jumpPower);
 			if (air < deltaY)
@@ -202,7 +202,7 @@ void Player::_checkJump() {
 	}
 	else
 	{
-		float height = _level->tileManager->collisionDiffBottom(this->getBoundingBox());
+		float height = _level->mapManager->collisionDiffBottom(this->getBoundingBox());
 		float y = this->getPositionY();
 		y -= (height < 2*_gravity) ? height : 2*_gravity;
 		this->setPositionY(y);

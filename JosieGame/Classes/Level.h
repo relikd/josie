@@ -18,13 +18,13 @@ public:
 	void resetLevelPosition(float position = 0.0f);
 
 	AudioUnit *audioUnit;
-	MapController *tileManager;
+	MapController *mapManager;
 private:
 	int _currentLevel;
 	int _currentSubLevel;
 	void createUI();
 	void addPauseButton();
-	void pause();
+	void pauseGame();
 };
 
 #endif 

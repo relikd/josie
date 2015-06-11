@@ -6,6 +6,7 @@
  */
 
 #include "TMXEdit.h"
+#include "MapController.h"
 
 using namespace cocos2d;
 
@@ -21,10 +22,7 @@ const int dirt = 2;
 const int collide = 8;
 TMXEdit::TMXEdit() {
 	// TODO Auto-generated constructor stub
-		std::ostringstream mapstr;
-		mapstr << "tilemaps/0.1.tmx";
-		map = TMXTiledMap::create(mapstr.str());
-
+		map = MapController::initWithLevel(0,1);
 		_backgroundLayer=NULL;
 		_metaLayer=NULL;
 		_foregroundLayer=NULL;
@@ -35,10 +33,11 @@ TMXEdit::~TMXEdit() {
 }
 
 //TODO: erschaffe map mit parametern
-TMXTiledMap* TMXEdit::makeMap(){
+MapController* TMXEdit::makeMap(){
 	TMXEdit* maker = new TMXEdit();
 	maker->getLayers();
 	maker->fillGround(minHeight,maxHeight);
+	maker->map->reinitializeMap();
 	return maker->map;
 }
 
@@ -58,9 +57,9 @@ void TMXEdit::fillGround(int ymin,int ymax){
 		placeGround(x,y);
 
 
-		if (x%startNext==0) //bestimmt wann eine neue Höhe ermittelt werden soll
+		if (x%startNext==0) //bestimmt wann eine neue Hï¿½he ermittelt werden soll
 		{
-			y = ymin - (arc4random()%(ymin-ymax)); // bestimmt die neue Höhe
+			y = ymin - (arc4random()%(ymin-ymax)); // bestimmt die neue Hï¿½he
 			startNext =1 + x + minPartLength+(arc4random()%minPartLength);
 		}
 		else if (arc4random()%holeFreq == 0 ){
