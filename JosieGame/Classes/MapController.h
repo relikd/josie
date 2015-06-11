@@ -14,11 +14,7 @@ public:
 	MapController();
 	~MapController();
 
-	cocos2d::TMXTiledMap *map;
-	float mapOffsetX;
-
 	static MapController* initWithLevel(int level, int sub_level);
-	static MapController* initWithObject(TMXTiledMap* map);
 	void initOptions();
 
 	bool tryCollect(Player *player);
@@ -26,6 +22,8 @@ public:
 	float collisionDiffTop(cocos2d::Rect bounds);
 	float collisionDiffBottom(cocos2d::Rect bounds);
 	float collisionDiffRight(cocos2d::Rect bounds);
+
+	void reinitializeMap();
 private:
 	long *_collisionMap;
 	cocos2d::Vector<CollisionLayer*> _coins;
@@ -36,8 +34,7 @@ private:
 	cocos2d::Point coordinateFromTilePoint(cocos2d::Point tileCoord);
 	struct TilePointOffset getTilePointOffset(cocos2d::Point point);
 	long getColumnBitmapForGID(int x, int tile_gid);
-	int getGIDForCollision();
-	int getGIDForCollectable();
+	int getGIDForName(const std::string& name);
 };
 
 #endif /* MAPCONTROLLER_H_ */

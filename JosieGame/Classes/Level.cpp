@@ -9,7 +9,7 @@ using namespace cocos2d;
 
 Level::Level() {
 	audioUnit = nullptr;
-	tileManager = nullptr;
+	mapManager = nullptr;
 	_currentLevel = -1;
 	_currentSubLevel = -1;
 }
@@ -49,23 +49,23 @@ void Level::createUI()
 
 	// Map Controller
 	if (_currentLevel == 0)
-		tileManager = MapController::initWithObject(TMXEdit::makeMap());
+		mapManager = TMXEdit::makeMap();
 	else
-		tileManager = MapController::initWithLevel(_currentLevel, _currentSubLevel);
+		mapManager = MapController::initWithLevel(_currentLevel, _currentSubLevel);
 
 	//Add Player
 	Player *player = Player::initWithLevel(this);
 	player->setPlayerOnGround(216);
-	tileManager->map->addChild(player);
+	mapManager->addChild(player);
 
 	this->addChild(background);
-	this->addChild(tileManager->map);
+	this->addChild(mapManager);
 	this->addChild(PlayerControl::initWithPlayer(player));
 }
 
 void Level::addPauseButton() {
 	MenuItemImage *pause = MenuItemImage::create("buttons/pausebutton.png",
-			"buttons/pausebutton.png", CC_CALLBACK_0(Level::pause, this));
+			"buttons/pausebutton.png", CC_CALLBACK_0(Level::pauseGame, this));
 	pause->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	pause->setPosition(1920, 1080);
 
@@ -74,12 +74,11 @@ void Level::addPauseButton() {
 	this->addChild(menu);
 }
 
-void Level::pause()
+void Level::pauseGame()
 {
 	audioUnit->stopBackground();
 	delete audioUnit;
-	delete tileManager;
-	this->removeAllChildren();
+	//delete mapManager;
 	Director::getInstance()->popScene();
 }
 
@@ -89,12 +88,11 @@ void Level::pause()
 //
 
 void Level::moveLevelAtSpeed(float speed) {
-	resetLevelPosition(-tileManager->map->getPositionX() + speed);
+	resetLevelPosition(-mapManager->getPositionX() + speed);
 }
 
 void Level::resetLevelPosition(float position) // 0.0f if no parameter
-		{
-	tileManager->map->setPositionX(-position);
-	tileManager->mapOffsetX = position;
+{
+	mapManager->setPositionX(-position);
 }
 

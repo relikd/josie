@@ -10,19 +10,21 @@
 
 #include "cocos2d.h"
 
+class MapController;
+
 using namespace cocos2d ;
 
 class TMXEdit {
 public:
 	TMXEdit();
 	virtual ~TMXEdit();
-	static cocos2d::TMXTiledMap* makeMap();
+	static MapController* makeMap();
 	void getLayers();
 	void fillGround(int ymin,int ymax);
 	void placeGround(int x, int y);
 	void placeDirt(int x, int y);
 
-	cocos2d::TMXTiledMap *map;
+	MapController *map;
 
 private:
 	TMXLayer* _backgroundLayer;
