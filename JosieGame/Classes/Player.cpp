@@ -160,7 +160,9 @@ void Player::update(float dt) {
 	this->_checkRun();
 	this->_checkJump();
 	this->_checkAlive();
-	_level->mapManager->tryCollect(this);
+
+	if (_level->mapManager->tryCollect(this))
+		_level->addCoin();
 }
 
 bool Player::_canStandUp() {
