@@ -1,7 +1,6 @@
 #include "BossLevel.h"
 #include "Projectile.h"
 #include "PlayerBoss.h"
-#include "PlayerControl.h"
 #include "CollisionLayer.h"
 #include "BossLevelHUD.h"
 
@@ -46,13 +45,11 @@ void BossLevel::createUI()
 	_playerBoss = PlayerBoss::createWithLevel(this);
 	_playerBoss->setPosition((1920/2), 108);
 
-	_hud = BossLevelHUD::initWithBossHealth(10);
-	PlayerControl *playerControl = PlayerControl::initWithBossPlayer(_playerBoss);
+	_hud = BossLevelHUD::initWithBossHealth(10, _playerBoss);
 
 	this->addChild(background,-1);
 	this->addChild(_playerBoss,0);
 	this->addChild(_hud,2);
-	this->addChild(playerControl,2);
 }
 
 void BossLevel::loadWeapons()
