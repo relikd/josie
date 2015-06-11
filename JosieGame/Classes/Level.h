@@ -20,9 +20,7 @@ public:
 	AudioUnit *audioUnit;
 	MapController *mapManager;
 private:
-	int _currentLevel;
-	int _currentSubLevel;
-	void createUI();
+	void createUI(int lvl, int sublvl);
 	void addPauseButton();
 	void pauseGame();
 };

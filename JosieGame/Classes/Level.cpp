@@ -10,8 +10,6 @@ using namespace cocos2d;
 Level::Level() {
 	audioUnit = nullptr;
 	mapManager = nullptr;
-	_currentLevel = -1;
-	_currentSubLevel = -1;
 }
 Level::~Level() {
 	CCLOG("~Level");
@@ -21,13 +19,10 @@ Level* Level::initWithLevel(int level, int sublevel) {
 	Level *l = new Level();
 	l->autorelease();
 
-	l->_currentLevel = level;
-	l->_currentSubLevel = sublevel;
-
 	l->audioUnit = AudioUnit::initWithBoss(false);
 	l->audioUnit->playBackground();
 
-	l->createUI();
+	l->createUI(level, sublevel);
 	l->addPauseButton();
 
 	return l;
@@ -38,20 +33,19 @@ Level* Level::initWithLevel(int level, int sublevel) {
 // Create the UI
 //
 
-void Level::createUI()
+void Level::createUI(int lvl, int sublvl)
 {
 	// Background Image
 	std::ostringstream bg_str;
-	bg_str << "backgrounds/bg_" << _currentLevel << "." << _currentSubLevel << ".png";
-
+	bg_str << "backgrounds/bg_" << lvl << "." << sublvl << ".png";
 	Sprite *background = Sprite::create(bg_str.str());
 	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 
 	// Map Controller
-	if (_currentLevel == 0)
+	if (lvl == 0)
 		mapManager = TMXEdit::makeMap();
 	else
-		mapManager = MapController::initWithLevel(_currentLevel, _currentSubLevel);
+		mapManager = MapController::initWithLevel(lvl, sublvl);
 
 	//Add Player
 	Player *player = Player::initWithLevel(this);
@@ -78,7 +72,6 @@ void Level::pauseGame()
 {
 	audioUnit->stopBackground();
 	delete audioUnit;
-	//delete mapManager;
 	Director::getInstance()->popScene();
 }
 
