@@ -3,14 +3,12 @@
 
 #include "cocos2d.h"
 
-class LevelPlayer;
-
 class LevelHUD : public cocos2d::Layer
 {
 public:
 	LevelHUD();
 	virtual ~LevelHUD();
-	static LevelHUD* initWithLevelName(const std::string& name, LevelPlayer* player);
+	static LevelHUD* initWithLevelName(const std::string& name);
 
 	void setCoins(int count, int max);
 private:
@@ -29,7 +27,6 @@ private:
 
 
 	// Player Control
-	LevelPlayer* _player;
 	cocos2d::MenuItemImage *_stay;
 	cocos2d::MenuItemImage *_slide;
 	cocos2d::MenuItemImage *_jump;

@@ -13,16 +13,17 @@ public:
 
 	// Player interaction
 	void run(bool r);
-	void jump(float holdingTimeDelta);
+	void jump();
 	void slide(bool s);
 private:
-	void update(float dt);
 	bool _canStandUp();
 	void _checkRun();
 	void _checkJump();
 	void _checkAlive();
 
 	virtual void onEnterTransitionDidFinish();
+	void update(float dt);
+	void registerObserver(bool reg=true);
 
 	Animate* animationWithFrame(const std::string& name, int frameCount, float delay=0.01);
 	void startRunningAfterAnimation(FiniteTimeAction *animation);

@@ -1,7 +1,5 @@
 #include "LevelHUD.h"
 
-#include "LevelPlayer.h"
-
 using namespace cocos2d;
 
 LevelHUD::LevelHUD() {
@@ -9,9 +7,6 @@ LevelHUD::LevelHUD() {
 	txt_time = nullptr;
 	_timeRunning = 0;
 	_previousSeconds = 0;
-
-	// Player Control
-	_player = nullptr;
 	_stay = nullptr;
 	_slide = nullptr;
 	_jump = nullptr;
@@ -20,12 +15,11 @@ LevelHUD::~LevelHUD() {
 	CCLOG("~LevelHUD");
 }
 
-LevelHUD* LevelHUD::initWithLevelName(const std::string& name, LevelPlayer* player)
+LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
 {
 	LevelHUD *hud = new LevelHUD();
 	hud->autorelease();
 
-	hud->_player = player;
 	hud->addStatusBar(name);
 	hud->addPlayerControls();
 	hud->addPauseButton();
@@ -90,8 +84,7 @@ void LevelHUD::addPlayerControls()
 }
 
 void LevelHUD::addPauseButton() {
-	MenuItemImage *pause = MenuItemImage::create("buttons/pausebutton.png",
-			"buttons/pausebutton.png", CC_CALLBACK_0(LevelHUD::pauseGame, this));
+	MenuItemImage *pause = MenuItemImage::create("buttons/pausebutton.png", "buttons/pausebutton.png", CC_CALLBACK_0(LevelHUD::pauseGame, this));
 	pause->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	pause->setPosition(1900, 980);
 
@@ -141,8 +134,18 @@ void LevelHUD::update(float dt)
 	_timeRunning += dt;
 	updateStatusBarTime();
 
-	_player->run(!_stay->isSelected());
-	_player->slide(_slide->isSelected());
+	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
+
+	if (_slide->isSelected())
+		ed->dispatchCustomEvent("LEVEL_PLAYER_SLIDE_1");
+	else
+		ed->dispatchCustomEvent("LEVEL_PLAYER_SLIDE_0");
+
+	if (_stay->isSelected())
+		ed->dispatchCustomEvent("LEVEL_PLAYER_RUN_0");
+	else
+		ed->dispatchCustomEvent("LEVEL_PLAYER_RUN_1");
+
 	if (_jump->isSelected())
-		_player->jump(dt);
+		ed->dispatchCustomEvent("LEVEL_PLAYER_JUMP");
 }

@@ -22,9 +22,10 @@ LevelPlayer::LevelPlayer() {
 	_isOnGround = false;
 	_shouldPerformJumpAnimation = false;
 	_oldJumpHoldingTime = 999;
+	registerObserver();
 }
 LevelPlayer::~LevelPlayer() {
-	this->unscheduleUpdate();
+	registerObserver(false);
 	CCLOG("~Player");
 }
 
@@ -115,7 +116,7 @@ void LevelPlayer::run(bool r) {
 		endRunning();
 }
 
-void LevelPlayer::jump(float holdingTimeDelta) {
+void LevelPlayer::jump() {
 	if (!_isSliding) {
 		if (_isOnGround && _shouldPerformJumpAnimation == false)
 		{
@@ -127,7 +128,6 @@ void LevelPlayer::jump(float holdingTimeDelta) {
 		}
 
 		if (_oldJumpHoldingTime <= 0.2) {
-			_oldJumpHoldingTime += holdingTimeDelta;
 			_upForce = 50 + _jumpPower * (_oldJumpHoldingTime / 0.2); // longest duration hold = 0.2sec
 		} else {
 			_oldJumpHoldingTime = 999;
@@ -156,7 +156,10 @@ void LevelPlayer::slide(bool s) {
 // private functions
 //
 
-void LevelPlayer::update(float dt) {
+void LevelPlayer::update(float dt)
+{
+	_oldJumpHoldingTime += dt;
+
 	this->_checkRun();
 	this->_checkJump();
 	this->_checkAlive();
@@ -226,3 +229,20 @@ void LevelPlayer::_checkAlive() {
 	}
 }
 
+void LevelPlayer::registerObserver(bool reg)
+{
+	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
+	if (reg) {
+		ed->addCustomEventListener("LEVEL_PLAYER_SLIDE_0", CC_CALLBACK_0(LevelPlayer::slide, this, 0));
+		ed->addCustomEventListener("LEVEL_PLAYER_SLIDE_1", CC_CALLBACK_0(LevelPlayer::slide, this, 1));
+		ed->addCustomEventListener("LEVEL_PLAYER_RUN_0", CC_CALLBACK_0(LevelPlayer::run, this, 0));
+		ed->addCustomEventListener("LEVEL_PLAYER_RUN_1", CC_CALLBACK_0(LevelPlayer::run, this, 1));
+		ed->addCustomEventListener("LEVEL_PLAYER_JUMP", CC_CALLBACK_0(LevelPlayer::jump, this));
+	} else {
+		ed->removeCustomEventListeners("LEVEL_PLAYER_SLIDE_0");
+		ed->removeCustomEventListeners("LEVEL_PLAYER_SLIDE_1");
+		ed->removeCustomEventListeners("LEVEL_PLAYER_RUN_0");
+		ed->removeCustomEventListeners("LEVEL_PLAYER_RUN_1");
+		ed->removeCustomEventListeners("LEVEL_PLAYER_JUMP");
+	}
+}
