@@ -56,7 +56,7 @@ void Level::createUI(int lvl, int sublvl)
 
 	char levelName[12];
 	sprintf(levelName, "Level %d.%d", lvl, sublvl);
-	hud = LevelHUD::initWithLevelName(levelName, player);
+	hud = LevelHUD::initWithLevelName(levelName);
 	hud->setCoins(0,4);
 
 	this->addChild(background);
