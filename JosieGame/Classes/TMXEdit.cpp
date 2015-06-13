@@ -10,16 +10,15 @@
 
 using namespace cocos2d;
 
-const int minPartLength = 1;
-const int minHeight = 8;
-const int maxHeight = 5;
-const int holeFreq = 4;//lower Value means more holes
-const int maxHoleSize = 2;
+const int minPartLength = 2;
+const int minHeight = 17;
+const int maxHeight = 11;
+const int holeFreq = 2;//lower Value means more holes
+const int maxHoleSize = 4;
 //GIDs
-const int gras = 6;
 const int topDirt = 1;
-const int dirt = 2;
-const int collide = 8;
+const int dirt = 17;
+const int collide = 234;
 TMXEdit::TMXEdit() {
 	// TODO Auto-generated constructor stub
 		map = MapController::initWithLevel(0,1);
@@ -52,7 +51,7 @@ void TMXEdit::fillGround(int ymin,int ymax){
 	int y = ymin;
 	int startNext = minPartLength;
 	int width = map->getMapSize().width;
-	for (int x = 10; x < width; ++x)
+	for (int x = 20; x < width; ++x)
 	{
 		placeGround(x,y);
 
@@ -60,7 +59,7 @@ void TMXEdit::fillGround(int ymin,int ymax){
 		if (x%startNext==0) //bestimmt wann eine neue H�he ermittelt werden soll
 		{
 			y = ymin - (arc4random()%(ymin-ymax)); // bestimmt die neue H�he
-			startNext =1 + x + minPartLength+(arc4random()%minPartLength);
+			startNext =  minPartLength+(arc4random()%minPartLength);
 		}
 		else if (arc4random()%holeFreq == 0 ){
 					x+= 2 + (arc4random()%maxHoleSize);
@@ -71,13 +70,12 @@ void TMXEdit::fillGround(int ymin,int ymax){
 void TMXEdit::placeGround(int x, int y){
 
 	_backgroundLayer->setTileGID(topDirt,Vec2(x,y));
-	_backgroundLayer->setTileGID(gras,Vec2(x,y-1));
 	_metaLayer->setTileGID(collide,Vec2(x,y));
-	if ( y < 8 )placeDirt(x, y+1);
+	if ( y < minHeight )placeDirt(x, y+1);
 }
 
 void TMXEdit::placeDirt(int x, int y){
 	_backgroundLayer->setTileGID(dirt,Vec2(x,y));
 	_metaLayer->setTileGID(collide,Vec2(x,y));
-	if ( y < 8 )placeDirt(x, y+1);
+	if ( y < minHeight )placeDirt(x, y+1);
 }

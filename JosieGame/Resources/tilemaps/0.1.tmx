@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="800" height="9" tilewidth="128" tileheight="128" nextobjectid="9">
- <tileset firstgid="1" name="FirstPrototypeTileset" tilewidth="128" tileheight="128">
-  <image source="SpriteSheet01.png" width="897" height="131"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1600" height="18" tilewidth="64" tileheight="64" nextobjectid="1">
+ <tileset firstgid="1" name="Tileset_02" tilewidth="64" tileheight="64" spacing="1" margin="1">
+  <image source="SpriteSheet02.png" width="1024" height="1024"/>
  </tileset>
- <tileset firstgid="8" name="meta_tiles" tilewidth="128" tileheight="128">
+ <tileset firstgid="226" name="meta_tiles" tilewidth="64" tileheight="64">
   <image source="Untitled-0001-default.png" width="484" height="228"/>
   <tile id="0">
    <properties>
@@ -12,23 +12,53 @@
   </tile>
   <tile id="1">
    <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
     <property name="Collectible" value="true"/>
    </properties>
   </tile>
  </tileset>
- <layer name="Background_layer" width="800" height="9">
+ <layer name="Foreground_layer" width="1600" height="18">
   <data encoding="base64" compression="zlib">
-   eJztw7EJAAAIAzBd/P9kXyi4SQKpAgAAAAAAAAAAAAAAAAAAAAAAAAAAgJ8mCAAAcNVhAACAqwUu7gBB
+   eJztzjEBAAAIA6DZv7QN9noICUgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+mOsAAAAAAAAAAAAAAAAA1QL0DwAC
   </data>
  </layer>
- <layer name="Meta_layer" width="800" height="9">
+ <layer name="Background_layer" width="1600" height="18">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAIA7Cd+FeMhQXeNmkCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXE0ZAADgawFTHABR
+   eJztzjEOgCAMQFG8AaLc/6qWhC7Gkejge8lPKHSgFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgH/YFgcAAAAAAPC1FvXoiGp0zrnNu5zH237by3Pu1Zf/DgAAAAAA8OQCrisBiA==
   </data>
  </layer>
- <layer name="Foreground_layer" width="800" height="9">
+ <layer name="Meta_layer" width="1600" height="18">
   <data encoding="base64" compression="zlib">
-   eJztzkEJAAAIBLB72T+yJQ4E2RIsAQAAAAAAAAAAAAAAAAAAAAAAAAAAgH/mOgAAAAAAAFC2Bo8ABw==
+   eJzt2QEJAAAIBLHvH9UUlhAE3eBSXAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBDDQcAAAAAALDN/wAAAAAAAK5pvLkkkQ==
   </data>
  </layer>
 </map>
