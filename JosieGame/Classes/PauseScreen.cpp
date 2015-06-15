@@ -1,5 +1,7 @@
 #include "PauseScreen.h"
+#include "SimpleAudioEngine.h"
 
+using namespace CocosDenshion;
 using namespace cocos2d;
 
 PauseScreen::PauseScreen() : _overlay(nullptr) {}
@@ -53,6 +55,7 @@ void PauseScreen::pauseGame()
 {
 	if (!_overlay->isVisible()) {
 		Director::getInstance()->pause();
+		SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 		_overlay->setVisible(true);
 	}
 }
@@ -60,6 +63,7 @@ void PauseScreen::pauseGame()
 void PauseScreen::continueGame()
 {
 	Director::getInstance()->resume();
+	SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 	_overlay->setVisible(false);
 }
 
