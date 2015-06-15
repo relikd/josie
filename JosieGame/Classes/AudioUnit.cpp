@@ -1,8 +1,5 @@
 #include "AudioUnit.h"
 #include "SimpleAudioEngine.h"
-#include "Level.h"
-#include <cstdlib>
-#include <sstream>
 #include "cocos2d.h"
 
 using namespace CocosDenshion;
@@ -119,7 +116,7 @@ void AudioUnit::playBackground()
 	engine->setBackgroundMusicVolume(1.0);
 
 	if (_isBoss)
-		NULL;
+		nullptr;
 	else
 		engine->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
 }
