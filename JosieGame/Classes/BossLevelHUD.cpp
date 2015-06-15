@@ -34,7 +34,7 @@ BossLevelHUD* BossLevelHUD::initWithBossHealth(float health)
 	hud->addBossHealthbar();
 	hud->addPlayerHealthbar();
 	hud->addPlayerControls();
-	hud->addPauseButton();
+	hud->addChild(PauseScreen::createPauseButton(1900,1060));
 
 	hud->scheduleUpdate();
 
@@ -122,19 +122,6 @@ void BossLevelHUD::addPlayerControls()
 	shootbutton->setPosition(Vec2::ZERO);
 	this->addChild(shootbutton);
 }
-
-void BossLevelHUD::addPauseButton() {
-	MenuItemImage *pause = MenuItemImage::create("buttons/pausebutton.png", "buttons/pausebutton.png", CC_CALLBACK_0(BossLevelHUD::pauseGame, this));
-	pause->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	pause->setPosition(1900, 1060);
-
-	Menu *menu = Menu::create(pause, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu);
-}
-
-void BossLevelHUD::pauseGame()
-{ this->addChild(PauseScreen::create()); }
 
 
 //

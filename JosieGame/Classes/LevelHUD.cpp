@@ -23,7 +23,7 @@ LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
 
 	hud->addStatusBar(name);
 	hud->addPlayerControls();
-	hud->addPauseButton();
+	hud->addChild(PauseScreen::createPauseButton(1900,980));
 
 	hud->scheduleUpdate();
 
@@ -83,19 +83,6 @@ void LevelHUD::addPlayerControls()
 	menu->setOpacity(128);
 	this->addChild(menu);
 }
-
-void LevelHUD::addPauseButton() {
-	MenuItemImage *pause = MenuItemImage::create("buttons/pausebutton.png", "buttons/pausebutton.png", CC_CALLBACK_0(LevelHUD::pauseGame, this));
-	pause->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	pause->setPosition(1900, 980);
-
-	Menu *menu = Menu::create(pause, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu);
-}
-
-void LevelHUD::pauseGame()
-{ this->addChild(PauseScreen::create()); }
 
 
 //
