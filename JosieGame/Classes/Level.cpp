@@ -8,24 +8,22 @@
 using namespace cocos2d;
 
 Level::Level() {
-	audioUnit = nullptr;
 	mapManager = nullptr;
 	hud = nullptr;
 	coins = 0;
+	AudioUnit::preloadLevelSounds();
 }
 Level::~Level() {
 	CCLOG("~Level");
-	audioUnit->stopBackground();
-	delete audioUnit;
+	AudioUnit::stopBackground();
+	AudioUnit::unloadLevelSounds();
 }
 
 Level* Level::initWithLevel(int level, int sublevel) {
 	Level *l = new Level();
 	l->autorelease();
 
-	l->audioUnit = AudioUnit::initWithBoss(false);
-	l->audioUnit->playBackground();
-
+	AudioUnit::playLevelBackground();
 	l->createUI(level, sublevel);
 
 	return l;
