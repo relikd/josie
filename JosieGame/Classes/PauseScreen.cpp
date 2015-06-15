@@ -2,45 +2,65 @@
 
 using namespace cocos2d;
 
-PauseScreen::PauseScreen() {}
+PauseScreen::PauseScreen() : _overlay(nullptr) {}
 PauseScreen::~PauseScreen() {
 	CCLOG("~PauseScreen");
 }
 
-PauseScreen* PauseScreen::create()
+PauseScreen* PauseScreen::createPauseButton(float x, float y)
 {
 	PauseScreen *p = new PauseScreen();
-	p->autorelease();
-	p->createUI();
+	if (p->init())
+	{
+		MenuItemImage *pauseButton = MenuItemImage::create("buttons/pausebutton.png", "buttons/pausebutton.png", CC_CALLBACK_0(PauseScreen::pauseGame, p));
+		Menu *holdon = Menu::createWithItem(pauseButton);
+		holdon->setPosition(Vec2::ZERO);
+
+		p->addChild(holdon);
+		p->setPosition( Vec2(x,y) - pauseButton->getContentSize()/2 );
+
+		p->autorelease();
+		p->createPauseOverlay();
+	}
 	return p;
 }
 
-void PauseScreen::createUI()
+void PauseScreen::createPauseOverlay()
 {
-	LayerColor *bg = LayerColor::create(Color4B::BLACK, 800, 900);
+	_overlay = Layer::create();
+	_overlay->setPosition( Vec2(560,100) - this->getPosition() );
+	this->addChild(_overlay);
+
+	LayerColor *bg = LayerColor::create(Color4B::BLACK, 800, 880);
 	bg->setOpacity(128);
-	bg->setPosition(560, 50);
 
 	Label *txt_continue = Label::createWithTTF("Continue", "fonts/Marker Felt.ttf", 80);
 	Label *txt_backmenu = Label::createWithTTF("Back to Menu", "fonts/Marker Felt.ttf", 80);
 	MenuItemLabel *cont = MenuItemLabel::create(txt_continue, CC_CALLBACK_0(PauseScreen::continueGame, this));
 	MenuItemLabel *back = MenuItemLabel::create(txt_backmenu, CC_CALLBACK_0(PauseScreen::backToMenu, this));
-	cont->setPosition(400, 800);
+	cont->setPosition(400, 760);
 	back->setPosition(400, 600);
 
 	Menu *m = Menu::create(cont, back, nullptr);
-	m->setPosition(bg->getPosition());
+	m->setPosition(Vec2::ZERO);
 
-	this->addChild(bg);
-	this->addChild(m);
+	_overlay->addChild(bg);
+	_overlay->addChild(m);
+	_overlay->setVisible(false);
+}
 
-	Director::getInstance()->pause();
+void PauseScreen::pauseGame()
+{
+	if (!_overlay->isVisible()) {
+		Director::getInstance()->pause();
+		_overlay->setVisible(true);
+	}
 }
 
 void PauseScreen::continueGame()
 {
 	Director::getInstance()->resume();
-	this->removeFromParent();
+	_overlay->setVisible(false);
 }
 
 void PauseScreen::backToMenu()

@@ -7,10 +7,13 @@ class PauseScreen : public cocos2d::Layer {
 public:
 	PauseScreen();
 	virtual ~PauseScreen();
-	static PauseScreen* create();
+	static PauseScreen* createPauseButton(float x, float y);
 
-	void createUI();
+private:
+	cocos2d::Layer *_overlay;
+	void createPauseOverlay();
 
+	void pauseGame();
 	void continueGame();
 	void backToMenu();
 };

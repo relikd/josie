@@ -19,8 +19,6 @@ private:
 
 	void addStatusBar(const std::string& title);
 	void addPlayerControls();
-	void addPauseButton();
-	void pauseGame();
 
 	void updateStatusBarTime();
 	void update(float dt);
