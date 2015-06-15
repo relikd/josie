@@ -22,6 +22,8 @@ private:
 	void addBossHealthbar();
 	void addPlayerHealthbar();
 	void addPlayerControls();
+	void addPauseButton();
+	void pauseGame();
 
 	void updateShields();
 	void update(float dt);

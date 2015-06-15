@@ -1,4 +1,5 @@
 #include "LevelHUD.h"
+#include "PauseScreen.h"
 
 using namespace cocos2d;
 
@@ -94,9 +95,7 @@ void LevelHUD::addPauseButton() {
 }
 
 void LevelHUD::pauseGame()
-{
-	Director::getInstance()->popScene();
-}
+{ this->addChild(PauseScreen::create()); }
 
 
 //
