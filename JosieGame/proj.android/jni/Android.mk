@@ -25,6 +25,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/LevelSelectScene.cpp \
                    ../../Classes/MainMenuScene.cpp \
 				   ../../Classes/MapController.cpp \
+				   ../../Classes/PauseScreen.cpp \
                    ../../Classes/Projectile.cpp \
 				   ../../Classes/ShopScene.cpp \
 				   ../../Classes/TMXEdit.cpp
