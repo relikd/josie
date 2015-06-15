@@ -95,7 +95,7 @@ void LevelPlayer::startRunningCallback()
 void LevelPlayer::endRunning()
 {
 	spriteImage->stopAllActions();
-	_level->audioUnit->playJosieStopRunSound();
+	AudioUnit::playJosieStopRunSound();
 	spriteImage->runAction(animationWithFrame("josiestartmove", 4)->reverse());
 }
 
@@ -122,7 +122,8 @@ void LevelPlayer::jump() {
 		{
 			_oldJumpHoldingTime = 0;
 			_shouldPerformJumpAnimation = true;
-			_level->audioUnit->playJosieJumpSound();
+			AudioUnit::playJosieJumpSound();
+
 			spriteImage->stopAllActions();
 			spriteImage->runAction(animationWithFrame("josiejump", 6));
 		}
@@ -145,7 +146,7 @@ void LevelPlayer::slide(bool s) {
 
 	if (_isSliding) {
 		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT/2));
-		_level->audioUnit->playJosieSlideSound();
+		AudioUnit::playJosieSlideSound();
 	} else {
 		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT));
 	}

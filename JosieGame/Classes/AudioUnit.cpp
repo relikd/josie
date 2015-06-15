@@ -1,41 +1,18 @@
 #include "AudioUnit.h"
 #include "SimpleAudioEngine.h"
-#include "cocos2d.h"
+#include <cstdlib> // rand()
+#include <sstream>
 
 using namespace CocosDenshion;
 
-AudioUnit::AudioUnit()
-{
-	_isBoss = false;
-}
-AudioUnit::~AudioUnit()
-{
-	CCLOG("~AudioUnit");
-	if (_isBoss)
-		unloadJosieActions_Boss();
-	else
-		unloadJosieActions_Level();
-}
-
-AudioUnit* AudioUnit::initWithBoss(bool isBoss)
-{
-	AudioUnit *au = new AudioUnit();
-	au->_isBoss = isBoss;
-
-	if (isBoss)
-		au->preloadJosieActions_Boss();
-	else
-		au->preloadJosieActions_Level();
-
-	return au;
-}
-
+AudioUnit::AudioUnit() {}
+AudioUnit::~AudioUnit() {}
 
 //
 // Preload & Unload
 //
 
-void AudioUnit::preloadJosieActions_Level()
+void AudioUnit::preloadLevelSounds()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->preloadEffect("audio/josie_sounds/jump_1.mp3");
@@ -49,12 +26,12 @@ void AudioUnit::preloadJosieActions_Level()
 	engine->preloadEffect("audio/josie_sounds/stop_3.mp3");
 }
 
-void AudioUnit::preloadJosieActions_Boss()
+void AudioUnit::preloadBossSounds()
 {
 
 }
 
-void AudioUnit::unloadJosieActions_Level()
+void AudioUnit::unloadLevelSounds()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->unloadEffect("audio/josie_sounds/jump_1.mp3");
@@ -68,12 +45,10 @@ void AudioUnit::unloadJosieActions_Level()
 	engine->unloadEffect("audio/josie_sounds/stop_3.mp3");
 }
 
-void AudioUnit::unloadJosieActions_Boss()
+void AudioUnit::unloadBossSounds()
 {
 
 }
-
-
 
 //
 // Play Josie Sounds
@@ -104,25 +79,30 @@ void AudioUnit::playJosieStopRunSound()
 	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 1.0);
 }
 
-
-
 //
 // Other Sounds
 //
 
-void AudioUnit::playBackground()
+void AudioUnit::stopBackground() {
+	SimpleAudioEngine::getInstance()->stopBackgroundMusic(true);
+}
+
+void AudioUnit::pauseBackground() {
+	SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+}
+
+void AudioUnit::resumeBackground() {
+	SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+}
+
+void AudioUnit::playLevelBackground()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->setBackgroundMusicVolume(1.0);
-
-	if (_isBoss)
-		nullptr;
-	else
-		engine->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
+	engine->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
 }
 
-void AudioUnit::stopBackground()
+void AudioUnit::playBossBackground()
 {
-	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->stopBackgroundMusic(true);
+
 }

@@ -5,20 +5,22 @@ class AudioUnit
 {
 public:
 	AudioUnit();
-	~AudioUnit();
-	static AudioUnit* initWithBoss(bool isBoss);
-	void playBackground();
-	void stopBackground();
-	void playJosieJumpSound();
-	void playJosieSlideSound();
-	void playJosieStopRunSound();
+	virtual ~AudioUnit();
 
-private:
-	bool _isBoss;
-	void preloadJosieActions_Level();
-	void preloadJosieActions_Boss();
-	void unloadJosieActions_Level();
-	void unloadJosieActions_Boss();
+	static void preloadLevelSounds();
+	static void preloadBossSounds();
+	static void unloadLevelSounds();
+	static void unloadBossSounds();
+
+	static void playJosieJumpSound();
+	static void playJosieSlideSound();
+	static void playJosieStopRunSound();
+
+	static void stopBackground();
+	static void pauseBackground();
+	static void resumeBackground();
+	static void playLevelBackground();
+	static void playBossBackground();
 };
 
 #endif /* AUDIOUNIT_H_ */

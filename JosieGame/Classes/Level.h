@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 
-class AudioUnit;
 class MapController;
 class LevelHUD;
 
@@ -18,7 +17,6 @@ public:
 	void resetLevelPosition(float position = 0.0f);
 	void addCoin();
 
-	AudioUnit *audioUnit;
 	MapController *mapManager;
 	int coins;
 private:
