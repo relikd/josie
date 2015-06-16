@@ -22,6 +22,7 @@ public:
 private:
 	LevelHUD *hud;
 	void createUI(int lvl, int sublvl);
+	void startAfterDelay(float delay);
 };
 
 #endif 
