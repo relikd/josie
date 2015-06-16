@@ -29,24 +29,35 @@ PauseScreen* PauseScreen::createPauseButton(float x, float y)
 void PauseScreen::createPauseOverlay()
 {
 	_overlay = Layer::create();
-	_overlay->setPosition( Vec2(560,100) - this->getPosition() );
+	_overlay->setPosition( Vec2(470,175) - this->getPosition() );
 	this->addChild(_overlay);
 
-	LayerColor *bg = LayerColor::create(Color4B::BLACK, 800, 880);
-	bg->setOpacity(128);
+	Sprite *bg = Sprite::create("buttons/menubuttons/pausescreen.png");
+	bg->setPosition(Vec2(0,0));
+	bg->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 
-	Label *txt_continue = Label::createWithTTF("Continue", "fonts/Marker Felt.ttf", 80);
-	Label *txt_backmenu = Label::createWithTTF("Back to Menu", "fonts/Marker Felt.ttf", 80);
-	MenuItemLabel *cont = MenuItemLabel::create(txt_continue, CC_CALLBACK_0(PauseScreen::continueGame, this));
-	MenuItemLabel *back = MenuItemLabel::create(txt_backmenu, CC_CALLBACK_0(PauseScreen::backToMenu, this));
-	cont->setPosition(400, 760);
-	back->setPosition(400, 600);
+	MenuItemImage *cont = MenuItemImage::create
+			("buttons/menubuttons/resume.png",
+			"buttons/menubuttons/resume.png",
+			CC_CALLBACK_0(PauseScreen::continueGame, this));
+	MenuItemImage *back = MenuItemImage::create
+				("buttons/menubuttons/backtomenu.png",
+				"buttons/menubuttons/backtomenu.png",
+				CC_CALLBACK_0(PauseScreen::backToMenu, this));
+	MenuItemImage *restart = MenuItemImage::create
+					("buttons/menubuttons/restart.png",
+					"buttons/menubuttons/restart.png"
+					);
+	cont->setPosition(bg->getContentSize().width/2, 290);
+	back->setPosition(bg->getContentSize().width/4, 200);
+	restart->setPosition(bg->getContentSize().width - (bg->getContentSize().width/4),200);
 
-	Menu *m = Menu::create(cont, back, nullptr);
+
+	Menu *m = Menu::create(cont, back,restart, nullptr);
 	m->setPosition(Vec2::ZERO);
 
 	_overlay->addChild(bg);
-	_overlay->addChild(m);
+	bg->addChild(m);
 	_overlay->setVisible(false);
 }
 
