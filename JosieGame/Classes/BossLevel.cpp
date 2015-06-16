@@ -119,9 +119,19 @@ void BossLevel::checkBossHit()
 
 void BossLevel::battleEndedWon(bool won)
 {
-	// TODO: some crazy fanzy animation
-	Director::getInstance()->popScene();
-	if (won) Director::getInstance()->popScene();
+	Sequence *tintFade = Sequence::createWithTwoActions(TintTo::create(0.7, 255, 0, 0), FadeTo::create(0.3, 0));
+	DelayTime *delay = DelayTime::create(tintFade->getDuration()+0.5);
+	CallFuncN *popScene = CallFuncN::create(CC_CALLBACK_0(Director::popScene, Director::getInstance()));
+	CallFuncN *popToMenu = CallFuncN::create(CC_CALLBACK_0(Director::popToSceneStackLevel, Director::getInstance(), 2));
+
+	if (won) {
+		left->spriteImage->runAction(tintFade->clone());
+		right->spriteImage->runAction(tintFade);
+		this->runAction(Sequence::createWithTwoActions(delay, popToMenu));
+	} else {
+		_playerBoss->spriteImage->runAction(tintFade);
+		this->runAction(Sequence::createWithTwoActions(delay, popScene));
+	}
 }
 
 
