@@ -50,6 +50,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     ud->setIntegerForKey("josie_perk_playerspeed", 1);
     ud->setIntegerForKey("josie_perk_shied", 0);
     ud->setBoolForKey("josie_perk_extralife", false);
+    ud->setIntegerForKey("music_volume",100);
+    ud->setIntegerForKey("sfx_volume",100);
     // ud->flush(); // no flush to reset settings after restart
 
     // preload animation frames

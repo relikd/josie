@@ -1,6 +1,7 @@
 #include "MainMenuScene.h"
 #include "Cutscene.h"
 #include "LevelSelectScene.h"
+#include "OptionScreen.h"
 
 USING_NS_CC;
 
@@ -86,6 +87,10 @@ bool MainMenu::init()
     auto testground = Sprite::create("testground.png");
     testground->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + testground->getContentSize().height/2));
     this->addChild(testground,1);
+
+    //add OptionsScreenFunction
+    this->addChild(OptionScreen::createOptionButton(1900,20),10);
+
     return true;
 }
 
