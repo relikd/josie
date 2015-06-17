@@ -20,6 +20,7 @@ private:
 	void _checkRun();
 	void _checkJump();
 	void _checkAlive();
+	void resetPlayerAnimations();
 
 	virtual void onEnterTransitionDidFinish();
 	void update(float dt);

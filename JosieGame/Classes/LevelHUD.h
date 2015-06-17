@@ -11,6 +11,8 @@ public:
 	static LevelHUD* initWithLevelName(const std::string& name);
 
 	void setCoins(int count, int max);
+	void setTime(float time) { _timeRunning = time; updateStatusBarTime(true); };
+	float getTime() { return _timeRunning; };
 private:
 	cocos2d::Label *txt_coins;
 	cocos2d::Label *txt_time;
@@ -20,7 +22,7 @@ private:
 	void addStatusBar(const std::string& title);
 	void addPlayerControls();
 
-	void updateStatusBarTime();
+	void updateStatusBarTime(bool force=false);
 	void update(float dt);
 
 

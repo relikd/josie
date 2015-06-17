@@ -96,12 +96,12 @@ void LevelHUD::setCoins(int count, int max)
 	txt_coins->setString(coins);
 }
 
-void LevelHUD::updateStatusBarTime()
+void LevelHUD::updateStatusBarTime(bool force)
 {
 	unsigned int minutes = (unsigned int)(_timeRunning / 60);
 	unsigned int seconds = (unsigned int)(_timeRunning - (minutes*60));
 
-	if (_previousSeconds != seconds) // update every second
+	if (_previousSeconds != seconds || force == true) // update every second
 	{
 		_previousSeconds = seconds;
 		char time[7];

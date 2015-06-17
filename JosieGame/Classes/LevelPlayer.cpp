@@ -49,6 +49,18 @@ void LevelPlayer::setPlayerOnGround(float pos_x) {
 	this->setPosition(pos_x,1000);
 	float height = _level->mapManager->collisionDiffBottom(this->getBoundingBox());
 	this->setPositionY(1000-height);
+
+	resetPlayerAnimations();
+}
+
+void LevelPlayer::resetPlayerAnimations()
+{
+	_isOnGround = true;
+	_isRunning = false;
+	_isSliding = false;
+	this->setScale(PLAYER_SCALE_DEFAULT);
+	this->spriteImage->stopAllActions();
+	this->spriteImage->setSpriteFrame("josiestartmove0000");
 }
 
 void LevelPlayer::onEnterTransitionDidFinish()
@@ -225,8 +237,12 @@ void LevelPlayer::_checkJump() {
 void LevelPlayer::_checkAlive() {
 	if (this->getPositionY() < -100) {
 		// KAABUUUUMMM! #splash
+		if (100.0 <= _level->mapManager->getLevelProgress(this->getBoundingBox()))
+			_level->finishLevelSuccessfull();
+		else
+			_level->finishLevelSuccessfull(false);
+
 		this->setPlayerOnGround(216);
-		_level->resetLevelPosition();
 	}
 }
 
