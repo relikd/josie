@@ -57,6 +57,11 @@ bool MapController::tryCollect(CollisionLayer *player)
 	return false;
 }
 
+float MapController::getLevelProgress(cocos2d::Rect bounds)
+{
+	return (bounds.getMaxX() / (_mapSize.width * _tileSize.width))*100;
+}
+
 /*void MapController::collectAt(Point tileCoord) {
 	map->getLayer("Meta_layer")->removeTileAt(tileCoord);
 	map->getLayer("Foreground_layer")->removeTileAt(tileCoord);

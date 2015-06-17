@@ -16,6 +16,7 @@ public:
 	void moveLevelAtSpeed(float speed);
 	void resetLevelPosition(float position = 0.0f);
 	void addCoin();
+	void finishLevelSuccessfull(bool successfull=true);
 
 	MapController *mapManager;
 	int coins;

@@ -16,6 +16,7 @@ public:
 	void initOptions();
 
 	bool tryCollect(CollisionLayer *player); // no need for Player class
+	float getLevelProgress(cocos2d::Rect bounds);
 
 	float collisionDiffTop(cocos2d::Rect bounds);
 	float collisionDiffBottom(cocos2d::Rect bounds);

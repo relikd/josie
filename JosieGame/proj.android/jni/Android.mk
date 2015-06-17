@@ -20,6 +20,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/CollisionLayer.cpp \
 				   ../../Classes/Cutscene.cpp \
 				   ../../Classes/Level.cpp \
+				   ../../Classes/LevelGameOver.cpp \
 				   ../../Classes/LevelHUD.cpp \
                    ../../Classes/LevelPlayer.cpp \
 				   ../../Classes/LevelSelectScene.cpp \

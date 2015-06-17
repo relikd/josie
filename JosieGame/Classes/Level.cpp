@@ -4,6 +4,7 @@
 #include "MapController.h"
 #include "LevelHUD.h"
 #include "LevelPlayer.h"
+#include "LevelGameOver.h"
 
 using namespace cocos2d;
 
@@ -88,16 +89,34 @@ void Level::startAfterDelay(float delay)
 //
 
 void Level::moveLevelAtSpeed(float speed) {
-	resetLevelPosition(-mapManager->getPositionX() + speed);
+	mapManager->setPositionX(mapManager->getPositionX() - speed);
 }
 
 void Level::resetLevelPosition(float position) // 0.0f if no parameter
 {
 	mapManager->setPositionX(-position);
+	this->startAfterDelay(1.0);
 }
 
 void Level::addCoin()
 {
 	coins++;
 	hud->setCoins(coins, 4);
+}
+
+void Level::finishLevelSuccessfull(bool successfull)
+{
+	resetLevelPosition();
+
+	if (successfull) {
+		LevelGameOver *gameover = LevelGameOver::createWin(coins, 4, hud->getTime());
+		Director::getInstance()->pushScene(gameover);
+	} else {
+		LevelGameOver *gameover = LevelGameOver::createFail();
+		Director::getInstance()->pushScene(gameover);
+	}
+
+	coins=-1;
+	addCoin();
+	hud->setTime(0);
 }
