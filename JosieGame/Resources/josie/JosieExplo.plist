@@ -175,6 +175,25 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
+			<key>JosieExplo10.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{384,384}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{384,384}</string>
+				<key>spriteSourceSize</key>
+				<string>{384,384}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{384,1539},{384,384}}</string>
+				<key>textureRotated</key>
+				<false/>
+			</dict>
 		</dict>
 		<key>metadata</key>
 		<dict>
