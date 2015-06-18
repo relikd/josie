@@ -24,7 +24,7 @@ Level* Level::initWithLevel(int level, int sublevel) {
 	Level *l = new Level();
 	l->autorelease();
 
-	AudioUnit::playLevelBackground();
+	AudioUnit::startBackgroundLevel();
 	l->createUI(level, sublevel);
 	l->startAfterDelay(2.0);
 
@@ -71,7 +71,7 @@ void Level::startAfterDelay(float delay)
 
 	Label *countdown = Label::createWithTTF("3", "fonts/Marker Felt.ttf", 80);
 	countdown->setPosition(Director::getInstance()->getWinSize()/2);
-	this->addChild(countdown);
+	hud->addChild(countdown,-1);
 
 	DelayTime *wait = DelayTime::create(delay/3.0);
 	CallFuncN *set2 = CallFuncN::create(CC_CALLBACK_0(Label::setString, countdown, "2"));
@@ -119,4 +119,5 @@ void Level::finishLevelSuccessfull(bool successfull)
 	coins=-1;
 	addCoin();
 	hud->setTime(0);
+	mapManager->reinitializeMap(false,true); // only coins
 }
