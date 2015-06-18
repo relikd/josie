@@ -18,78 +18,21 @@ LevelSelect::~LevelSelect() {
 }
 
 Scene* LevelSelect::createScene() {
-	// 'scene' is an autorelease object
-	auto scene = Scene::create();
+	Scene* scene = Scene::create();
 
-	// 'layer' is an autorelease object
-	auto layer = LevelSelect::create();
+	LevelSelect* layer = LevelSelect::create();
 
-	// add layer as a child to scene
 	scene->addChild(layer);
 
-	// return the scene
 	return scene;
 }
 
-// on "init" you need to initialize your instance
 bool LevelSelect::init() {
-	//////////////////////////////
-	// 1. super init first
 	if (!Layer::init()) {
 		return false;
 	}
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	//Button for Level 1.1
-	auto lvl1_1 = MenuItemImage::create(
-			"buttons/levelselectbuttons/level_selectbutton1.1.png",
-			"buttons/levelselectbuttons/level_selectbutton1.1.png",
-			CC_CALLBACK_1(LevelSelect::testTalk, this));
-	lvl1_1->setPosition(
-			Vec2((origin.x + visibleSize.width / 10)  * 2,
-					origin.y + visibleSize.height / 2));
-
-	//Button for Level 1.2
-	auto lvl1_2 = MenuItemImage::create(
-			"buttons/levelselectbuttons/level_selectbutton1.2.png",
-			"buttons/levelselectbuttons/level_selectbutton1.2.png",
-			CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));
-	lvl1_2->setPosition(
-			Vec2((origin.x + visibleSize.width / 10)  * 4,
-					origin.y + visibleSize.height / 2));
-
-	//Button for Level 1.3
-	auto lvl1_3 = MenuItemImage::create(
-			"buttons/levelselectbuttons/level_selectbutton1.3.png",
-			"buttons/levelselectbuttons/level_selectbutton1.3.png",
-			CC_CALLBACK_1(LevelSelect::startLevel, this, 0, 1));//TODO: ruft derzeit rnd level 0.1, soll 1.3 rufen, sobald0.1 eigenen utton hat
-	lvl1_3->setPosition(
-			Vec2((origin.x + visibleSize.width / 10)  * 6,
-					origin.y + visibleSize.height / 2));
-
-	//Button for BossLevel (1.0)
-	auto lvl1_0 = MenuItemImage::create(
-			"buttons/levelselectbuttons/level_selectbutton1.0.png",
-			"buttons/levelselectbuttons/level_selectbutton1.0.png",
-			CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 0));
-	lvl1_0->setPosition(
-			Vec2((origin.x + visibleSize.width / 10) * 8,
-					origin.y + visibleSize.height / 2));
-
-
-	auto pause = MenuItemImage::create("buttons/pausebutton.png",
-			"buttons/pausebutton.png",
-			CC_CALLBACK_1(LevelSelect::backToMainMenu, this));
-	pause->setPosition(
-			Vec2(origin.x + visibleSize.width - pause->getContentSize().width,
-					origin.y + visibleSize.height
-							- pause->getContentSize().height));
-
-	auto levelmenu = Menu::create(lvl1_1, lvl1_2,lvl1_3, lvl1_0, pause, NULL);
-	levelmenu->setPosition(Vec2::ZERO);
-	this->addChild(levelmenu, 1);
+	buildUI();
 
 	return true;
 
@@ -111,4 +54,64 @@ void LevelSelect::startLevel(Ref* pSender, int level, int sublevel) {
 void LevelSelect::testTalk(Ref* pSender){
 	auto levelxxx = Cutscene::createScene();
 	Director::getInstance()->pushScene(levelxxx);
+}
+
+void LevelSelect::buildUI(){
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+		Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+		Sprite* background = Sprite::create("backgrounds/bg_lvlselect.png");
+		background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+		background->setPosition(Vec2::ZERO);
+
+		//Button for Level 1.1
+		MenuItemImage* lvl1_1 = MenuItemImage::create(
+				"buttons/levelselectbuttons/level_selectbutton1.1.png",
+				"buttons/levelselectbuttons/level_selectbutton1.1.png",
+				CC_CALLBACK_1(LevelSelect::testTalk, this));
+		lvl1_1->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+		lvl1_1->setPosition(Vec2(origin.x + 10, origin.y + visibleSize.height - 10));
+
+		//Button for Level 1.2
+		MenuItemImage* lvl1_2 = MenuItemImage::create(
+				"buttons/levelselectbuttons/level_selectbutton1.2.png",
+				"buttons/levelselectbuttons/level_selectbutton1.2.png",
+				CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));
+		lvl1_2->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+		lvl1_2->setPosition(Vec2(origin.x + 490, origin.y + visibleSize.height - 10));
+
+		//Button for Level 1.3
+		MenuItemImage* lvl1_3 = MenuItemImage::create(
+				"buttons/levelselectbuttons/level_selectbutton1.3.png",
+				"buttons/levelselectbuttons/level_selectbutton1.3.png",
+				CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));//TODO: ruft derzeit rnd level 0.1, soll 1.3 rufen, sobald0.1 eigenen utton hat
+		lvl1_3->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+		lvl1_3->setPosition(Vec2(origin.x + 970, origin.y + visibleSize.height - 10));
+
+		//Button for BossLevel (1.0)
+		MenuItemImage* lvl1_0 = MenuItemImage::create(
+				"buttons/levelselectbuttons/level_selectbutton1.0.png",
+				"buttons/levelselectbuttons/level_selectbutton1.0.png",
+				CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 0));
+		lvl1_0->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+		lvl1_0->setPosition(Vec2(origin.x + 1450, origin.y + visibleSize.height - 10));
+
+		MenuItemImage* lvl_random = MenuItemImage::create(
+				"buttons/levelselectbuttons/randomlevelbutton.png",
+				"buttons/levelselectbuttons/randomlevelbutton.png",
+				CC_CALLBACK_1(LevelSelect::startLevel, this, 0, 1));
+		lvl_random->setPosition(Vec2(visibleSize.width/2, visibleSize.height/5 - 5));
+
+
+		MenuItemImage* pause = MenuItemImage::create("buttons/pausebutton.png",
+				"buttons/pausebutton.png",
+				CC_CALLBACK_1(LevelSelect::backToMainMenu, this));
+		pause->setPosition(
+				Vec2(origin.x + visibleSize.width - pause->getContentSize().width,
+						origin.y + pause->getContentSize().height));
+
+		Menu* levelmenu = Menu::create(lvl1_1, lvl1_2,lvl1_3, lvl1_0,lvl_random, pause, NULL);
+		levelmenu->setPosition(Vec2::ZERO);
+		this->addChild(background,-1);
+		this->addChild(levelmenu, 1);
 }
