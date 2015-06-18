@@ -23,6 +23,7 @@ public:
     virtual bool init();
 
     // a selector callback
+    void buildUI();
     void backToMainMenu(cocos2d::Ref* pSender);
     void startLevel(cocos2d::Ref* pSender,int level, int sublevel);
     void testTalk(cocos2d::Ref* pSender);
