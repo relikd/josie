@@ -22,7 +22,7 @@ public:
 	float collisionDiffBottom(cocos2d::Rect bounds);
 	float collisionDiffRight(cocos2d::Rect bounds);
 
-	void reinitializeMap();
+	void reinitializeMap(bool re_collision=true, bool re_coins=true);
 private:
 	long *_collisionMap;
 	cocos2d::Vector<CollisionLayer*> _coins;

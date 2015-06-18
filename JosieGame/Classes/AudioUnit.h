@@ -19,8 +19,8 @@ public:
 	static void stopBackground();
 	static void pauseBackground();
 	static void resumeBackground();
-	static void playLevelBackground();
-	static void playBossBackground();
+	static void startBackgroundLevel();
+	static void startBackgroundBoss();
 };
 
 #endif /* AUDIOUNIT_H_ */

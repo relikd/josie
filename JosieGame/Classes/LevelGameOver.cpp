@@ -1,11 +1,16 @@
 #include "LevelGameOver.h"
+#include "AudioUnit.h"
 
 using namespace cocos2d;
 
 LevelGameOver::LevelGameOver() {
 	Director::getInstance()->pause();
+	AudioUnit::stopBackground();
+	AudioUnit::startBackgroundLevel();
+	AudioUnit::pauseBackground();
 }
 LevelGameOver::~LevelGameOver() {
+	AudioUnit::resumeBackground();
 	Director::getInstance()->resume();
 	CCLOG("~GameOverScreen");
 }
@@ -34,10 +39,11 @@ void LevelGameOver::addSuccess(int coins, int max_coins, float time)
 {
 	unsigned int minutes = (unsigned int) (time / 60);
 	unsigned int seconds = (unsigned int) (time - (minutes * 60));
+	unsigned int millis =  (unsigned int) ((time-((int)time))*1000);
 
 	char time_str[7];
 	char coin_str[10];
-	sprintf(time_str, "%02d:%02d.%03d", minutes, seconds, (int)((time-((int)time))*100));
+	sprintf(time_str, "%02d:%02d.%03d", minutes, seconds, millis);
 	sprintf(coin_str, "%d / %d", coins, max_coins);
 
 
@@ -48,7 +54,7 @@ void LevelGameOver::addSuccess(int coins, int max_coins, float time)
 	lbl->setPosition(960, 840);
 
 	Sprite *coinImage = Sprite::createWithSpriteFrameName("coin0001");
-	Sprite *timeImage = Sprite::create("boss_sprites/playerbar_shield.png");
+	Sprite *timeImage = Sprite::create("buttons/menubuttons/clock.png");
 	coinImage->setPosition(715, 520);
 	timeImage->setPosition(715, 320);
 

@@ -137,14 +137,18 @@ float MapController::collisionDiffRight(Rect bounds)
 // :::::::::: Other Functionality ::::::::::
 //
 
-void MapController::reinitializeMap()
+void MapController::reinitializeMap(bool re_collision, bool re_coins)
 {
-	for (CollisionLayer* coin : this->_coins) {
-		coin->removeFromParent();
+	if (re_collision) {
+		this->initCollisionMap();
 	}
-	_coins.clear();
-	this->initCollisionMap();
-	this->initCollectableArray();
+	if (re_coins) {
+		for (CollisionLayer* coin : this->_coins) {
+			coin->removeFromParent();
+		}
+		_coins.clear();
+		this->initCollectableArray();
+	}
 }
 
 void MapController::initCollectableArray()
