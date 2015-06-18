@@ -47,7 +47,7 @@ ShopScene* ShopScene::initShop()
 
 void ShopScene::fight()
 {
-	BossLevel *bosslvl = BossLevel::initWithOptions();
+	BossLevel *bosslvl = BossLevel::createBossDifficulty(UserDefault::getInstance()->getIntegerForKey("josie_perk_shied"));
 	Director::getInstance()->pushScene(bosslvl);
 }
 

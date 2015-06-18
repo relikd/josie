@@ -13,7 +13,7 @@ class BossLevel : public cocos2d::Scene
 public:
 	BossLevel();
 	virtual ~BossLevel();
-	static BossLevel* initWithOptions();
+	static BossLevel* createBossDifficulty(int difficulty);
 
 	cocos2d::Vector<Projectile*> projectiles;
 
@@ -34,6 +34,7 @@ private:
 	CollisionLayer* right;
 	float _attackTimer;
 	float _timeSinceLastHit;
+	int _difficulty;
 };
 
 #endif /* BOSSLEVEL_H_ */
