@@ -6,7 +6,8 @@
 
 using namespace cocos2d;
 
-#define BOSSPLAYER_IMMORTAL_TIME 3.0
+#define BOSSPLAYER_IMMORTAL_TIME 2.5
+#define BOSS_SLOWEST_ATTACK_TIME 8.0
 
 BossLevel::BossLevel() {
 	_hud = nullptr;
@@ -15,16 +16,20 @@ BossLevel::BossLevel() {
 	right = nullptr;
 	_attackTimer = 0;
 	_timeSinceLastHit = BOSSPLAYER_IMMORTAL_TIME;
+	_difficulty = 1;
 }
 
 BossLevel::~BossLevel() {
 	CCLOG("~BossLevel");
 }
 
-BossLevel* BossLevel::initWithOptions()
+BossLevel* BossLevel::createBossDifficulty(int difficulty)  // 1 - 10
 {
 	BossLevel *boss = new BossLevel();
 	boss->autorelease();
+
+	if (difficulty > 0)
+		boss->_difficulty = difficulty;
 
 	boss->createUI();
 	boss->loadWeapons();
@@ -45,7 +50,7 @@ void BossLevel::createUI()
 	_playerBoss = BossPlayer::createWithLevel(this);
 	_playerBoss->setPosition((1920/2), 108);
 
-	_hud = BossLevelHUD::initWithBossHealth(10);
+	_hud = BossLevelHUD::initWithBossHealth( 10 + 2 * pow(2, _difficulty) );
 
 	this->addChild(background,-1);
 	this->addChild(_playerBoss,0);
@@ -75,7 +80,7 @@ void BossLevel::update(float dt)
 
 	if(_attackTimer < 0) {
 		bossAttack();
-		_attackTimer = 7; // every 7 seconds an attack
+		_attackTimer = BOSS_SLOWEST_ATTACK_TIME / sqrt(_difficulty);
 	}
 
 	checkPlayerHit(left);
