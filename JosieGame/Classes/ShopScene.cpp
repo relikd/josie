@@ -33,6 +33,8 @@ ShopScene* ShopScene::initShop()
     scene->addChild(scene->_menu);
     scene->addChild(scene->_equippedLayer);
 
+    scene->showJosieInShopWindow();
+
     scene->createLabels();
     scene->createButtons();
 
@@ -125,6 +127,12 @@ void ShopScene::upgrade(Ref* p)
 	updateButtonState();
 }
 
+void ShopScene::showJosieInShopWindow(){
+	Sprite* josie = Sprite::create("josie/josie_transformed_static.png");
+	josie->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	josie->setPosition(Vec2((1920/4) *3,1080/2 + 10));
+	this->addChild(josie);
+}
 
 //
 // UserDefaults Manager

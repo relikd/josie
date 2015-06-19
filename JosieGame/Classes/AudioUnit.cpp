@@ -15,7 +15,7 @@ AudioUnit::~AudioUnit() {}
 void AudioUnit::preloadLevelSounds()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->setEffectsVolume(UserDefault::getInstance()->getIntegerForKey("sfx_volume")/100.0);
+	engine->setEffectsVolume(UserDefault::getInstance()->getIntegerForKey("sfx_volume")/200.0);
 	engine->preloadEffect("audio/josie_sounds/jump_1.mp3");
 	engine->preloadEffect("audio/josie_sounds/jump_2.mp3");
 	engine->preloadEffect("audio/josie_sounds/jump_3.mp3");
@@ -29,7 +29,18 @@ void AudioUnit::preloadLevelSounds()
 
 void AudioUnit::preloadBossSounds()
 {
-
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->setEffectsVolume(UserDefault::getInstance()->getIntegerForKey("sfx_volume")/200.0);
+	engine->preloadEffect("audio/boss_sounds/boss_hit1.mp3");
+	engine->preloadEffect("audio/boss_sounds/boss_hit2.mp3");
+	engine->preloadEffect("audio/boss_sounds/boss_hit3.mp3");
+	engine->preloadEffect("audio/boss_sounds/projectile_hit1.mp3");
+	engine->preloadEffect("audio/boss_sounds/projectile_hit2.mp3");
+	engine->preloadEffect("audio/boss_sounds/projectile_hit3.mp3");
+	engine->preloadEffect("audio/boss_sounds/shoot.mp3");
+	engine->preloadEffect("audio/josie_sounds/josie_hit1.mp3");
+	engine->preloadEffect("audio/josie_sounds/josie_hit2.mp3");
+	engine->preloadEffect("audio/josie_sounds/josie_hit3.mp3");
 }
 
 void AudioUnit::unloadLevelSounds()
@@ -48,7 +59,17 @@ void AudioUnit::unloadLevelSounds()
 
 void AudioUnit::unloadBossSounds()
 {
-
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->unloadEffect("audio/boss_sounds/boss_hit1.mp3");
+	engine->unloadEffect("audio/boss_sounds/boss_hit2.mp3");
+	engine->unloadEffect("audio/boss_sounds/boss_hit3.mp3");
+	engine->unloadEffect("audio/boss_sounds/projectile_hit1.mp3");
+	engine->unloadEffect("audio/boss_sounds/projectile_hit2.mp3");
+	engine->unloadEffect("audio/boss_sounds/projectile_hit3.mp3");
+	engine->unloadEffect("audio/boss_sounds/shoot.mp3");
+	engine->unloadEffect("audio/josie_sounds/josie_hit1.mp3");
+	engine->unloadEffect("audio/josie_sounds/josie_hit2.mp3");
+	engine->unloadEffect("audio/josie_sounds/josie_hit3.mp3");
 }
 
 //
@@ -80,6 +101,34 @@ void AudioUnit::playJosieStopRunSound()
 	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.5);
 }
 
+void AudioUnit::playBossHitSound(){
+	std::ostringstream s;
+	s << "audio/boss_sounds/boss_hit"<< (rand()%3)+1 <<".mp3";
+
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->playEffect(s.str().c_str(), false, 1.0, -1.0, 0.1);
+}
+
+void AudioUnit::playProjectileHitSound(){
+	std::ostringstream s;
+	s << "audio/boss_sounds/projectile_hit"<< (rand()%3)+1 <<".mp3";
+
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.3);
+}
+
+void AudioUnit::playJosieShootSound(){
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->playEffect("audio/boss_sounds/shoot.mp3",false,1.0,1.0,2.0);
+}
+
+void AudioUnit::playJosieHitSound(){
+	std::ostringstream s;
+	s << "audio/josie_sounds/josie_hit"<< (rand()%3)+1 <<".mp3";
+
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.7);
+}
 //
 // Other Sounds
 //
@@ -100,7 +149,7 @@ void AudioUnit::startBackgroundLevel()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->setBackgroundMusicVolume(UserDefault::getInstance()->getIntegerForKey("music_volume")/100.0);
-	engine->playBackgroundMusic("audio/MainMenuAmbienceTrack96bit.mp3", true);
+	engine->playBackgroundMusic("audio/level_audio.mp3", true);
 }
 
 void AudioUnit::startBackgroundBoss()
