@@ -11,14 +11,14 @@
 using namespace cocos2d;
 
 const int minPartLength = 2;
-const int minHeight = 17;
-const int maxHeight = 11;
+const int minHeight = 14;
+const int maxHeight = 8;
 const int holeFreq = 2;//lower Value means more holes
 const int maxHoleSize = 4;
 //GIDs
 const int topDirt = 1;
-const int dirt = 17;
-const int collide = 234;
+const int dirt = 8;
+const int collide = 20;
 TMXEdit::TMXEdit() {
 	// TODO Auto-generated constructor stub
 		map = MapController::initWithLevel(0,1);
