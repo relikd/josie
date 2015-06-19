@@ -14,6 +14,7 @@ void GameStateManager::initManagerWithDefaults()
 
 bool GameStateManager::isLevelUnlocked(int level, int sublevel)
 {
+	if (!SAVE_USER_STATE) return true;
 	if (level == 1 && sublevel == 1)
 		return true; // first level
 	if (sublevel==0)
