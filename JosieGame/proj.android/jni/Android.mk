@@ -19,6 +19,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/BossPlayer.cpp \
 				   ../../Classes/CollisionLayer.cpp \
 				   ../../Classes/Cutscene.cpp \
+				   ../../Classes/GameStateManager.cpp \
 				   ../../Classes/Level.cpp \
 				   ../../Classes/LevelGameOver.cpp \
 				   ../../Classes/LevelHUD.cpp \
