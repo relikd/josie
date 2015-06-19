@@ -75,12 +75,11 @@ bool MainMenu::init()
 void MainMenu::menuCloseCallback(Ref* pSender)
 {
     Director::getInstance()->end();
-
 }
 
 void MainMenu::play(Ref* pSender)
 {
-	auto levelSelectScreen = LevelSelect::createScene();
+	LevelSelect *levelSelectScreen = LevelSelect::createSceneWithLevel(1);
 	Director::getInstance()->pushScene(levelSelectScreen);
 }
 
