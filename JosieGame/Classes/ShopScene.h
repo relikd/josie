@@ -18,6 +18,7 @@ private:
 	int priceForColumn(int column);
 	void createLabels();
 	void createButtons();
+	void showJosieInShopWindow();
 	void upgrade(Ref* p);
 
 	int perkGetValue(int row, int column);

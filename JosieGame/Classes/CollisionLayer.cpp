@@ -64,7 +64,9 @@ CollisionLayer* CollisionLayer::createCoinSprite()
 
 		coin->insertSprite(Sprite::create());
 		coin->spriteImage->setPosition(25,60);
+		coin->setScale(0.4);
 		coin->spriteImage->runAction(RepeatForever::create(Animate::create(animation)));
+
 	}
 	return coin;
 }

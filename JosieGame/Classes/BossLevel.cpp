@@ -3,6 +3,7 @@
 #include "CollisionLayer.h"
 #include "BossLevelHUD.h"
 #include "BossPlayer.h"
+#include "AudioUnit.h"
 
 using namespace cocos2d;
 
@@ -17,9 +18,11 @@ BossLevel::BossLevel() {
 	_attackTimer = 0;
 	_timeSinceLastHit = BOSSPLAYER_IMMORTAL_TIME;
 	_difficulty = 1;
+	AudioUnit::preloadBossSounds();
 }
 
 BossLevel::~BossLevel() {
+	AudioUnit::unloadBossSounds();
 	CCLOG("~BossLevel");
 }
 
@@ -106,6 +109,7 @@ void BossLevel::checkPlayerHit(CollisionLayer* weapon)
 {
 	if (_timeSinceLastHit > BOSSPLAYER_IMMORTAL_TIME && weapon->getCollision(_playerBoss))
 	{
+		AudioUnit::playJosieHitSound();
 		_timeSinceLastHit = 0;
 		_playerBoss->runAction(Blink::create(BOSSPLAYER_IMMORTAL_TIME, 15));
 		if (_hud->reducePlayerHealth() == false) {
@@ -123,6 +127,8 @@ void BossLevel::checkBossHit()
 			pr->killProjectile(true);
 			int projectile_damage = UserDefault::getInstance()->getIntegerForKey("josie_perk_damage");
 
+			//AudioUnit::playProjectileHitSound(); //To much but if you want to you can activate it
+			AudioUnit::playBossHitSound();
 			getChildByTag(401)->setVisible(true);
 			getChildByTag(400)->setVisible(false);
 			CallFuncN *hurt = CallFuncN::create(CC_CALLBACK_0(Node::setVisible, getChildByTag(401), false));

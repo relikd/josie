@@ -1,5 +1,5 @@
 #include "BossPlayer.h"
-
+#include "AudioUnit.h"
 #include "Projectile.h"
 #include "BossLevel.h"
 
@@ -61,6 +61,7 @@ void BossPlayer::shoot()
 	if (_timeSinceLastShot <= 1.4-frequency*0.3)
 		return;
 
+	AudioUnit::playJosieShootSound();
 	int type = ud->getIntegerForKey("josie_perk_shoot");
 	Vec2 pos = Vec2(this->getBoundingBox().getMidX(), this->getBoundingBox().getMaxY());
 

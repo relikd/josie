@@ -15,6 +15,12 @@ public:
 	static void playJosieJumpSound();
 	static void playJosieSlideSound();
 	static void playJosieStopRunSound();
+	static void playJosieShootSound();
+	static void playJosieHitSound();
+
+	static void playBossHitSound();
+	static void playProjectileHitSound();
+
 
 	static void stopBackground();
 	static void pauseBackground();
