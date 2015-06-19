@@ -8,6 +8,7 @@ class BossLevelHUD;
 
 #include "cocos2d.h"
 
+
 class BossLevel : public cocos2d::Scene
 {
 public:
