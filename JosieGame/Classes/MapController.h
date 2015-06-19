@@ -26,8 +26,10 @@ public:
 private:
 	long *_collisionMap;
 	cocos2d::Vector<CollisionLayer*> _coins;
+	cocos2d::Vector<CollisionLayer*> _collisions;
 
 	void initCollectableArray();
+	void initCollisionArray();
 	void initCollisionMap();
 
 	cocos2d::Point coordinateFromTilePoint(cocos2d::Point tileCoord);
