@@ -106,7 +106,7 @@ void AudioUnit::playBossHitSound(){
 	s << "audio/boss_sounds/boss_hit"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect(s.str().c_str(), false, 1.0, -1.0, 0.1);
+	engine->playEffect(s.str().c_str(), false, 1.0, -1.0, 0.3);
 }
 
 void AudioUnit::playProjectileHitSound(){
