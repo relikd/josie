@@ -27,7 +27,7 @@ void LevelSelect::startLevel(int sublevel) {
 	if (sublevel == 0) {
 		ShopScene *shop = ShopScene::initShop();
 		Director::getInstance()->pushScene(shop);
-	} else if (sublevel == 1) {
+	} else if (sublevel >= 1 && sublevel <= 3) {
 		auto cut = Cutscene::createScene(sublevel);
 		Director::getInstance()->pushScene(cut);
 	} else {

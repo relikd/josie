@@ -29,6 +29,10 @@ public:
 		void play(cocos2d::Ref* pSender);
 		void speech(cocos2d::Ref* pSender);
 		void speech1(cocos2d::Ref* pSender);
+		void speech2(cocos2d::Ref* pSender);
+		void speech3(cocos2d::Ref* pSender);
+		void speech4(cocos2d::Ref* pSender);
+		/*void bossdefeated(cocos2d::Ref* pSender);*/
 		void startlvl(cocos2d::Ref* pSender,int level, int sublevel);
 
 
