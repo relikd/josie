@@ -13,7 +13,7 @@ public:
 
 	void startLevel(int sublevel);
 	void startRandomLevel();
-	void testTalk();
+	void testTalk(int level);
 private:
 	int _level;
 };
