@@ -67,7 +67,7 @@ void BossLevel::createUI()
 	_hud = BossLevelHUD::initWithBossHealth( 10 + 2 * pow(2, _difficulty) );
 
 	this->addChild(background,-1);
-	this->addChild(_playerBoss,0);
+	this->addChild(_playerBoss,1);
 	this->addChild(_hud,2);
 }
 

@@ -30,6 +30,7 @@ BossPlayer* BossPlayer::createWithLevel(BossLevel* level) {
 		bp->insertImageName("josie/josie_transformed_static.png", Vec2(bp->getContentSize().width/2, 0), Vec2::ANCHOR_MIDDLE_BOTTOM);
 		bp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		bp->setScale(DEFAULT_BOSSPLAYER_SCALE);
+		bp->loadGun();
 		bp->scheduleUpdate();
 	}
 	return bp;
@@ -107,4 +108,40 @@ void BossPlayer::registerObserver(bool reg)
 		ed->removeCustomEventListeners("BOSS_PLAYER_RIGHT");
 		ed->removeCustomEventListeners("BOSS_PLAYER_SHOOT");
 	}
+}
+
+void BossPlayer::loadGun(){
+
+	int type = cocos2d::UserDefault::getInstance()->getIntegerForKey("josie_perk_shoot");
+
+	Sprite* gunOne = Sprite::create("josie/josie_gun.png");
+	Sprite* gunTwo = Sprite::create("josie/josie_gun.png");
+	Sprite* gunThree = Sprite::create("josie/josie_gun.png");
+	Sprite* gunFour = Sprite::create("josie/josie_gun.png");
+
+	if(type&1){
+		gunOne->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height - 20));
+		gunOne->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		this->addChild(gunOne, -1);
+	}
+	else{
+		gunOne->setPosition(Vec2(this->getContentSize().width/2 - gunOne->getContentSize().width, this->getContentSize().height - 20));
+		gunOne->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		gunTwo->setPosition(Vec2(this->getContentSize().width/2 + gunTwo->getContentSize().width, this->getContentSize().height - 20));
+		gunTwo->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		this->addChild(gunOne, -1);
+		this->addChild(gunTwo, -1);
+	}
+
+	if(type > 2){
+		gunThree->setPosition(Vec2(this->getContentSize().width/2 - gunThree->getContentSize().width, this->getContentSize().height- 35));
+		gunThree->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		gunThree->setRotation(-25.0);
+		gunFour->setPosition(Vec2(this->getContentSize().width/2 + gunFour->getContentSize().width, this->getContentSize().height - 35));
+		gunFour->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		gunFour->setRotation(25.0);
+		this->addChild(gunThree, -1);
+		this->addChild(gunFour, -1);
+	}
+
 }

@@ -20,6 +20,7 @@ private:
 	void moveLeft();
 	void moveRight();
 	void shoot();
+	void loadGun();
 
 	void update(float dt);
 	void registerObserver(bool reg=true);
