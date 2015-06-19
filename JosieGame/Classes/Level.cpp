@@ -110,6 +110,7 @@ void Level::finishLevelSuccessfull(bool successfull)
 
 	if (successfull) {
 		LevelGameOver *gameover = LevelGameOver::createWin(coins, 4, hud->getTime());
+		//cocos2d::UserDefault::getInstance()->setIntegerForKey("levels_complete", cocos2d::UserDefault::getInstance()->getIntegerForKey("levels_complete") + 1);
 		Director::getInstance()->pushScene(gameover);
 	} else {
 		LevelGameOver *gameover = LevelGameOver::createFail();

@@ -46,6 +46,20 @@ void BossLevel::createUI()
 	Sprite *background = Sprite::create("backgrounds/bg_1.0.png");
 	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 
+	//Mimik Images
+	Sprite *mimik_normal = Sprite::create("boss_sprites/tree_mimik_normal.png");
+	mimik_normal->setPosition(Vec2(1920/2, 1080/6 * 4));
+	mimik_normal->setTag(400);
+	mimik_normal->setVisible(true);
+	this->addChild(mimik_normal,0);
+
+
+	Sprite *mimik_hurt = Sprite::create("boss_sprites/tree_mimik_hurt.png");
+	mimik_hurt->setPosition(Vec2(1920/2, 1080/6 * 4));
+	mimik_hurt->setTag(401);
+	mimik_hurt->setVisible(false);
+	this->addChild(mimik_hurt,0);
+
 	// load Player
 	_playerBoss = BossPlayer::createWithLevel(this);
 	_playerBoss->setPosition((1920/2), 108);
@@ -108,6 +122,14 @@ void BossLevel::checkBossHit()
 		{
 			pr->killProjectile(true);
 			int projectile_damage = UserDefault::getInstance()->getIntegerForKey("josie_perk_damage");
+
+			getChildByTag(401)->setVisible(true);
+			getChildByTag(400)->setVisible(false);
+			CallFuncN *hurt = CallFuncN::create(CC_CALLBACK_0(Node::setVisible, getChildByTag(401), false));
+			CallFuncN *normal = CallFuncN::create(CC_CALLBACK_0(Node::setVisible, getChildByTag(400), true));
+			Sequence* gotHit = Sequence::create(DelayTime::create(0.2), hurt, normal,nullptr);
+			this->runAction(gotHit);
+
 
 			if (_hud->reduceBossHealth(projectile_damage) == false) {
 				battleEndedWon(true);

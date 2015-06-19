@@ -60,7 +60,7 @@ void LevelSelect::buildUI(){
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-		Sprite* background = Sprite::create("backgrounds/bg_lvlselect.png");
+		Sprite* background = Sprite::create("backgrounds/bg_lvl_select.png");
 		background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		background->setPosition(Vec2::ZERO);
 
@@ -71,6 +71,9 @@ void LevelSelect::buildUI(){
 				CC_CALLBACK_1(LevelSelect::testTalk, this));
 		lvl1_1->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 		lvl1_1->setPosition(Vec2(origin.x + 10, origin.y + visibleSize.height - 10));
+		lvl1_1->setEnabled(false);
+		lvl1_1->setOpacity(50);
+		lvl1_1->setTag(301);
 
 		//Button for Level 1.2
 		MenuItemImage* lvl1_2 = MenuItemImage::create(
@@ -79,6 +82,11 @@ void LevelSelect::buildUI(){
 				CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));
 		lvl1_2->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 		lvl1_2->setPosition(Vec2(origin.x + 490, origin.y + visibleSize.height - 10));
+		lvl1_2->setEnabled(false);
+		lvl1_2->setOpacity(50);
+		lvl1_2->setTag(302);
+
+
 
 		//Button for Level 1.3
 		MenuItemImage* lvl1_3 = MenuItemImage::create(
@@ -87,14 +95,20 @@ void LevelSelect::buildUI(){
 				CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 1));//TODO: ruft derzeit rnd level 0.1, soll 1.3 rufen, sobald0.1 eigenen utton hat
 		lvl1_3->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 		lvl1_3->setPosition(Vec2(origin.x + 970, origin.y + visibleSize.height - 10));
+		lvl1_3->setEnabled(false);
+		lvl1_3->setOpacity(50);
+		lvl1_3->setTag(303);
 
 		//Button for BossLevel (1.0)
-		MenuItemImage* lvl1_0 = MenuItemImage::create(
+		MenuItemImage* lvl1_4 = MenuItemImage::create(
 				"buttons/levelselectbuttons/level_selectbutton1.0.png",
 				"buttons/levelselectbuttons/level_selectbutton1.0.png",
 				CC_CALLBACK_1(LevelSelect::startLevel, this, 1, 0));
-		lvl1_0->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-		lvl1_0->setPosition(Vec2(origin.x + 1450, origin.y + visibleSize.height - 10));
+		lvl1_4->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+		lvl1_4->setPosition(Vec2(origin.x + 1450, origin.y + visibleSize.height - 10));
+		lvl1_4->setEnabled(false);
+		lvl1_4->setOpacity(50);
+		lvl1_4->setTag(304);
 
 		MenuItemImage* lvl_random = MenuItemImage::create(
 				"buttons/levelselectbuttons/randomlevelbutton.png",
@@ -110,8 +124,15 @@ void LevelSelect::buildUI(){
 				Vec2(origin.x + visibleSize.width - pause->getContentSize().width,
 						origin.y + pause->getContentSize().height));
 
-		Menu* levelmenu = Menu::create(lvl1_1, lvl1_2,lvl1_3, lvl1_0,lvl_random, pause, NULL);
+		Menu* levelmenu = Menu::create(lvl1_1, lvl1_2,lvl1_3, lvl1_4,lvl_random, pause, NULL);
 		levelmenu->setPosition(Vec2::ZERO);
 		this->addChild(background,-1);
 		this->addChild(levelmenu, 1);
+
+
+		for(int i = 1; i <= cocos2d::UserDefault::getInstance()->getIntegerForKey("levels_complete"); i++){
+			((MenuItemImage*)levelmenu->getChildByTag(300 + i))->setEnabled(true);
+			((MenuItemImage*)levelmenu->getChildByTag(300 + i))->setOpacity(255);
+		}
 }
+
