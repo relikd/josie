@@ -13,22 +13,24 @@
 USING_NS_CC;
 
 Cutscene::Cutscene() {
-
+_cutscene_number = 0;
 }
 Cutscene::~Cutscene() {
 
 }
 
-Scene* Cutscene::createScene() {
+Scene* Cutscene::createScene(int cutscene_number) {
 	// 'scene' is an autorelease object
 	auto scene = Scene::create();
 
 	// 'layer' is an autorelease object
-	auto layer = Cutscene::create();
+	Cutscene* layer = Cutscene::create();
 
 	// add layer as a child to scene
 	scene->addChild(layer);
-
+	layer->_cutscene_number = cutscene_number;
+	if(cutscene_number == 1)
+				layer->speech(nullptr);
 	// return the scene
 	return scene;
 }
@@ -41,22 +43,26 @@ bool Cutscene::init() {
 		return false;
 	}
 
+	return true;
+}
+
+void Cutscene::speech(Ref* pSender) {
+	this->removeAllChildren();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// add "Cutscene" splash screen"
-	auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
-	background->setPosition(
-			Vec2(visibleSize.width / 2 + origin.x,
-					visibleSize.height / 2 + origin.y));
-	this->addChild(background, 0);
-	//add Ground
-	auto testground = Sprite::create("testground.png");
-	testground->setPosition(
-			Vec2(origin.x + visibleSize.width / 2,
-					origin.y + testground->getContentSize().height / 2));
-	this->addChild(testground, 1);
-
+		// add "Cutscene" splash screen"
+		auto background = Sprite::create("backgrounds/bg_mountain72dpi.png");
+		background->setPosition(
+				Vec2(visibleSize.width / 2 + origin.x,
+						visibleSize.height / 2 + origin.y));
+		this->addChild(background, 0);
+		//add Ground
+		auto testground = Sprite::create("testground.png");
+		testground->setPosition(
+				Vec2(origin.x + visibleSize.width / 2,
+						origin.y + testground->getContentSize().height / 2));
+		this->addChild(testground, 1);
 	//create Josie
 	Sprite* josie = Sprite::create("josie/josie_static.png");
 	josie->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
@@ -67,7 +73,7 @@ bool Cutscene::init() {
 
 	//add speechbubble
 	auto talk = MenuItemImage::create("buttons/talk/talk1.1.png",
-			"buttons/talk/talk1.1.png", CC_CALLBACK_1(Cutscene::talk, this));
+			"buttons/talk/talk1.1.png", CC_CALLBACK_1(Cutscene::speech1, this));
 	FadeIn* fadeInText = FadeIn::create(3.0f);
 	talk->setPosition(990, 800);
 	auto menu = Menu::create(talk, NULL);
@@ -76,11 +82,8 @@ bool Cutscene::init() {
 	talk->setOpacity(0);
 	talk->runAction(fadeInText);
 	this->addChild(menu, 1);
-
-	return true;
 }
-
-void Cutscene::talk(Ref* pSender) {
+void Cutscene::speech1(Ref* pSender) {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	this->removeAllChildren();
@@ -100,7 +103,7 @@ void Cutscene::talk(Ref* pSender) {
 
 	auto talk = MenuItemImage::create("buttons/talk/talk1.2.png",
 			"buttons/talk/talk1.2.png",
-			CC_CALLBACK_1(Cutscene::talk1, this, 1, 1));
+			CC_CALLBACK_1(Cutscene::startlvl, this, 1, 1));
 	talk->setPosition(Vec2(940, 800));
 	auto menu = Menu::create(talk, NULL);
 	menu->setPosition(Vec2::ZERO);
@@ -118,7 +121,7 @@ void Cutscene::talk(Ref* pSender) {
 	josie->runAction(moveTo);
 }
 
-void Cutscene::talk1(Ref* pSender, int level, int sublevel) {
+void Cutscene::startlvl(Ref* pSender, int level, int sublevel) {
 	auto levelxx = Level::initWithLevel(level, sublevel);
 	Director::getInstance()->popScene();
 	Director::getInstance()->pushScene(levelxx);

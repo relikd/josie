@@ -39,8 +39,8 @@ void LevelSelect::startRandomLevel()
 	Director::getInstance()->pushScene(rnd);
 }
 
-void LevelSelect::testTalk(){
-	auto cut = Cutscene::createScene();
+void LevelSelect::testTalk(int level){
+	auto cut = Cutscene::createScene(level);
 	Director::getInstance()->pushScene(cut);
 }
 
@@ -54,7 +54,7 @@ void LevelSelect::buildUI(){
 	MenuItemImage* lvl1_1 = MenuItemImage::create(
 			"buttons/levelselectbuttons/level_selectbutton1.1.png",
 			"buttons/levelselectbuttons/level_selectbutton1.1.png",
-			CC_CALLBACK_0(LevelSelect::testTalk, this));
+			CC_CALLBACK_0(LevelSelect::testTalk, this, 1));
 	lvl1_1->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	lvl1_1->setPosition(10, 1070);
 	lvl1_1->setEnabled(false);
