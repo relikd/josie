@@ -21,6 +21,8 @@ public:
 	MapController *mapManager;
 	int coins;
 private:
+	int _level;
+	int _sublevel;
 	LevelHUD *hud;
 	void createUI(int lvl, int sublvl);
 	void startAfterDelay(float delay);

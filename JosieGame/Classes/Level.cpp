@@ -5,6 +5,7 @@
 #include "LevelHUD.h"
 #include "LevelPlayer.h"
 #include "LevelGameOver.h"
+#include "GameStateManager.h"
 
 using namespace cocos2d;
 
@@ -12,6 +13,8 @@ Level::Level() {
 	mapManager = nullptr;
 	hud = nullptr;
 	coins = 0;
+	_level = 0;
+	_sublevel = 0;
 	AudioUnit::preloadLevelSounds();
 }
 Level::~Level() {
@@ -24,6 +27,8 @@ Level* Level::initWithLevel(int level, int sublevel) {
 	Level *l = new Level();
 	l->autorelease();
 
+	l->_level = level;
+	l->_sublevel = sublevel;
 	AudioUnit::startBackgroundLevel();
 	l->createUI(level, sublevel);
 	l->startAfterDelay(2.0);
@@ -109,8 +114,14 @@ void Level::finishLevelSuccessfull(bool successfull)
 	resetLevelPosition();
 
 	if (successfull) {
+		// save coins if more than last time
+		int old_coins = GameStateManager::getCoinsForLevel(_level,_sublevel);
+		if (old_coins < coins) {
+			GameStateManager::addCoins(coins-old_coins);
+			GameStateManager::setCoinsForLevel(_level,_sublevel,coins);
+		}
+
 		LevelGameOver *gameover = LevelGameOver::createWin(coins, 4, hud->getTime());
-		//cocos2d::UserDefault::getInstance()->setIntegerForKey("levels_complete", cocos2d::UserDefault::getInstance()->getIntegerForKey("levels_complete") + 1);
 		Director::getInstance()->pushScene(gameover);
 	} else {
 		LevelGameOver *gameover = LevelGameOver::createFail();

@@ -1,8 +1,8 @@
 #include "GameStateManager.h"
 
 #include "cocos2d.h"
-
 using namespace cocos2d;
+
 
 GameStateManager::GameStateManager() {}
 GameStateManager::~GameStateManager() {}
@@ -42,7 +42,8 @@ int GameStateManager::getAllCollectedCoins()
 
 void GameStateManager::setCoinsForLevel(int level, int sublevel, int coins)
 {
-	std::string str = UserDefault::getInstance()->getStringForKey("josie_collected_coins", "");
+	UserDefault *ud = UserDefault::getInstance();
+	std::string str = ud->getStringForKey("josie_collected_coins", "");
 	int lvl_index = 3*(level-1) + (sublevel-1); // every level set has 3 sublevels
 	if (lvl_index >= str.length()) {
 		for (int i = 0; i <= lvl_index; i++) {
@@ -52,6 +53,16 @@ void GameStateManager::setCoinsForLevel(int level, int sublevel, int coins)
 		str[lvl_index+1] = 0;
 	}
 	str[lvl_index] = (unsigned char)coins+1;
-	UserDefault::getInstance()->setStringForKey("josie_collected_coins", str);
+	ud->setStringForKey("josie_collected_coins", str);
+	if (SAVE_USER_STATE) ud->flush();
 }
 
+void GameStateManager::addCoins(int coins)
+{
+	UserDefault *ud = UserDefault::getInstance();
+	int credits = ud->getIntegerForKey("josie_credits", 0);
+	credits += coins;
+	if (credits < 0) credits = 0;
+	ud->setIntegerForKey("josie_credits", credits);
+	if (SAVE_USER_STATE) ud->flush();
+}
