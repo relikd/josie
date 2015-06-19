@@ -10,10 +10,10 @@ public:
 
 	static LevelSelect* createSceneWithLevel(int level);
 	void buildUI();
+	cocos2d::MenuItemImage *buttonWithSublevel(int sublevel);
 
 	void startLevel(int sublevel);
 	void startRandomLevel();
-	void testTalk(int level);
 private:
 	int _level;
 };

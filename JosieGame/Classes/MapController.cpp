@@ -149,7 +149,7 @@ void MapController::reinitializeMap(bool re_collision, bool re_coins)
 		}
 		_coins.clear();
 		this->initCollectableArray();
-		this->initCollisionArray();
+		this->initDeathlyArray();
 	}
 }
 
@@ -172,10 +172,10 @@ void MapController::initCollectableArray()
 	}
 }
 //For DeadlyThorn Colission
-void MapController::initCollisionArray()
+void MapController::initDeathlyArray()
 {
 	//Get Possible Collisions
-	std::string possColl[] = {"Thorn", "ThornUp", "ThornUp2", "PflockEcke", "Pflock"};
+	/*std::string possColl[] = {"Thorn", "ThornUp", "ThornUp2", "PflockEcke", "Pflock"};
 	int collectGID[];
 	for (int x=0; x<=4;x++){
 	collectGID[x] = this->getGIDForName(possColl[x]);
@@ -192,7 +192,7 @@ void MapController::initCollisionArray()
 				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
 				thornColl.insertImageName("Collisions/Dorne00");
 				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_collisions.pushBack(thornColl);
+				_deathies.pushBack(thornColl);
 				this->addChild(thornColl);
 
 			}
@@ -201,7 +201,7 @@ void MapController::initCollisionArray()
 				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
 				thornColl.insertImageName("Collisions/Dorne01");
 				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_collisions.pushBack(thornColl);
+				_deathies.pushBack(thornColl);
 				this->addChild(thornColl);
 			}
 			else if (collectGID[2] == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
@@ -209,7 +209,7 @@ void MapController::initCollisionArray()
 				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
 				thornColl.insertImageName("Collisions/Dorne02");
 				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_collisions.pushBack(thornColl);
+				_deathies.pushBack(thornColl);
 				this->addChild(thornColl);
 			}
 			else if (collectGID[2] == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
@@ -217,19 +217,19 @@ void MapController::initCollisionArray()
 				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
 				thornColl.insertImageName("Collisions/Pflock00");
 				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_collisions.pushBack(thornColl);
+				_deathies.pushBack(thornColl);
 				this->addChild(thornColl);
 			}
 			else {
 				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
 				thornColl.insertImageName("Collisions/Pflock01");
 				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_collisions.pushBack(thornColl);
+				_deathies.pushBack(thornColl);
 				this->addChild(thornColl);
 			}
 
 		}
-	}
+	}*/
 }
 
 
