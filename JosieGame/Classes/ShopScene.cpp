@@ -1,10 +1,10 @@
 #include "ShopScene.h"
 #include "BossLevel.h"
+#include "GameStateManager.h"
 
 #define TAG_OFFSET 333
 #define BUTTON_SIZE 200
 #define BUTTON_PADDING 30
-#define SAVE_PERK_STATE false // TODO: active before App release
 
 using namespace cocos2d;
 
@@ -123,7 +123,7 @@ void ShopScene::upgrade(Ref* p)
 	int column = tag&3;
 
 	perkUp(row, column);
-	spendMoney(priceForColumn(column));
+	GameStateManager::addCoins(-priceForColumn(column));
 	updateButtonState();
 }
 
@@ -133,6 +133,8 @@ void ShopScene::showJosieInShopWindow(){
 	josie->setPosition(Vec2((1920/4) *3,1080/2 + 10));
 	this->addChild(josie);
 }
+
+
 
 //
 // UserDefaults Manager
@@ -165,20 +167,11 @@ void ShopScene::perkSetValue(int row, int column, int newValue) {
 		default: ud->setIntegerForKey("josie_perk_playerspeed", newValue); break;
 		}
 	}
-	if (SAVE_PERK_STATE) ud->flush();
+	if (SAVE_USER_STATE) ud->flush();
 }
 
 void ShopScene::perkUp(int row, int column) {
 	perkSetValue(row, column, 1+ perkGetValue(row, column));
-}
-
-void ShopScene::spendMoney(int coins) {
-	UserDefault *ud = UserDefault::getInstance();
-	int credits = ud->getIntegerForKey("josie_credits");
-	credits -= coins;
-	if (credits < 0) credits = 0;
-	ud->setIntegerForKey("josie_credits", credits);
-	if (SAVE_PERK_STATE) ud->flush();
 }
 
 

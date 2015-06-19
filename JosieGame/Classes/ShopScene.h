@@ -24,7 +24,6 @@ private:
 	int perkGetValue(int row, int column);
 	void perkSetValue(int row, int column, int newValue);
 	void perkUp(int row, int column);
-	void spendMoney(int coins);
 
 	void perkDisable(cocos2d::MenuItemImage *btn);
 	void perkEnable(cocos2d::MenuItemImage *btn);
