@@ -102,9 +102,9 @@ void BossLevelHUD::addPlayerControls()
 	_right = MenuItemImage::create("buttons/right.png","buttons/right.png");
 	_shoot = MenuItemImage::create("buttons/shoot.png","buttons/shoot.png");
 
-	_left->setScale(0.7);
-	_right->setScale(0.7);
-	_shoot->setScale(0.7);
+	_left->setScale(0.8);
+	_right->setScale(0.8);
+	_shoot->setScale(0.8);
 
 	_left->setOpacity(128);
 	_right->setOpacity(128);
