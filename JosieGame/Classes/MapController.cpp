@@ -164,7 +164,7 @@ void MapController::initCollectableArray()
 			if (collectGID == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
 			{
 				CollisionLayer *coin = CollisionLayer::createCoinSprite();
-				coin->setPosition(coordinateFromTilePoint(Vec2(x,y))); // 1 tile above collectable
+				coin->setPosition(coordinateFromTilePoint(Vec2(x,y)));
 				_coins.pushBack(coin);
 				this->addChild(coin);
 			}
