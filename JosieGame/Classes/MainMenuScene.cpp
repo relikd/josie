@@ -48,7 +48,9 @@ bool MainMenu::init()
 
 	Menu* menu = Menu::create(closeItem,startbutton, NULL);
 	menu->setPosition(Vec2::ZERO);
+	menu->setTag(101);
 	this->addChild(menu, 1);
+
 
     Sprite* josielogo = Sprite::create("josielogo.png");
     josielogo->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - josielogo->getContentSize().height));

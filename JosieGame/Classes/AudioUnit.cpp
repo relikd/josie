@@ -15,6 +15,7 @@ AudioUnit::~AudioUnit() {}
 void AudioUnit::preloadLevelSounds()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->setEffectsVolume(UserDefault::getInstance()->getIntegerForKey("sfx_volume")/100.0);
 	engine->preloadEffect("audio/josie_sounds/jump_1.mp3");
 	engine->preloadEffect("audio/josie_sounds/jump_2.mp3");
 	engine->preloadEffect("audio/josie_sounds/jump_3.mp3");
@@ -60,8 +61,7 @@ void AudioUnit::playJosieJumpSound()
 	s << "audio/josie_sounds/jump_"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->setEffectsVolume(UserDefault::getInstance()->getIntegerForKey("sfx_volume")/100.0);
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 1.0);
+	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.5);
 }
 void AudioUnit::playJosieSlideSound()
 {
@@ -69,8 +69,7 @@ void AudioUnit::playJosieSlideSound()
 	s << "audio/josie_sounds/slide_"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->setEffectsVolume(UserDefault::getInstance()->getIntegerForKey("sfx_volume")/100.0);
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 1.0);
+	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.5);
 }
 void AudioUnit::playJosieStopRunSound()
 {
@@ -78,8 +77,7 @@ void AudioUnit::playJosieStopRunSound()
 	s << "audio/josie_sounds/stop_"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->setEffectsVolume(UserDefault::getInstance()->getIntegerForKey("sfx_volume")/100.0);
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 1.0);
+	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.5);
 }
 
 //

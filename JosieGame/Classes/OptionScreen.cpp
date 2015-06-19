@@ -7,6 +7,7 @@
 
 #include "OptionScreen.h"
 #include "ui/CocosGUI.h"
+#include "MainMenuScene.h"
 
 using namespace cocos2d;
 
@@ -92,9 +93,11 @@ void OptionScreen::toggleVisibility(){
 		_overlay->setVisible(false);
 		UserDefault::getInstance()->setIntegerForKey("music_volume", _music_volume_slider->getPercent());
 		UserDefault::getInstance()->setIntegerForKey("sfx_volume", _sfx_volume_slider->getPercent());
+		((Menu*)(this->getParent()->getChildByTag(101)))->setEnabled(true);
 	}
 	else{
 		_overlay->setVisible(true);
+		((Menu*)(this->getParent()->getChildByTag(101)))->setEnabled(false);
 	}
 
 	CCLOG("music volume: %d", UserDefault::getInstance()->getIntegerForKey("music_volume"));
