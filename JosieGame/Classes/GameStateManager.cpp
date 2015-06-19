@@ -14,6 +14,10 @@ void GameStateManager::initManagerWithDefaults()
 
 bool GameStateManager::isLevelUnlocked(int level, int sublevel)
 {
+	if (level == 1 && sublevel == 1)
+		return true; // first level
+	if (sublevel==0)
+		sublevel=4;
 	if (getCoinsForLevel(level, sublevel-1) == -1)
 		return false;
 	return true;
@@ -21,8 +25,9 @@ bool GameStateManager::isLevelUnlocked(int level, int sublevel)
 
 int GameStateManager::getCoinsForLevel(int level, int sublevel)
 {
+	if (sublevel==0) sublevel=4;
 	std::string str = UserDefault::getInstance()->getStringForKey("josie_collected_coins", "");
-	int lvl_index = 3*(level-1) + (sublevel-1); // every level set has 3 sublevels
+	int lvl_index = 4*(level-1) + (sublevel-1); // every level set has 4 sublevel
 	if (lvl_index<0)
 		return 0;
 	if (lvl_index < str.length())
@@ -42,9 +47,10 @@ int GameStateManager::getAllCollectedCoins()
 
 void GameStateManager::setCoinsForLevel(int level, int sublevel, int coins)
 {
+	if (sublevel==0) sublevel=4;
 	UserDefault *ud = UserDefault::getInstance();
 	std::string str = ud->getStringForKey("josie_collected_coins", "");
-	int lvl_index = 3*(level-1) + (sublevel-1); // every level set has 3 sublevels
+	int lvl_index = 4*(level-1) + (sublevel-1); // every level set has 3 sublevels
 	if (lvl_index >= str.length()) {
 		for (int i = 0; i <= lvl_index; i++) {
 			if (str[i]==0)
