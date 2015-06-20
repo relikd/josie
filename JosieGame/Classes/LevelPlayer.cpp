@@ -95,9 +95,11 @@ Animate* LevelPlayer::animationWithFrame(const std::string& name, int frameCount
 
 void LevelPlayer::startRunningAfterAnimation(FiniteTimeAction *animation)
 {
+	if(_isAlive){
 	CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(LevelPlayer::startRunningCallback, this));
 	Sequence *seq = Sequence::createWithTwoActions(animation, call);
 	spriteImage->runAction(seq);
+	}
 }
 
 void LevelPlayer::startRunningCallback()
@@ -256,8 +258,7 @@ void LevelPlayer::deathAnimation(){
 }
 
 void LevelPlayer::_checkAlive() {
-	if ((this->getPositionY() < -100)
-			|| (_level->mapManager->checkDeathly(getBoundingBox()))) {
+	if ((this->getPositionY() < -100) || (_level->mapManager->checkDeathly(getBoundingBox()))) {
 
 		if (100.0<= _level->mapManager->getLevelProgress(this->getBoundingBox())) {
 			_level->finishLevelSuccessfull();
