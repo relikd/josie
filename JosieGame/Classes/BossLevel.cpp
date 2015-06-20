@@ -16,7 +16,7 @@ BossLevel::BossLevel() {
 	_playerBoss = nullptr;
 	left = nullptr;
 	right = nullptr;
-	_attackTimer = 0;
+	_attackTimer = 3;
 	_timeSinceLastHit = BOSSPLAYER_IMMORTAL_TIME;
 	_difficulty = 1;
 	AudioUnit::preloadBossSounds();

@@ -1,6 +1,7 @@
 #include "ShopScene.h"
 #include "BossLevel.h"
 #include "GameStateManager.h"
+#include "BossPlayer.h"
 
 #define TAG_OFFSET 333
 #define BUTTON_SIZE 200
@@ -10,10 +11,12 @@ using namespace cocos2d;
 
 ShopScene::ShopScene() {
 	_equippedLayer = NULL;
+	_shopWindow = nullptr;
 	_menu = NULL;
 }
 
 ShopScene::~ShopScene() {
+	//_shopWindow->removeAllChildren();
 	CCLOG("~Shop");
 }
 
@@ -25,6 +28,9 @@ ShopScene* ShopScene::initShop()
     scene->_menu = Menu::create();
     scene->_menu->setPosition(Vec2::ZERO);
 
+    scene->_shopWindow = Layer::create();
+    scene->_shopWindow->setPosition(Vec2::ZERO);
+
 
     Sprite *bg = Sprite::create("backgrounds/bg_shop.png");
     bg->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
@@ -32,8 +38,9 @@ ShopScene* ShopScene::initShop()
     scene->addChild(bg);
     scene->addChild(scene->_menu);
     scene->addChild(scene->_equippedLayer);
+    scene->addChild(scene->_shopWindow);
 
-    scene->showJosieInShopWindow();
+    scene->showJosieInShopWindow(2,0);
 
     scene->createLabels();
     scene->createButtons();
@@ -49,8 +56,10 @@ ShopScene* ShopScene::initShop()
 
 void ShopScene::fight()
 {
+	_shopWindow->removeAllChildren();
 	BossLevel *bosslvl = BossLevel::createBossDifficulty(UserDefault::getInstance()->getIntegerForKey("josie_perk_shied"));
-	Director::getInstance()->pushScene(bosslvl);
+	//Director::getInstance()->pushScene(bosslvl);
+	Director::getInstance()->replaceScene(TransitionFade::create(1.0, bosslvl, Color3B::BLACK));
 }
 
 int ShopScene::priceForColumn(int column)
@@ -127,11 +136,13 @@ void ShopScene::upgrade(Ref* p)
 	updateButtonState();
 }
 
-void ShopScene::showJosieInShopWindow(){
-	Sprite* josie = Sprite::create("josie/josie_transformed_static.png");
-	josie->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	josie->setPosition(Vec2((1920/4) *3,1080/2 + 10));
-	this->addChild(josie);
+void ShopScene::showJosieInShopWindow(int row, int column){
+	_shopWindow->removeAllChildren();
+	_shopWindow->cleanup();
+	BossPlayer* josie_model = BossPlayer::createWithLevel(nullptr);
+	josie_model->setPosition(Vec2((1920/4) *3,1080/2 + 10));
+	josie_model->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	_shopWindow->addChild(josie_model);
 }
 
 
@@ -172,6 +183,7 @@ void ShopScene::perkSetValue(int row, int column, int newValue) {
 
 void ShopScene::perkUp(int row, int column) {
 	perkSetValue(row, column, 1+ perkGetValue(row, column));
+	showJosieInShopWindow(row, column);
 }
 
 
