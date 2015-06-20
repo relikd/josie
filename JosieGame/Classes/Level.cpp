@@ -15,6 +15,7 @@ Level::Level() {
 	coins = 0;
 	_level = 0;
 	_sublevel = 0;
+	_maxCoins = 0;
 	AudioUnit::preloadLevelSounds();
 }
 Level::~Level() {
@@ -55,6 +56,8 @@ void Level::createUI(int lvl, int sublvl)
 	else
 		mapManager = MapController::initWithLevel(lvl, sublvl);
 
+	_maxCoins = mapManager->getMaxCoins();
+
 	//Add Player
 	LevelPlayer *player = LevelPlayer::initWithLevel(this);
 	player->setPlayerOnGround(400);
@@ -62,12 +65,14 @@ void Level::createUI(int lvl, int sublvl)
 	char levelName[12];
 	sprintf(levelName, "Level %d.%d", lvl, sublvl);
 	hud = LevelHUD::initWithLevelName(levelName);
-	hud->setCoins(0,4);
+	hud->setCoins(0, _maxCoins);
 
 	this->addChild(background);
 	this->addChild(mapManager);
 	mapManager->addChild(player);
 	this->addChild(hud);
+
+	GameStateManager::getAllCollectedCoins();
 }
 
 void Level::startAfterDelay(float delay)
@@ -106,7 +111,7 @@ void Level::resetLevelPosition(float position) // 0.0f if no parameter
 void Level::addCoin()
 {
 	coins++;
-	hud->setCoins(coins, 4);
+	hud->setCoins(coins, _maxCoins);
 }
 
 void Level::finishLevelSuccessfull(bool successfull)
@@ -114,14 +119,8 @@ void Level::finishLevelSuccessfull(bool successfull)
 	resetLevelPosition();
 
 	if (successfull) {
-		// save coins if more than last time
-		int old_coins = GameStateManager::getCoinsForLevel(_level,_sublevel);
-		if (old_coins < coins) {
-			GameStateManager::addCoins(coins-old_coins);
-			GameStateManager::setCoinsForLevel(_level,_sublevel,coins);
-		}
-
-		LevelGameOver *gameover = LevelGameOver::createWin(coins, 4, hud->getTime());
+		GameStateManager::updateCoinsForLevel(_level,_sublevel, coins);
+		LevelGameOver *gameover = LevelGameOver::createWin(coins, _maxCoins, hud->getTime());
 		Director::getInstance()->pushScene(gameover);
 	} else {
 		LevelGameOver *gameover = LevelGameOver::createFail();
