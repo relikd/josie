@@ -8,10 +8,12 @@ typedef struct TilePointOffset { int x; int y; float offsetX; float offsetY; }_T
 
 MapController::MapController() {
 	_collisionMap = new long[1];
+	_deathlyMap = new long[1];
 }
 MapController::~MapController() {
 	delete _collisionMap;
-	CCLOG("~MapController");
+	delete _deathlyMap;
+		CCLOG("~MapController");
 }
 
 MapController* MapController::initWithLevel(int level, int sub_level)
@@ -57,14 +59,12 @@ bool MapController::tryCollect(CollisionLayer *player)
 	return false;
 }
 bool MapController::checkDeathly(Rect bounds) {
-	CCLOG("checkDeadly");
 	TilePointOffset pos = this->getTilePointOffset(Vec2(bounds.origin.x, bounds.getMaxY()));
 	int playerWidthInTiles = ceil((pos.offsetX + bounds.size.width) / _tileSize.width);
 	int playerHeightInTiles = ceil((pos.offsetY + bounds.size.height) / _tileSize.height);
 
 	for (int i = 0; i < playerWidthInTiles; i++) {
 		long col = _deathlyMap[pos.x + i];
-		CCLOG("%d: %ld",pos.x, col);
 		int numTiles = playerHeightInTiles;
 		col >>= pos.y;
 		while (numTiles--) {
