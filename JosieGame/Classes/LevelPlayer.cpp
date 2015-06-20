@@ -19,9 +19,9 @@ LevelPlayer::LevelPlayer() {
 	_upForce = 0;
 	_isRunning = false;
 	_isSliding = false;
-	_isOnGround = false;
+	_isOnGround = true;
 	_shouldPerformJumpAnimation = false;
-	_oldJumpHoldingTime = 999;
+	_jumpHoldingTime = 0;
 	registerObserver();
 }
 LevelPlayer::~LevelPlayer() {
@@ -128,11 +128,11 @@ void LevelPlayer::run(bool r) {
 		endRunning();
 }
 
-void LevelPlayer::jump() {
-	if (!_isSliding) {
+void LevelPlayer::jump(bool j) {
+	if (!_isSliding && j) {
 		if (_isOnGround && _shouldPerformJumpAnimation == false)
 		{
-			_oldJumpHoldingTime = 0;
+			_jumpHoldingTime = 0;
 			_shouldPerformJumpAnimation = true;
 			AudioUnit::playJosieJumpSound();
 
@@ -140,11 +140,11 @@ void LevelPlayer::jump() {
 			spriteImage->runAction(animationWithFrame("josiejump", 6));
 		}
 
-		if (_oldJumpHoldingTime <= 0.2) {
-			_upForce = 50 + _jumpPower * (_oldJumpHoldingTime / 0.2); // longest duration hold = 0.2sec
-		} else {
-			_oldJumpHoldingTime = 999;
+		if (_jumpHoldingTime < 0.2) {
+			_upForce = 100 + _jumpPower * (_jumpHoldingTime / 0.2);
 		}
+	} else {
+		_jumpHoldingTime = 999;
 	}
 }
 
@@ -171,8 +171,7 @@ void LevelPlayer::slide(bool s) {
 
 void LevelPlayer::update(float dt)
 {
-	_oldJumpHoldingTime += dt;
-
+	_jumpHoldingTime += dt;
 	this->_checkRun();
 	this->_checkJump();
 	this->_checkAlive();
@@ -254,12 +253,14 @@ void LevelPlayer::registerObserver(bool reg)
 		ed->addCustomEventListener("LEVEL_PLAYER_SLIDE_1", CC_CALLBACK_0(LevelPlayer::slide, this, 1));
 		ed->addCustomEventListener("LEVEL_PLAYER_RUN_0", CC_CALLBACK_0(LevelPlayer::run, this, 0));
 		ed->addCustomEventListener("LEVEL_PLAYER_RUN_1", CC_CALLBACK_0(LevelPlayer::run, this, 1));
-		ed->addCustomEventListener("LEVEL_PLAYER_JUMP", CC_CALLBACK_0(LevelPlayer::jump, this));
+		ed->addCustomEventListener("LEVEL_PLAYER_JUMP_0", CC_CALLBACK_0(LevelPlayer::jump, this, 0));
+		ed->addCustomEventListener("LEVEL_PLAYER_JUMP_1", CC_CALLBACK_0(LevelPlayer::jump, this, 1));
 	} else {
 		ed->removeCustomEventListeners("LEVEL_PLAYER_SLIDE_0");
 		ed->removeCustomEventListeners("LEVEL_PLAYER_SLIDE_1");
 		ed->removeCustomEventListeners("LEVEL_PLAYER_RUN_0");
 		ed->removeCustomEventListeners("LEVEL_PLAYER_RUN_1");
-		ed->removeCustomEventListeners("LEVEL_PLAYER_JUMP");
+		ed->removeCustomEventListeners("LEVEL_PLAYER_JUMP_0");
+		ed->removeCustomEventListeners("LEVEL_PLAYER_JUMP_1");
 	}
 }

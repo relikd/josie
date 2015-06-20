@@ -13,7 +13,7 @@ public:
 
 	// Player interaction
 	void run(bool r);
-	void jump();
+	void jump(bool j);
 	void slide(bool s);
 private:
 	bool _canStandUp();
@@ -36,7 +36,7 @@ private:
 	bool _isRunning;
 	bool _isOnGround;
 	bool _shouldPerformJumpAnimation;
-	float _oldJumpHoldingTime;
+	float _jumpHoldingTime;
 };
 
 #endif // _PLAYER_H_
