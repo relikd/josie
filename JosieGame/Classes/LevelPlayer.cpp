@@ -20,6 +20,7 @@ LevelPlayer::LevelPlayer() {
 	_isRunning = false;
 	_isSliding = false;
 	_isOnGround = true;
+	_isAlive = true;
 	_shouldPerformJumpAnimation = false;
 	_jumpHoldingTime = 0;
 	registerObserver();
@@ -46,6 +47,7 @@ LevelPlayer* LevelPlayer::initWithLevel(Level* level) {
 }
 
 void LevelPlayer::setPlayerOnGround(float pos_x) {
+	_isAlive=true;
 	this->setPosition(pos_x,1000);
 	float height = _level->mapManager->collisionDiffBottom(this->getBoundingBox());
 	this->setPositionY(1000-height);
@@ -233,17 +235,37 @@ void LevelPlayer::_checkJump() {
 	}
 }
 
+void LevelPlayer::deathAnimation(){
+
+
+	if (_isAlive){
+		_isAlive = false;
+		Animate* animation = animationWithFrame("josieexplosion", 10, 0.03f);
+
+		_level->unscheduleHUD();
+		_isRunning = false;
+		spriteImage->stopAllActions();
+		CallFuncN *callContinue = CallFuncN::create(CC_CALLBACK_0(Level::scheduleHUD, _level));
+		CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(Level::finishLevelSuccessfull, _level, false));
+		CallFuncN *callGround = CallFuncN::create(CC_CALLBACK_0(LevelPlayer::setPlayerOnGround, this, 400));
+		Sequence *seq = Sequence::create( animation, DelayTime::create(0.4f), callContinue, call, callGround, nullptr);
+
+		spriteImage->runAction(seq);
+		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT*1.5));
+	}
+}
+
 void LevelPlayer::_checkAlive() {
-	if ((this->getPositionY() < -100) || (_level->mapManager->checkDeathly(getBoundingBox()))) {
+	if ((this->getPositionY() < -100)
+			|| (_level->mapManager->checkDeathly(getBoundingBox()))) {
 
-		spriteImage->runAction(animationWithFrame("josieexplosion", 10));
-
-		if (100.0 <= _level->mapManager->getLevelProgress(this->getBoundingBox()))
+		if (100.0<= _level->mapManager->getLevelProgress(this->getBoundingBox())) {
 			_level->finishLevelSuccessfull();
-		else
-			_level->finishLevelSuccessfull(false);
+			this->setPlayerOnGround(400);
+		} else {
+			deathAnimation();
+		}
 
-		this->setPlayerOnGround(400);
 	}
 }
 
