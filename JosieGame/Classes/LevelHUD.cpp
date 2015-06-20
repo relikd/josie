@@ -37,7 +37,7 @@ LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
 
 void LevelHUD::addStatusBar(const std::string& title)
 {
-	LayerColor *blackbar = LayerColor::create(Color4B(0,0,0,255), 1920, 80);
+	LayerColor *blackbar = LayerColor::create(Color4B(0,0,0,255), 1920, 480);
 	blackbar->setPosition(0, 1000); // layer anchor is 0,0
 
 	Sprite *coinImage = Sprite::createWithSpriteFrameName("coin0000");
