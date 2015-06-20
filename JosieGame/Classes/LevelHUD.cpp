@@ -70,9 +70,9 @@ void LevelHUD::addPlayerControls()
 	_slide = MenuItemImage::create("buttons/right.png","buttons/right.png");
 	_jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png");
 
-	_stay->setScale(0.7);
-	_slide->setScale(0.7);
-	_jump->setScale(0.7);
+	_stay->setScale(0.8);
+	_slide->setScale(0.8);
+	_jump->setScale(0.8);
 
 	_stay->setPosition(Vec2(150,150));
 	_slide->setPosition(Vec2(1920-300,120));
