@@ -92,8 +92,8 @@ void LevelGameOver::addFail()
 
 	MenuItemImage *retry = MenuItemImage::create("buttons/menubuttons/restart.png", "buttons/menubuttons/restart.png", CC_CALLBACK_0(Director::popScene, Director::getInstance()));
 	MenuItemImage *quit = MenuItemImage::create("buttons/menubuttons/backtomenu.png", "buttons/menubuttons/backtomenu.png", CC_CALLBACK_0(Director::popToSceneStackLevel, Director::getInstance(), 2));
-	retry->setPosition(200, 200);
-	quit->setPosition(1720, 200);
+	retry->setPosition(1720, 200);
+	quit->setPosition(200, 200);
 	Menu *m = Menu::create(retry, quit, NULL);
 	m->setPosition(Vec2::ZERO);
 
