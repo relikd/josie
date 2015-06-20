@@ -21,6 +21,7 @@ public:
 	MapController *mapManager;
 	int coins;
 private:
+	int _maxCoins;
 	int _level;
 	int _sublevel;
 	LevelHUD *hud;

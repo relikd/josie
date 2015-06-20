@@ -10,10 +10,12 @@ public:
 
 	static void initManagerWithDefaults();
 	static bool isLevelUnlocked(int level, int sublevel);
-	static int getCoinsForLevel(int level, int sublevel);
-	static int getAllCollectedCoins();
-	static void setCoinsForLevel(int level, int sublevel, int coins);
+
+	static void updateCoinsForLevel(int level, int sublevel, int coins);
 	static void addCoins(int coins);
+	static int getAllCollectedCoins();
+	static int getCoinsForLevel(int level, int sublevel);
+	static void setCoinsForLevel(int level, int sublevel, int coins);
 };
 
 #endif /* GAMESTATEMANAGER_H_ */
