@@ -2,6 +2,7 @@
 #include "BossLevel.h"
 #include "GameStateManager.h"
 #include "BossPlayer.h"
+#include "AudioUnit.h"
 
 #define TAG_OFFSET 333
 #define BUTTON_SIZE 200
@@ -178,10 +179,11 @@ void ShopScene::perkSetValue(int row, int column, int newValue) {
 		default: ud->setIntegerForKey("josie_perk_playerspeed", newValue); break;
 		}
 	}
-	if (SAVE_USER_STATE) ud->flush();
+	ud->flush();
 }
 
 void ShopScene::perkUp(int row, int column) {
+	AudioUnit::playShopPurchaseSound();
 	perkSetValue(row, column, 1+ perkGetValue(row, column));
 	showJosieInShopWindow(row, column);
 }

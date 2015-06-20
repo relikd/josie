@@ -2,7 +2,6 @@
 #define __MAINMENU_SCENE_H__
 
 #include "cocos2d.h"
-#include "SimpleAudioEngine.h"
 
 class MainMenu : public cocos2d::Layer
 {
@@ -13,6 +12,7 @@ public:
     
 	void play(cocos2d::Ref* pSender);
 	void explode();
+	void breathAnimation(cocos2d::Sprite* logo);
     CREATE_FUNC(MainMenu);
 
 

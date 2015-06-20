@@ -18,6 +18,8 @@ public:
 	static void playJosieShootSound();
 	static void playJosieHitSound();
 
+	static void playShopPurchaseSound();
+
 	static void playBossHitSound();
 	static void playProjectileHitSound();
 

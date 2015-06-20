@@ -1,7 +1,7 @@
 #ifndef GAMESTATEMANAGER_H_
 #define GAMESTATEMANAGER_H_
 
-#define SAVE_USER_STATE false // TODO: active before App release
+
 
 class GameStateManager {
 public:
