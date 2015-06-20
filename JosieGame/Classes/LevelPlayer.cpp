@@ -242,7 +242,7 @@ void LevelPlayer::_checkAlive() {
 		else
 			_level->finishLevelSuccessfull(false);
 
-		this->setPlayerOnGround(216);
+		this->setPlayerOnGround(400);
 	}
 }
 
