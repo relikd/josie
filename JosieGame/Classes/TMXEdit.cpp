@@ -15,8 +15,8 @@ const int minHeight = 14;
 const int maxHeight = 8;
 
 //GIDs
-const int TOPDIRT = 1;
-const int DIRT = 8;
+const int TOPDIRT[] = {1,2,3,4};
+const int DIRT[] = {5,6,7,8};
 const int COLLIDE = 20;
 const int THORN = 24;
 const int FLOATSTART= 9;
@@ -60,7 +60,7 @@ void TMXEdit::fillLevel(){
 		{
 		case 0:
 			x = makePillars(x, height);
-			x = placeGroundLength(x, height,3);
+			x = placeGroundLength(x, height,2+arc4random()%5);
 			break;
 
 		case 1:
@@ -74,6 +74,7 @@ void TMXEdit::fillLevel(){
 
 		case 3:
 			x=makeFloating(x, height);
+			x = placeGroundLength(x, height,2+arc4random()%5);
 			break;
 
 		case 4:
@@ -91,13 +92,13 @@ void TMXEdit::fillLevel(){
 
 void TMXEdit::placeGround(int x, int y){
 
-	_backgroundLayer->setTileGID(TOPDIRT,Vec2(x,y));
+	_backgroundLayer->setTileGID(TOPDIRT[arc4random()%4],Vec2(x,y));
 	_metaLayer->setTileGID(COLLIDE,Vec2(x,y));
 	if ( y < minHeight )placeDirt(x, y+1);
 }
 
 void TMXEdit::placeDirt(int x, int y){
-	_backgroundLayer->setTileGID(DIRT,Vec2(x,y));
+	_backgroundLayer->setTileGID(DIRT[arc4random()%4],Vec2(x,y));
 	_metaLayer->setTileGID(COLLIDE,Vec2(x,y));
 	if ( y < minHeight )placeDirt(x, y+1);
 }
@@ -121,8 +122,7 @@ int TMXEdit::makeThornField(int x, int height){
 	while(x <= done){
 		x= placeGroundLength(x,height,(2+arc4random()%2));
 		_backgroundLayer->setTileGID(THORN,Vec2(x,height-1)); //TODO: eventuell Collision für tödliche Spikes ändern
-		placeGround(x++,height);
-		x= placeGroundLength(x,height,2);
+		x= placeGroundLength(x,height,2+arc4random()%3);
 	}
 
 	return x;
