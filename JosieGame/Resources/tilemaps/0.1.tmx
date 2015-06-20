@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1600" height="15" tilewidth="72" tileheight="72" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="700" height="15" tilewidth="72" tileheight="72" nextobjectid="1">
  <tileset firstgid="1" name="Tileset" tilewidth="72" tileheight="72">
   <image source="Spritesheet03.png" width="512" height="512"/>
   <tile id="18">
@@ -38,19 +38,19 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Foreground_layer" width="1600" height="15">
+ <layer name="Foreground_layer" width="700" height="15">
   <data encoding="base64" compression="zlib">
-   eJztzjENAAAMA6Am8+95Dvr2AQUkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwc+sAAAAAAAAAAAAAAAAA1QMNHgAE
+   eJztzjENAAAIA7Al+PeMgV08PK2CJgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANPMdAAAAAADgZAHlsAAE
   </data>
  </layer>
- <layer name="Background_layer" width="1600" height="15">
+ <layer name="Background_layer" width="700" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt2bEJAAAIBDHt3H9iZxAebBK4Ka4KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+dDgAAAAAAICr9K+YcAAAAAAAAFfpX7H3GgFp
+   eJztw6ENAAAIAzBw/H8xDyARE23SKgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALv0cAACSzHMAAEiyFV8AtQ==
   </data>
  </layer>
- <layer name="Meta_layer" width="1600" height="15" opacity="0.5">
+ <layer name="Meta_layer" width="700" height="15" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJzt2UEJAAAMA7GKmH+t0zAo7JPAqbgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+TDkAAAAAAICr9q/wPwAAAAAAgG/tX7HMswZB
+   eJzt1jENAAAIBLEXgX+tGGBkIKRNzsMlAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMajkAALjE7wIA8FkDdU0DIQ==
   </data>
  </layer>
 </map>
