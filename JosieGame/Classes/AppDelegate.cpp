@@ -1,16 +1,12 @@
 #include "AppDelegate.h"
 #include "MainMenuScene.h"
-#include "SimpleAudioEngine.h"
+#include "AudioUnit.h"
+#include "GameStateManager.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
-AppDelegate::AppDelegate() {
-
-}
-
-AppDelegate::~AppDelegate() 
-{
-}
+AppDelegate::AppDelegate() {}
+AppDelegate::~AppDelegate() {}
 
 //if you want a different context,just modify the value of glContextAttrs
 //it will takes effect on all platforms
@@ -29,7 +25,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
 
     if(!glview) {
-        glview = GLViewImpl::create("My Game");
+        glview = GLViewImpl::create("Josie Game");
         director->setOpenGLView(glview);
     }
     glview->setDesignResolutionSize(1920,1080,ResolutionPolicy::FIXED_WIDTH);
@@ -41,49 +37,20 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
+    GameStateManager::initDefaults();
+    GameStateManager::initSpriteCache();
 
-    UserDefault *ud = UserDefault::getInstance();
-    ud->setIntegerForKey("josie_credits", 9001);
-    ud->setIntegerForKey("josie_perk_damage", 1);
-    ud->setIntegerForKey("josie_perk_shoot", 1);
-    ud->setIntegerForKey("josie_perk_frequency", 1);
-    ud->setIntegerForKey("josie_perk_playerspeed", 1);
-    ud->setIntegerForKey("josie_perk_shied", 0);
-    ud->setBoolForKey("josie_perk_extralife", false);
-    ud->setIntegerForKey("music_volume",100);
-    ud->setIntegerForKey("sfx_volume",100);
-    ud->setIntegerForKey("levels_complete", 4);
-    // ud->flush(); // no flush to reset settings after restart
-
-    // preload animation frames
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiewalk.plist", "josie/josiewalk.png");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiestartmoving.plist", "josie/josiestartmoving.png");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("josie/josiejump.plist", "josie/josiejump.png");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("tilemaps/coin.plist", "tilemaps/coin.png");
-
-
-    // create a scene. it's an autorelease object
-    auto scene = MainMenu::createScene();
-
-    // run
-    director->runWithScene(scene);
+    director->runWithScene(MainMenu::createScene());
 
     return true;
 }
 
-// This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
-
-    // if you use SimpleAudioEngine, it must be pause
-    CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+    AudioUnit::pauseBackground();
 }
 
-// this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
-
-    // if you use SimpleAudioEngine, it must resume here
-    CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
-
+    AudioUnit::resumeBackground();
 }

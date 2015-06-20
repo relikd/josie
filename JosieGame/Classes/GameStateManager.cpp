@@ -7,9 +7,30 @@ using namespace cocos2d;
 GameStateManager::GameStateManager() {}
 GameStateManager::~GameStateManager() {}
 
-void GameStateManager::initManagerWithDefaults()
+void GameStateManager::initDefaults()
 {
 	UserDefault *ud = UserDefault::getInstance();
+	ud->setIntegerForKey("josie_credits", 9001);
+	ud->setIntegerForKey("josie_perk_damage", 1);
+	ud->setIntegerForKey("josie_perk_shoot", 1);
+	ud->setIntegerForKey("josie_perk_frequency", 1);
+	ud->setIntegerForKey("josie_perk_playerspeed", 1);
+	ud->setIntegerForKey("josie_perk_shied", 0);
+	ud->setBoolForKey("josie_perk_extralife", false);
+	ud->setIntegerForKey("music_volume", 100);
+	ud->setIntegerForKey("sfx_volume", 100);
+	ud->setStringForKey("josie_collected_coins", "");
+	// ud->flush(); // no flush to reset settings after restart
+}
+
+void GameStateManager::initSpriteCache()
+{
+	// preload animation frames
+	SpriteFrameCache *sfc = SpriteFrameCache::getInstance();
+	sfc->addSpriteFramesWithFile("josie/josiewalk.plist", "josie/josiewalk.png");
+	sfc->addSpriteFramesWithFile("josie/josiestartmoving.plist", "josie/josiestartmoving.png");
+	sfc->addSpriteFramesWithFile("josie/josiejump.plist", "josie/josiejump.png");
+	sfc->addSpriteFramesWithFile("tilemaps/coin.plist", "tilemaps/coin.png");
 }
 
 bool GameStateManager::isLevelUnlocked(int level, int sublevel)

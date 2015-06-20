@@ -8,7 +8,8 @@ public:
 	GameStateManager();
 	virtual ~GameStateManager();
 
-	static void initManagerWithDefaults();
+	static void initDefaults();
+	static void initSpriteCache();
 	static bool isLevelUnlocked(int level, int sublevel);
 
 	static void updateCoinsForLevel(int level, int sublevel, int coins);
