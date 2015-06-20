@@ -4,7 +4,7 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>JosieExplo01.png</key>
+			<key>josieexplosion0000</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -23,7 +23,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo02.png</key>
+			<key>josieexplosion0001</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -42,7 +42,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo03.png</key>
+			<key>josieexplosion0002</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -61,7 +61,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo04.png</key>
+			<key>josieexplosion0003</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -80,7 +80,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo05.png</key>
+			<key>josieexplosion0004</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -99,7 +99,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo06.png</key>
+			<key>josieexplosion0005</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -118,7 +118,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo07.png</key>
+			<key>josieexplosion0006</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -137,7 +137,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo08.png</key>
+			<key>josieexplosion0007</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -156,7 +156,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo09.png</key>
+			<key>josieexplosion0008</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -175,7 +175,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>JosieExplo10.png</key>
+			<key>josieexplosion0009</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -204,9 +204,9 @@
 			<key>target</key>
 			<dict>
 				<key>name</key>
-				<string>JosieExplo.png</string>
+				<string>josieexplosion.png</string>
 				<key>textureFileName</key>
-				<string>JosieExplo</string>
+				<string>josieexplosion</string>
 				<key>textureFileExtension</key>
 				<string>png</string>
 				<key>premultipliedAlpha</key>

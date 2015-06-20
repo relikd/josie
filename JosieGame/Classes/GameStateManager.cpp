@@ -30,6 +30,7 @@ void GameStateManager::initSpriteCache()
 	sfc->addSpriteFramesWithFile("josie/josiewalk.plist", "josie/josiewalk.png");
 	sfc->addSpriteFramesWithFile("josie/josiestartmoving.plist", "josie/josiestartmoving.png");
 	sfc->addSpriteFramesWithFile("josie/josiejump.plist", "josie/josiejump.png");
+	sfc->addSpriteFramesWithFile("josie/josieexplosion.plist", "josie/josieexplosion.png");
 	sfc->addSpriteFramesWithFile("tilemaps/coin.plist", "tilemaps/coin.png");
 }
 
