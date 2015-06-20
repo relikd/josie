@@ -27,9 +27,15 @@ public:
 	int makeThornField(int x, int height);
 	int makeFloating(int x ,int height);
 	int makeSlide(int x, int height);
+	int makeSpikeSlide(int x, int height);
 	int makeJumpAndSlide(int x,int height);
 	int FloatingPlatform(int x,int height);
 	int placeGroundLength(int x, int height, int length);
+	void placeCoins(int distance);
+	int isSafe(int x);
+	int getHighestTile(int x);
+	int checkSurroundings(int x,int y);
+	void placeCoin(int x,int height);
 	int newHeight();
 
 	MapController *map;
