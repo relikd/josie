@@ -34,7 +34,7 @@ LevelPlayer* LevelPlayer::initWithLevel(Level* level) {
 	if (pl->initCollisionSize(160,245))
 	{
 		pl->autorelease();
-		pl->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		pl->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 		pl->setScale(PLAYER_SCALE_DEFAULT);
 		pl->_level = level;
 
