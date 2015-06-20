@@ -140,7 +140,7 @@ int TMXEdit::makeThornField(int x, int height) {
 	int done = x + PARTLENGTH * (1 + arc4random() % 2);
 	x = placeGroundLength(x, height, (2 + arc4random() % 2));
 	while (x < done) {
-		x = placeGroundLength(x, height, arc4random() % 3);
+		x = placeGroundLength(x, height,1+ arc4random() % 3);
 		_backgroundLayer->setTileGID(THORN[arc4random() % 3],
 				Vec2(x, height - 1));
 		_metaLayer->setTileGID(KILL, Vec2(x, height - 1));
