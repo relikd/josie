@@ -16,6 +16,7 @@ public:
 	void initOptions();
 
 	bool tryCollect(CollisionLayer *player); // no need for Player class
+	bool checkDeathly(cocos2d::Rect bounds);
 	float getLevelProgress(cocos2d::Rect bounds);
 	int getMaxCoins() { return _coins.size(); }
 
@@ -26,6 +27,7 @@ public:
 	void reinitializeMap(bool re_collision=true, bool re_coins=true);
 private:
 	long *_collisionMap;
+	long *_deathlyMap;
 	cocos2d::Vector<CollisionLayer*> _coins;
 	cocos2d::Vector<CollisionLayer*> _deathies;
 

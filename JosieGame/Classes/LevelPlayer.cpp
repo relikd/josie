@@ -12,6 +12,8 @@ using namespace cocos2d;
 const float _gravity = 9.81;
 const float _jumpPower = 200;
 
+float _upForce; // continuously changed during jump
+
 LevelPlayer::LevelPlayer() {
 	_level = nullptr;
 	_upForce = 0;
@@ -20,7 +22,6 @@ LevelPlayer::LevelPlayer() {
 	_isOnGround = true;
 	_shouldPerformJumpAnimation = false;
 	_jumpHoldingTime = 0;
-	_upForce = 0;
 	registerObserver();
 }
 LevelPlayer::~LevelPlayer() {
@@ -140,7 +141,7 @@ void LevelPlayer::jump(bool j) {
 		}
 
 		if (_jumpHoldingTime < 0.2) {
-			_upForce = 50 + _jumpPower * (_jumpHoldingTime / 0.2);
+			_upForce = 50 + _jumpPower * (_jumpHoldingTime / 0.2) * (PLAYER_SCALE_DEFAULT/this->getScale());
 		}
 	} else {
 		_jumpHoldingTime = 999;
@@ -233,7 +234,7 @@ void LevelPlayer::_checkJump() {
 }
 
 void LevelPlayer::_checkAlive() {
-	if (this->getPositionY() < -100) {
+	if ((this->getPositionY() < -100) || (_level->mapManager->checkDeathly(getBoundingBox()))) {
 		// KAABUUUUMMM! #splash
 		if (100.0 <= _level->mapManager->getLevelProgress(this->getBoundingBox()))
 			_level->finishLevelSuccessfull();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="72" height="15" tilewidth="72" tileheight="72" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="500" height="15" tilewidth="72" tileheight="72" nextobjectid="1">
  <tileset firstgid="1" name="Tileset" tilewidth="72" tileheight="72">
   <image source="Spritesheet03.png" width="512" height="512"/>
   <tile id="18">
@@ -38,19 +38,19 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Foreground_layer" width="72" height="15">
+ <layer name="Foreground_layer" width="500" height="15">
   <data encoding="base64" compression="zlib">
-   eJztzgEJAAAMA6DB+3d+jDHQBCYAAADQd+0A0x4XoAAE
+   eJztzgEJAAAIwLCD/TsbQ5AtwQoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgh7kOAAAAAC2kEAAE
   </data>
  </layer>
- <layer name="Background_layer" width="72" height="15">
+ <layer name="Background_layer" width="500" height="15">
   <data encoding="base64" compression="zlib">
-   eJztl9sKgzAQBdfWS7WX5wqF/v9fNkEXDukuMVajNRkYBBUNEyGRaDsawUo5f3FsNhhvTHqSO2im1sfSUu7jY2qjVPtYbKOO/H1qitvnHeEdIXAnqRV3qUfn9MHnX4034frd+IDjXnFbVSA3ygzrHM45z6s790hL+jeSOT5lgAWYCu46jntrVlr3jwx+E1of377oH3jOuPai7/3flDYx+hQrezKelSPet9c+0rh+MeSfcwnX7vMBTJIH+w==
+   eJzt270OQDAAhdEyeQSbV/eoFhLxkxah2pyT3IRFbN+gQnhPFxkAUAY9B4Dy6TkAlE/PAaAOeg4AdTjq+RDCmPOdAAAAAACgZn3kHgDIr5nXrq5TBwDksW3y3bPtzsQDwLeOGv70XzU9B4BvnPVbzwHgPVe/X8cW6/iyu88GAPZS+/uXAQB7E6PBBKM=
   </data>
  </layer>
- <layer name="Meta_layer" width="72" height="15" opacity="0.5">
+ <layer name="Meta_layer" width="500" height="15" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJztlEsKwDAIRL1Dvf9ZS7b9iB0jo9gHWYWE+DIqwkNJZ7uggtc5yQ9S6wQ/CxXM0xQ/i6sjT+0RP0dwn8WTpzdfaE9a9yL/xMJy5Xl71Qxk8NVPlwzsZlImLDy91WlW7Ob3cydaa1c/3pkRzUGWHzTLGasibCfV/ZxC4g0w
+   eJzt3EEKgCAQQFHvYPc/a1uDSINRGnsPBFduP8OApcxzdA4AkIOeA0B+eg4A+ek5AOxBzwFgD3oOAAAAAAAAAFft/rz354ydOwB8gy4DQE5P/b7reR24AwBrjMzh5nMAiPV2fx2x4575NgD80eqWAwDxTo5yCf4=
   </data>
  </layer>
 </map>
