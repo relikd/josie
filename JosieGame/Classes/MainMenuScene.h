@@ -7,20 +7,15 @@
 class MainMenu : public cocos2d::Layer
 {
 public:
-    // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* createScene();
 
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+    static cocos2d::Scene* createScene();
     virtual bool init();
     
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    // implement the "static create()" method manually
+	void play(cocos2d::Ref* pSender);
+	void explode();
     CREATE_FUNC(MainMenu);
 
-	void play(cocos2d::Ref* pSender);
-	void developCut(cocos2d::Ref* pSender);
+
 };
 
 #endif // __MAINMENU_SCENE_H__
