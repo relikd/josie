@@ -9,8 +9,7 @@ using namespace cocos2d;
 #define BOSSLEVEL_BOUNDS_LEFT 154
 #define BOSSLEVEL_BOUNDS_RIGHT 1766
 
-const float walkspeed = 22.0;
-
+#define BOSS_PLAYER_WALKSPEED 22.0
 BossPlayer::BossPlayer() {
 	_level = nullptr;
 	_timeSinceLastShot = 0;
@@ -42,13 +41,13 @@ BossPlayer* BossPlayer::createWithLevel(BossLevel* level) {
 //
 
 void BossPlayer::moveLeft() {
-	float newX = this->getPositionX() - walkspeed;
+	float newX = this->getPositionX() - BOSS_PLAYER_WALKSPEED*(cocos2d::UserDefault::getInstance()->getIntegerForKey("josie_perk_playerspeed")*0.5);
 	if (newX < BOSSLEVEL_BOUNDS_LEFT) newX = BOSSLEVEL_BOUNDS_LEFT;
 	this->setPositionX(newX);
 }
 
 void BossPlayer::moveRight() {
-	float newX = this->getPositionX() + walkspeed;
+	float newX = this->getPositionX() + BOSS_PLAYER_WALKSPEED*(cocos2d::UserDefault::getInstance()->getIntegerForKey("josie_perk_playerspeed")*0.5);
 	if (newX > BOSSLEVEL_BOUNDS_RIGHT) newX = BOSSLEVEL_BOUNDS_RIGHT;
 	this->setPositionX(newX);
 }
