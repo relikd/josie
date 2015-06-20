@@ -13,6 +13,9 @@ public:
 	~Level();
 	static Level* initWithLevel(int level, int sublevel);
 
+	void scheduleHUD();
+	void unscheduleHUD();
+
 	void moveLevelAtSpeed(float speed);
 	void resetLevelPosition(float position = 0.0f);
 	void addCoin();

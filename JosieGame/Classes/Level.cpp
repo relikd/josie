@@ -37,6 +37,9 @@ Level* Level::initWithLevel(int level, int sublevel) {
 	return l;
 }
 
+void Level::scheduleHUD() { hud->scheduleUpdate(); }
+void Level::unscheduleHUD() { hud->unscheduleUpdate(); }
+
 
 //
 // Create the UI

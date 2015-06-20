@@ -30,14 +30,17 @@ private:
 	void startRunningAfterAnimation(FiniteTimeAction *animation);
 	void startRunningCallback();
 	void endRunning();
+	void deathAnimation();
 
 	Level *_level;
 	bool _isSliding;
 	bool _isRunning;
 	bool _isOnGround;
+	bool _isAlive;
 	bool _shouldPerformJumpAnimation;
 	float _jumpHoldingTime;
 	float _upForce; // continuously changed during jump
+
 };
 
 #endif // _PLAYER_H_
