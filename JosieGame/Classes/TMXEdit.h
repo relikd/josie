@@ -26,6 +26,8 @@ public:
 	int makePillars(int x, int height);
 	int makeThornField(int x, int height);
 	int makeFloating(int x ,int height);
+	int makeSlide(int x, int height);
+	int makeJumpAndSlide(int x,int height);
 	int FloatingPlatform(int x,int height);
 	int placeGroundLength(int x, int height, int length);
 	int newHeight();
