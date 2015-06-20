@@ -37,6 +37,7 @@ private:
 	bool _isOnGround;
 	bool _shouldPerformJumpAnimation;
 	float _jumpHoldingTime;
+	float _upForce; // continuously changed during jump
 };
 
 #endif // _PLAYER_H_

@@ -12,8 +12,6 @@ using namespace cocos2d;
 const float _gravity = 9.81;
 const float _jumpPower = 200;
 
-float _upForce; // continuously changed during jump
-
 LevelPlayer::LevelPlayer() {
 	_level = nullptr;
 	_upForce = 0;
@@ -22,6 +20,7 @@ LevelPlayer::LevelPlayer() {
 	_isOnGround = true;
 	_shouldPerformJumpAnimation = false;
 	_jumpHoldingTime = 0;
+	_upForce = 0;
 	registerObserver();
 }
 LevelPlayer::~LevelPlayer() {
