@@ -140,7 +140,7 @@ void LevelPlayer::jump(bool j) {
 		}
 
 		if (_jumpHoldingTime < 0.2) {
-			_upForce = 50 + _jumpPower * (_jumpHoldingTime / 0.2) * (PLAYER_SCALE_DEFAULT/this->getScale());
+			_upForce = 50 + _jumpPower * (_jumpHoldingTime / 0.2);
 		}
 	} else {
 		_jumpHoldingTime = 999;
