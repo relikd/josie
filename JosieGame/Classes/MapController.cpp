@@ -57,16 +57,18 @@ bool MapController::tryCollect(CollisionLayer *player)
 	return false;
 }
 bool MapController::checkDeathly(Rect bounds) {
+	CCLOG("checkDeadly");
 	TilePointOffset pos = this->getTilePointOffset(Vec2(bounds.origin.x, bounds.getMaxY()));
 	int playerWidthInTiles = ceil((pos.offsetX + bounds.size.width) / _tileSize.width);
 	int playerHeightInTiles = ceil((pos.offsetY + bounds.size.height) / _tileSize.height);
 
 	for (int i = 0; i < playerWidthInTiles; i++) {
-		long col = _collisionMap[pos.x + i];
+		long col = _deathlyMap[pos.x + i];
+		CCLOG("%d: %ld",pos.x, col);
 		int numTiles = playerHeightInTiles;
 		col >>= pos.y;
 		while (numTiles--) {
-			if (col & 1)
+			if (col&1)
 				return true;
 			col >>= 1;
 		}

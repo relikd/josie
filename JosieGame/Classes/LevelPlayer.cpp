@@ -235,7 +235,9 @@ void LevelPlayer::_checkJump() {
 
 void LevelPlayer::_checkAlive() {
 	if ((this->getPositionY() < -100) || (_level->mapManager->checkDeathly(getBoundingBox()))) {
-		// KAABUUUUMMM! #splash
+
+		spriteImage->runAction(animationWithFrame("josieexplosion", 10));
+
 		if (100.0 <= _level->mapManager->getLevelProgress(this->getBoundingBox()))
 			_level->finishLevelSuccessfull();
 		else
