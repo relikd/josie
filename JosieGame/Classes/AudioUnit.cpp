@@ -101,6 +101,25 @@ void AudioUnit::playJosieStopRunSound()
 	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.5);
 }
 
+
+void AudioUnit::playJosieShootSound(){
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->playEffect("audio/boss_sounds/shoot.mp3",false,1.0,1.0,3.0);
+}
+
+void AudioUnit::playJosieHitSound(){
+	std::ostringstream s;
+	s << "audio/josie_sounds/josie_hit"<< (rand()%3)+1 <<".mp3";
+
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.7);
+}
+
+void AudioUnit::playShopPurchaseSound(){
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->playEffect("audio/shoppurchase.mp3",false,1.0,1.0,1.0);
+}
+
 void AudioUnit::playBossHitSound(){
 	std::ostringstream s;
 	s << "audio/boss_sounds/boss_hit"<< (rand()%3)+1 <<".mp3";
@@ -117,18 +136,6 @@ void AudioUnit::playProjectileHitSound(){
 	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.3);
 }
 
-void AudioUnit::playJosieShootSound(){
-	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect("audio/boss_sounds/shoot.mp3",false,1.0,1.0,2.0);
-}
-
-void AudioUnit::playJosieHitSound(){
-	std::ostringstream s;
-	s << "audio/josie_sounds/josie_hit"<< (rand()%3)+1 <<".mp3";
-
-	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.7);
-}
 //
 // Other Sounds
 //

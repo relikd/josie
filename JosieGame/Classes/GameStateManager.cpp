@@ -20,7 +20,7 @@ void GameStateManager::initDefaults()
 	ud->setIntegerForKey("music_volume", 100);
 	ud->setIntegerForKey("sfx_volume", 100);
 	ud->setStringForKey("josie_collected_coins", "");
-	// ud->flush(); // no flush to reset settings after restart
+	ud->flush(); // no flush to reset settings after restart
 }
 
 void GameStateManager::initSpriteCache()
@@ -36,7 +36,7 @@ void GameStateManager::initSpriteCache()
 
 bool GameStateManager::isLevelUnlocked(int level, int sublevel)
 {
-	if (!SAVE_USER_STATE) return true;
+	return true;
 	if (level == 1 && sublevel == 1)
 		return true; // first level
 	if (sublevel==0)
@@ -70,7 +70,7 @@ void GameStateManager::addCoins(int coins)
 	credits += coins;
 	if (credits < 0) credits = 0;
 	ud->setIntegerForKey("josie_credits", credits);
-	if (SAVE_USER_STATE) ud->flush();
+	ud->flush();
 }
 
 int GameStateManager::getAllCollectedCoins()
@@ -108,5 +108,5 @@ void GameStateManager::setCoinsForLevel(int level, int sublevel, int coins)
 	}
 	str[lvl_index] = (unsigned char)coins+1;
 	ud->setStringForKey("josie_collected_coins", str);
-	if (SAVE_USER_STATE) ud->flush();
+	ud->flush();
 }

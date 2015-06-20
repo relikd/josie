@@ -23,6 +23,7 @@ private:
 	cocos2d::ui::Slider *_music_volume_slider;
 	cocos2d::ui::Slider *_sfx_volume_slider;
 
+	void resetGameState();
 	void toggleVisibility();
 
 };

@@ -8,6 +8,7 @@
 #include "OptionScreen.h"
 #include "ui/CocosGUI.h"
 #include "MainMenuScene.h"
+#include "GameStateManager.h"
 
 using namespace cocos2d;
 
@@ -58,6 +59,10 @@ void OptionScreen::createOptionOverlay(){
 	MenuItemLabel *backTo = MenuItemLabel::create(back, CC_CALLBACK_0(OptionScreen::toggleVisibility,this));
 	backTo->setPosition(bg->getContentSize().width - 120,80);
 
+	Label *reset_game = Label::createWithTTF("Reset Game","fonts/Marker Felt.ttf", 72);
+	reset_game->setColor(Color3B::BLACK);
+	MenuItemLabel *reset_button = MenuItemLabel::create(reset_game, CC_CALLBACK_0(OptionScreen::resetGameState,this));
+	reset_button->setPosition(200,80);
 
 	//Slider for Music Volume
 	_music_volume_slider = ui::Slider::create(
@@ -77,7 +82,7 @@ void OptionScreen::createOptionOverlay(){
 
 
 
-	Menu *m = Menu::createWithItem(backTo);
+	Menu *m = Menu::create(backTo,reset_button,nullptr);
 	m->setPosition(Vec2::ZERO);
 
 	_overlay->addChild(bg);
@@ -86,6 +91,10 @@ void OptionScreen::createOptionOverlay(){
 	bg->addChild(_sfx_volume_slider);
 
 	_overlay->setVisible(false);
+}
+
+void OptionScreen::resetGameState(){
+	GameStateManager::initDefaults();
 }
 
 void OptionScreen::toggleVisibility(){

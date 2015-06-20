@@ -39,7 +39,7 @@ bool MainMenu::init()
 
     Sprite* josielogo = Sprite::create("main_menu_logo.png");
     josielogo->setScale(0.4);
-    josielogo->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - josielogo->getContentSize().height*1.5));
+    josielogo->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - josielogo->getContentSize().height*1.6));
     josielogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     this->addChild(josielogo,1);
 
@@ -53,17 +53,12 @@ bool MainMenu::init()
 
     cocos2d::ScaleTo* logo_scale = ScaleTo::create(1.5,2.0);
     cocos2d::EaseElasticIn* scale_easing = cocos2d::EaseElasticIn::create(logo_scale);
-    CallFuncN* explode = CallFuncN::create(CC_CALLBACK_0(MainMenu::explode,this));
     cocos2d::ScaleTo* text_scale = ScaleTo::create(1.5,1.5);
     cocos2d::EaseElasticOut* elastic_text = cocos2d::EaseElasticOut::create(text_scale);
-
-
-    cocos2d::Sequence* start_animation = Sequence::create(scale_easing,explode,journey->runAction(elastic_text),nullptr);
+    CallFuncN* explode = CallFuncN::create(CC_CALLBACK_0(MainMenu::explode,this));
+    CallFuncN* breathe = CallFuncN::create(CC_CALLBACK_0(MainMenu::breathAnimation,this, josielogo));
+    cocos2d::Sequence* start_animation = Sequence::create(explode,scale_easing,journey->runAction(elastic_text),breathe,nullptr);
     josielogo->runAction(start_animation);
-
-
-
-
 
 
 
@@ -71,7 +66,8 @@ bool MainMenu::init()
 											"buttons/startbutton.png",
 											"buttons/startbutton_pushed.png",
 											CC_CALLBACK_1(MainMenu::play,this));
-	startbutton->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + (visibleSize.height/4)));
+	startbutton->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + (visibleSize.height/4.5)));
+	startbutton->setScale(1.2);
 
 
 	Menu* menu = Menu::create(startbutton, NULL);
@@ -102,5 +98,15 @@ void MainMenu::explode(){
     hello2->setPosition(Vec2(1920/2,200));
     hello2->setScale(3.0);
     this->addChild(hello2);
+}
+
+void MainMenu::breathAnimation(Sprite* logo){
+	cocos2d::ScaleTo* logo_small_scaleback = ScaleTo::create(1.5,1.4);
+	cocos2d::ScaleTo* logo_small_scaleup = ScaleTo::create(1.5,1.5);
+	cocos2d::Sequence* logo_up_down = Sequence::createWithTwoActions(logo_small_scaleback,logo_small_scaleup);
+	RepeatForever* breath = RepeatForever::create(logo_up_down);
+
+
+    logo->runAction(breath);
 }
 
