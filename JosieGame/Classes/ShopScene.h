@@ -14,11 +14,12 @@ public:
 private:
 	cocos2d::Layer *_equippedLayer;
 	cocos2d::Menu *_menu;
+	cocos2d::Layer *_shopWindow;
 
 	int priceForColumn(int column);
 	void createLabels();
 	void createButtons();
-	void showJosieInShopWindow();
+	void showJosieInShopWindow(int row, int column);
 	void upgrade(Ref* p);
 
 	int perkGetValue(int row, int column);
