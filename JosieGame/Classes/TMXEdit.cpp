@@ -15,19 +15,20 @@ const int minHeight = 14;
 const int maxHeight = 8;
 
 //GIDs
-const int TOPDIRT[] = {1,2,3,4};
-const int DIRT[] = {5,6,7,8};
+const int TOPDIRT[] = { 1, 2, 3, 4 };
+const int DIRT[] = { 5, 6, 7, 8 };
 const int COLLIDE = 20;
 const int THORN = 24;
-const int FLOATSTART= 9;
+const int STAKE = 29;
+const int FLOATSTART = 9;
 const int FLOATEND = 12;
-const int FLOATING[]= {10,11,13,14};
+const int FLOATING[] = { 10, 11, 13, 14 };
 TMXEdit::TMXEdit() {
 	// TODO Auto-generated constructor stub
-		map = MapController::initWithLevel(0,1);
-		_backgroundLayer=NULL;
-		_metaLayer=NULL;
-		_foregroundLayer=NULL;
+	map = MapController::initWithLevel(0, 1);
+	_backgroundLayer = NULL;
+	_metaLayer = NULL;
+	_foregroundLayer = NULL;
 }
 
 TMXEdit::~TMXEdit() {
@@ -35,7 +36,7 @@ TMXEdit::~TMXEdit() {
 }
 
 //TODO: erschaffe map mit parametern
-MapController* TMXEdit::makeMap(){
+MapController* TMXEdit::makeMap() {
 	TMXEdit* maker = new TMXEdit();
 	maker->getLayers();
 	maker->fillLevel();
@@ -43,124 +44,186 @@ MapController* TMXEdit::makeMap(){
 	return maker->map;
 }
 
-
-void TMXEdit::getLayers(){
+void TMXEdit::getLayers() {
 	_backgroundLayer = map->getLayer("Background_layer");
 	_foregroundLayer = map->getLayer("Foreground_layer");
 	_metaLayer = map->getLayer("Meta_layer");
 }
 
-void TMXEdit::fillLevel(){
+void TMXEdit::fillLevel() {
 	int width = map->getMapSize().width;
 	int x = 20;
 	int height = 13;
-	while (x < width-(4*PartLength)){
+	while (x < width - (4 * PartLength)) {
 
-		switch(arc4random()%6)
-		{
+		switch (arc4random() % 7) {
 		case 0:
 			x = makePillars(x, height);
-			x = placeGroundLength(x, height,2+arc4random()%5);
+			x = placeGroundLength(x, height, 2 + arc4random() % 5);
 			break;
 
 		case 1:
-			height = newHeight();
-			x = placeGroundLength(x,height,8);
-		    break;
+
+			x = makeJumpAndSlide(x, height);
+			break;
 
 		case 2:
-			x = makeThornField(x,height);
+			x = makeThornField(x, height);
 			break;
 
 		case 3:
-			x=makeFloating(x, height);
-			x = placeGroundLength(x, height,2+arc4random()%5);
+			x = makeFloating(x, height);
+			x = placeGroundLength(x, height, 2 + arc4random() % 5);
 			break;
 
 		case 4:
+			x = makeSlide(x, height);
 			break;
 
 		case 5:
+		case 6:
+
+			height = newHeight();
+			x = placeGroundLength(x, height,2 + arc4random()%6);
+
 			break;
 		}
 	}
-	while(x < width){
+	while (x < width) {
 		placeGround(x, height);
 		x++;
 	}
 }
 
-void TMXEdit::placeGround(int x, int y){
+void TMXEdit::placeGround(int x, int y) {
 
-	_backgroundLayer->setTileGID(TOPDIRT[arc4random()%4],Vec2(x,y));
-	_metaLayer->setTileGID(COLLIDE,Vec2(x,y));
-	if ( y < minHeight )placeDirt(x, y+1);
+	_backgroundLayer->setTileGID(TOPDIRT[arc4random() % 4], Vec2(x, y));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, y));
+	if (y < minHeight)
+		placeDirt(x, y + 1);
 }
 
-void TMXEdit::placeDirt(int x, int y){
-	_backgroundLayer->setTileGID(DIRT[arc4random()%4],Vec2(x,y));
-	_metaLayer->setTileGID(COLLIDE,Vec2(x,y));
-	if ( y < minHeight )placeDirt(x, y+1);
+void TMXEdit::placeDirt(int x, int y) {
+	_backgroundLayer->setTileGID(DIRT[arc4random() % 4], Vec2(x, y));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, y));
+	if (y < minHeight)
+		placeDirt(x, y + 1);
 }
 
-int TMXEdit::makePillars(int x, int height){
-	height-=3;
+int TMXEdit::makePillars(int x, int height) {
+	height -= 3;
+	x += 2;
+	int done = x + PartLength * (1 + arc4random() % 2);
+	while (x <= done) {
+		placeGround(x++, height);
+		placeGround(x++, height);
+
+		x += 2 + (arc4random() % 5);
+	}
+
+	return x;
+}
+
+int TMXEdit::makeThornField(int x, int height) {
+	int done = x + PartLength * (1 + arc4random() % 2);
+	while (x <= done) {
+		x = placeGroundLength(x, height, (2 + arc4random() % 2));
+		_backgroundLayer->setTileGID(THORN, Vec2(x, height - 1)); //TODO: eventuell Collision für tödliche Spikes ändern
+		x = placeGroundLength(x, height, 2 + arc4random() % 3);
+	}
+
+	return x;
+}
+
+int TMXEdit::makeFloating(int x, int height) {
+	x += 2 + arc4random() % 3;
+	int done = x + PartLength * (1 + arc4random() % 2);
+	while (x <= done) {
+		x = FloatingPlatform(x, height);
+		x += 3 + arc4random() % 3;
+	}
+
+	return x;
+
+}
+
+int TMXEdit::makeSlide(int x, int height) {
+	x = placeGroundLength(x, height, 2);
+
+	_backgroundLayer->setTileGID(STAKE + 0x20000000, Vec2(x, height - 2));
+	placeGround(x, height);
+	int length = 2 + arc4random() % 2;
+	while (length-- > 0) {
+		_backgroundLayer->setTileGID(FLOATING[arc4random() % 4],
+				Vec2(++x, height - 2));
+		if (arc4random() % 2 == 0)
+			_backgroundLayer->setTileGID(STAKE, Vec2(x, height - 3));
+
+		_metaLayer->setTileGID(COLLIDE, Vec2(x, height - 2));
+		placeGround(x, height);
+	}
+	_backgroundLayer->setTileGID(FLOATEND, Vec2(++x, height - 2));
+
+	if (arc4random() % 2 == 0)
+		_backgroundLayer->setTileGID(STAKE, Vec2(x, height - 3));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, height - 2));
+	x = placeGroundLength(x, height, 2);
+	return x;
+}
+
+int TMXEdit::makeJumpAndSlide(int x, int height){
 	x+=2;
-	int done = x + PartLength*(1+arc4random()%2);
-	while(x <= done){
-		placeGround(x++, height);
-		placeGround(x++, height);
+	int dif = 4 + arc4random()%2;
+	_backgroundLayer->setTileGID(FLOATSTART, Vec2(x, height - 2));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, height - 2));
 
-		x+= 2 + (arc4random()%5);
+	_backgroundLayer->setTileGID(FLOATSTART, Vec2(x+1, height - dif));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x+1, height - dif));
+
+	int length = 2 + arc4random() % 3;
+	while (length-- > 0) {
+
+		_backgroundLayer->setTileGID(FLOATING[arc4random() % 4],
+				Vec2(++x, height - 2));
+		_metaLayer->setTileGID(COLLIDE, Vec2(x, height - 2));
+		_backgroundLayer->setTileGID(FLOATING[arc4random() % 4],
+					Vec2(x, height - dif));
+			_metaLayer->setTileGID(COLLIDE, Vec2(x, height - dif));
+
 	}
 
-	return x;
-}
+	_backgroundLayer->setTileGID(FLOATEND, Vec2(x, height - dif));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, height - dif));
+	_backgroundLayer->setTileGID(FLOATEND, Vec2(++x, height - 2));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, height - 2));
 
-int TMXEdit::makeThornField(int x, int height){
-	int done = x + PartLength*(1+arc4random()%2);
-	while(x <= done){
-		x= placeGroundLength(x,height,(2+arc4random()%2));
-		_backgroundLayer->setTileGID(THORN,Vec2(x,height-1)); //TODO: eventuell Collision für tödliche Spikes ändern
-		x= placeGroundLength(x,height,2+arc4random()%3);
-	}
-
-	return x;
-}
-
-int TMXEdit::makeFloating(int x, int height){
-	x+=2+arc4random()%3;
-	int done = x + PartLength*(1+arc4random()%2);
-	while(x <= done){
-		x=FloatingPlatform(x, height);
-		x+=3+arc4random()%3;
-	}
-
-	return x;
+	return x+3;
 
 }
 
-int TMXEdit::FloatingPlatform(int x, int height){
-	_backgroundLayer->setTileGID(FLOATSTART,Vec2(x,height-2));
-	_metaLayer->setTileGID(COLLIDE,Vec2(x,height-2));
-	int length = 2 + arc4random()%3;
-	while (length-- > 0){
-		_backgroundLayer->setTileGID(FLOATING[arc4random()%4],Vec2(++x,height-2));
-		_metaLayer->setTileGID(COLLIDE,Vec2(x,height-2));
+int TMXEdit::FloatingPlatform(int x, int height) {
+	_backgroundLayer->setTileGID(FLOATSTART, Vec2(x, height - 2));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, height - 2));
+	int length = 2 + arc4random() % 3;
+	while (length-- > 0) {
+		_backgroundLayer->setTileGID(FLOATING[arc4random() % 4],
+				Vec2(++x, height - 2));
+		_metaLayer->setTileGID(COLLIDE, Vec2(x, height - 2));
 	}
-	_backgroundLayer->setTileGID(FLOATEND,Vec2(++x,height-2));
-	_metaLayer->setTileGID(COLLIDE,Vec2(x,height-2));
+	_backgroundLayer->setTileGID(FLOATEND, Vec2(++x, height - 2));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, height - 2));
 	return x;
 
 }
 
-int TMXEdit::placeGroundLength(int x, int height, int length){
+int TMXEdit::placeGroundLength(int x, int height, int length) {
 	int done = x + length;
-	while(x <= done) placeGround(x++, height);
+	while (x <= done)
+		placeGround(x++, height);
 
 	return x;
 }
 
-int TMXEdit::newHeight(){
-	return minHeight-(arc4random()%(minHeight-maxHeight));
+int TMXEdit::newHeight() {
+	return minHeight - (arc4random() % (minHeight - maxHeight));
 }
