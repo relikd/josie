@@ -133,5 +133,7 @@ void LevelHUD::update(float dt)
 		ed->dispatchCustomEvent("LEVEL_PLAYER_RUN_1");
 
 	if (_jump->isSelected())
-		ed->dispatchCustomEvent("LEVEL_PLAYER_JUMP");
+		ed->dispatchCustomEvent("LEVEL_PLAYER_JUMP_1");
+	else
+		ed->dispatchCustomEvent("LEVEL_PLAYER_JUMP_0");
 }
