@@ -20,9 +20,15 @@ public:
 	virtual ~TMXEdit();
 	static MapController* makeMap();
 	void getLayers();
-	void fillGround(int ymin,int ymax);
+	void fillLevel();
 	void placeGround(int x, int y);
 	void placeDirt(int x, int y);
+	int makePillars(int x, int height);
+	int makeThornField(int x, int height);
+	int makeFloating(int x ,int height);
+	int FloatingPlatform(int x,int height);
+	int placeGroundLength(int x, int height, int length);
+	int newHeight();
 
 	MapController *map;
 

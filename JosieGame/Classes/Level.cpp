@@ -57,7 +57,7 @@ void Level::createUI(int lvl, int sublvl)
 
 	//Add Player
 	LevelPlayer *player = LevelPlayer::initWithLevel(this);
-	player->setPlayerOnGround(216);
+	player->setPlayerOnGround(400);
 
 	char levelName[12];
 	sprintf(levelName, "Level %d.%d", lvl, sublvl);
