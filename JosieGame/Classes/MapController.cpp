@@ -56,7 +56,23 @@ bool MapController::tryCollect(CollisionLayer *player)
 	}
 	return false;
 }
+bool MapController::checkDeathly(Rect bounds) {
+	TilePointOffset pos = this->getTilePointOffset(Vec2(bounds.origin.x, bounds.getMaxY()));
+	int playerWidthInTiles = ceil((pos.offsetX + bounds.size.width) / _tileSize.width);
+	int playerHeightInTiles = ceil((pos.offsetY + bounds.size.height) / _tileSize.height);
 
+	for (int i = 0; i < playerWidthInTiles; i++) {
+		long col = _collisionMap[pos.x + i];
+		int numTiles = playerHeightInTiles;
+		col >>= pos.y;
+		while (numTiles--) {
+			if (col & 1)
+				return true;
+			col >>= 1;
+		}
+	}
+	return false;
+}
 float MapController::getLevelProgress(cocos2d::Rect bounds)
 {
 	return (bounds.getMaxX() / (_mapSize.width * _tileSize.width))*100;
@@ -141,7 +157,7 @@ void MapController::reinitializeMap(bool re_collision, bool re_coins)
 {
 	if (re_collision) {
 		this->initCollisionMap();
-
+		this->initDeathlyArray();
 	}
 	if (re_coins) {
 		for (CollisionLayer* coin : this->_coins) {
@@ -149,7 +165,6 @@ void MapController::reinitializeMap(bool re_collision, bool re_coins)
 		}
 		_coins.clear();
 		this->initCollectableArray();
-		this->initDeathlyArray();
 	}
 }
 
@@ -174,62 +189,19 @@ void MapController::initCollectableArray()
 //For DeadlyThorn Colission
 void MapController::initDeathlyArray()
 {
-	//Get Possible Collisions
-	/*std::string possColl[] = {"Thorn", "ThornUp", "ThornUp2", "PflockEcke", "Pflock"};
-	int collectGID[];
-	for (int x=0; x<=4;x++){
-	collectGID[x] = this->getGIDForName(possColl[x]);
-	}
+	int mapWidth = (int)_mapSize.width;
+	int collisionGID = this->getGIDForName("Deadly");
 
-	//Create Deadly Collision Sprites
-	for (int x=0; x<(int)_mapSize.width; x++)
-	{
-		for (int y=0; y<(int)_mapSize.height; y++)
-		{
-			if (collectGID[0] == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
-			{
+	delete _deathlyMap;
+	_deathlyMap = new long[mapWidth+10]; // Free the Space !
 
-				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
-				thornColl.insertImageName("Collisions/Dorne00");
-				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_deathies.pushBack(thornColl);
-				this->addChild(thornColl);
-
-			}
-			else if (collectGID[1] == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
-			{
-				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
-				thornColl.insertImageName("Collisions/Dorne01");
-				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_deathies.pushBack(thornColl);
-				this->addChild(thornColl);
-			}
-			else if (collectGID[2] == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
-			{
-				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
-				thornColl.insertImageName("Collisions/Dorne02");
-				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_deathies.pushBack(thornColl);
-				this->addChild(thornColl);
-			}
-			else if (collectGID[2] == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
-			{
-				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
-				thornColl.insertImageName("Collisions/Pflock00");
-				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_deathies.pushBack(thornColl);
-				this->addChild(thornColl);
-			}
-			else {
-				CollisionLayer* thornColl = CollisionLayer::createWithSize(72.f,72.f);
-				thornColl.insertImageName("Collisions/Pflock01");
-				thornColl->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_deathies.pushBack(thornColl);
-				this->addChild(thornColl);
-			}
-
+	for (int x=0; x < mapWidth+10; x++) {
+		_deathlyMap[x] = 0; // just a few extra columns for collision
+		if (x < mapWidth) {
+			long column = this->getColumnBitmapForGID(x, collisionGID);
+			_deathlyMap[x] = column;
 		}
-	}*/
+	}
 }
 
 
