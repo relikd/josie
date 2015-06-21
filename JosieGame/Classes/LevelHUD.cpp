@@ -23,7 +23,9 @@ LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
 
 	hud->addStatusBar(name);
 	hud->addPlayerControls();
-	hud->addChild(PauseScreen::createPauseButton(1900,980));
+
+	Size winSize = Director::getInstance()->getWinSize();
+	hud->addChild(PauseScreen::createPauseButton(winSize.width-20, winSize.height-100));
 
 	hud->scheduleUpdate();
 
@@ -37,8 +39,8 @@ LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
 
 void LevelHUD::addStatusBar(const std::string& title)
 {
-	LayerColor *blackbar = LayerColor::create(Color4B(0,0,0,255), 1920, 480);
-	blackbar->setPosition(0, 1000); // layer anchor is 0,0
+	LayerColor *blackbar = LayerColor::create(Color4B(0,0,0,255), 1920, 80);
+	blackbar->setPosition(0, Director::getInstance()->getWinSize().height-80); // layer anchor is 0,0
 
 	Sprite *coinImage = Sprite::createWithSpriteFrameName("coin0000");
 	coinImage->setScale( 65 / coinImage->getContentSize().height );
@@ -71,12 +73,12 @@ void LevelHUD::addPlayerControls()
 	_jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png");
 
 	_stay->setScale(0.8);
-	_slide->setScale(0.8);
-	_jump->setScale(0.8);
+	_slide->setScale(0.9);
+	_jump->setScale(0.9);
 
-	_stay->setPosition(Vec2(150,150));
-	_slide->setPosition(Vec2(1920-300,120));
-	_jump->setPosition(Vec2(1920-150,300));
+	_stay->setPosition(120, 150);
+	_slide->setPosition(Director::getInstance()->getWinSize().width-300, 150);
+	_jump->setPosition(Director::getInstance()->getWinSize().width-150, 350);
 
 	Menu *menu = Menu::create(_stay,_slide,_jump, NULL);
 	menu->setPosition(Vec2::ZERO);
