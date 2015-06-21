@@ -83,10 +83,40 @@ MenuItemImage* LevelSelect::buttonWithSublevel(int sublevel)
 	if (!GameStateManager::isLevelUnlocked(_level, sublevel)) {
 		itm->setEnabled(false);
 		itm->setOpacity(50);
+	} else {
+		if (sublevel!=0)
+		{
+			int coins = GameStateManager::getCoinsForLevel(_level, sublevel);
+			int time = GameStateManager::getTimeForLevel(_level, sublevel);
+
+			if (coins < 0)
+				coins = 0;
+			char txt_coin[4];
+			sprintf(txt_coin, "%i", coins);
+
+			char txt_time[7] = "---";
+			if (time >= 0) {
+				int minutes = (time / 60);
+				int seconds = (time - (minutes * 60));
+				sprintf(txt_time, "%02d:%02d", minutes, seconds);
+			}
+
+			Label *lbl_coin = Label::createWithTTF(txt_coin, "fonts/Marker Felt.ttf", 70);
+			lbl_coin->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+			lbl_coin->setColor(Color3B(238, 156, 37));
+			lbl_coin->setPosition(190, 362);
+			itm->addChild(lbl_coin);
+
+			Label *lbl_time = Label::createWithTTF(txt_time, "fonts/Marker Felt.ttf", 70);
+			lbl_time->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+			lbl_time->setColor(Color3B::BLACK);
+			lbl_time->setPosition(190, 250);
+			itm->addChild(lbl_time);
+		}
 	}
 
 	if (sublevel==0) sublevel=4;
-	itm->setPosition(10+(480*(sublevel-1)), 1070);
+	itm->setPosition(10+(480*(sublevel-1)), Director::getInstance()->getWinSize().height-20);
 
 	return itm;
 }
