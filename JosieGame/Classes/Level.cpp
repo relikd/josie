@@ -123,7 +123,8 @@ void Level::finishLevelSuccessfull(bool successfull)
 	resetLevelPosition();
 
 	if (successfull) {
-		GameStateManager::updateCoinsForLevel(_level,_sublevel, coins);
+		GameStateManager::updateCoinsForLevel(_level, _sublevel, coins);
+		GameStateManager::updateTimeForLevel(_level, _sublevel, (int)hud->getTime());
 		LevelGameOver *gameover = LevelGameOver::createWin(coins, _maxCoins, hud->getTime());
 		Director::getInstance()->pushScene(gameover);
 	} else {

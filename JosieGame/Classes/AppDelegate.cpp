@@ -21,30 +21,28 @@ void AppDelegate::initGLContextAttrs()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
-    auto director = Director::getInstance();
-    auto glview = director->getOpenGLView();
+	auto director = Director::getInstance();
+	auto glview = director->getOpenGLView();
 
-    if(!glview) {
-        glview = GLViewImpl::create("Josie Game");
-        director->setOpenGLView(glview);
-    }
-    glview->setDesignResolutionSize(1920,1080,ResolutionPolicy::FIXED_WIDTH);
-    director->setContentScaleFactor(1.0);
+	if(!glview) {
+    	glview = GLViewImpl::create("Josie Game");
+		director->setOpenGLView(glview);
+	}
+	glview->setDesignResolutionSize(1920,1080,ResolutionPolicy::FIXED_WIDTH);
+	director->setContentScaleFactor(1.0);
 
-    // turn on display FPS
-    director->setDisplayStats(true);
+	// turn on display FPS
+	director->setDisplayStats(true);
 
-    // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0 / 60);
+	// set FPS. the default value is 1.0/60 if you don't call this
+	director->setAnimationInterval(1.0 / 60);
 
-    if (UserDefault::getInstance()->getBoolForKey("josie_save_state", false)==false){
-    GameStateManager::initDefaults();
-    }
-    GameStateManager::initSpriteCache();
+	GameStateManager::initDefaults();
+	GameStateManager::initSpriteCache();
 
-    director->runWithScene(MainMenu::createScene());
+	director->runWithScene(MainMenu::createScene());
 
-    return true;
+	return true;
 }
 
 void AppDelegate::applicationDidEnterBackground() {
