@@ -23,6 +23,7 @@ LevelPlayer::LevelPlayer() {
 	_isAlive = true;
 	_shouldPerformJumpAnimation = false;
 	_jumpHoldingTime = 0;
+	collisionType = CollisionLayerTypeLevelPlayer;
 	registerObserver();
 }
 LevelPlayer::~LevelPlayer() {

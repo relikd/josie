@@ -3,7 +3,10 @@
 
 using namespace cocos2d;
 
-Projectile::Projectile() : _level(nullptr) {}
+Projectile::Projectile() {
+	_level = nullptr;
+	collisionType = CollisionLayerTypeProjectile;
+}
 Projectile::~Projectile() {
 	CCLOG("~Projectile");
 }
