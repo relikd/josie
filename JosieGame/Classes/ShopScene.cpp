@@ -66,10 +66,10 @@ void ShopScene::fight()
 int ShopScene::priceForColumn(int column)
 {
 	switch (column) {
-		case 0: return 0;
 		case 1: return 10;
 		case 2: return 20;
 		case 3: return 40;
+		default: return 0;
 	}
 }
 

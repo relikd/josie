@@ -21,7 +21,7 @@ const int DIRT[] = { 5, 6, 7, 8 };
 const int COLLIDE = 20;
 const int COIN = 19;
 const int KILL = 21;
-const int THORN[] = { 24, 24 + 0x80000000, 25 + 0x20000000 };
+const uint32_t THORN[] = { 24, 24 | kTMXTileHorizontalFlag, 25 | kTMXTileDiagonalFlag };
 const int STAKE = 29;
 const int FLOATSTART = 9;
 const int FLOATEND = 12;
@@ -141,8 +141,9 @@ int TMXEdit::makeThornField(int x, int height) {
 	x = placeGroundLength(x, height, (2 + arc4random() % 2));
 	while (x < done) {
 		x = placeGroundLength(x, height,1+ arc4random() % 3);
-		_backgroundLayer->setTileGID(THORN[arc4random() % 3],
-				Vec2(x, height - 1));
+		uint32_t thorn = THORN[arc4random() % 3];
+		TMXTileFlags flags = (TMXTileFlags)(thorn & kTMXFlipedAll);
+		_backgroundLayer->setTileGID(thorn&kTMXFlippedMask, Vec2(x, height - 1), flags);
 		_metaLayer->setTileGID(KILL, Vec2(x, height - 1));
 		x = placeGroundLength(x, height, 2 + arc4random() % 3);
 	}
