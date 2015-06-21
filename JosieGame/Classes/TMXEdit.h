@@ -31,6 +31,7 @@ public:
 	int makeJumpAndSlide(int x,int height);
 	int FloatingPlatform(int x,int height);
 	int placeGroundLength(int x, int height, int length);
+	void placeHazards(int distance);
 	void placeCoins(int distance);
 	int isSafe(int x);
 	int getHighestTile(int x);
