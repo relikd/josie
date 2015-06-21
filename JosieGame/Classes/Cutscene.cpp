@@ -250,7 +250,7 @@ void Cutscene::speech4(Ref* pSender){
 		//add speechbubble
 		auto talk = MenuItemImage::create("buttons/talk/talk1.1.png",
 				"buttons/talk/talk1.1.png", CC_CALLBACK_1(Cutscene::startlvl, this,1 ,3));
-		FadeIn* fadeInText = FadeIn::create(3.0f);
+		//FadeIn* fadeInText = FadeIn::create(3.0f);
 		talk->setPosition(990, 800);
 		auto menu = Menu::create(talk, NULL);
 		menu->setPosition(Vec2::ZERO);

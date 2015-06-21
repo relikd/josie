@@ -18,7 +18,7 @@ public:
 	bool tryCollect(CollisionLayer *player); // no need for Player class
 	bool checkDeathly(cocos2d::Rect bounds);
 	float getLevelProgress(cocos2d::Rect bounds);
-	int getMaxCoins() { return _coins.size(); }
+	int getMaxCoins() { return (int)_coins.size(); }
 
 	float collisionDiffTop(cocos2d::Rect bounds);
 	float collisionDiffBottom(cocos2d::Rect bounds);
