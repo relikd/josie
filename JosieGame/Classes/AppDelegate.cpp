@@ -37,7 +37,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
-    if (UserDefaults::getInstance().getBoolForKey("josie_save_state", false)==false){
+    if (UserDefault::getInstance()->getBoolForKey("josie_save_state", false)==false){
     GameStateManager::initSpriteCache();
     }
 
