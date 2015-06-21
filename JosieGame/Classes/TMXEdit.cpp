@@ -61,7 +61,7 @@ void TMXEdit::fillLevel() {
 	int width = map->getMapSize().width;
 	int x = 20;
 	int height = 13;
-	while (x < width - (4 * PARTLENGTH)) {
+	while (x < width - (38)) {
 
 		switch (arc4random() % 10 ) {
 		case 0:
@@ -100,10 +100,6 @@ void TMXEdit::fillLevel() {
 
 			break;
 		}
-	}
-	while (x < width) {
-		placeGround(x, height);
-		x++;
 	}
 	placeCoins(COINGFREQ);
 	placeHazards(HAZARDFREQMIN);
