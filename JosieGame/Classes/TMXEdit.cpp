@@ -4,7 +4,6 @@
  *  Created on: 30.05.2015
  *      Author: Jonas
  */
-//TODO: SPIKES auf tödlich setzen wenn collision dafür implementiert ist!
 #include "TMXEdit.h"
 #include "MapController.h"
 
@@ -14,7 +13,9 @@ const int PARTLENGTH = 6;
 const int MINHEIGHT = 14;
 const int MAXHEIGHT = 8;
 const int COINHEIGHT = 2;
+//Higher Values mean lessHazards/Coins
 const int HAZARDFREQMIN = 15;
+const int COINGFREQ = 20;
 
 //GIDs
 const int TOPDIRT[] = { 1, 2, 3, 4 };
@@ -62,7 +63,7 @@ void TMXEdit::fillLevel() {
 	int height = 13;
 	while (x < width - (4 * PARTLENGTH)) {
 
-		switch (arc4random() % 10) {
+		switch (arc4random() % 10 4) {
 		case 0:
 			x = makePillars(x, height);
 			x = placeGroundLength(x, height, 2 + arc4random() % 5);
@@ -104,7 +105,7 @@ void TMXEdit::fillLevel() {
 		placeGround(x, height);
 		x++;
 	}
-	placeCoins(20);
+	placeCoins(COINGFREQ);
 	placeHazards(HAZARDFREQMIN);
 	}
 
@@ -170,7 +171,7 @@ int TMXEdit::makeSlide(int x, int height) {
 	_backgroundLayer->setTileGID(STAKE + 0x20000000, Vec2(x, height - 2));
 	_metaLayer->setTileGID(KILL, Vec2(x, height - 2));
 	placeGround(x, height);
-	int length = 2 + arc4random() % 2;
+	int length = 1 + arc4random() % 2;
 	while (length-- > 0) {
 		_backgroundLayer->setTileGID(FLOATING[arc4random() % 4],
 				Vec2(++x, height - 2));
@@ -326,6 +327,7 @@ int TMXEdit::checkSurroundings(int x, int y) {
 	if (_backgroundLayer->getTileGIDAt(Vec2(x - 1, y)) == 0
 			&& _backgroundLayer->getTileGIDAt(Vec2(x + 1, y)) == 0
 			&& _backgroundLayer->getTileGIDAt(Vec2(x - 1, y+COINHEIGHT-1)) == 0
+			&& _backgroundLayer->getTileGIDAt(Vec2(x - 2, y+COINHEIGHT-1)) == 0
 			&& _backgroundLayer->getTileGIDAt(Vec2(x + 1, y+COINHEIGHT-1)) == 0)
 		return 1;
 	return -1;
