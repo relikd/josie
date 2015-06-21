@@ -83,7 +83,7 @@ bool MapController::checkDeathly(Rect bounds) {
 
 float MapController::getLevelProgress(cocos2d::Rect bounds)
 {
-	return (bounds.getMaxX() / (_mapSize.width * _tileSize.width))*100;
+	return (bounds.getMaxX() / ((_mapSize.width-28) * _tileSize.width))*100;
 }
 
 void MapController::collectCoin(CollisionLayer *coin)
