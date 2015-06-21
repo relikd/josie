@@ -10,11 +10,11 @@
 #include "CollisionLayer.h"
 
 
-CollisionLayer::CollisionLayer() : spriteImage(nullptr) {}
-CollisionLayer::~CollisionLayer() {
-	CCLOG("~CollisionLayer");
+CollisionLayer::CollisionLayer() {
+	spriteImage = nullptr;
+	collisionType = CollisionLayerTypeGeneric;
 }
-
+CollisionLayer::~CollisionLayer() {}
 
 CollisionLayer* CollisionLayer::createWithSize(float width, float height)
 {
@@ -66,7 +66,7 @@ CollisionLayer* CollisionLayer::createCoinSprite()
 		coin->spriteImage->setPosition(25,60);
 		coin->setScale(0.4);
 		coin->spriteImage->runAction(RepeatForever::create(Animate::create(animation)));
-
+		coin->collisionType = CollisionLayerTypeCoin;
 	}
 	return coin;
 }
@@ -96,7 +96,18 @@ void CollisionLayer::insertSprite(Sprite* sprite, Vec2 offset, Vec2 anchor)
 bool CollisionLayer::getCollision(CollisionLayer* other) {
 	computeAxes();
 	other->computeAxes();
-	return overlaps1Way(other) && other->overlaps1Way(this);
+	if (overlaps1Way(other) && other->overlaps1Way(this))
+	{
+		other->hitByOther(this); // tell the other part it is hit
+		return true;
+	}
+	return false;
+}
+
+void CollisionLayer::hitByOther(CollisionLayer* other)
+{
+	// override method
+	CCLOG("Collision type (%d) hit by generic other type (%d)", this->collisionType, other->collisionType);
 }
 
 //
