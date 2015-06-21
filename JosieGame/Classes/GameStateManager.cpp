@@ -118,7 +118,7 @@ void GameStateManager::setTimeForLevel(int level, int sublevel, int time) {
 // private
 //
 
-static void getIntForLevel(const std::string& attribute, int level,
+int GameStateManager::getIntForLevel(const char* attribute, int level,
 		int sublevel) {
 	if (sublevel == 0)
 		sublevel = 4;
@@ -130,7 +130,7 @@ static void getIntForLevel(const std::string& attribute, int level,
 	return -1;
 }
 
-void GameStateManager::setIntForLevel(const std::string& attribute, int level,
+void GameStateManager::setIntForLevel(const char* attribute, int level,
 		int sublevel, int new_val) {
 	if (sublevel == 0)
 		sublevel = 4;

@@ -21,8 +21,8 @@ private:
 	// please call update coins/time
 	static void setCoinsForLevel(int level, int sublevel, int coins);
 	static void setTimeForLevel(int level, int sublevel, int time);
-	static void getIntForLevel(const std::string& attribute, int level, int sublevel);
-	static void setIntForLevel(const std::string& attribute, int level, int sublevel, int new_val);
+	static int getIntForLevel(const char* attribute, int level, int sublevel);
+	static void setIntForLevel(const char* attribute, int level, int sublevel, int new_val);
 };
 
 #endif /* GAMESTATEMANAGER_H_ */
