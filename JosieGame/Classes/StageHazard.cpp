@@ -10,6 +10,7 @@
 
 StageHazard::StageHazard() {
 	// TODO Auto-generated constructor stub
+	_target = NULL;
 }
 
 StageHazard::~StageHazard() {
@@ -33,7 +34,7 @@ StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, L
 	return other;
 }
 void StageHazard::fallDown() {
-	float movespeed = 3.0f/(1080/_Position.y);
+	float movespeed = 1.5f/(1080/_Position.y);
 	MoveTo * fall = MoveTo::create(movespeed, Vec2(_Position.x, -10));
 
 	this->runAction(fall);
