@@ -34,10 +34,14 @@ bool MainMenu::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	LayerColor* blueScreen = LayerColor::create(Color4B(97,154,196,255));
+	this->addChild(blueScreen);
+	
     Sprite* background = Sprite::create("backgrounds/bg_mountain72dpi.png");
-    background->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	background->setPosition(Vec2(0, 0));
     this->addChild(background, 0);
-
+	
     Sprite* josielogo = Sprite::create("main_menu_logo.png");
     josielogo->setScale(0.4);
     josielogo->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - josielogo->getContentSize().height*1.6));
