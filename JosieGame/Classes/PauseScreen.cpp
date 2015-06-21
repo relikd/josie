@@ -1,7 +1,8 @@
 #include "PauseScreen.h"
 #include "AudioUnit.h"
-
+#include "Level.h"
 using namespace cocos2d;
+
 
 PauseScreen::PauseScreen() : _overlay(nullptr) {}
 PauseScreen::~PauseScreen() {
@@ -44,16 +45,12 @@ void PauseScreen::createPauseOverlay()
 				("buttons/menubuttons/backtomenu.png",
 				"buttons/menubuttons/backtomenu.png",
 				CC_CALLBACK_0(PauseScreen::backToMenu, this));
-	MenuItemImage *restart = MenuItemImage::create
-					("buttons/menubuttons/restart.png",
-					"buttons/menubuttons/restart.png"
-					);
-	cont->setPosition(bg->getContentSize().width/2, 290);
-	back->setPosition(bg->getContentSize().width/4, 200);
-	restart->setPosition(bg->getContentSize().width - (bg->getContentSize().width/4),200);
+	cont->setPosition(bg->getContentSize().width*3/4, 290);
+	cont->setScale(1.2f);
+	back->setPosition(bg->getContentSize().width/4, 290);
+	back->setScale(1.2f);
 
-
-	Menu *m = Menu::create(cont, back,restart, nullptr);
+	Menu *m = Menu::create(cont, back, nullptr);
 	m->setPosition(Vec2::ZERO);
 
 	_overlay->addChild(bg);
@@ -82,3 +79,4 @@ void PauseScreen::backToMenu()
 	Director::getInstance()->resume();
 	Director::getInstance()->popToSceneStackLevel(2);
 }
+
