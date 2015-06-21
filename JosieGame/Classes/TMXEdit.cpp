@@ -15,7 +15,7 @@ const int MAXHEIGHT = 9;
 const int COINHEIGHT = 2;
 //Higher Values mean lessHazards/Coins
 const int HAZARDFREQMIN = 15;
-const int COINGFREQ = 14;
+const int COINGFREQ = 10;
 
 //GIDs
 const int TOPDIRT[] = { 1, 2, 3, 4 };
