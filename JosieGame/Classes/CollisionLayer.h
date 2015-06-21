@@ -5,6 +5,17 @@
 
 using namespace cocos2d;
 
+typedef enum CollisionLayerType {
+	CollisionLayerTypeGeneric,
+	CollisionLayerTypeCoin,
+	CollisionLayerTypeLevelPlayer,
+	CollisionLayerTypeBossPlayer,
+	CollisionLayerTypeBossEnemy,
+	CollisionLayerTypeStageHazard,
+	CollisionLayerTypeProjectile,
+	CollisionLayerTypeOther
+}CollisionLayerType_;
+
 class CollisionLayer : public cocos2d::LayerColor {
 public:
 	CollisionLayer();
@@ -17,13 +28,18 @@ public:
 	// Custom Sprite Load
 	static CollisionLayer* createCoinSprite();
 
-	Sprite *spriteImage;
 	void insertImageName(const std::string& filename, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
 	void insertImageFrameName(const std::string& name, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
 	void insertSprite(Sprite* sprite, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
 
 	bool getCollision(CollisionLayer* other);
+
+	Sprite *spriteImage;
+	CollisionLayerType collisionType;
 private:
+	virtual void hitByOther(CollisionLayer* other);
+
+	// collision detection
 	cocos2d::Vec2 corner[4];
 	cocos2d::Vec2 axis[2];
 	double origin[2];

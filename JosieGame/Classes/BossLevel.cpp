@@ -79,6 +79,8 @@ void BossLevel::loadWeapons()
 {
 	left = CollisionLayer::createWithSize(180,140);
 	right = CollisionLayer::createWithSize(180,140);
+	left->collisionType = CollisionLayerTypeBossEnemy;
+	right->collisionType = CollisionLayerTypeBossEnemy;
 	left->insertImageName("boss_sprites/tree_hand_left.png", Vec2(-66,-15), Vec2::ANCHOR_BOTTOM_LEFT);
 	right->insertImageName("boss_sprites/tree_hand_right.png", Vec2(-10,-15), Vec2::ANCHOR_BOTTOM_LEFT);
 
