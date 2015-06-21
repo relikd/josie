@@ -32,19 +32,28 @@ TutorialScene* TutorialScene::initTutorial(){
 void TutorialScene::createTut(){
 
 	Layer* bgs = Layer::create();
-	Sprite* bg = Sprite::create("backgrounds/bg_tut1.png");
-	Sprite* bg_next = Sprite::create("backgrounds/bg_tut2.png");
-	bg->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	bg_next->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	bg->setPosition(0,0);
-	bg_next->setPosition(4065,4);
-	bgs->addChild(bg);
-	bgs->addChild(bg_next);
+	Sprite* bg1 = Sprite::create("backgrounds/bg_tut1i.png");
+	Sprite* bg2 = Sprite::create("backgrounds/bg_tut2i.png");
+	Sprite* bg3 = Sprite::create("backgrounds/bg_tut3i.png");
+	Sprite* bg4 = Sprite::create("backgrounds/bg_tut4i.png");
+	bg1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	bg2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	bg3->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	bg4->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	bg1->setPosition(0,0);
+	bg2->setPosition(2048,1);
+	bg3->setPosition(4096,0);
+	bg4->setPosition(6144,0);
+	bgs->addChild(bg1);
+	bgs->addChild(bg2);
+	bgs->addChild(bg3);
+	bgs->addChild(bg4);
 	this->addChild(bgs);
+
 
 	Sprite* josie = Sprite::create("josie/josie_static.png");
 	josie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	josie->setPosition(200,50);
+	josie->setPosition(200,45);
 	this->addChild(josie);
 
 	MenuItemImage* next = MenuItemImage::create(
@@ -55,13 +64,6 @@ void TutorialScene::createTut(){
 	Menu* m = Menu::createWithItem(next);
 	m->setPosition(Vec2::ZERO);
 	this->addChild(m);
-
-
-
-
-
-
-
 }
 
 void TutorialScene::backToMenu(){
@@ -93,9 +95,4 @@ void TutorialScene::nextMovement(Layer* layer,Sprite* josie){
 		josie->runAction(lastOne);
 	}
 	}
-
-
-	//Sequence* walkthrough = Sequence::create(move1,DelayTime::create(5.0),move2,DelayTime::create(5.0),move3,nullptr);
-	//layer->runAction(walkthrough);
 }
-
