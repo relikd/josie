@@ -48,6 +48,11 @@ void Level::unscheduleHUD() { hud->unscheduleUpdate(); }
 
 void Level::createUI(int lvl, int sublvl)
 {
+	
+	//Add blueScreen
+	LayerColor* blueScreen = LayerColor::create(Color4B(97,154,196,255));
+	this->addChild(blueScreen);
+	
 	// Background Image
 	std::ostringstream bg_str;
 	bg_str << "backgrounds/bg_" << lvl << "." << sublvl << ".png";
