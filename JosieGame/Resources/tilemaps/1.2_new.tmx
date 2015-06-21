@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="500" height="15" tilewidth="72" tileheight="72" nextobjectid="1">
+ <tileset firstgid="1" name="Tileset" tilewidth="72" tileheight="72">
+  <image source="Spritesheet03.png" width="512" height="512"/>
+  <tile id="18">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Deadly" value="true"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="Hazard" value="true"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Thorn" value="true"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="ThornUp" value="true"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="ThornUp2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="PflockEcke" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="Pflock" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Foreground_layer" width="500" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzgEJAAAIwLCD/TsbQ5AtwQoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgh7kOAAAAAC2kEAAE
+  </data>
+ </layer>
+ <layer name="Background_layer" width="500" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt270OQDAAhdEyeQSbV/eoFhLxkxah2pyT3IRFbN+gQnhPFxkAUAY9B4Dy6TkAlE/PAaAOeg4AdTjq+RDCmPOdAAAAAACgZn3kHgDIr5nXrq5TBwDksW3y3bPtzsQDwLeOGv70XzU9B4BvnPVbzwHgPVe/X8cW6/iyu88GAPZS+/uXAQB7E6PBBKM=
+  </data>
+ </layer>
+ <layer name="Meta_layer" width="500" height="15" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJzt3EEKgCAQQFHvYPc/a1uDSINRGnsPBFduP8OApcxzdA4AkIOeA0B+eg4A+ek5AOxBzwFgD3oOAAAAAAAAAFft/rz354ydOwB8gy4DQE5P/b7reR24AwBrjMzh5nMAiPV2fx2x4575NgD80eqWAwDxTo5yCf4=
+  </data>
+ </layer>
+</map>

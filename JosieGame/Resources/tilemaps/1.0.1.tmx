@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="450" height="15" tilewidth="72" tileheight="72" nextobjectid="1">
+ <tileset firstgid="1" name="Tileset" tilewidth="72" tileheight="72">
+  <image source="Spritesheet03.png" width="512" height="512"/>
+  <tile id="18">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Deadly" value="true"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="Hazard" value="true"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Thorn" value="true"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="ThornUp" value="true"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="ThornUp2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="PflockEcke" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="Pflock" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Foreground_layer" width="450" height="15" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztzgEJAAAMA6DB+3d+jDHQBCYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsOfaAQAAACoek6gABA==
+  </data>
+ </layer>
+ <layer name="Background_layer" width="450" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt2lsKgkAYgNHpzdqFrayluZSWllaGDKOUoybOOfAj+CC+fcwlhP+rQ7hd2+dw2nfNX38KADaigwCUTAcBKJkOAlCyYQeroIMAHNcpmk5OB6sV/hEA1tI1r349P63rO1gFHQTg2IZrv1QHfz0f1EEA9izeB9VBAEoS7YM+Z6yDc+6Lntu5RAMAe5Fq3JIdBIA9i++Cpu7CvNeM92iab74f77sO76ECwNamzgPHOpij/x4AzDG2npo7U+eBa+x9aiAAOaqFZ+o8MNXB3O7qIAA5Hj18KnA=
+  </data>
+ </layer>
+ <layer name="Meta_layer" width="450" height="15" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJzt1UENAAAIA7GJwL9WTPBZaJPTcAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9JnjAKCJDwLw2QLqGAMh
+  </data>
+ </layer>
+</map>
