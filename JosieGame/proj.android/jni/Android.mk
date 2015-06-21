@@ -32,7 +32,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Projectile.cpp \
                    ../../Classes/StageHazard.cpp \
 				   ../../Classes/ShopScene.cpp \
-				   ../../Classes/TMXEdit.cpp
+				   ../../Classes/TMXEdit.cpp \
+				   ../../Classes/TutorialScene.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

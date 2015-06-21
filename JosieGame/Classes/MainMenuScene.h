@@ -11,6 +11,7 @@ public:
     virtual bool init();
     
 	void play(cocos2d::Ref* pSender);
+	void startTutorial(cocos2d::Ref* pSender);
 	void explode();
 	void breathAnimation(cocos2d::Sprite* logo);
     CREATE_FUNC(MainMenu);

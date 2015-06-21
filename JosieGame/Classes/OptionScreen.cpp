@@ -31,6 +31,11 @@ OptionScreen* OptionScreen::createOptionButton(float x, float y)
 				"buttons/menubuttons/optionsbutton.png",
 				"buttons/menubuttons/optionsbutton.png",
 				CC_CALLBACK_0(OptionScreen::toggleVisibility,os));
+		optionButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		optionButton->setScale(3.0);
+		RotateBy* rotate = RotateBy::create(10.0,360);
+		RepeatForever* rotate_forever = RepeatForever::create(rotate);
+		optionButton->runAction(rotate_forever);
 		Menu* show = Menu::createWithItem(optionButton);
 		show->setPosition(Vec2::ZERO);
 
