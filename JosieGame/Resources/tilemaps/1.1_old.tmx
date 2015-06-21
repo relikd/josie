@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="9" tilewidth="128" tileheight="128" nextobjectid="9">
+ <tileset firstgid="1" name="FirstPrototypeTileset" tilewidth="128" tileheight="128">
+  <image source="SpriteSheet01.png" width="897" height="131"/>
+  <tile id="2">
+   <properties>
+    <property name="Hazard" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="8" name="meta_tiles" tilewidth="128" tileheight="128">
+  <image source="Untitled-0001-default.png" width="484" height="228"/>
+  <tile id="0">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collectible" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background_layer" width="30" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFuAArFI/aix8wYsHUsJcND8YF8KnFZx4yxuYfGCZFDwzgMw8ZM+HBhPSwQzETkr3I4uwEzGfHgZHlkdUDAICnAXQ=
+  </data>
+ </layer>
+ <objectgroup name="Object_layer">
+  <object id="8" name="PlayerSpawn" x="169.061" y="776.606" width="54.5455" height="63.6364"/>
+ </objectgroup>
+ <layer name="Meta_layer" width="30" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFuAAHFA81eznpbC8HFkwLe8n1FzFmIItj8w8hN+JTi888WmB62AsAMp4ChQ==
+  </data>
+ </layer>
+ <layer name="Foreground_layer" width="30" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFww2wDLQDaASYaWgGNcweSQAAGdQADg==
+  </data>
+ </layer>
+</map>

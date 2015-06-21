@@ -48,9 +48,19 @@
    </properties>
   </tile>
  </tileset>
+ <layer name="Cave_layer" width="500" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20JT6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4GdTAAAQ==
+  </data>
+ </layer>
  <layer name="Foreground_layer" width="500" height="15">
   <data encoding="base64" compression="zlib">
    eJztzgEJAAAIwLCD/TsbQ5AtwQoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgh7kOAAAAAC2kEAAE
+  </data>
+ </layer>
+ <layer name="ForeForeGround_layer" width="500" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20JT6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4GdTAAAQ==
   </data>
  </layer>
  <layer name="Background_layer" width="500" height="15">

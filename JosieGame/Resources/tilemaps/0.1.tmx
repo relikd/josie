@@ -51,6 +51,11 @@
  <tileset firstgid="50" name="trees" tilewidth="72" tileheight="72">
   <image source="trees.png" width="2402" height="801"/>
  </tileset>
+ <layer name="Cave_layer" width="350" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20LL6AAAAAAAAAAAAAAAAAAAAAAAAAAAHgYUggAAQ==
+  </data>
+ </layer>
  <layer name="Foreground_layer" width="350" height="15">
   <data encoding="base64" compression="zlib">
    eJzt2TdOA2EYBuHfoiZWnIJYcQIymFBxAjAYm1RxAoKNzTHI4QL05HAMcugZ6LBokFZeaZlHmm4tf9Vb7IYgSf/HZggnZSrRBhWpQOu0RnHfJ0lJM8e25ilHs5SlGZqmjLsrSZFLs63DNESDNED91Ee97q4kRaabeohtDWxsYGsDmxvY3sAGB7b4a5MlSRGZpCnK0DTNUJZmKUf58P0OQpIUkRVapTVapwIVaYNKVA7f39wkSRHZom3aoV3ao306oEM6ouPYrpOk5DmlMzqnC7qkK7qmG7qlu9iuk6TkuacHeqQneqYXeqU3eqeP2K6TpOSpTYVQR/XUQI3UlPr5THPq999Kkv6uhU1tpTZqpw7qrNjZLndXkiIzzKamaYRGaYzGK3Z2wt2VpMjk2dQ5mqcFWqSlip1drtLu1lTnbyRJkqRYfAIzVkiq

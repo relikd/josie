@@ -1,42 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="9" tilewidth="128" tileheight="128" nextobjectid="9">
- <tileset firstgid="1" name="FirstPrototypeTileset" tilewidth="128" tileheight="128">
-  <image source="SpriteSheet01.png" width="897" height="131"/>
-  <tile id="2">
-   <properties>
-    <property name="Hazard" value="true"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="8" name="meta_tiles" tilewidth="128" tileheight="128">
-  <image source="Untitled-0001-default.png" width="484" height="228"/>
-  <tile id="0">
-   <properties>
-    <property name="Collision" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="390" height="15" tilewidth="72" tileheight="72" nextobjectid="1">
+ <tileset firstgid="1" name="Tileset" tilewidth="72" tileheight="72">
+  <image source="Spritesheet03.png" width="512" height="512"/>
+  <tile id="18">
    <properties>
     <property name="Collectible" value="true"/>
    </properties>
   </tile>
+  <tile id="19">
+   <properties>
+    <property name="Collision" value="true"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Deadly" value="true"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="Hazard" value="true"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Thorn" value="true"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="ThornUp" value="true"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="ThornUp2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="PflockEcke" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="Pflock" value="true"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="Background_layer" width="30" height="9">
+ <tileset firstgid="50" name="trees" tilewidth="72" tileheight="72">
+  <image source="trees.png" width="2402" height="801"/>
+ </tileset>
+ <layer name="Cave_layer" width="390" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuAArFI/aix8wYsHUsJcND8YF8KnFZx4yxuYfGCZFDwzgMw8ZM+HBhPSwQzETkr3I4uwEzGfHgZHlkdUDAICnAXQ=
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4M8AW2gAAQ==
   </data>
  </layer>
- <objectgroup name="Object_layer">
-  <object id="8" name="PlayerSpawn" x="169.061" y="776.606" width="54.5455" height="63.6364"/>
- </objectgroup>
- <layer name="Meta_layer" width="30" height="9">
+ <layer name="Foreground_layer" width="390" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuAAHFA81eznpbC8HFkwLe8n1FzFmIItj8w8hN+JTi888WmB62AsAMp4ChQ==
+   eJzt2MdNxUAUQFG7DDI1kHOogfSJAmogRwlqIFMHmTrI1EGG+6W/AFZIHmMv7pGu7I1Hs/KTXhRJkpSeOqqnBmqkJmqmFmrN8F6SpGz0UT8N0CANUYGGaSTDe0mSsjFDszRH87RAi7REyxneS5L0N6F3PVu0TTu0S3u0Twd0mPBsSVL6Qu96juiYTuiUzuicLugy4dmSpPSF3vVc0TXd0C3d0T090GPCsyVJ6Qu963miZ3qhV3qjd/qgz4RnS5LSF3rXUxZHUTlVUGWc+HqSpH8WetfTxixopw7qLM2Fbp491OuckKTcC73rGeXfP0bjNFGaA5M8p2jauSBJuVfc9VRRNdVQbcJ/9wrfr9IarX87a4P3TeeCJOVecdfTFbvrkST95K5HkvSbux5J0hcfcEIz
   </data>
  </layer>
- <layer name="Foreground_layer" width="30" height="9">
+ <layer name="ForeForeGround_layer" width="390" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFww2wDLQDaASYaWgGNcweSQAAGdQADg==
+   eJzt2cVuVVEYhuH/XADuzhUg9eKMcOoKBBlB3RUSZAR13K4A1+IJc9ydK8Dd4T09M5KmJGvvA+x8b/IMz9prtL6kNVNKKfWvtNnsYgfa0YZWtKAZTfjb91NKKRXdynn7y1CKEhSjCIUoiNIuJCARSUiOxgeVUkp1WypvfwoWYgHmYx7mYk6UdiEHuchDvuNZMYhFHOJNm6OUUn/aLMwGb7+xAcYWGJtgbIOxEcZWhDfD0pDu813qUI8GNDqelYFMZCHbvN0cpZQKciuxCgUoRBGKUYJSlFnX35isApU+32UXdmMP9jqeVYVq1KDWvN0cpZQKchuxCU1oRgta0YZ2dFjX/6RtC7b6fJezOIfzuOB41jZsxw7sNG83Rymlgtw+7McBHMQhHMYRHMUxHMcJnPT5Lo/wGE/w1PGsTpzCaZwxbzdHKaWC3CVcxhVcxTVcxw3cxC3cxh3c9fku3/AdP/DT8ax7uI8HeGiRzVFKKdVzz/AcL/ASr/Aab/AW7/AeH/DR57uMCpmNxhiMDbmd9Qmf8QVfLbI54bzYHKWUCnK9eH97ow/6oh/6YwAGYhAGYwiGOr7VPTWN86djBmY6fmsYvx+OERgZimxOOC82Rymlgtw43sjxmICJiEEs4hCPBCQiCck+v6dLOX8ZlmOF47cm8fvJmIKpocjmhPNic5RSKsil8EamIg3pyEAmspCNHOQiD/k+v6drOX8d1mOD47cW8fvFWPLbOV5sjlJKBbky3shyVKASVahGDWpRh3o0oPE/ek9Xc9c13dzXdXOUUkoppZRS0e8XUSSPhw==
+  </data>
+ </layer>
+ <layer name="Background_layer" width="390" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt3F1SgzAUhuForeJvW690Ri+UjbkUl9KluDRPHDIez4QQIBZT32fmG1paaLnJlwLq3PJenHt7leWUyLb7Rj1vuv0d+BAAAAWd0QsAAGVqLwT0AgAcF3oBAKDpXtBjfOSc0YdO2H7t6AUAqNWJiZfqBdsFN5F9ts7tz2V5IZHle0svAEA1ZMz2Y/1X1t260AuN+9kL/ppyrAcs/z693xDfF2W/PQCgNH1P6qobt3Uv2HuNMve5j93rmrt9zS4lV5JbybXkTpLTpQCwFHveaEwvtOoaQsp/7gUAqI09v6PHbdsLdkzPnfeGObPNX503n/YkCMfj5//2GPxr/rcBvwsA1Cr1t8xDvbDE9y3hIfHak/u+rqLF1gHAMcrphdh8P3cubM9ThaxMfsNj4vNTiXWA/72wkewk2265G/F8ax7fFz5WAJgiNk7m9MIc4R6mIbYnUl2Rmu/b13M+GwBqMmW+m0rsftESvfDcs37OuBzrCpuh4wWAKfquM5aOHq9y32fH8LkZ838s/DWEuT3EfB1AjZoDZa2S+75P5rlAqw==
+  </data>
+ </layer>
+ <layer name="Meta_layer" width="390" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt2WEOgyAMhmHvoN7/qvtloh0FLCitvE9i4iJbgG39BJdlvG10BwBgsFId3F/phR+WXNjEAQCRkQtX1lxoeT8AeDJ7LqzidUsurMb3A4Ans+eCVFvXtb0jcgFAdDPnQqq25+ZDtk+1JRcARDd7LshzbT5qnymTCwCiIxeu57lcuPuZX5d6NlOzpgLgm/ZfPo69ok2UWpDrJ7kAAP9SNc2yXvBaG0vPDrQ2d7LuC1kp81IbQ4TxAeiPXPA7nhq57+9YC0qRxwvgeTPmgvVe/409Nrmnf7Du9+XWR3unw+vvAYBN1FzQ6qTmfG1Vzkta8kNTmv/z9V7zbs2XaHtoAGzezIWR9ehOW21OWuoftRfAKE/U3l41amQfuC8GAH9+pjAaiQ==
   </data>
  </layer>
 </map>
