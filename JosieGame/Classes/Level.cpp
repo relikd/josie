@@ -150,7 +150,7 @@ void Level::placeHazards(LevelPlayer* target){
 	std::vector<Vec2>::const_iterator i;
 
 	for(i=hazards.begin(); i!=hazards.end(); ++i){
-		StageHazard* neu = StageHazard::createAt("particles/std_bullet.png",(*i),target);
+		StageHazard* neu = StageHazard::createAt("particles/EvilFruit00.png",(*i),target);
 		hazardLayer->addChild(neu);
 	}
 }
