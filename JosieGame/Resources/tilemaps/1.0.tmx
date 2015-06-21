@@ -15,6 +15,11 @@
     <property name="Collectible" value="true"/>
    </properties>
   </tile>
+  <tile id="7">
+   <properties>
+    <property name="Hazard" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Background_layer" width="30" height="17">
   <data encoding="base64" compression="zlib">

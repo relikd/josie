@@ -15,6 +15,8 @@ public:
 	void run(bool r);
 	void jump(bool j);
 	void slide(bool s);
+
+	void killPlayer();
 private:
 	bool _canStandUp();
 	void _checkRun();
@@ -30,7 +32,6 @@ private:
 	void startRunningAfterAnimation(FiniteTimeAction *animation);
 	void startRunningCallback();
 	void endRunning();
-	void deathAnimation();
 
 	Level *_level;
 	bool _isSliding;

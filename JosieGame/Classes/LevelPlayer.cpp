@@ -237,7 +237,7 @@ void LevelPlayer::_checkJump() {
 	}
 }
 
-void LevelPlayer::deathAnimation(){
+void LevelPlayer::killPlayer(){
 
 
 	if (_isAlive){
@@ -264,7 +264,7 @@ void LevelPlayer::_checkAlive() {
 			_level->finishLevelSuccessfull();
 			this->setPlayerOnGround(400);
 		} else {
-			deathAnimation();
+			killPlayer();
 		}
 
 	}

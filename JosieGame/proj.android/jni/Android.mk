@@ -30,6 +30,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/OptionScreen.cpp \
 				   ../../Classes/PauseScreen.cpp \
                    ../../Classes/Projectile.cpp \
+                   ../../Classes/StageHazard.cpp \
 				   ../../Classes/ShopScene.cpp \
 				   ../../Classes/TMXEdit.cpp
 

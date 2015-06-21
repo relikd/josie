@@ -2,6 +2,11 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="9" tilewidth="128" tileheight="128" nextobjectid="9">
  <tileset firstgid="1" name="FirstPrototypeTileset" tilewidth="128" tileheight="128">
   <image source="SpriteSheet01.png" width="897" height="131"/>
+  <tile id="2">
+   <properties>
+    <property name="Hazard" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="8" name="meta_tiles" tilewidth="128" tileheight="128">
   <image source="Untitled-0001-default.png" width="484" height="228"/>

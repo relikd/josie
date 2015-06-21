@@ -9,6 +9,8 @@ typedef struct TilePointOffset { int x; int y; float offsetX; float offsetY; }_T
 MapController::MapController() {
 	_collisionMap = new long[1];
 	_deathlyMap = new long[1];
+	_hazardLayer = Layer::create();
+
 }
 MapController::~MapController() {
 	delete _collisionMap;
@@ -26,6 +28,7 @@ MapController* MapController::initWithLevel(int level, int sub_level)
 	{
 		tmc->autorelease();
 		tmc->initOptions();
+		tmc->addChild(tmc->_hazardLayer);
 	}
 
 	return tmc;
@@ -151,6 +154,26 @@ float MapController::collisionDiffRight(Rect bounds)
 }
 
 
+std::vector<Vec2> MapController::getHazardSpawnPoints(){
+
+
+	int collectGID = this->getGIDForName("Hazard");
+
+	for (int x=0; x<(int)_mapSize.width; x++)
+	{
+		for (int y=0; y<(int)_mapSize.height; y++)
+		{
+			if (collectGID == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
+			{
+				_hazards.push_back(coordinateFromTilePoint(Vec2(x,y)));
+			}
+		}
+	}
+
+	return _hazards;
+
+}
+
 //
 // :::::::::: Other Functionality ::::::::::
 //
@@ -223,6 +246,10 @@ void MapController::initCollisionMap()
 		}
 	}
 }
+Layer* MapController::getHazardLayer(){
+	return this->_hazardLayer;
+}
+
 
 
 //
