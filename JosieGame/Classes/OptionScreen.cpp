@@ -1,10 +1,3 @@
-/*
- * OptionScreen.cpp
- *
- *  Created on: 16.06.2015
- *      Author: danielmugge
- */
-
 #include "OptionScreen.h"
 #include "ui/CocosGUI.h"
 #include "MainMenuScene.h"
@@ -17,10 +10,7 @@ OptionScreen::OptionScreen() {
 	_music_volume_slider = nullptr;
 	_sfx_volume_slider = nullptr;
 }
-
-OptionScreen::~OptionScreen() {
-	// TODO Auto-generated destructor stub
-}
+OptionScreen::~OptionScreen() {}
 
 OptionScreen* OptionScreen::createOptionButton(float x, float y)
 {
@@ -99,7 +89,7 @@ void OptionScreen::createOptionOverlay(){
 }
 
 void OptionScreen::resetGameState(){
-	GameStateManager::initDefaults();
+	GameStateManager::initDefaults(true);
 }
 
 void OptionScreen::toggleVisibility(){
@@ -113,8 +103,5 @@ void OptionScreen::toggleVisibility(){
 		_overlay->setVisible(true);
 		((Menu*)(this->getParent()->getChildByTag(101)))->setEnabled(false);
 	}
-
-	CCLOG("music volume: %d", UserDefault::getInstance()->getIntegerForKey("music_volume"));
-	CCLOG("sfx volume: %d", UserDefault::getInstance()->getIntegerForKey("sfx_volume"));
 }
 

@@ -34,6 +34,8 @@
 		543F496D1B369EEA00D91C11 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 543F49661B369EEA00D91C11 /* Icon-60.png */; };
 		543F496E1B369EEA00D91C11 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 543F49671B369EEA00D91C11 /* Icon-72.png */; };
 		543F496F1B369EEA00D91C11 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 543F49681B369EEA00D91C11 /* Icon-76.png */; };
+		545DE64C1B3727F30065CD1B /* TutorialScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 545DE64A1B3727F30065CD1B /* TutorialScene.cpp */; };
+		545DE64D1B3727F30065CD1B /* TutorialScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 545DE64A1B3727F30065CD1B /* TutorialScene.cpp */; };
 		54730C6D1B369F7200C2C9F7 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54730C451B369F7200C2C9F7 /* AppDelegate.cpp */; };
 		54730C6E1B369F7200C2C9F7 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54730C451B369F7200C2C9F7 /* AppDelegate.cpp */; };
 		54730C6F1B369F7200C2C9F7 /* AudioUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54730C471B369F7200C2C9F7 /* AudioUnit.cpp */; };
@@ -175,6 +177,8 @@
 		543F49661B369EEA00D91C11 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
 		543F49671B369EEA00D91C11 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		543F49681B369EEA00D91C11 /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
+		545DE64A1B3727F30065CD1B /* TutorialScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialScene.cpp; sourceTree = "<group>"; };
+		545DE64B1B3727F30065CD1B /* TutorialScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialScene.h; sourceTree = "<group>"; };
 		54730C451B369F7200C2C9F7 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		54730C461B369F7200C2C9F7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		54730C471B369F7200C2C9F7 /* AudioUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioUnit.cpp; sourceTree = "<group>"; };
@@ -417,6 +421,8 @@
 				549FBA1D1B3715B5000AB253 /* StageHazard.h */,
 				54730C6B1B369F7200C2C9F7 /* TMXEdit.cpp */,
 				54730C6C1B369F7200C2C9F7 /* TMXEdit.h */,
+				545DE64A1B3727F30065CD1B /* TutorialScene.cpp */,
+				545DE64B1B3727F30065CD1B /* TutorialScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -611,6 +617,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				545DE64C1B3727F30065CD1B /* TutorialScene.cpp in Sources */,
 				54730C811B369F7200C2C9F7 /* LevelHUD.cpp in Sources */,
 				54730C771B369F7200C2C9F7 /* CollisionLayer.cpp in Sources */,
 				54730C8D1B369F7200C2C9F7 /* PauseScreen.cpp in Sources */,
@@ -646,6 +653,7 @@
 				54730C941B369F7200C2C9F7 /* TMXEdit.cpp in Sources */,
 				54730C901B369F7200C2C9F7 /* Projectile.cpp in Sources */,
 				54730C6E1B369F7200C2C9F7 /* AppDelegate.cpp in Sources */,
+				545DE64D1B3727F30065CD1B /* TutorialScene.cpp in Sources */,
 				54730C781B369F7200C2C9F7 /* CollisionLayer.cpp in Sources */,
 				54730C741B369F7200C2C9F7 /* BossLevelHUD.cpp in Sources */,
 				54730C861B369F7200C2C9F7 /* LevelSelectScene.cpp in Sources */,
