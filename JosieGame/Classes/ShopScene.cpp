@@ -31,8 +31,10 @@ ShopScene* ShopScene::initShop()
 
     scene->_shopWindow = Layer::create();
     scene->_shopWindow->setPosition(Vec2::ZERO);
-
-
+	
+	LayerColor* brownScreen = LayerColor::create(Color4B(201,158,103,255));
+	scene->addChild(brownScreen);
+	
     Sprite *bg = Sprite::create("backgrounds/bg_shop.png");
     bg->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
 
