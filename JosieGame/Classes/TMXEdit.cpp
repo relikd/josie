@@ -102,10 +102,8 @@ void TMXEdit::fillLevel() {
 		placeGround(x, height);
 		x++;
 	}
-	CCLOG("LEVEL CREATED, ATTEMPTING COINS");
-	placeCoins(25);
-	CCLOG("COINS DONE");
-}
+	placeCoins(20);
+	}
 
 void TMXEdit::placeGround(int x, int y) {
 
@@ -276,7 +274,7 @@ int TMXEdit::placeGroundLength(int x, int height, int length) {
 }
 void TMXEdit::placeCoins(int distance) {
 	int x = 100;
-	while (x <  (map->getMapSize().width -100)) {
+	while (x <  (map->getMapSize().width -50)) {
 		int y = isSafe(x);
 		if (y > 0) {
 			placeCoin(x, y);
@@ -292,7 +290,6 @@ int TMXEdit::isSafe(int x) {
 	if (y <= 0)
 		return -1;
 	int Gid = _metaLayer->getTileGIDAt(Vec2(x, y));
-	CCLOG("%d,%d = PUNKT, %d = GID , is SAFE?", x, y, Gid);
 	if (Gid == COLLIDE) {
 		int s = checkSurroundings(x, y-COINHEIGHT);
 		if (s > 0) {
@@ -307,7 +304,6 @@ int TMXEdit::getHighestTile(int x) {
 	for (int y = 14; y >= 0; y--) {
 		int Gid = _backgroundLayer->getTileGIDAt(Vec2(x, y));
 
-		CCLOG("%d,%d = PUNKT, %d = GID , is Highest?", x, y, Gid);
 		if (Gid != 0)
 			ret = y;
 	}

@@ -135,7 +135,6 @@ void Level::finishLevelSuccessfull(bool successfull)
 
 
 	this->placeHazards(_player);
-	CCLOG("HAZARDRESET");
 	coins=-1;
 	addCoin();
 	hud->setTime(0);
