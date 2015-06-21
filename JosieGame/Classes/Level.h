@@ -5,6 +5,7 @@
 
 class MapController;
 class LevelHUD;
+class LevelPlayer;
 
 class Level : public cocos2d::Scene
 {
@@ -27,9 +28,11 @@ private:
 	int _maxCoins;
 	int _level;
 	int _sublevel;
+	LevelPlayer* _player;
 	LevelHUD *hud;
 	void createUI(int lvl, int sublvl);
 	void startAfterDelay(float delay);
+	void placeHazards(LevelPlayer* target);
 };
 
 #endif 

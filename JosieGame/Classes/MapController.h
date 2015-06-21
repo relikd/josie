@@ -20,9 +20,13 @@ public:
 	float getLevelProgress(cocos2d::Rect bounds);
 	int getMaxCoins() { return (int)_coins.size(); }
 
+
 	float collisionDiffTop(cocos2d::Rect bounds);
 	float collisionDiffBottom(cocos2d::Rect bounds);
 	float collisionDiffRight(cocos2d::Rect bounds);
+
+	cocos2d::Layer* getHazardLayer();
+	std::vector<cocos2d::Vec2> getHazardSpawnPoints();
 
 	void reinitializeMap(bool re_collision=true, bool re_coins=true);
 private:
@@ -30,6 +34,9 @@ private:
 	long *_deathlyMap;
 	cocos2d::Vector<CollisionLayer*> _coins;
 	cocos2d::Vector<CollisionLayer*> _deathies;
+	std::vector<cocos2d::Vec2> _hazards;
+	cocos2d::Layer* _hazardLayer;
+
 
 	void initCollectableArray();
 	void initDeathlyArray();

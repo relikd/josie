@@ -12,6 +12,11 @@
     <property name="Collision" value="true"/>
    </properties>
   </tile>
+  <tile id="21">
+   <properties>
+    <property name="Hazard" value="true"/>
+   </properties>
+  </tile>
   <tile id="23">
    <properties>
     <property name="Thorn" value="true"/>
