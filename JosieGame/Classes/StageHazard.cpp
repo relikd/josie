@@ -16,7 +16,7 @@ StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, C
 		other->_initialPosition = position;
 		other->_target = target;
 		other->setPosition(position);
-		other->insertImageName("particles/std_bullet.png", other->getContentSize() / 2);
+		other->insertImageName("particles/EvilFruit00.png", other->getContentSize() / 2);
 		other->fallDown();
 		other->scheduleUpdate();
 	}
