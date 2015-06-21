@@ -8,7 +8,6 @@ public:
 	StageHazard();
 	virtual ~StageHazard();
 	static StageHazard* createAt(const std::string& filename, Vec2 position, CollisionLayer* target);
-	void reset();
 	void fallDown();
 private:
 	void update(float dt);

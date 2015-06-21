@@ -21,28 +21,21 @@ StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, L
 		other->fallDown();
 		other->scheduleUpdate();
 	}
-
 	return other;
 }
 void StageHazard::fallDown() {
+	this->setPosition(_initialPosition);
 	float movespeed = 1.5f/(1080/_initialPosition.y);
 	MoveTo * fall = MoveTo::create(movespeed, Vec2(_initialPosition.x, -10));
-
 	this->runAction(fall);
 	CCLOG("FALLING)");
 }
 
-void StageHazard::reset() {
-	this->setPosition(_initialPosition);
-	this->fallDown();
-}
-
-void StageHazard::update(float dt) {
+void StageHazard::update(float dt)
+{
 	if (this->getCollision(_target))
 		_target->killPlayer();
 	if (this->getPosition().y < 0) {
-
-		this->reset();
-
+		this->fallDown();
 	}
 }
