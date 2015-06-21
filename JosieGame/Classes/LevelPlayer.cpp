@@ -33,14 +33,20 @@ LevelPlayer::~LevelPlayer() {
 
 LevelPlayer* LevelPlayer::initWithLevel(Level* level) {
 	LevelPlayer *pl = new LevelPlayer();
-	if (pl->initCollisionSize(160,245))
-	{
+	if (pl->initCollisionSize(160, 245)) {
 		pl->autorelease();
 		pl->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 		pl->setScale(PLAYER_SCALE_DEFAULT);
 		pl->_level = level;
-
-		pl->insertImageFrameName("josiestartmove0000", Vec2(pl->getContentSize().width/2-5, -5), Vec2::ANCHOR_MIDDLE_BOTTOM);
+		pl->setLocalZOrder(1);
+		/* Damit der Playe vor den hintersten beiden Schichten der Tilemap liegt.
+		 * Die Reihenfolge in der Plaer und Tilemap initialisiert werden,
+		 * die  beeinflusst, wie sich der Player
+		 * gegnüber TilemapLayern der gleichen Z-Order verhält
+		 */
+		pl->insertImageFrameName("josiestartmove0000",
+				Vec2(pl->getContentSize().width / 2 - 5, -5),
+				Vec2::ANCHOR_MIDDLE_BOTTOM);
 		pl->scheduleUpdate();
 	}
 
@@ -48,16 +54,16 @@ LevelPlayer* LevelPlayer::initWithLevel(Level* level) {
 }
 
 void LevelPlayer::setPlayerOnGround(float pos_x) {
-	_isAlive=true;
-	this->setPosition(pos_x,1000);
-	float height = _level->mapManager->collisionDiffBottom(this->getBoundingBox());
-	this->setPositionY(1000-height);
+	_isAlive = true;
+	this->setPosition(pos_x, 1000);
+	float height = _level->mapManager->collisionDiffBottom(
+			this->getBoundingBox());
+	this->setPositionY(1000 - height);
 
 	resetPlayerAnimations();
 }
 
-void LevelPlayer::resetPlayerAnimations()
-{
+void LevelPlayer::resetPlayerAnimations() {
 	_isOnGround = true;
 	_isRunning = false;
 	_isSliding = false;
@@ -66,31 +72,30 @@ void LevelPlayer::resetPlayerAnimations()
 	this->spriteImage->setSpriteFrame("josiestartmove0000");
 }
 
-void LevelPlayer::onEnterTransitionDidFinish()
-{
+void LevelPlayer::onEnterTransitionDidFinish() {
 
 }
 
-void LevelPlayer::hitByOther(CollisionLayer* other)
-{
+void LevelPlayer::hitByOther(CollisionLayer* other) {
 	switch (other->collisionType) {
-		case CollisionLayerTypeCoin:
-			_level->addCoin();
-			_level->mapManager->collectCoin(other);
-			break;
-		case CollisionLayerTypeStageHazard:
-			killPlayer(); break;
-		default: break;
+	case CollisionLayerTypeCoin:
+		_level->addCoin();
+		_level->mapManager->collectCoin(other);
+		break;
+	case CollisionLayerTypeStageHazard:
+		killPlayer();
+		break;
+	default:
+		break;
 	}
 }
-
 
 //
 // Animation
 //
 
-Animate* LevelPlayer::animationWithFrame(const std::string& name, int frameCount, float delay)
-{
+Animate* LevelPlayer::animationWithFrame(const std::string& name,
+		int frameCount, float delay) {
 	Vector<SpriteFrame *> frames;
 	SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
 
@@ -107,28 +112,26 @@ Animate* LevelPlayer::animationWithFrame(const std::string& name, int frameCount
 	return animate;
 }
 
-void LevelPlayer::startRunningAfterAnimation(FiniteTimeAction *animation)
-{
-	if(_isAlive){
-		CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(LevelPlayer::startRunningCallback, this));
+void LevelPlayer::startRunningAfterAnimation(FiniteTimeAction *animation) {
+	if (_isAlive) {
+		CallFuncN *call = CallFuncN::create(
+				CC_CALLBACK_0(LevelPlayer::startRunningCallback, this));
 		Sequence *seq = Sequence::createWithTwoActions(animation, call);
 		spriteImage->runAction(seq);
 	}
 }
 
-void LevelPlayer::startRunningCallback()
-{
+void LevelPlayer::startRunningCallback() {
 	spriteImage->stopAllActions();
-	spriteImage->runAction(RepeatForever::create(animationWithFrame("josiewalk", 6, 0.1)));
+	spriteImage->runAction(
+			RepeatForever::create(animationWithFrame("josiewalk", 6, 0.1)));
 }
 
-void LevelPlayer::endRunning()
-{
+void LevelPlayer::endRunning() {
 	spriteImage->stopAllActions();
 	AudioUnit::playJosieStopRunSound();
 	spriteImage->runAction(animationWithFrame("josiestartmove", 4)->reverse());
 }
-
 
 //
 // Player interaction
@@ -148,8 +151,7 @@ void LevelPlayer::run(bool r) {
 
 void LevelPlayer::jump(bool j) {
 	if (!_isSliding && j) {
-		if (_isOnGround && _shouldPerformJumpAnimation == false)
-		{
+		if (_isOnGround && _shouldPerformJumpAnimation == false) {
 			_jumpHoldingTime = 0;
 			_shouldPerformJumpAnimation = true;
 			AudioUnit::playJosieJumpSound();
@@ -159,7 +161,9 @@ void LevelPlayer::jump(bool j) {
 		}
 
 		if (_jumpHoldingTime < 0.2) {
-			_upForce = 50 + _jumpPower * (_jumpHoldingTime / 0.2) * (PLAYER_SCALE_DEFAULT/this->getScale());
+			_upForce = 50
+					+ _jumpPower * (_jumpHoldingTime / 0.2)
+							* (PLAYER_SCALE_DEFAULT / this->getScale());
 		}
 	} else {
 		_jumpHoldingTime = 999;
@@ -175,20 +179,18 @@ void LevelPlayer::slide(bool s) {
 	_isSliding = s;
 
 	if (_isSliding) {
-		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT/2));
+		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT / 2));
 		AudioUnit::playJosieSlideSound();
 	} else {
 		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT));
 	}
 }
 
-
 //
 // private functions
 //
 
-void LevelPlayer::update(float dt)
-{
+void LevelPlayer::update(float dt) {
 	_jumpHoldingTime += dt;
 	this->_checkRun();
 	this->_checkJump();
@@ -204,14 +206,15 @@ bool LevelPlayer::_canStandUp() {
 	float air = _level->mapManager->collisionDiffTop(this->getBoundingBox());
 	this->setScale(oldScale);
 
-	return (air>0.01);
+	return (air > 0.01);
 }
 
 void LevelPlayer::_checkRun() {
 	if (_isRunning) {
-		float dist = _level->mapManager->collisionDiffRight(this->getBoundingBox());
+		float dist = _level->mapManager->collisionDiffRight(
+				this->getBoundingBox());
 		dist = (dist < PLAYER_RUN_SPEED) ? dist : PLAYER_RUN_SPEED;
-		this->setPositionX( this->getPositionX() + dist );
+		this->setPositionX(this->getPositionX() + dist);
 		_level->moveLevelAtSpeed(dist);
 	}
 }
@@ -220,8 +223,9 @@ void LevelPlayer::_checkJump() {
 	_upForce = fmax(_upForce - _gravity, 0);
 
 	if (_upForce > 0.01) // as long as jump force is stronger than gravity
-	{
-		float air = _level->mapManager->collisionDiffTop(this->getBoundingBox());
+			{
+		float air = _level->mapManager->collisionDiffTop(
+				this->getBoundingBox());
 		if (air > 0.01) {
 			float deltaY = 20 * (_upForce / _jumpPower);
 			if (air < deltaY)
@@ -231,25 +235,24 @@ void LevelPlayer::_checkJump() {
 			_upForce = 0;
 		}
 		_isOnGround = false;
-	}
-	else
-	{
-		float height = _level->mapManager->collisionDiffBottom(this->getBoundingBox());
+	} else {
+		float height = _level->mapManager->collisionDiffBottom(
+				this->getBoundingBox());
 		float y = this->getPositionY();
-		y -= (height < 2*_gravity) ? height : 2*_gravity;
+		y -= (height < 2 * _gravity) ? height : 2 * _gravity;
 		this->setPositionY(y);
 
 		_isOnGround = (height < 0.1); // in case Josie falls of the cliff
 
-		if (_shouldPerformJumpAnimation && height < 3*_gravity) {
+		if (_shouldPerformJumpAnimation && height < 3 * _gravity) {
 			_shouldPerformJumpAnimation = false;
-			startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse());
+			startRunningAfterAnimation(
+					animationWithFrame("josiejump", 6, 0.0001)->reverse());
 		}
 	}
 }
 
-void LevelPlayer::killPlayer()
-{
+void LevelPlayer::killPlayer() {
 	if (_isAlive) {
 		_isAlive = false;
 		Animate* animation = animationWithFrame("josieexplosion", 10, 0.03f);
@@ -257,20 +260,27 @@ void LevelPlayer::killPlayer()
 		_level->unscheduleHUD();
 		_isRunning = false;
 		spriteImage->stopAllActions();
-		CallFuncN *callContinue = CallFuncN::create(CC_CALLBACK_0(Level::scheduleHUD, _level));
-		CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(Level::finishLevelSuccessfull, _level, false));
-		CallFuncN *callGround = CallFuncN::create(CC_CALLBACK_0(LevelPlayer::setPlayerOnGround, this, 400));
-		Sequence *seq = Sequence::create( animation, DelayTime::create(0.4f), callContinue, call, callGround, nullptr);
+		CallFuncN *callContinue = CallFuncN::create(
+				CC_CALLBACK_0(Level::scheduleHUD, _level));
+		CallFuncN *call = CallFuncN::create(
+				CC_CALLBACK_0(Level::finishLevelSuccessfull, _level, false));
+		CallFuncN *callGround = CallFuncN::create(
+				CC_CALLBACK_0(LevelPlayer::setPlayerOnGround, this, 400));
+		Sequence *seq = Sequence::create(animation, DelayTime::create(0.4f),
+				callContinue, call, callGround, nullptr);
 
 		spriteImage->runAction(seq);
-		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT*1.5));
+		this->runAction(ScaleTo::create(0.1, PLAYER_SCALE_DEFAULT * 1.5));
 	}
 }
 
 void LevelPlayer::_checkAlive() {
-	if ((this->getPositionY() < -100) || (_level->mapManager->checkDeathly(getBoundingBox()))) {
+	if ((this->getPositionY() < -100)
+			|| (_level->mapManager->checkDeathly(getBoundingBox()))) {
 
-		if (100.0 <= _level->mapManager->getLevelProgress(this->getBoundingBox())) {
+		if (100.0
+				<= _level->mapManager->getLevelProgress(
+						this->getBoundingBox())) {
 			_level->finishLevelSuccessfull();
 			this->setPlayerOnGround(400);
 		} else {
@@ -280,16 +290,21 @@ void LevelPlayer::_checkAlive() {
 	}
 }
 
-void LevelPlayer::registerObserver(bool reg)
-{
+void LevelPlayer::registerObserver(bool reg) {
 	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
 	if (reg) {
-		ed->addCustomEventListener("LEVEL_PLAYER_SLIDE_0", CC_CALLBACK_0(LevelPlayer::slide, this, 0));
-		ed->addCustomEventListener("LEVEL_PLAYER_SLIDE_1", CC_CALLBACK_0(LevelPlayer::slide, this, 1));
-		ed->addCustomEventListener("LEVEL_PLAYER_RUN_0", CC_CALLBACK_0(LevelPlayer::run, this, 0));
-		ed->addCustomEventListener("LEVEL_PLAYER_RUN_1", CC_CALLBACK_0(LevelPlayer::run, this, 1));
-		ed->addCustomEventListener("LEVEL_PLAYER_JUMP_0", CC_CALLBACK_0(LevelPlayer::jump, this, 0));
-		ed->addCustomEventListener("LEVEL_PLAYER_JUMP_1", CC_CALLBACK_0(LevelPlayer::jump, this, 1));
+		ed->addCustomEventListener("LEVEL_PLAYER_SLIDE_0",
+				CC_CALLBACK_0(LevelPlayer::slide, this, 0));
+		ed->addCustomEventListener("LEVEL_PLAYER_SLIDE_1",
+				CC_CALLBACK_0(LevelPlayer::slide, this, 1));
+		ed->addCustomEventListener("LEVEL_PLAYER_RUN_0",
+				CC_CALLBACK_0(LevelPlayer::run, this, 0));
+		ed->addCustomEventListener("LEVEL_PLAYER_RUN_1",
+				CC_CALLBACK_0(LevelPlayer::run, this, 1));
+		ed->addCustomEventListener("LEVEL_PLAYER_JUMP_0",
+				CC_CALLBACK_0(LevelPlayer::jump, this, 0));
+		ed->addCustomEventListener("LEVEL_PLAYER_JUMP_1",
+				CC_CALLBACK_0(LevelPlayer::jump, this, 1));
 	} else {
 		ed->removeCustomEventListeners("LEVEL_PLAYER_SLIDE_0");
 		ed->removeCustomEventListeners("LEVEL_PLAYER_SLIDE_1");
