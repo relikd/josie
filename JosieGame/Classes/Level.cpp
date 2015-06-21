@@ -6,7 +6,7 @@
 #include "LevelPlayer.h"
 #include "LevelGameOver.h"
 #include "GameStateManager.h"
-#include "StageHazard.h"
+
 using namespace cocos2d;
 
 Level::Level() {
@@ -59,12 +59,15 @@ void Level::createUI(int lvl, int sublvl)
 		mapManager = TMXEdit::makeMap();
 	else
 		mapManager = MapController::initWithLevel(lvl, sublvl);
-
-	_maxCoins = mapManager->getMaxCoins();
-
+	
 	//Add Player
 	_player = LevelPlayer::initWithLevel(this);
 	_player->setPlayerOnGround(400);
+	
+	mapManager->setPlayerAsListener(_player);
+	_maxCoins = mapManager->getMaxCoins();
+	mapManager->addChild(_player);
+
 
 	char levelName[12];
 	sprintf(levelName, "Level %d.%d", lvl, sublvl);
@@ -73,12 +76,7 @@ void Level::createUI(int lvl, int sublvl)
 
 	this->addChild(background);
 	this->addChild(mapManager);
-	mapManager->addChild(_player);
 	this->addChild(hud);
-
-	this->placeHazards(_player);
-
-	GameStateManager::getAllCollectedCoins();
 }
 
 void Level::startAfterDelay(float delay)
@@ -133,24 +131,9 @@ void Level::finishLevelSuccessfull(bool successfull)
 		Director::getInstance()->pushScene(gameover);
 	}
 
-
-	this->placeHazards(_player);
 	coins=-1;
 	addCoin();
 	hud->setTime(0);
 	mapManager->reinitializeMap(false,true); // only coins
-}
-
-
-void Level::placeHazards(LevelPlayer* target){
-	std::vector<Vec2> hazards = this->mapManager->getHazardSpawnPoints();
-	Layer* hazardLayer = this->mapManager->getHazardLayer();
-	hazardLayer->removeAllChildren();
-
-	std::vector<Vec2>::const_iterator i;
-
-	for(i=hazards.begin(); i!=hazards.end(); ++i){
-		StageHazard* neu = StageHazard::createAt("particles/EvilFruit00.png",(*i),target);
-		hazardLayer->addChild(neu);
-	}
+	mapManager->setPlayerAsListener(_player);
 }

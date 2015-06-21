@@ -33,11 +33,15 @@ public:
 	void insertSprite(Sprite* sprite, Vec2 offset = Vec2::ZERO, Vec2 anchor = Vec2::ANCHOR_MIDDLE);
 
 	bool getCollision(CollisionLayer* other);
+	void setCollisionListener(CollisionLayer* listener);
+	void removeCollisionListener();
 
 	Sprite *spriteImage;
 	CollisionLayerType collisionType;
 private:
 	virtual void hitByOther(CollisionLayer* other);
+	void update(float dt);
+	CollisionLayer *_target;
 
 	// collision detection
 	cocos2d::Vec2 corner[4];

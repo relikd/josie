@@ -13,6 +13,7 @@
 CollisionLayer::CollisionLayer() {
 	spriteImage = nullptr;
 	collisionType = CollisionLayerTypeGeneric;
+	_target = nullptr;
 }
 CollisionLayer::~CollisionLayer() {}
 
@@ -72,7 +73,27 @@ CollisionLayer* CollisionLayer::createCoinSprite()
 }
 
 
+//
+// Collision Listener
+//
 
+void CollisionLayer::setCollisionListener(CollisionLayer* listener) {
+	_target = listener;
+	this->scheduleUpdate();
+}
+
+void CollisionLayer::removeCollisionListener() {
+	_target = nullptr;
+	this->unscheduleUpdate();
+}
+
+void CollisionLayer::update(float dt) {
+	this->getCollision(_target);
+}
+
+//
+// Insert Image Sprites
+//
 
 void CollisionLayer::insertImageName(const std::string& filename, Vec2 offset, Vec2 anchor)
 {
@@ -94,12 +115,13 @@ void CollisionLayer::insertSprite(Sprite* sprite, Vec2 offset, Vec2 anchor)
 }
 
 bool CollisionLayer::getCollision(CollisionLayer* other) {
-	computeAxes();
-	other->computeAxes();
-	if (overlaps1Way(other) && other->overlaps1Way(this))
-	{
-		other->hitByOther(this); // tell the other part it is hit
-		return true;
+	if (other) {
+		computeAxes();
+		other->computeAxes();
+		if (overlaps1Way(other) && other->overlaps1Way(this)) {
+			other->hitByOther(this); // tell the other part it is hit
+			return true;
+		}
 	}
 	return false;
 }

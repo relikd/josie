@@ -71,6 +71,19 @@ void LevelPlayer::onEnterTransitionDidFinish()
 
 }
 
+void LevelPlayer::hitByOther(CollisionLayer* other)
+{
+	switch (other->collisionType) {
+		case CollisionLayerTypeCoin:
+			_level->addCoin();
+			_level->mapManager->collectCoin(other);
+			break;
+		case CollisionLayerTypeStageHazard:
+			killPlayer(); break;
+		default: break;
+	}
+}
+
 
 //
 // Animation
@@ -97,9 +110,9 @@ Animate* LevelPlayer::animationWithFrame(const std::string& name, int frameCount
 void LevelPlayer::startRunningAfterAnimation(FiniteTimeAction *animation)
 {
 	if(_isAlive){
-	CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(LevelPlayer::startRunningCallback, this));
-	Sequence *seq = Sequence::createWithTwoActions(animation, call);
-	spriteImage->runAction(seq);
+		CallFuncN *call = CallFuncN::create(CC_CALLBACK_0(LevelPlayer::startRunningCallback, this));
+		Sequence *seq = Sequence::createWithTwoActions(animation, call);
+		spriteImage->runAction(seq);
 	}
 }
 
@@ -180,9 +193,6 @@ void LevelPlayer::update(float dt)
 	this->_checkRun();
 	this->_checkJump();
 	this->_checkAlive();
-
-	if (_level->mapManager->tryCollect(this))
-		_level->addCoin();
 }
 
 bool LevelPlayer::_canStandUp() {
@@ -238,10 +248,9 @@ void LevelPlayer::_checkJump() {
 	}
 }
 
-void LevelPlayer::killPlayer(){
-
-
-	if (_isAlive){
+void LevelPlayer::killPlayer()
+{
+	if (_isAlive) {
 		_isAlive = false;
 		Animate* animation = animationWithFrame("josieexplosion", 10, 0.03f);
 
@@ -261,7 +270,7 @@ void LevelPlayer::killPlayer(){
 void LevelPlayer::_checkAlive() {
 	if ((this->getPositionY() < -100) || (_level->mapManager->checkDeathly(getBoundingBox()))) {
 
-		if (100.0<= _level->mapManager->getLevelProgress(this->getBoundingBox())) {
+		if (100.0 <= _level->mapManager->getLevelProgress(this->getBoundingBox())) {
 			_level->finishLevelSuccessfull();
 			this->setPlayerOnGround(400);
 		} else {

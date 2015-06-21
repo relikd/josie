@@ -7,10 +7,11 @@ class StageHazard: public CollisionLayer {
 public:
 	StageHazard();
 	virtual ~StageHazard();
-	static StageHazard* createAt(const std::string& filename, Vec2 position, CollisionLayer* target);
-	void fallDown();
+	static StageHazard* createAt(Vec2 position);
+	void setTarget(CollisionLayer* target) { _target = target; };
 private:
 	void update(float dt);
+	void fallDown();
 
 	Vec2 _initialPosition;
 	CollisionLayer* _target;

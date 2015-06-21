@@ -1,5 +1,6 @@
 #include "MapController.h"
 #include "CollisionLayer.h"
+#include "StageHazard.h"
 
 using namespace cocos2d;
 using namespace std;
@@ -9,13 +10,12 @@ typedef struct TilePointOffset { int x; int y; float offsetX; float offsetY; }_T
 MapController::MapController() {
 	_collisionMap = new long[1];
 	_deathlyMap = new long[1];
-	_hazardLayer = Layer::create();
-
+	_maxCoins = 0;
 }
 MapController::~MapController() {
 	delete _collisionMap;
 	delete _deathlyMap;
-		CCLOG("~MapController");
+	CCLOG("~MapController");
 }
 
 MapController* MapController::initWithLevel(int level, int sub_level)
@@ -28,7 +28,6 @@ MapController* MapController::initWithLevel(int level, int sub_level)
 	{
 		tmc->autorelease();
 		tmc->initOptions();
-		tmc->addChild(tmc->_hazardLayer);
 	}
 
 	return tmc;
@@ -49,18 +48,21 @@ void MapController::initOptions()
 // :::::::::: Gameplay Functionality ::::::::::
 //
 
-bool MapController::tryCollect(CollisionLayer *player)
+void MapController::setPlayerAsListener(CollisionLayer *player)
 {
-	for(CollisionLayer* coin : this->_coins)
+	for(CollisionLayer* coll : _interactables)
 	{
-		if (player->getCollision(coin)) {
-			_coins.eraseObject(coin);
-			coin->removeFromParent();
-			return true;
+		if (coll->collisionType == CollisionLayerTypeCoin)
+		{
+			coll->setCollisionListener(player);
+		}
+		else if (coll->collisionType == CollisionLayerTypeStageHazard)
+		{
+			((StageHazard*)coll)->setTarget(player);
 		}
 	}
-	return false;
 }
+
 bool MapController::checkDeathly(Rect bounds) {
 	TilePointOffset pos = this->getTilePointOffset(Vec2(bounds.origin.x, bounds.getMaxY()));
 	int playerWidthInTiles = ceil((pos.offsetX + bounds.size.width) / _tileSize.width);
@@ -78,15 +80,17 @@ bool MapController::checkDeathly(Rect bounds) {
 	}
 	return false;
 }
+
 float MapController::getLevelProgress(cocos2d::Rect bounds)
 {
 	return (bounds.getMaxX() / (_mapSize.width * _tileSize.width))*100;
 }
 
-/*void MapController::collectAt(Point tileCoord) {
-	map->getLayer("Meta_layer")->removeTileAt(tileCoord);
-	map->getLayer("Foreground_layer")->removeTileAt(tileCoord);
-}*/
+void MapController::collectCoin(CollisionLayer *coin)
+{
+	coin->removeFromParent();
+	this->_interactables.eraseObject(coin);
+}
 
 
 //
@@ -154,64 +158,57 @@ float MapController::collisionDiffRight(Rect bounds)
 }
 
 
-std::vector<Vec2> MapController::getHazardSpawnPoints(){
-
-
-	int collectGID = this->getGIDForName("Hazard");
-
-	for (int x=0; x<(int)_mapSize.width; x++)
-	{
-		for (int y=0; y<(int)_mapSize.height; y++)
-		{
-			if (collectGID == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
-			{
-				_hazards.push_back(coordinateFromTilePoint(Vec2(x,y)));
-			}
-		}
-	}
-
-	return _hazards;
-
-}
-
 //
 // :::::::::: Other Functionality ::::::::::
 //
 
-void MapController::reinitializeMap(bool re_collision, bool re_coins)
+void MapController::reinitializeMap(bool re_collision, bool re_interactables)
 {
 	if (re_collision) {
 		this->initCollisionMap();
 		this->initDeathlyArray();
 	}
-	if (re_coins) {
-		for (CollisionLayer* coin : this->_coins) {
-			coin->removeFromParent();
-		}
-		_coins.clear();
-		this->initCollectableArray();
+	if (re_interactables) {
+		this->initInteractables();
 	}
 }
 
-void MapController::initCollectableArray()
+void MapController::initInteractables()
 {
+	for (CollisionLayer* coll : _interactables) {
+		coll->removeFromParent();
+	}
+	_interactables.clear();
+	_maxCoins = 0;
+
 	int collectGID = this->getGIDForName("Collectible");
+	int hazardGID = this->getGIDForName("Hazard");
+	TMXLayer *meta = getLayer("Meta_layer");
 
 	for (int x=0; x<(int)_mapSize.width; x++)
 	{
 		for (int y=0; y<(int)_mapSize.height; y++)
 		{
-			if (collectGID == getLayer("Meta_layer")->getTileGIDAt(Vec2(x,y)))
+			int testGID = meta->getTileGIDAt(Vec2(x,y));
+			if (testGID == hazardGID)
+			{
+				StageHazard *hazard = StageHazard::createAt(coordinateFromTilePoint(Vec2(x,y)));
+				this->addChild(hazard);
+				_interactables.pushBack(hazard);
+			}
+			else if (testGID == collectGID)
 			{
 				CollisionLayer *coin = CollisionLayer::createCoinSprite();
 				coin->setPosition(coordinateFromTilePoint(Vec2(x,y)));
-				_coins.pushBack(coin);
 				this->addChild(coin);
+				_interactables.pushBack(coin);
+				_maxCoins++;
 			}
 		}
 	}
 }
-//For DeadlyThorn Colission
+
+//For DeadlyThorn Collision
 void MapController::initDeathlyArray()
 {
 	int mapWidth = (int)_mapSize.width;
@@ -229,7 +226,6 @@ void MapController::initDeathlyArray()
 	}
 }
 
-
 void MapController::initCollisionMap()
 {
 	int mapWidth = (int)_mapSize.width;
@@ -246,10 +242,6 @@ void MapController::initCollisionMap()
 		}
 	}
 }
-Layer* MapController::getHazardLayer(){
-	return this->_hazardLayer;
-}
-
 
 
 //
@@ -284,10 +276,11 @@ TilePointOffset MapController::getTilePointOffset(Point point)
 
 long MapController::getColumnBitmapForGID(int x, int tile_gid)
 {
+	TMXLayer *meta = getLayer("Meta_layer");
 	long col=0;
 	for (int i=_mapSize.height; i>0; i--) {
 		col<<=1;
-		int gid = getLayer("Meta_layer")->getTileGIDAt(Vec2(x,i-1));
+		int gid = meta->getTileGIDAt(Vec2(x,i-1));
 		col |= (gid==tile_gid);
 	}
 	return col;
