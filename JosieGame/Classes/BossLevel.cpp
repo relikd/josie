@@ -95,6 +95,7 @@ void BossLevel::loadWeapons()
 
 void BossLevel::update(float dt)
 {
+
 	_attackTimer -= dt;
 	_timeSinceLastHit += dt;
 
@@ -106,6 +107,9 @@ void BossLevel::update(float dt)
 	checkPlayerHit(left);
 	checkPlayerHit(right);
 	checkBossHit();
+
+
+
 }
 
 void BossLevel::checkPlayerHit(CollisionLayer* weapon)
@@ -161,9 +165,15 @@ void BossLevel::battleEndedWon(bool won)
 	CallFuncN *popToMenu = CallFuncN::create(CC_CALLBACK_0(Director::popToSceneStackLevel, Director::getInstance(), 2));
 
 	if (won) {
+
+		this->unscheduleUpdate();
+		left->stopAllActions();
+		right->stopAllActions();
 		left->spriteImage->runAction(tintFade->clone());
 		right->spriteImage->runAction(tintFade);
+
 		this->runAction(Sequence::createWithTwoActions(delay, popToMenu));
+
 	} else {
 		_playerBoss->spriteImage->runAction(tintFade);
 		this->runAction(Sequence::createWithTwoActions(delay, popScene));
@@ -173,6 +183,7 @@ void BossLevel::battleEndedWon(bool won)
 
 void BossLevel::bossAttack()
 {
+
 	int attackID = (arc4random() % 4) + 1;
 	switch(attackID) {
 	case 1:
@@ -228,5 +239,6 @@ void BossLevel::bossAttack()
 		break;
 	}
 	}
+
 }
 
