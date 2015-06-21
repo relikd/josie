@@ -193,6 +193,7 @@ void MapController::initInteractables()
 			if (testGID == hazardGID)
 			{
 				StageHazard *hazard = StageHazard::createAt(coordinateFromTilePoint(Vec2(x,y)));
+				hazard->setLocalZOrder(6);
 				this->addChild(hazard);
 				_interactables.pushBack(hazard);
 			}
@@ -200,6 +201,7 @@ void MapController::initInteractables()
 			{
 				CollisionLayer *coin = CollisionLayer::createCoinSprite();
 				coin->setPosition(coordinateFromTilePoint(Vec2(x,y)));
+				coin->setLocalZOrder(6);
 				this->addChild(coin);
 				_interactables.pushBack(coin);
 				_maxCoins++;

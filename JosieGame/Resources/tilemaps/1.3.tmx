@@ -53,7 +53,7 @@
  </tileset>
  <layer name="Cave_layer" width="389" height="15">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4GNbLAAB
+   eJztzjEBAAAIA6DZv7QtpgckIAEAAAAAAAAAAAAAAAAAAAAAAAAAAOiZ6wAAryxhRAAC
   </data>
  </layer>
  <layer name="Foreground_layer" width="389" height="15">
