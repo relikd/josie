@@ -4,17 +4,14 @@ StageHazard::StageHazard() {
 	_target = nullptr;
 	collisionType = CollisionLayerTypeStageHazard;
 }
-StageHazard::~StageHazard() {
-	CCLOG("~StageHazard");
-}
+StageHazard::~StageHazard() {}
 
-StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, CollisionLayer* target) {
+StageHazard* StageHazard::createAt(Vec2 position) {
 	StageHazard* other = new StageHazard();
 
 	if (other->initCollisionSize(72, 72)) {
 		other->autorelease();
 		other->_initialPosition = position;
-		other->_target = target;
 		other->setPosition(position);
 		other->insertImageName("particles/EvilFruit00.png", other->getContentSize() / 2);
 		other->fallDown();
@@ -22,6 +19,7 @@ StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, C
 	}
 	return other;
 }
+
 void StageHazard::fallDown() {
 	this->setPosition(_initialPosition);
 
@@ -34,8 +32,7 @@ void StageHazard::fallDown() {
 
 void StageHazard::update(float dt)
 {
-
-	if (this->getPosition().y < 0 | this->getCollision(_target)) {
+	if ((this->getPosition().y < 0) | this->getCollision(_target)) {
 		this->fallDown();
 	}
 }

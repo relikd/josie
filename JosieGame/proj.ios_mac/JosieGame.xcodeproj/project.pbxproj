@@ -102,6 +102,8 @@
 		54730CBC1B369F8000C2C9F7 /* textbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA11B369F8000C2C9F7 /* textbox.png */; };
 		54730CBD1B369F8000C2C9F7 /* tilemaps in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA21B369F8000C2C9F7 /* tilemaps */; };
 		54730CBE1B369F8000C2C9F7 /* tilemaps in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA21B369F8000C2C9F7 /* tilemaps */; };
+		549FBA1E1B3715B5000AB253 /* StageHazard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 549FBA1C1B3715B5000AB253 /* StageHazard.cpp */; };
+		549FBA1F1B3715B5000AB253 /* StageHazard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 549FBA1C1B3715B5000AB253 /* StageHazard.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -227,6 +229,8 @@
 		54730CA01B369F8000C2C9F7 /* testground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testground.png; sourceTree = "<group>"; };
 		54730CA11B369F8000C2C9F7 /* textbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textbox.png; sourceTree = "<group>"; };
 		54730CA21B369F8000C2C9F7 /* tilemaps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tilemaps; sourceTree = "<group>"; };
+		549FBA1C1B3715B5000AB253 /* StageHazard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StageHazard.cpp; sourceTree = "<group>"; };
+		549FBA1D1B3715B5000AB253 /* StageHazard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StageHazard.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -409,6 +413,8 @@
 				54730C681B369F7200C2C9F7 /* Projectile.h */,
 				54730C691B369F7200C2C9F7 /* ShopScene.cpp */,
 				54730C6A1B369F7200C2C9F7 /* ShopScene.h */,
+				549FBA1C1B3715B5000AB253 /* StageHazard.cpp */,
+				549FBA1D1B3715B5000AB253 /* StageHazard.h */,
 				54730C6B1B369F7200C2C9F7 /* TMXEdit.cpp */,
 				54730C6C1B369F7200C2C9F7 /* TMXEdit.h */,
 			);
@@ -611,6 +617,7 @@
 				54730C6D1B369F7200C2C9F7 /* AppDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				54730C7B1B369F7200C2C9F7 /* GameStateManager.cpp in Sources */,
+				549FBA1E1B3715B5000AB253 /* StageHazard.cpp in Sources */,
 				54730C911B369F7200C2C9F7 /* ShopScene.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				54730C891B369F7200C2C9F7 /* MapController.cpp in Sources */,
@@ -645,6 +652,7 @@
 				54730C921B369F7200C2C9F7 /* ShopScene.cpp in Sources */,
 				54730C8A1B369F7200C2C9F7 /* MapController.cpp in Sources */,
 				54730C721B369F7200C2C9F7 /* BossLevel.cpp in Sources */,
+				549FBA1F1B3715B5000AB253 /* StageHazard.cpp in Sources */,
 				54730C7C1B369F7200C2C9F7 /* GameStateManager.cpp in Sources */,
 				54730C841B369F7200C2C9F7 /* LevelPlayer.cpp in Sources */,
 				54730C701B369F7200C2C9F7 /* AudioUnit.cpp in Sources */,

@@ -90,8 +90,8 @@ int GameStateManager::getCoinsForLevel(int level, int sublevel)
 {
 	if (sublevel==0) sublevel=4;
 	std::string str = UserDefault::getInstance()->getStringForKey("josie_collected_coins", "");
-	int lvl_index = 4*(level-1) + (sublevel-1); // every level set has 4 sublevel
-	if (lvl_index < str.length())
+	int lvl_index = 4*(level-1) + (sublevel-1);
+	if (lvl_index < str.length() && lvl_index>=0)
 		return str[lvl_index]-1;
 	return -1;
 }
@@ -101,7 +101,8 @@ void GameStateManager::setCoinsForLevel(int level, int sublevel, int coins)
 	if (sublevel==0) sublevel=4;
 	UserDefault *ud = UserDefault::getInstance();
 	std::string str = ud->getStringForKey("josie_collected_coins", "");
-	int lvl_index = 4*(level-1) + (sublevel-1); // every level set has 3 sublevels
+	int lvl_index = 4*(level-1) + (sublevel-1);
+	if (lvl_index<0) return; // auto generated level -> -4
 	if (lvl_index >= str.length()) {
 		for (int i = 0; i <= lvl_index; i++) {
 			if (str[i]==0)
