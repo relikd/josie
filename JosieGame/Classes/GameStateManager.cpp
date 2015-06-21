@@ -9,6 +9,7 @@ GameStateManager::~GameStateManager() {}
 
 void GameStateManager::initDefaults()
 {
+
 	UserDefault *ud = UserDefault::getInstance();
 	ud->setIntegerForKey("josie_credits", 9001);
 	ud->setIntegerForKey("josie_perk_damage", 1);
@@ -20,7 +21,9 @@ void GameStateManager::initDefaults()
 	ud->setIntegerForKey("music_volume", 100);
 	ud->setIntegerForKey("sfx_volume", 100);
 	ud->setStringForKey("josie_collected_coins", "");
+	ud->setBoolForKey("josie_save_state", true);
 	ud->flush(); // no flush to reset settings after restart
+
 }
 
 void GameStateManager::initSpriteCache()
