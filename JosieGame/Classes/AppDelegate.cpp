@@ -38,8 +38,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     if (UserDefault::getInstance()->getBoolForKey("josie_save_state", false)==false){
-    GameStateManager::initSpriteCache();
+    GameStateManager::initDefaults();
     }
+    GameStateManager::initSpriteCache();
 
     director->runWithScene(MainMenu::createScene());
 

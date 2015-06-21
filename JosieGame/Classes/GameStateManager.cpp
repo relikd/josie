@@ -11,7 +11,7 @@ void GameStateManager::initDefaults()
 {
 
 	UserDefault *ud = UserDefault::getInstance();
-	ud->setIntegerForKey("josie_credits", 9001);
+	ud->setIntegerForKey("josie_credits", 0);
 	ud->setIntegerForKey("josie_perk_damage", 1);
 	ud->setIntegerForKey("josie_perk_shoot", 1);
 	ud->setIntegerForKey("josie_perk_frequency", 1);
