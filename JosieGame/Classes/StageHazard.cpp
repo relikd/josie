@@ -8,7 +8,7 @@ StageHazard::~StageHazard() {
 	CCLOG("~StageHazard");
 }
 
-StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, LevelPlayer* target) {
+StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, CollisionLayer* target) {
 	StageHazard* other = new StageHazard();
 
 	if (other->initCollisionSize(72, 72)) {
@@ -24,16 +24,18 @@ StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, L
 }
 void StageHazard::fallDown() {
 	this->setPosition(_initialPosition);
+
 	float movespeed = 1.5f/(1080/_initialPosition.y);
+	DelayTime* wait = DelayTime::create(0.7f);
 	MoveTo * fall = MoveTo::create(movespeed, Vec2(_initialPosition.x, -10));
-	this->runAction(fall);
-	CCLOG("FALLING)");
+	this->stopAllActions();
+	this->runAction(Sequence::createWithTwoActions(wait,fall));
 }
 
 void StageHazard::update(float dt)
 {
-	this->getCollision(_target);
-	if (this->getPosition().y < 0) {
+
+	if (this->getPosition().y < 0 | this->getCollision(_target)) {
 		this->fallDown();
 	}
 }
