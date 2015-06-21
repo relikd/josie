@@ -2,6 +2,7 @@
 #include "Cutscene.h"
 #include "LevelSelectScene.h"
 #include "OptionScreen.h"
+#include "TutorialScene.h"
 
 USING_NS_CC;
 
@@ -62,6 +63,13 @@ bool MainMenu::init()
 
 
 
+    MenuItemImage* tutorialbutton = MenuItemImage::create(
+    										"buttons/menubuttons/tutorial_button.png",
+											"buttons/menubuttons/tutorial_button_pushed.png",
+											CC_CALLBACK_1(MainMenu::startTutorial,this));
+    tutorialbutton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    tutorialbutton->setPosition(0,0);
+
 	MenuItemImage* startbutton = MenuItemImage::create(
 											"buttons/startbutton.png",
 											"buttons/startbutton_pushed.png",
@@ -70,7 +78,7 @@ bool MainMenu::init()
 	startbutton->setScale(1.2);
 
 
-	Menu* menu = Menu::create(startbutton, NULL);
+	Menu* menu = Menu::create(startbutton,tutorialbutton, NULL);
 	menu->setPosition(Vec2::ZERO);
 	menu->setTag(101);
 	this->addChild(menu, 1);
@@ -79,7 +87,7 @@ bool MainMenu::init()
 
 
     //add OptionsScreenFunction
-    this->addChild(OptionScreen::createOptionButton(1900,20),10);
+    this->addChild(OptionScreen::createOptionButton(1920,0),10);
 
     return true;
 }
@@ -90,6 +98,11 @@ void MainMenu::play(Ref* pSender)
 {
 	LevelSelect *levelSelectScreen = LevelSelect::createSceneWithLevel(1);
 	Director::getInstance()->pushScene(levelSelectScreen);
+}
+
+void MainMenu::startTutorial(Ref* pSender){
+	TutorialScene* tutScene = TutorialScene::initTutorial();
+	Director::getInstance()->pushScene(tutScene);
 }
 
 void MainMenu::explode(){

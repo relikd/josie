@@ -68,8 +68,8 @@ void LevelHUD::addStatusBar(const std::string& title)
 
 void LevelHUD::addPlayerControls()
 {
-	_stay = MenuItemImage::create("buttons/left.png","buttons/left.png");
-	_slide = MenuItemImage::create("buttons/right.png","buttons/right.png");
+	_stay = MenuItemImage::create("buttons/stop.png","buttons/stop.png");
+	_slide = MenuItemImage::create("buttons/shrink.png","buttons/shrink.png");
 	_jump = MenuItemImage::create("buttons/jump.png","buttons/jump.png");
 
 	_stay->setScale(0.8);
