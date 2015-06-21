@@ -13,6 +13,7 @@ using namespace cocos2d;
 BossPlayer::BossPlayer() {
 	_level = nullptr;
 	_timeSinceLastShot = 0;
+	collisionType = CollisionLayerTypeBossPlayer;
 	registerObserver();
 }
 BossPlayer::~BossPlayer() {

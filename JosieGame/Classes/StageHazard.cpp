@@ -1,56 +1,41 @@
-/*
- * StageHazard.cpp
- *
- *  Created on: 20.06.2015
- *      Author: Jonas
- */
-
 #include "StageHazard.h"
-#include "LevelPlayer.h"
 
 StageHazard::StageHazard() {
-	// TODO Auto-generated constructor stub
+	_target = nullptr;
+	collisionType = CollisionLayerTypeStageHazard;
 }
-
 StageHazard::~StageHazard() {
-	// TODO Auto-generated destructor stub
+	CCLOG("~StageHazard");
 }
 
-StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, LevelPlayer* target) {
+StageHazard* StageHazard::createAt(const std::string& filename, Vec2 position, CollisionLayer* target) {
 	StageHazard* other = new StageHazard();
 
 	if (other->initCollisionSize(72, 72)) {
 		other->autorelease();
-		other->_Position = position;
+		other->_initialPosition = position;
 		other->_target = target;
 		other->setPosition(position);
-		other->insertImageName("particles/std_bullet.png",
-				other->getContentSize() / 2);
+		other->insertImageName("particles/std_bullet.png", other->getContentSize() / 2);
 		other->fallDown();
 		other->scheduleUpdate();
 	}
-
 	return other;
 }
 void StageHazard::fallDown() {
-	float movespeed = 3.0f/(1080/_Position.y);
-	MoveTo * fall = MoveTo::create(movespeed, Vec2(_Position.x, -10));
+	this->setPosition(_initialPosition);
 
-	this->runAction(fall);
-	CCLOG("FALLING)");
+	float movespeed = 1.5f/(1080/_initialPosition.y);
+	DelayTime* wait = DelayTime::create(0.7f);
+	MoveTo * fall = MoveTo::create(movespeed, Vec2(_initialPosition.x, -10));
+	this->stopAllActions();
+	this->runAction(Sequence::createWithTwoActions(wait,fall));
 }
 
-void StageHazard::reset() {
-	this->setPosition(_Position);
-	this->fallDown();
-}
+void StageHazard::update(float dt)
+{
 
-void StageHazard::update(float dt) {
-	if (this->getCollision(_target))
-		_target->killPlayer();
-	if (this->getPosition().y < 0) {
-
-		this->reset();
-
+	if (this->getPosition().y < 0 | this->getCollision(_target)) {
+		this->fallDown();
 	}
 }
