@@ -1,5 +1,4 @@
 #include "StageHazard.h"
-#include "LevelPlayer.h"
 
 StageHazard::StageHazard() {
 	_target = nullptr;
@@ -33,8 +32,7 @@ void StageHazard::fallDown() {
 
 void StageHazard::update(float dt)
 {
-	if (this->getCollision(_target))
-		_target->killPlayer();
+	this->getCollision(_target);
 	if (this->getPosition().y < 0) {
 		this->fallDown();
 	}
