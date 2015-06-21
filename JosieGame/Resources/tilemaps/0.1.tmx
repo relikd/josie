@@ -48,19 +48,27 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="50" name="trees" tilewidth="72" tileheight="72">
+  <image source="trees.png" width="2402" height="801"/>
+ </tileset>
  <layer name="Foreground_layer" width="350" height="15">
   <data encoding="base64" compression="zlib">
-   eJztzjENAAAIA7Al+PeMigWOVkETAAAAAAAAAAAAAAAAAAAAAAD4Y64DAABQtHLYAAQ=
+   eJzt2TdOA2EYBuHfoiZWnIJYcQIymFBxAjAYm1RxAoKNzTHI4QL05HAMcugZ6LBokFZeaZlHmm4tf9Vb7IYgSf/HZggnZSrRBhWpQOu0RnHfJ0lJM8e25ilHs5SlGZqmjLsrSZFLs63DNESDNED91Ee97q4kRaabeohtDWxsYGsDmxvY3sAGB7b4a5MlSRGZpCnK0DTNUJZmKUf58P0OQpIUkRVapTVapwIVaYNKVA7f39wkSRHZom3aoV3ao306oEM6ouPYrpOk5DmlMzqnC7qkK7qmG7qlu9iuk6TkuacHeqQneqYXeqU3eqeP2K6TpOSpTYVQR/XUQI3UlPr5THPq999Kkv6uhU1tpTZqpw7qrNjZLndXkiIzzKamaYRGaYzGK3Z2wt2VpMjk2dQ5mqcFWqSlip1drtLu1lTnbyRJkqRYfAIzVkiq
+  </data>
+ </layer>
+ <layer name="ForeForeGround_layer" width="350" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1MsNglAARNFHDQI2AmgjKDTCr3qnB0JMyDnJ3c9qSgEAAAAAAAAAAAAAAADgbh5VKXVqUpue1b8XAdxbl5/t05Be6e13AS415mc/6ZumNPtdgEst+dk1bWlPh98FAIBTfv1RBZc=
   </data>
  </layer>
  <layer name="Background_layer" width="350" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt2U2KAyEQBtDObm4x97/lbDIgUuVPx0Wofg+EoEZ79VGU1wVQz+97nDyrHf366D8AT9BmXpaVK9nY71nJ3NG3AFQV1ah3R3be7J7+WwAq28nHKCNP5fV1yVzgGbL+wOkMXen3yl3gCU7Uuu18tGd2b/R/gKp2cvf0yO4EqGwnG7P9d8/O6miAymZ5mvVpR7k7yul+LvsGgKpG2Zdl6hWsr/QQ+rloj9wFqovexbI3r6wGbtdP9YoBqopy9//3rIfQz919T4vuB6hqlHvZ21q29kkNG+15HR4A32DUW2jnRzXryvmzPdFZP4cHwDfYqVl3z/20p/sHtcgrdA==
+   eJzt1DEKACAMBMEoCP7/xbY2QoogKWZgu6svAgAAAAAAAAAAAAAAAAAAAAAA+hjFAXQwP3X/X3a3iwPooPrbXq2r7O4AfmoCIw==
   </data>
  </layer>
  <layer name="Meta_layer" width="350" height="15" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJzt1DENAAAIBLEXgX+tOGAihKFNzsIlAAAAAAAAAAAAAAAAAAAAAADwRy0HwMx3AW41fz8DIQ==
+   eJzt2bEJACEQRUGL0P5btQHBY5GPnDOwkQYbPQRbA/i/vjkfkS0A3qG7AFm6C5CluwBZuguQpbsAWboLkNU3Mz7cWQ0Ae6teVt67ugtQp7sAWboLkKW7AFnJ7lb+7/ztAbc73baTzbthB4CXTHM0COI=
   </data>
  </layer>
 </map>

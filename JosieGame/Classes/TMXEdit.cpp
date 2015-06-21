@@ -11,11 +11,11 @@ using namespace cocos2d;
 
 const int PARTLENGTH = 6;
 const int MINHEIGHT = 14;
-const int MAXHEIGHT = 8;
+const int MAXHEIGHT = 9;
 const int COINHEIGHT = 2;
 //Higher Values mean lessHazards/Coins
 const int HAZARDFREQMIN = 15;
-const int COINGFREQ = 20;
+const int COINGFREQ = 14;
 
 //GIDs
 const int TOPDIRT[] = { 1, 2, 3, 4 };
