@@ -52,14 +52,7 @@ void MapController::setPlayerAsListener(CollisionLayer *player)
 {
 	for(CollisionLayer* coll : _interactables)
 	{
-		if (coll->collisionType == CollisionLayerTypeCoin)
-		{
-			coll->setCollisionListener(player);
-		}
-		else if (coll->collisionType == CollisionLayerTypeStageHazard)
-		{
-			((StageHazard*)coll)->setTarget(player);
-		}
+		coll->setCollisionListener(player);
 	}
 }
 

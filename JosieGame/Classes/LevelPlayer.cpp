@@ -76,7 +76,7 @@ void LevelPlayer::onEnterTransitionDidFinish() {
 
 }
 
-void LevelPlayer::hitByOther(CollisionLayer* other) {
+void LevelPlayer::hitByCollision(CollisionLayer* other) {
 	switch (other->collisionType) {
 	case CollisionLayerTypeCoin:
 		_level->addCoin();

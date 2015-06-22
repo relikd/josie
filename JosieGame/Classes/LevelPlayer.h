@@ -26,7 +26,7 @@ private:
 
 	virtual void onEnterTransitionDidFinish();
 	void update(float dt);
-	void hitByOther(CollisionLayer* other);
+	void hitByCollision(CollisionLayer* other);
 	void registerObserver(bool reg=true);
 
 	Animate* animationWithFrame(const std::string& name, int frameCount, float delay=0.01);

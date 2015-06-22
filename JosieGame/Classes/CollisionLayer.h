@@ -39,7 +39,7 @@ public:
 	Sprite *spriteImage;
 	CollisionLayerType collisionType;
 private:
-	virtual void hitByOther(CollisionLayer* other);
+	virtual void hitByCollision(CollisionLayer* other);
 	void update(float dt);
 	CollisionLayer *_target;
 
