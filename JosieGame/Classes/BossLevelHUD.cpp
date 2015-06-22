@@ -14,6 +14,10 @@ BossLevelHUD::BossLevelHUD() {
 	_left = nullptr;
 	_right = nullptr;
 	_shoot = nullptr;
+	
+	_key_left = false;
+	_key_right = false;
+	_key_shoot = false;
 }
 
 BossLevelHUD::~BossLevelHUD() {
@@ -37,8 +41,44 @@ BossLevelHUD* BossLevelHUD::initWithBossHealth(float health)
 	hud->addChild(PauseScreen::createPauseButton(1900,1060));
 
 	hud->scheduleUpdate();
-
+	hud->addKeyboardListener();
+	
 	return hud;
+}
+
+void BossLevelHUD::addKeyboardListener()
+{
+	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
+	EventListenerKeyboard *ek = EventListenerKeyboard::create();
+	ek->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event){
+		switch (keyCode) {
+			case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			case EventKeyboard::KeyCode::KEY_A:
+				_key_left = true; break;
+			case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+			case EventKeyboard::KeyCode::KEY_D:
+				_key_right = true; break;
+			case EventKeyboard::KeyCode::KEY_SPACE:
+			case EventKeyboard::KeyCode::KEY_O:
+				_key_shoot = true;
+			default: break;
+		}
+	};
+	ek->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event){
+		switch (keyCode) {
+			case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			case EventKeyboard::KeyCode::KEY_A:
+				_key_left = false; break;
+			case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+			case EventKeyboard::KeyCode::KEY_D:
+				_key_right = false; break;
+			case EventKeyboard::KeyCode::KEY_SPACE:
+			case EventKeyboard::KeyCode::KEY_O:
+				_key_shoot = false;
+			default: break;
+		}
+	};
+	ed->addEventListenerWithSceneGraphPriority(ek, this);
 }
 
 
@@ -144,11 +184,11 @@ void BossLevelHUD::updateShields()
 void BossLevelHUD::update(float dt)
 {
 	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
-	if (_left->isSelected())
+	if (_key_left || _left->isSelected())
 		ed->dispatchCustomEvent("BOSS_PLAYER_LEFT");
-	if (_right->isSelected())
+	if (_key_right || _right->isSelected())
 		ed->dispatchCustomEvent("BOSS_PLAYER_RIGHT");
-	if (_shoot->isSelected())
+	if (_key_shoot || _shoot->isSelected())
 		ed->dispatchCustomEvent("BOSS_PLAYER_SHOOT");
 }
 
