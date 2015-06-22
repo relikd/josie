@@ -27,12 +27,14 @@ void LevelSelect::startLevel(int sublevel) {
 	if (sublevel == 0) {
 		ShopScene *shop = ShopScene::initShop();
 		Director::getInstance()->replaceScene(shop);
-	} else if (sublevel >= 1 && sublevel <= 3) {
-		auto cut = Cutscene::createScene(sublevel);
-		Director::getInstance()->replaceScene(cut);
 	} else {
-		Level *levelxx = Level::initWithLevel(_level, sublevel);
-		Director::getInstance()->replaceScene(levelxx);
+		if (GameStateManager::showCutscenes()) {
+			auto cut = Cutscene::createScene(sublevel);
+			Director::getInstance()->replaceScene(cut);
+		} else {
+			Level *levelxx = Level::initWithLevel(_level, sublevel);
+			Director::getInstance()->replaceScene(levelxx);
+		}
 	}
 }
 
@@ -43,11 +45,9 @@ void LevelSelect::startRandomLevel()
 }
 
 
-void LevelSelect::buildUI(){
-
-	Sprite* background = Sprite::create("backgrounds/bg_lvl_select.png");
-	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	background->setPosition(Vec2::ZERO);
+void LevelSelect::buildUI()
+{
+	LayerColor *background = LayerColor::create(Color4B::BLACK);
 
 	MenuItemImage* lvl1_1 = buttonWithSublevel(1);
 	MenuItemImage* lvl1_2 = buttonWithSublevel(2);
@@ -59,6 +59,12 @@ void LevelSelect::buildUI(){
 			"buttons/levelselectbuttons/randomlevelbutton.png",
 			CC_CALLBACK_0(LevelSelect::startRandomLevel, this));
 	lvl_random->setPosition(960, 210);
+	
+	// Random Level only if Boss Level won
+	if (!GameStateManager::isRandomLevelUnlocked(_level)) {
+		lvl_random->setEnabled(false);
+		lvl_random->setOpacity(50);
+	}
 
 	MenuItemImage* pause = MenuItemImage::create(
 			"buttons/pausebutton.png",

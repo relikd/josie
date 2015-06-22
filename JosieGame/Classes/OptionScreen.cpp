@@ -38,21 +38,15 @@ OptionScreen* OptionScreen::createOptionButton(float x, float y)
 	return os;
 }
 
-void OptionScreen::createOptionOverlay(){
-
-
+void OptionScreen::createOptionOverlay()
+{
 	_overlay = Layer::create();
-	_overlay->setPosition(Vec2(470, 175) - this->getPosition());
+	_overlay->setPosition( -this->getPosition() );
 	this->addChild(_overlay);
 
 	Sprite *bg = Sprite::create("buttons/menubuttons/optionscreen.png");
-	bg->setPosition(Vec2(0, 0));
+	bg->setPosition(Vec2(470, 175));
 	bg->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-
-	Label *back = Label::createWithTTF("Back","fonts/Marker Felt.ttf", 72);
-	back->setColor(Color3B::BLACK);
-	MenuItemLabel *backTo = MenuItemLabel::create(back, CC_CALLBACK_0(OptionScreen::toggleVisibility,this));
-	backTo->setPosition(bg->getContentSize().width - 120,80);
 
 	Label *reset_game = Label::createWithTTF("Reset Game","fonts/Marker Felt.ttf", 72);
 	reset_game->setColor(Color3B::BLACK);
@@ -77,15 +71,44 @@ void OptionScreen::createOptionOverlay(){
 
 
 
-	Menu *m = Menu::create(backTo,reset_button,nullptr);
+	Menu *m = Menu::create(reset_button,nullptr);
 	m->setPosition(Vec2::ZERO);
 
 	_overlay->addChild(bg);
 	bg->addChild(m);
 	bg->addChild(_music_volume_slider);
 	bg->addChild(_sfx_volume_slider);
+	
+	if (JOSIE_DEVELOPER_MODE) {
+		addDeveloperControls();
+	}
 
 	_overlay->setVisible(false);
+}
+
+void OptionScreen::addDeveloperControls()
+{
+	Label *lbl_unlock = Label::createWithTTF("Unlock All Levels", "fonts/Marker Felt.ttf", 70);
+	Label *lbl_money = Label::createWithTTF("Money = 9001", "fonts/Marker Felt.ttf", 70);
+	Label *lbl_cutscene = Label::createWithTTF("No Cutscenes", "fonts/Marker Felt.ttf", 70);
+	
+	MenuItemLabel *unlock = MenuItemLabel::create(lbl_unlock, CC_CALLBACK_0(UserDefault::setStringForKey, UserDefault::getInstance(), "josie_collected_coins", "\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1"));
+	unlock->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	unlock->setPosition(30, Director::getInstance()->getWinSize().height-50);
+	
+	MenuItemLabel *money = MenuItemLabel::create(lbl_money, CC_CALLBACK_0(UserDefault::setIntegerForKey, UserDefault::getInstance(), "josie_credits", 9001));
+	money->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	money->setPosition(unlock->getPosition()-Vec2(0,120));
+	
+	MenuItemLabel *cutscene = MenuItemLabel::create(lbl_cutscene, CC_CALLBACK_0(UserDefault::setBoolForKey, UserDefault::getInstance(), "josie_no_cutscenes", true));
+	cutscene->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	cutscene->setPosition(money->getPosition()-Vec2(0,120));
+	
+	Menu *m = Menu::create(unlock, money, cutscene, NULL);
+	m->setPosition(Vec2::ZERO);
+	m->setColor(Color3B::BLACK);
+	
+	_overlay->addChild(m);
 }
 
 void OptionScreen::resetGameState(){
