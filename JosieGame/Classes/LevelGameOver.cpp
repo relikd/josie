@@ -68,7 +68,7 @@ void LevelGameOver::addSuccess(int coins, int max_coins, float time)
 	lbl_time->setPosition(850, 305);
 
 	MenuItemImage *retry = MenuItemImage::create("buttons/menubuttons/restart.png","buttons/menubuttons/restart.png", CC_CALLBACK_0(Director::popScene, Director::getInstance()));
-	MenuItemImage *resume = MenuItemImage::create("buttons/menubuttons/resume.png","buttons/menubuttons/resume.png", CC_CALLBACK_0(Director::replaceScene, Director::getInstance(), LevelSelect::createSceneWithLevel(1)));
+	MenuItemImage *resume = MenuItemImage::create("buttons/menubuttons/resume.png","buttons/menubuttons/resume.png", CC_CALLBACK_0(LevelGameOver::backToMenu, this));
 	retry->setPosition(200, 200);
 	resume->setPosition(1720, 200);
 	Menu *m = Menu::create(retry,resume,NULL);
