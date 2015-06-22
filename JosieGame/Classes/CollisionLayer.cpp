@@ -119,8 +119,8 @@ bool CollisionLayer::getCollision(CollisionLayer* other) {
 		computeAxes();
 		other->computeAxes();
 		if (overlaps1Way(other) && other->overlaps1Way(this)) {
-			other->hitByCollision(this); // tell the other part it is hit
 			this->hitByCollision(other);
+			other->hitByCollision(this); // tell the other part it is hit
 			return true;
 		}
 	}
