@@ -19,13 +19,13 @@ public:
 
 private:
 	cocos2d::Layer *_overlay;
-	void createOptionOverlay();
 	cocos2d::ui::Slider *_music_volume_slider;
 	cocos2d::ui::Slider *_sfx_volume_slider;
 
+	void createOptionOverlay();
+	void addDeveloperControls();
 	void resetGameState();
 	void toggleVisibility();
-
 };
 
 #endif /* OPTIONSCREEN_H_ */

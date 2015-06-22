@@ -1,10 +1,10 @@
 #include "BossLevel.h"
 #include "Projectile.h"
-#include "CollisionLayer.h"
 #include "BossLevelHUD.h"
 #include "BossPlayer.h"
 #include "AudioUnit.h"
 #include "LevelSelectScene.h"
+#include "GameStateManager.h"
 
 using namespace cocos2d;
 
@@ -159,18 +159,18 @@ void BossLevel::battleEndedWon(bool won)
 	DelayTime *delay = DelayTime::create(tintFade->getDuration()+0.5);
 	CallFuncN *popToMenu = CallFuncN::create(CC_CALLBACK_0(BossLevel::backToMenu, this));
 
+	this->unscheduleUpdate();
+	this->runAction(Sequence::createWithTwoActions(delay, popToMenu));
+	
 	if (won) {
-		this->unscheduleUpdate();
+		GameStateManager::setBossDefeated(_difficulty);
+		
 		left->stopAllActions();
 		right->stopAllActions();
 		left->spriteImage->runAction(tintFade->clone());
 		right->spriteImage->runAction(tintFade);
-
-		this->runAction(Sequence::createWithTwoActions(delay, popToMenu));
-
 	} else {
 		_playerBoss->spriteImage->runAction(tintFade);
-		this->runAction(Sequence::createWithTwoActions(delay, popToMenu));
 	}
 }
 

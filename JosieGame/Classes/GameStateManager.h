@@ -1,6 +1,8 @@
 #ifndef GAMESTATEMANAGER_H_
 #define GAMESTATEMANAGER_H_
 
+#define JOSIE_DEVELOPER_MODE 1
+
 class GameStateManager {
 public:
 	GameStateManager();
@@ -8,7 +10,11 @@ public:
 
 	static void initDefaults(bool force=false);
 	static void initSpriteCache();
+	
 	static bool isLevelUnlocked(int level, int sublevel);
+	static bool isRandomLevelUnlocked(int level);
+	static void setBossDefeated(int level);
+	static bool showCutscenes();
 
 	static void addCoins(int coins);
 	static int getAllCollectedCoins();
