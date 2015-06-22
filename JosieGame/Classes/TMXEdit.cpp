@@ -274,7 +274,7 @@ int TMXEdit::placeGroundLength(int x, int height, int length) {
 }
 
 void TMXEdit::placeHazards(int distance){
-	for (int x = 50; x <= map->getMapSize().width; x+=distance * (1 + arc4random()%3)){
+	for (int x = 50; x < map->getMapSize().width; x+=distance * (1 + arc4random()%3)){
 		if(_metaLayer->getTileGIDAt(Vec2(x,0)) == 0)
 			_metaLayer->setTileGID(HAZARD,Vec2(x,0));
 	}

@@ -26,20 +26,20 @@ LevelSelect* LevelSelect::createSceneWithLevel(int level)
 void LevelSelect::startLevel(int sublevel) {
 	if (sublevel == 0) {
 		ShopScene *shop = ShopScene::initShop();
-		Director::getInstance()->pushScene(shop);
+		Director::getInstance()->replaceScene(shop);
 	} else if (sublevel >= 1 && sublevel <= 3) {
 		auto cut = Cutscene::createScene(sublevel);
-		Director::getInstance()->pushScene(cut);
+		Director::getInstance()->replaceScene(cut);
 	} else {
 		Level *levelxx = Level::initWithLevel(_level, sublevel);
-		Director::getInstance()->pushScene(levelxx);
+		Director::getInstance()->replaceScene(levelxx);
 	}
 }
 
 void LevelSelect::startRandomLevel()
 {
 	Level *rnd = Level::initWithLevel(0, 1);
-	Director::getInstance()->pushScene(rnd);
+	Director::getInstance()->replaceScene(rnd);
 }
 
 

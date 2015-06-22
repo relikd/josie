@@ -1,6 +1,8 @@
 #include "PauseScreen.h"
 #include "AudioUnit.h"
 #include "Level.h"
+#include "LevelSelectScene.h"
+
 using namespace cocos2d;
 
 
@@ -77,6 +79,6 @@ void PauseScreen::continueGame()
 void PauseScreen::backToMenu()
 {
 	Director::getInstance()->resume();
-	Director::getInstance()->popToSceneStackLevel(2);
+	Director::getInstance()->replaceScene(LevelSelect::createSceneWithLevel(1));
 }
 

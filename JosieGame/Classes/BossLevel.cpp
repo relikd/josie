@@ -4,7 +4,7 @@
 #include "BossLevelHUD.h"
 #include "BossPlayer.h"
 #include "AudioUnit.h"
-
+#include "LevelSelectScene.h"
 
 using namespace cocos2d;
 
@@ -95,7 +95,6 @@ void BossLevel::loadWeapons()
 
 void BossLevel::update(float dt)
 {
-
 	_attackTimer -= dt;
 	_timeSinceLastHit += dt;
 
@@ -107,9 +106,6 @@ void BossLevel::update(float dt)
 	checkPlayerHit(left);
 	checkPlayerHit(right);
 	checkBossHit();
-
-
-
 }
 
 void BossLevel::checkPlayerHit(CollisionLayer* weapon)
@@ -161,11 +157,9 @@ void BossLevel::battleEndedWon(bool won)
 {
 	Sequence *tintFade = Sequence::createWithTwoActions(TintTo::create(0.7, 255, 0, 0), FadeTo::create(0.3, 0));
 	DelayTime *delay = DelayTime::create(tintFade->getDuration()+0.5);
-	CallFuncN *popScene = CallFuncN::create(CC_CALLBACK_0(Director::popScene, Director::getInstance()));
-	CallFuncN *popToMenu = CallFuncN::create(CC_CALLBACK_0(Director::popToSceneStackLevel, Director::getInstance(), 2));
+	CallFuncN *popToMenu = CallFuncN::create(CC_CALLBACK_0(BossLevel::backToMenu, this));
 
 	if (won) {
-
 		this->unscheduleUpdate();
 		left->stopAllActions();
 		right->stopAllActions();
@@ -176,10 +170,14 @@ void BossLevel::battleEndedWon(bool won)
 
 	} else {
 		_playerBoss->spriteImage->runAction(tintFade);
-		this->runAction(Sequence::createWithTwoActions(delay, popScene));
+		this->runAction(Sequence::createWithTwoActions(delay, popToMenu));
 	}
 }
 
+void BossLevel::backToMenu()
+{
+	Director::getInstance()->replaceScene(LevelSelect::createSceneWithLevel(1));
+}
 
 void BossLevel::bossAttack()
 {

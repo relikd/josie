@@ -1,5 +1,6 @@
 #include "LevelGameOver.h"
 #include "AudioUnit.h"
+#include "LevelSelectScene.h"
 
 using namespace cocos2d;
 
@@ -67,7 +68,7 @@ void LevelGameOver::addSuccess(int coins, int max_coins, float time)
 	lbl_time->setPosition(850, 305);
 
 	MenuItemImage *retry = MenuItemImage::create("buttons/menubuttons/restart.png","buttons/menubuttons/restart.png", CC_CALLBACK_0(Director::popScene, Director::getInstance()));
-	MenuItemImage *resume = MenuItemImage::create("buttons/menubuttons/resume.png","buttons/menubuttons/resume.png", CC_CALLBACK_0(Director::popToSceneStackLevel, Director::getInstance(), 2));
+	MenuItemImage *resume = MenuItemImage::create("buttons/menubuttons/resume.png","buttons/menubuttons/resume.png", CC_CALLBACK_0(Director::replaceScene, Director::getInstance(), LevelSelect::createSceneWithLevel(1)));
 	retry->setPosition(200, 200);
 	resume->setPosition(1720, 200);
 	Menu *m = Menu::create(retry,resume,NULL);
@@ -91,7 +92,7 @@ void LevelGameOver::addFail()
 	lbl->setPosition(960, 580);
 
 	MenuItemImage *retry = MenuItemImage::create("buttons/menubuttons/restart.png", "buttons/menubuttons/restart.png", CC_CALLBACK_0(Director::popScene, Director::getInstance()));
-	MenuItemImage *quit = MenuItemImage::create("buttons/menubuttons/backtomenu.png", "buttons/menubuttons/backtomenu.png", CC_CALLBACK_0(Director::popToSceneStackLevel, Director::getInstance(), 2));
+	MenuItemImage *quit = MenuItemImage::create("buttons/menubuttons/backtomenu.png", "buttons/menubuttons/backtomenu.png", CC_CALLBACK_0(LevelGameOver::backToMenu, this));
 	retry->setPosition(1720, 200);
 	quit->setPosition(200, 200);
 	Menu *m = Menu::create(retry, quit, NULL);
@@ -100,4 +101,10 @@ void LevelGameOver::addFail()
 	this->addChild(bg);
 	this->addChild(lbl);
 	this->addChild(m);
+}
+
+void LevelGameOver::backToMenu()
+{
+	Director::getInstance()->popScene();
+	Director::getInstance()->replaceScene(LevelSelect::createSceneWithLevel(1));
 }
