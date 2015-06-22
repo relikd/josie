@@ -119,17 +119,17 @@ bool CollisionLayer::getCollision(CollisionLayer* other) {
 		computeAxes();
 		other->computeAxes();
 		if (overlaps1Way(other) && other->overlaps1Way(this)) {
-			other->hitByOther(this); // tell the other part it is hit
+			other->hitByCollision(this); // tell the other part it is hit
+			this->hitByCollision(other);
 			return true;
 		}
 	}
 	return false;
 }
 
-void CollisionLayer::hitByOther(CollisionLayer* other)
+void CollisionLayer::hitByCollision(CollisionLayer* other)
 {
 	// override method
-	CCLOG("Collision type (%d) hit by generic other type (%d)", this->collisionType, other->collisionType);
 }
 
 //

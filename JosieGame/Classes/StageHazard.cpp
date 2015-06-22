@@ -1,12 +1,12 @@
 #include "StageHazard.h"
 
 StageHazard::StageHazard() {
-	_target = nullptr;
 	collisionType = CollisionLayerTypeStageHazard;
 }
 StageHazard::~StageHazard() {}
 
-StageHazard* StageHazard::createAt(Vec2 position) {
+StageHazard* StageHazard::createAt(Vec2 position)
+{
 	StageHazard* other = new StageHazard();
 
 	if (other->initCollisionSize(72, 72)) {
@@ -15,24 +15,23 @@ StageHazard* StageHazard::createAt(Vec2 position) {
 		other->setPosition(position);
 		other->insertImageName("particles/EvilFruit00.png", other->getContentSize() / 2);
 		other->fallDown();
-		other->scheduleUpdate();
 	}
 	return other;
 }
 
-void StageHazard::fallDown() {
-	this->setPosition(_initialPosition);
-
+void StageHazard::fallDown()
+{
+	this->stopAllActions();
 	float movespeed = 1.5f/(1080/_initialPosition.y);
 	DelayTime* wait = DelayTime::create(0.7f);
-	MoveTo * fall = MoveTo::create(movespeed, Vec2(_initialPosition.x, -10));
-	this->stopAllActions();
-	this->runAction(Sequence::createWithTwoActions(wait,fall));
+	MoveTo* fall = MoveTo::create(movespeed, Vec2(_initialPosition.x, -10));
+	CallFuncN *placeBack = CallFuncN::create(CC_CALLBACK_0(Node::setPositionY, this, _initialPosition.y));
+	this->runAction(RepeatForever::create(Sequence::create(placeBack,wait,fall, nullptr)));
 }
 
-void StageHazard::update(float dt)
+void StageHazard::hitByCollision(CollisionLayer* other)
 {
-	if ((this->getPosition().y < 0) | this->getCollision(_target)) {
+	if (other->collisionType == CollisionLayerTypeLevelPlayer) {
 		this->fallDown();
 	}
 }
