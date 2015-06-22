@@ -30,6 +30,9 @@ private:
 	cocos2d::MenuItemImage *_stay;
 	cocos2d::MenuItemImage *_slide;
 	cocos2d::MenuItemImage *_jump;
+	
+	void addKeyboardListener();
+	bool _key_stay, _key_slide, _key_jump;
 };
 
 #endif /* LEVELHUD_H_ */

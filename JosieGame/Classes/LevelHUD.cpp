@@ -11,6 +11,10 @@ LevelHUD::LevelHUD() {
 	_stay = nullptr;
 	_slide = nullptr;
 	_jump = nullptr;
+	
+	_key_stay = false;
+	_key_jump = false;
+	_key_slide = false;
 }
 LevelHUD::~LevelHUD() {
 	CCLOG("~LevelHUD");
@@ -28,8 +32,44 @@ LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
 	hud->addChild(PauseScreen::createPauseButton(winSize.width-20, winSize.height-100));
 
 	hud->scheduleUpdate();
+	hud->addKeyboardListener();
 
 	return hud;
+}
+
+void LevelHUD::addKeyboardListener()
+{
+	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
+	EventListenerKeyboard *ek = EventListenerKeyboard::create();
+	ek->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event){
+		switch (keyCode) {
+			case EventKeyboard::KeyCode::KEY_SPACE:
+			case EventKeyboard::KeyCode::KEY_O:
+				_key_jump = true; break;
+			case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+			case EventKeyboard::KeyCode::KEY_K:
+				_key_slide = true; break;
+			case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			case EventKeyboard::KeyCode::KEY_S:
+				_key_stay = true;
+			default: break;
+		}
+	};
+	ek->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event){
+		switch (keyCode) {
+			case EventKeyboard::KeyCode::KEY_SPACE:
+			case EventKeyboard::KeyCode::KEY_O:
+				_key_jump = false; break;
+			case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+			case EventKeyboard::KeyCode::KEY_K:
+				_key_slide = false; break;
+			case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			case EventKeyboard::KeyCode::KEY_S:
+				_key_stay = false;
+			default: break;
+		}
+	};
+	ed->addEventListenerWithSceneGraphPriority(ek, this);
 }
 
 
@@ -124,17 +164,17 @@ void LevelHUD::update(float dt)
 
 	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
 
-	if (_slide->isSelected())
+	if (_key_slide || _slide->isSelected())
 		ed->dispatchCustomEvent("LEVEL_PLAYER_SLIDE_1");
 	else
 		ed->dispatchCustomEvent("LEVEL_PLAYER_SLIDE_0");
 
-	if (_stay->isSelected())
+	if (_key_stay || _stay->isSelected())
 		ed->dispatchCustomEvent("LEVEL_PLAYER_RUN_0");
 	else
 		ed->dispatchCustomEvent("LEVEL_PLAYER_RUN_1");
 
-	if (_jump->isSelected())
+	if (_key_jump || _jump->isSelected())
 		ed->dispatchCustomEvent("LEVEL_PLAYER_JUMP_1");
 	else
 		ed->dispatchCustomEvent("LEVEL_PLAYER_JUMP_0");

@@ -30,6 +30,9 @@ private:
 	cocos2d::MenuItemImage *_left;
 	cocos2d::MenuItemImage *_right;
 	cocos2d::MenuItemImage *_shoot;
+	
+	void addKeyboardListener();
+	bool _key_left, _key_right, _key_shoot;
 };
 
 #endif /* BOSSLEVELHUD_H_ */
