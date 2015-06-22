@@ -13,7 +13,8 @@
 USING_NS_CC;
 
 Cutscene::Cutscene() {
-_cutscene_number = 0;
+	_cutscene_number = 0;
+	_will_be_destroyed = false;
 }
 Cutscene::~Cutscene() {
 
@@ -288,6 +289,8 @@ void Cutscene::speech4(Ref* pSender){
 
 
 void Cutscene::startlvl(Ref* pSender, int level, int sublevel) {
+	if (_will_be_destroyed) return;
+	_will_be_destroyed = true;
 	auto levelxx = Level::initWithLevel(level, sublevel);
 	Director::getInstance()->replaceScene(levelxx);
 }

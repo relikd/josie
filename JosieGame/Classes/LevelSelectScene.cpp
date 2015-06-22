@@ -6,7 +6,7 @@
 
 using namespace cocos2d;
 
-LevelSelect::LevelSelect() : _level(0) {}
+LevelSelect::LevelSelect() : _level(0), _will_be_destroyed(false) {}
 
 LevelSelect::~LevelSelect() {
 	CCLOG("~SelectScreen");
@@ -24,6 +24,9 @@ LevelSelect* LevelSelect::createSceneWithLevel(int level)
 }
 
 void LevelSelect::startLevel(int sublevel) {
+	if (_will_be_destroyed) return;
+	_will_be_destroyed = true;
+	
 	if (sublevel == 0) {
 		ShopScene *shop = ShopScene::initShop();
 		Director::getInstance()->replaceScene(shop);
@@ -40,6 +43,9 @@ void LevelSelect::startLevel(int sublevel) {
 
 void LevelSelect::startRandomLevel()
 {
+	if (_will_be_destroyed) return;
+	_will_be_destroyed = true;
+	
 	Level *rnd = Level::initWithLevel(0, 1);
 	Director::getInstance()->replaceScene(rnd);
 }
