@@ -27,6 +27,7 @@ private:
 	void checkBossHit();
 
 	void battleEndedWon(bool won);
+	void backToMenu();
 	void bossAttack();
 
 	BossLevelHUD* _hud;

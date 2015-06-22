@@ -289,8 +289,7 @@ void Cutscene::speech4(Ref* pSender){
 
 void Cutscene::startlvl(Ref* pSender, int level, int sublevel) {
 	auto levelxx = Level::initWithLevel(level, sublevel);
-	Director::getInstance()->popScene();
-	Director::getInstance()->pushScene(levelxx);
+	Director::getInstance()->replaceScene(levelxx);
 }
 
 

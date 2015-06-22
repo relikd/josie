@@ -14,6 +14,7 @@ public:
 private:
 	void addSuccess(int coins, int max_coins, float time);
 	void addFail();
+	void backToMenu();
 };
 
 #endif /* LEVELGAMEOVER_H_ */
