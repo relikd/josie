@@ -42,6 +42,7 @@ public:
 	virtual ~Cutscene();
 private:
 	int _cutscene_number;
+	bool _will_be_destroyed;
 };
 
 #endif /* CUTSCENE_H_ */

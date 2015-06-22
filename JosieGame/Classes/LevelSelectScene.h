@@ -16,6 +16,7 @@ public:
 	void startRandomLevel();
 private:
 	int _level;
+	bool _will_be_destroyed;
 };
 
 
