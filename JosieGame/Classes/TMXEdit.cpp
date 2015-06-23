@@ -61,7 +61,7 @@ void TMXEdit::fillLevel() {
 	int width = map->getMapSize().width;
 	int x = 20;
 	int height = 13;
-	while (x < width - (38 + 2 * PARTLENGTH)) {
+	while (x < width - (46 + 2 * PARTLENGTH)) {
 
 		switch (arc4random() % 10) {
 		case 0:
