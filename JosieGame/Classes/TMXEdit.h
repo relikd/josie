@@ -18,7 +18,7 @@ class TMXEdit {
 public:
 	TMXEdit();
 	virtual ~TMXEdit();
-	static MapController* makeMap();
+	static MapController* makeMap(int difficulty);
 	void getLayers();
 	void fillLevel();
 	void placeGround(int x, int y);
@@ -29,10 +29,11 @@ public:
 	int makeSlide(int x, int height);
 	int makeSpikeSlide(int x, int height);
 	int makeJumpAndSlide(int x,int height);
-	int FloatingPlatform(int x,int height);
+	int makeWater(int x, int height);
+	int FloatingPlatform(int x,int height, int length);
 	int placeGroundLength(int x, int height, int length);
 	void placeHazards(int distance);
-	void placeCoins(int distance);
+	void placeCoins(int number);
 	int isSafe(int x);
 	int getHighestTile(int x);
 	int checkSurroundings(int x,int y);
@@ -45,6 +46,15 @@ private:
 	TMXLayer* _backgroundLayer;
 	TMXLayer* _metaLayer;
 	TMXLayer* _foregroundLayer;
+
+	int _partlength;
+	int _minheight;
+	int _maxheight;
+	int _coinheight;
+	int _hazardDistanceMin;
+	int _coins;
+	int _minJumpDistance;
+	int _maxJumpDistance;
 };
 
 
