@@ -243,7 +243,7 @@ int TMXEdit::makeJumpAndSlide(int x, int height) {
 	x += 2;
 	int dif = 4 + arc4random() % 2;
 	int length = 5 + arc4random() % 3;
-	FloatingPlatform(x+1, height-dif, length -2);
+	FloatingPlatform(x+2, height-dif, length -3);
 	x= FloatingPlatform(x,height-2,length);
 	return x + _minJumpDistance + arc4random()%_maxJumpDistance;
 
