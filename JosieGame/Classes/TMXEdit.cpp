@@ -86,8 +86,8 @@ void TMXEdit::fillLevel() {
 		case 1:
 
 			x = makeJumpAndSlide(x, height);
+			x = placeGroundLength(x, height, 2 + arc4random() % 5);
 			break;
-
 		case 2:
 			x = makeThornField(x, height);
 			break;
@@ -355,8 +355,9 @@ int TMXEdit::checkSurroundings(int x, int y) {
 			&& _backgroundLayer->getTileGIDAt(Vec2(x + 1, y)) == 0
 			&& _backgroundLayer->getTileGIDAt(Vec2(x - 1, y+_coinheight-1)) == 0
 			&& _backgroundLayer->getTileGIDAt(Vec2(x - 2, y+_coinheight-1)) == 0
-			&& _backgroundLayer->getTileGIDAt(Vec2(x + 1, y+_coinheight-1)) == 0)
-		return 1;
+			&& _backgroundLayer->getTileGIDAt(Vec2(x + 1, y+_coinheight-1)) == 0
+			&& _backgroundLayer->getTileGIDAt(Vec2(x + 1, y-1)) == 0)
+				return 1;
 	return -1;
 }
 
