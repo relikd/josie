@@ -61,7 +61,7 @@ void Level::createUI(int lvl, int sublvl)
 
 	// Map Controller
 	if (lvl == 0)
-		mapManager = TMXEdit::makeMap();
+		mapManager = TMXEdit::makeMap(3);
 	else
 		mapManager = MapController::initWithLevel(lvl, sublvl);
 	
