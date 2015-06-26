@@ -4,10 +4,14 @@
 \BOOKMARK [1][-]{section.1.3}{Vorgehen}{chapter.1}% 4
 \BOOKMARK [1][-]{section.1.4}{Dokumentationsstruktur}{chapter.1}% 5
 \BOOKMARK [0][-]{chapter.2}{Grundlagen}{}% 6
-\BOOKMARK [0][-]{chapter.3}{Architektur}{}% 7
-\BOOKMARK [0][-]{chapter.4}{Implementierung}{}% 8
-\BOOKMARK [0][-]{chapter.5}{Evaluierung}{}% 9
-\BOOKMARK [0][-]{chapter.6}{Fazit und Ausblick}{}% 10
-\BOOKMARK [0][-]{chapter.7}{Anhang A}{}% 11
-\BOOKMARK [0][-]{chapter*.4}{Verzeichnisse}{}% 12
-\BOOKMARK [0][-]{chapter*.5}{Literatur}{}% 13
+\BOOKMARK [1][-]{section.2.1}{Framework}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.2}{IDE und Plugins}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.3}{Was sind Sprites?}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.4}{Was ist eine TileMap?}{chapter.2}% 10
+\BOOKMARK [0][-]{chapter.3}{Architektur}{}% 11
+\BOOKMARK [0][-]{chapter.4}{Implementierung}{}% 12
+\BOOKMARK [0][-]{chapter.5}{Evaluierung}{}% 13
+\BOOKMARK [0][-]{chapter.6}{Fazit und Ausblick}{}% 14
+\BOOKMARK [0][-]{chapter.7}{Anhang A}{}% 15
+\BOOKMARK [0][-]{chapter*.4}{Verzeichnisse}{}% 16
+\BOOKMARK [0][-]{chapter*.5}{Literatur}{}% 17
