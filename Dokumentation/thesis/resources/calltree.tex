@@ -1,0 +1,46 @@
+\begin{tikzpicture}[node distance=0.8cm]
+
+\shortnode{AppDelegate}{classobject}
+\shortnode{MainMenuScene}{scene, right=of AppDelegate}
+\shortnode{TutorialScene}{scene, right=of MainMenuScene}
+\shortnode{OptionScreen}{layer, above=of TutorialScene}
+\shortnode{LevelSelectScene}{scene, below=of MainMenuScene}
+\shortnode{Cutscene}{scene, below=of LevelSelectScene}
+\shortnode{TMXEdit}{classobject, left=1.5cm of Cutscene}
+\shortnode{ShopScene}{scene, right=1.5cm of Cutscene}
+
+\shortnode{LevelPlayer}{classobject, below=1.5cm of TMXEdit}
+\shortnode{Level}{scene, right=of LevelPlayer}
+\shortnode{LevelHUD}{layer, below=of Level}
+\shortnode{StageHazard}{classobject, left=of LevelHUD}
+\shortnode{MapController}{classobject, below=of StageHazard}
+\shortnode{BossLevel}{scene, below=1.5cm of ShopScene}
+\shortnode{BossPlayer}{classobject, right=of BossLevel}
+\shortnode{BossLevelHUD}{layer, below=of BossLevel}
+\shortnode{Projectile}{classobject, right=of BossLevelHUD}
+\shortnode{PauseScreen}{layer, right=3.5cm of MapController}
+\shortnode{LevelGameOver}{scene, below=1cm of MapController}
+
+\shortnode{AudioUnit}{static, right=5cm of LevelGameOver}
+\shortnode{GameStateManager}{static, right=1.5cm of AudioUnit, text width=4.2cm}
+
+% draw lines
+\draw[line] (AppDelegate.west) ++(-2,0) |- (AppDelegate.west);
+\draw[line] (AppDelegate.east) |- (MainMenuScene.west);
+\draw[line] (MainMenuScene.north) ++(0.8,0) |- (OptionScreen.west);
+\draw[line] (MainMenuScene.east) |- (TutorialScene.west);
+\draw[line] (MainMenuScene.south) -| (LevelSelectScene.north);
+\draw[line] (LevelSelectScene.west) -| (TMXEdit.north);
+\draw[line] (LevelSelectScene.south) -| (Cutscene.north);
+\draw[line] (LevelSelectScene.east) -| (ShopScene.north);
+\draw[line] (TMXEdit.south) -- ++(0,-0.5) -| ([xshift=-1cm]Level.north);
+\draw[line] (Cutscene.south) -| (Level.north -| Cutscene.north);
+\draw[line] ([xshift=1cm]ShopScene.south) -| ([xshift=1cm]BossLevel.north);
+\draw[line, dotted] (TMXEdit.west) -- ++(-0.9,0) |- (MapController.west);
+\draw[line, dashed] (LevelSelectScene.south -| Level.north) ++(-0.3,0) -| ([xshift=-0.3cm]Level.north);
+\draw[line] (MapController.south -| MapController.east) ++(0.5,-0.2) -- ++(0,-0.3) -| (LevelGameOver.north);
+
+\mybackground{LevelPlayer}{LevelPlayer}{LevelHUD}{PauseScreen}{Level Scene}
+\mybackground{BossLevel}{BossLevel}{Projectile}{PauseScreen}{BossLevel Scene}
+
+\end{tikzpicture}

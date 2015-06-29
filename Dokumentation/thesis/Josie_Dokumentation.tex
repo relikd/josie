@@ -192,6 +192,46 @@ columns=fullflexible, %
 }
 
 
+%%%%%%%%%%%%%%%%%%%
+%% Klassendiagramme, etc.
+%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,shadows,arrows}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+% Draw background
+\newcommand{\mybackground}[5]{
+  \begin{pgfonlayer}{background}
+    \path (#1.west |- #2.north)+(-0.5,0.5) node (a1) {};
+    \path (#3.east |- #4.south)+(+0.5,-0.25) node (a2) {};
+    \path[fill=yellow!20,rounded corners, draw=black!50, dashed] (a1) rectangle (a2);
+    \path (a1.east |- a1.south)+(1.5,-0.3) node (u1)[above, text width=8em] {#5};
+  \end{pgfonlayer}}
+
+\newcommand{\shortnode}[2]{
+\node (#1) [#2]{
+	\textbf{#1}};}
+
+\tikzstyle{classobject}=[rectangle, draw=black, rounded corners, fill=blue!40, drop shadow,
+        text centered, anchor=north, text=black, text width=9em]
+\tikzstyle{scene}=[classobject, fill=red!40]
+\tikzstyle{layer}=[classobject, fill=yellow]
+\tikzstyle{static}=[classobject, fill=gray, text=white]
+\tikzstyle{cocosclass}=[classobject, fill=lightgray]
+\tikzstyle{line}=[thick,->,>=triangle 45]
+\tikzstyle{subclassLine}=[thick,->,>=open triangle 90]
+
+%%%%%%%%%%%%%%%%%%%
+%% unsere LaTeX shortcuts
+%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\notebox}[1]{
+\colorbox{black!10}{\begin{minipage}{\textwidth}
+#1
+\end{minipage}}}
 
 \begin{document}
 
