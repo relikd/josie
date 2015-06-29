@@ -58,7 +58,7 @@ void LevelSelect::startRandomLevel()
 	if (_will_be_destroyed) return;
 	_will_be_destroyed = true;
 	
-	Level *rnd = Level::initWithLevelAndDifficulty(0, 1,_random_difficulty);
+	Level *rnd = Level::initWithRandomLevel(_random_difficulty);
 	Director::getInstance()->replaceScene(rnd);
 }
 

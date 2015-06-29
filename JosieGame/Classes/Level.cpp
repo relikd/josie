@@ -32,23 +32,22 @@ Level* Level::initWithLevel(int level, int sublevel) {
 
 	l->_level = level;
 	l->_sublevel = sublevel;
-	AudioUnit::startBackgroundLevel();
-	l->createUI(level, sublevel);
-	l->startAfterDelay(2.0);
+	l->mapManager = MapController::initWithLevel(level, sublevel);
+	
+	l->createUI();
 
 	return l;
 }
 
-Level* Level::initWithLevelAndDifficulty(int level, int sublevel, int difficulty) {
+Level* Level::initWithRandomLevel(int difficulty) {
 	Level *l = new Level();
 	l->autorelease();
 
-	l->_level = level;
-	l->_sublevel = sublevel;
-	l->_rnd_diff = difficulty;
-	AudioUnit::startBackgroundLevel();
-	l->createUI(level, sublevel);
-	l->startAfterDelay(2.0);
+	l->_level = 0;
+	l->_sublevel = 1;
+	l->mapManager = TMXEdit::makeMap(difficulty);
+	
+	l->createUI();
 
 	return l;
 }
@@ -61,8 +60,9 @@ void Level::unscheduleHUD() { hud->unscheduleUpdate(); }
 // Create the UI
 //
 
-void Level::createUI(int lvl, int sublvl)
+void Level::createUI()
 {
+	AudioUnit::startBackgroundLevel();
 	
 	//Add blueScreen
 	LayerColor* blueScreen = LayerColor::create(Color4B(97,154,196,255));
@@ -70,15 +70,9 @@ void Level::createUI(int lvl, int sublvl)
 	
 	// Background Image
 	std::ostringstream bg_str;
-	bg_str << "backgrounds/bg_" << lvl << "." << sublvl << ".png";
+	bg_str << "backgrounds/bg_" << _level << "." << _sublevel << ".png";
 	Sprite *background = Sprite::create(bg_str.str());
 	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-
-	// Map Controller
-	if (lvl == 0)
-		mapManager = TMXEdit::makeMap(_rnd_diff);
-	else
-		mapManager = MapController::initWithLevel(lvl, sublvl);
 	
 	//Add Player
 	_player = LevelPlayer::initWithLevel(this);
@@ -89,14 +83,18 @@ void Level::createUI(int lvl, int sublvl)
 	mapManager->addChild(_player);
 
 
-	char levelName[12];
-	sprintf(levelName, "Level %d.%d", lvl, sublvl);
+	char levelName[12] = "Random";
+	if (_level > 0) {
+		sprintf(levelName, "Level %d.%d", _level, _sublevel);
+	}
 	hud = LevelHUD::initWithLevelName(levelName);
 	hud->setCoins(0, _maxCoins);
 
 	this->addChild(background);
 	this->addChild(mapManager);
 	this->addChild(hud);
+	
+	this->startAfterDelay(2.0);
 }
 
 void Level::startAfterDelay(float delay)
