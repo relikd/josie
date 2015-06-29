@@ -84,24 +84,16 @@
 		54730CA81B369F8000C2C9F7 /* boss_sprites in Resources */ = {isa = PBXBuildFile; fileRef = 54730C971B369F8000C2C9F7 /* boss_sprites */; };
 		54730CA91B369F8000C2C9F7 /* buttons in Resources */ = {isa = PBXBuildFile; fileRef = 54730C981B369F8000C2C9F7 /* buttons */; };
 		54730CAA1B369F8000C2C9F7 /* buttons in Resources */ = {isa = PBXBuildFile; fileRef = 54730C981B369F8000C2C9F7 /* buttons */; };
-		54730CAB1B369F8000C2C9F7 /* collisions in Resources */ = {isa = PBXBuildFile; fileRef = 54730C991B369F8000C2C9F7 /* collisions */; };
-		54730CAC1B369F8000C2C9F7 /* collisions in Resources */ = {isa = PBXBuildFile; fileRef = 54730C991B369F8000C2C9F7 /* collisions */; };
 		54730CAD1B369F8000C2C9F7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9A1B369F8000C2C9F7 /* fonts */; };
 		54730CAE1B369F8000C2C9F7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9A1B369F8000C2C9F7 /* fonts */; };
 		54730CAF1B369F8000C2C9F7 /* josie in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9B1B369F8000C2C9F7 /* josie */; };
 		54730CB01B369F8000C2C9F7 /* josie in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9B1B369F8000C2C9F7 /* josie */; };
-		54730CB11B369F8000C2C9F7 /* josielogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9C1B369F8000C2C9F7 /* josielogo.png */; };
-		54730CB21B369F8000C2C9F7 /* josielogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9C1B369F8000C2C9F7 /* josielogo.png */; };
 		54730CB31B369F8000C2C9F7 /* main_menu_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9D1B369F8000C2C9F7 /* main_menu_logo.png */; };
 		54730CB41B369F8000C2C9F7 /* main_menu_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9D1B369F8000C2C9F7 /* main_menu_logo.png */; };
 		54730CB51B369F8000C2C9F7 /* particles in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9E1B369F8000C2C9F7 /* particles */; };
 		54730CB61B369F8000C2C9F7 /* particles in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9E1B369F8000C2C9F7 /* particles */; };
-		54730CB71B369F8000C2C9F7 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9F1B369F8000C2C9F7 /* res */; };
-		54730CB81B369F8000C2C9F7 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 54730C9F1B369F8000C2C9F7 /* res */; };
 		54730CB91B369F8000C2C9F7 /* testground.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA01B369F8000C2C9F7 /* testground.png */; };
 		54730CBA1B369F8000C2C9F7 /* testground.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA01B369F8000C2C9F7 /* testground.png */; };
-		54730CBB1B369F8000C2C9F7 /* textbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA11B369F8000C2C9F7 /* textbox.png */; };
-		54730CBC1B369F8000C2C9F7 /* textbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA11B369F8000C2C9F7 /* textbox.png */; };
 		54730CBD1B369F8000C2C9F7 /* tilemaps in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA21B369F8000C2C9F7 /* tilemaps */; };
 		54730CBE1B369F8000C2C9F7 /* tilemaps in Resources */ = {isa = PBXBuildFile; fileRef = 54730CA21B369F8000C2C9F7 /* tilemaps */; };
 		549FBA1E1B3715B5000AB253 /* StageHazard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 549FBA1C1B3715B5000AB253 /* StageHazard.cpp */; };
@@ -568,19 +560,15 @@
 				54730CAF1B369F8000C2C9F7 /* josie in Resources */,
 				54730CAD1B369F8000C2C9F7 /* fonts in Resources */,
 				543F496D1B369EEA00D91C11 /* Icon-60.png in Resources */,
-				54730CBB1B369F8000C2C9F7 /* textbox.png in Resources */,
 				54730CA51B369F8000C2C9F7 /* backgrounds in Resources */,
 				54730CB91B369F8000C2C9F7 /* testground.png in Resources */,
 				543F496B1B369EEA00D91C11 /* Default@2x.png in Resources */,
-				54730CB11B369F8000C2C9F7 /* josielogo.png in Resources */,
 				543F496E1B369EEA00D91C11 /* Icon-72.png in Resources */,
 				543F496F1B369EEA00D91C11 /* Icon-76.png in Resources */,
-				54730CB71B369F8000C2C9F7 /* res in Resources */,
 				543F496A1B369EEA00D91C11 /* Default.png in Resources */,
 				54730CB51B369F8000C2C9F7 /* particles in Resources */,
 				54730CA71B369F8000C2C9F7 /* boss_sprites in Resources */,
 				543F49691B369EEA00D91C11 /* Default-568h@2x.png in Resources */,
-				54730CAB1B369F8000C2C9F7 /* collisions in Resources */,
 				543F496C1B369EEA00D91C11 /* Icon-57.png in Resources */,
 				54730CB31B369F8000C2C9F7 /* main_menu_logo.png in Resources */,
 				54730CBD1B369F8000C2C9F7 /* tilemaps in Resources */,
@@ -592,19 +580,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54730CB21B369F8000C2C9F7 /* josielogo.png in Resources */,
 				54730CBE1B369F8000C2C9F7 /* tilemaps in Resources */,
 				54730CA81B369F8000C2C9F7 /* boss_sprites in Resources */,
 				54730CBA1B369F8000C2C9F7 /* testground.png in Resources */,
 				54730CB41B369F8000C2C9F7 /* main_menu_logo.png in Resources */,
-				54730CBC1B369F8000C2C9F7 /* textbox.png in Resources */,
 				54730CAA1B369F8000C2C9F7 /* buttons in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				54730CAE1B369F8000C2C9F7 /* fonts in Resources */,
 				54730CB61B369F8000C2C9F7 /* particles in Resources */,
-				54730CAC1B369F8000C2C9F7 /* collisions in Resources */,
 				54730CA61B369F8000C2C9F7 /* backgrounds in Resources */,
-				54730CB81B369F8000C2C9F7 /* res in Resources */,
 				54730CA41B369F8000C2C9F7 /* audio in Resources */,
 				54730CB01B369F8000C2C9F7 /* josie in Resources */,
 			);
