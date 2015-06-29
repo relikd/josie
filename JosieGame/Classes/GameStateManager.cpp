@@ -102,7 +102,7 @@ void GameStateManager::updateTimeForLevel(int level, int sublevel, int time) {
 	int old_time = getTimeForLevel(level, sublevel);
 	if (time > 255)
 		time = 255;
-	if (old_time < 0)
+	if (old_time <= 0)
 		old_time = 999;
 	if (time <= old_time)
 		setTimeForLevel(level, sublevel, time);

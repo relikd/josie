@@ -37,7 +37,7 @@ bool MainMenu::init()
 	LayerColor* blueScreen = LayerColor::create(Color4B(97,154,196,255));
 	this->addChild(blueScreen);
 	
-    Sprite* background = Sprite::create("backgrounds/bg_mountain72dpi.png");
+    Sprite* background = Sprite::create("backgrounds/bg_0.1.png");
 	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	background->setPosition(Vec2(0, 0));
     this->addChild(background, 0);
