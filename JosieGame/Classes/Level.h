@@ -13,6 +13,7 @@ public:
 	Level();
 	~Level();
 	static Level* initWithLevel(int level, int sublevel);
+	static Level* initWithLevelAndDifficulty(int level, int sublevel,int difficulty);
 
 	void scheduleHUD();
 	void unscheduleHUD();
@@ -28,6 +29,7 @@ private:
 	int _maxCoins;
 	int _level;
 	int _sublevel;
+	int _rnd_diff;
 	LevelPlayer* _player;
 	LevelHUD *hud;
 	void createUI(int lvl, int sublvl);

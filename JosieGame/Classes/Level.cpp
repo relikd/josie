@@ -5,6 +5,7 @@
 #include "LevelHUD.h"
 #include "LevelPlayer.h"
 #include "LevelGameOver.h"
+#include "LevelSelectScene.h"
 #include "GameStateManager.h"
 
 using namespace cocos2d;
@@ -38,6 +39,20 @@ Level* Level::initWithLevel(int level, int sublevel) {
 	return l;
 }
 
+Level* Level::initWithLevelAndDifficulty(int level, int sublevel, int difficulty) {
+	Level *l = new Level();
+	l->autorelease();
+
+	l->_level = level;
+	l->_sublevel = sublevel;
+	l->_rnd_diff = difficulty;
+	AudioUnit::startBackgroundLevel();
+	l->createUI(level, sublevel);
+	l->startAfterDelay(2.0);
+
+	return l;
+}
+
 void Level::scheduleHUD() { hud->scheduleUpdate(); }
 void Level::unscheduleHUD() { hud->unscheduleUpdate(); }
 
@@ -61,7 +76,7 @@ void Level::createUI(int lvl, int sublvl)
 
 	// Map Controller
 	if (lvl == 0)
-		mapManager = TMXEdit::makeMap(3);
+		mapManager = TMXEdit::makeMap(_rnd_diff);
 	else
 		mapManager = MapController::initWithLevel(lvl, sublvl);
 	
