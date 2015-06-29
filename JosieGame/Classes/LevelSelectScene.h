@@ -14,9 +14,13 @@ public:
 
 	void startLevel(int sublevel);
 	void startRandomLevel();
+	void setRandomDifficulty();
+
 private:
 	int _level;
+	int _random_difficulty;
 	bool _will_be_destroyed;
+
 };
 
 
