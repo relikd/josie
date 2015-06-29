@@ -148,6 +148,7 @@ void GameStateManager::setIntForLevel(const char* attribute, int level, int subl
 	if (lvl_index < 0)
 		return; // auto generated level -> -4
 	if (lvl_index >= str.length()) {
+		str.resize(lvl_index);
 		for (int i = 0; i <= lvl_index; i++) {
 			if (str[i] == 0)
 				str[i] = 1;
