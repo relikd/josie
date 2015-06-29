@@ -31,7 +31,7 @@ Auch der \textit{PauseScreen} wird sowohl von der \textit{Level} Scene, als auch
 
 \section{Vererbung}\label{sec:Vererbung}
 
-Wie bereits im \href{sec:Klassenuebersicht}{Vorherigen Kapitel} erwähnt, stammen nicht alle Klassen von \textit{cocos2d::Scene} bzw. \textit{cocos2d::Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \textit{CollisionLayer} Klasse.
+Wie bereits im \href{sec:Klassenuebersicht}{Vorherigen Kapitel} erwähnt, stammen nicht alle Klassen von \textit{cocos2d:: Scene} bzw. \textit{cocos2d::Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \textit{CollisionLayer} Klasse.
 Es wurde bewusst \textit{cocos2d::LayerColor} gewählt um, für Debugging Zwecke, den Kollisions Rahmen anzeigen zu können.
 
 \begin{figure}[h]
@@ -45,20 +45,16 @@ Es wurde bewusst \textit{cocos2d::LayerColor} gewählt um, für Debugging Zwecke
 Die beiden Objekte \textit{Coin} und \textit{BossEnemy} werden direkt in der \textit{CollisionLayer} Klasse bzw. im \textit{BossLevel} erstellt und haben somit keine echte Klassenzugehörigkeit. 
 Der Grund für diese Vererbung liegt auf der Hand, Objekte können unabhängig auf ihre Kollision hin überprüft werden. Die standard Funktionalität der \textit{cocos2d::Rect} Klasse kann zwar eine Kollision erkennen (\textit{-intersectsRect()}), dies funktioniert jedoch nicht mit rotierten Nodes wie es beim Boss Kampf der Fall ist.
 
-
-\mbox{
-\begin{minipage}{\textwidth - 5cm}
+\parbox{\textwidth -5cm}{
 Der \textit{MapController} erweitert die Funktionalität der cocos Klasse um die Erkennung der Kollision zum Boden, der Erkennung von tödlichen Objekten, sowie der Plazierung der Münzen im Level.
-\end{minipage}
-
-\begin{minipage}{5cm}
-\centering
-\begin{tikzpicture}[node distance=0.5cm]
-\shortnode{TMXTiledMap}{cocosclass}
-\shortnode{MapController}{classobject, below=of LayerColor}
-\draw[subclassLine] (MapController.north) -- (TMXTiledMap.south);
-\end{tikzpicture}
-\end{minipage}
+}
+\quad
+\parbox{4cm}{
+	\begin{tikzpicture}[node distance=0.5cm]
+		\shortnode{TMXTiledMap}{cocosclass}
+		\shortnode{MapController}{classobject, below=of TMXTiledMap}
+		\draw[subclassLine] (MapController.north) -- (TMXTiledMap.south);
+	\end{tikzpicture}
 }
 
 Die Klasse \textit{TMXEdit} kommt ohne Eltern Klasse aus, das sie nur für das Generieren des Random Level zuständig ist. Sie holt sich dafür eine Instanz des MapControllers und erstellt zufällige Kartenelemente.
