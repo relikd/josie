@@ -19,10 +19,7 @@ using namespace cocos2d;
 
 
 LevelSelect::LevelSelect() : _level(0), _will_be_destroyed(false), _random_difficulty(0) {}
-
-LevelSelect::~LevelSelect() {
-	CCLOG("~SelectScreen");
-}
+LevelSelect::~LevelSelect() {}
 
 LevelSelect* LevelSelect::createSceneWithLevel(int level)
 {

@@ -16,9 +16,7 @@ LevelHUD::LevelHUD() {
 	_key_jump = false;
 	_key_slide = false;
 }
-LevelHUD::~LevelHUD() {
-	CCLOG("~LevelHUD");
-}
+LevelHUD::~LevelHUD() {}
 
 LevelHUD* LevelHUD::initWithLevelName(const std::string& name)
 {

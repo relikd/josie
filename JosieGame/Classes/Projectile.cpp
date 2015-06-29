@@ -7,9 +7,7 @@ Projectile::Projectile() {
 	_level = nullptr;
 	collisionType = CollisionLayerTypeProjectile;
 }
-Projectile::~Projectile() {
-	CCLOG("~Projectile");
-}
+Projectile::~Projectile() {}
 
 Projectile* Projectile::shoot(Vec2 start_pos, float end_x, BossLevel* level)
 {
