@@ -21,7 +21,6 @@ Level::Level() {
 	AudioUnit::preloadLevelSounds();
 }
 Level::~Level() {
-	CCLOG("~Level");
 	AudioUnit::stopBackground();
 	AudioUnit::unloadLevelSounds();
 }

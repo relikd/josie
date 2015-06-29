@@ -13,7 +13,6 @@ LevelGameOver::LevelGameOver() {
 LevelGameOver::~LevelGameOver() {
 	AudioUnit::resumeBackground();
 	Director::getInstance()->resume();
-	CCLOG("~GameOverScreen");
 }
 
 LevelGameOver* LevelGameOver::createWin(int coins, int max_coins, float time)

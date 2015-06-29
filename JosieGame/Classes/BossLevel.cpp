@@ -21,10 +21,8 @@ BossLevel::BossLevel() {
 	_difficulty = 1;
 	AudioUnit::preloadBossSounds();
 }
-
 BossLevel::~BossLevel() {
 	AudioUnit::unloadBossSounds();
-	CCLOG("~BossLevel");
 }
 
 BossLevel* BossLevel::createBossDifficulty(int difficulty)  // 1 - 10

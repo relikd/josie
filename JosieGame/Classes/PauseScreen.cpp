@@ -7,9 +7,7 @@ using namespace cocos2d;
 
 
 PauseScreen::PauseScreen() : _overlay(nullptr) {}
-PauseScreen::~PauseScreen() {
-	CCLOG("~PauseScreen");
-}
+PauseScreen::~PauseScreen() {}
 
 PauseScreen* PauseScreen::createPauseButton(float x, float y)
 {

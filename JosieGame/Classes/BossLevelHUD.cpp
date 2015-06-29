@@ -19,10 +19,7 @@ BossLevelHUD::BossLevelHUD() {
 	_key_right = false;
 	_key_shoot = false;
 }
-
-BossLevelHUD::~BossLevelHUD() {
-	CCLOG("~BossLevelHUD");
-}
+BossLevelHUD::~BossLevelHUD() {}
 
 BossLevelHUD* BossLevelHUD::initWithBossHealth(float health)
 {

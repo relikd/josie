@@ -15,11 +15,7 @@ ShopScene::ShopScene() {
 	_shopWindow = nullptr;
 	_menu = NULL;
 }
-
-ShopScene::~ShopScene() {
-	//_shopWindow->removeAllChildren();
-	CCLOG("~Shop");
-}
+ShopScene::~ShopScene() {}
 
 ShopScene* ShopScene::initShop()
 {
@@ -61,7 +57,6 @@ void ShopScene::fight()
 {
 	_shopWindow->removeAllChildren();
 	BossLevel *bosslvl = BossLevel::createBossDifficulty(UserDefault::getInstance()->getIntegerForKey("josie_perk_shied"));
-	//Director::getInstance()->pushScene(bosslvl);
 	Director::getInstance()->replaceScene(TransitionFade::create(1.0, bosslvl, Color3B::BLACK));
 }
 

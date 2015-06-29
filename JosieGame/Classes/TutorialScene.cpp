@@ -11,12 +11,9 @@ using namespace cocos2d;
 
 
 TutorialScene::TutorialScene() {
-
 	_move_counter = 0;
 }
-
-TutorialScene::~TutorialScene() {
-}
+TutorialScene::~TutorialScene() {}
 
 TutorialScene* TutorialScene::initTutorial(){
 

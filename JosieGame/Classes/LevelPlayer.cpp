@@ -28,7 +28,6 @@ LevelPlayer::LevelPlayer() {
 }
 LevelPlayer::~LevelPlayer() {
 	registerObserver(false);
-	CCLOG("~Player");
 }
 
 LevelPlayer* LevelPlayer::initWithLevel(Level* level) {

@@ -17,7 +17,6 @@ BossPlayer::BossPlayer() {
 	registerObserver();
 }
 BossPlayer::~BossPlayer() {
-	CCLOG("~PlayerBoss");
 	registerObserver(false);
 }
 
