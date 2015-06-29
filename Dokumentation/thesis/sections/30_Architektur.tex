@@ -1,1 +1,35 @@
 \chapter{Architektur}
+
+Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die MainMenuScene lädt. Dieser Bildschirm dient zum Einen (a) die Optionen aufzurufen, (b) ein kurzes Tutorial zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl.
+Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \textit{Level}, einem automatisch generierten (\textit{TMXEdit}) und dem Boss Kampf (mit vorgeschalteter \textit{ShopScene}).
+
+Wird das Spiel zum Ersten Mal gespielt wird vor dem eigentlichen Level eine \textit{Cutscene} geladen und abgespielt. Im späteren Verlauf wird das Level direkt geladen (gestrichelte Linie).
+Für das automatisch generierte "Random Level" ist die \textit{TMXEdit} Klasse zuständig. Dabei wird der \textit{MapController} mit der generierten Karte gefüllt und anschließend ein "normales" \textit{Level} gestartet.
+
+\begin{figure}[h]
+\scalebox{0.7}{\input{resources/calltree.tex}}
+\caption{Aufruf und Abhängigkeiten der jeweiligen Screens}
+\label{calltree}
+\end{figure}
+
+\notebox{
+	\textbf{Info zur Farbvergabe}: 
+	rote Klassen stammen von der \textit{cocos2d::Scene} Klasse ab.\newline
+	Gelbe Klassen sind \textit{cocos2d::Layer} die über einer anderen Scene eingeblendet werden.\newline
+	Blaue Klassen sind Objekte mit unterschiedlicher Basis-Klasse.\newline
+	Graue Objekte bezeichnen Statische Klassen.
+}
+
+Beim Ende eines Levels wird das \textit{LevelGameOver} angezeigt. Dabei spielt es keine Rolle ob das Level mit Erfolg absolviert wurde oder nicht. Die Übergabe erfolgt über einen Parameter bei der Instanz-Erstellung.
+
+Es sei noch angemerkt, dass die beiden Klassen \textit{AudioUnit} und \textit{GameStateManager} nur statische Funktionen enthalten und somit nie eine Instanz gespeichert wird. Der Aufruf erfolgt an den entsprechenden Stellen.
+Auch der \textit{PauseScreen} wird sowohl von der \textit{Level} Scene, als auch vom \textit{BossLevel} gleichermaßen benutzt und auf der jeweiligen HUD hinzugefügt. Die \textit{LevelHUD} und \textit{BossLevelHUD} steuern außerdem die Bewegungen des \textit{LevelPlayer} bzw. \textit{BossPlayer}.
+
+\begin{figure}[h]
+\begin{center}
+\input{resources/collisionLayerDerive.tex}
+\end{center}
+\caption{Vererbung der CollisionLayer Klasse}
+\label{collision_layer_derive}
+\end{figure}
+

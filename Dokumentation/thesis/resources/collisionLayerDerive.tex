@@ -1,0 +1,16 @@
+\begin{tikzpicture}[node distance=0.8cm]
+
+\shortnode{LayerColor}{cocosclass}
+\shortnode{CollisionLayer}{classobject, below=of LayerColor}
+\node(AuxNode)[below=of CollisionLayer]{};
+\shortnode{LevelPlayer}{classobject, left=1cm of AuxNode}
+\shortnode{BossPlayer}{classobject, right=1cm of AuxNode}
+\shortnode{StageHazard}{classobject, below=of LevelPlayer, xshift=0.8cm}
+\shortnode{Projectile}{classobject, below=of BossPlayer, xshift=-0.8cm}
+
+\draw[subclassLine] (CollisionLayer.north) -- (LayerColor.south);
+\draw[subclassLine] (StageHazard.east) -| (CollisionLayer.south);
+\draw[thick,-] (StageHazard.east) -| (Projectile.west);
+\draw[thick,-] (LevelPlayer.east) -| (BossPlayer.west);
+
+\end{tikzpicture}
