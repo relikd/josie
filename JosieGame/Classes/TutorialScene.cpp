@@ -31,6 +31,9 @@ TutorialScene* TutorialScene::initTutorial(){
 
 void TutorialScene::createTut(){
 
+	LayerColor* blueScreen = LayerColor::create(Color4B(97,154,196,255));
+	this->addChild(blueScreen);
+	
 	Layer* bgs = Layer::create();
 	Sprite* bg1 = Sprite::create("backgrounds/bg_tut1i.png");
 	Sprite* bg2 = Sprite::create("backgrounds/bg_tut2i.png");
@@ -41,9 +44,9 @@ void TutorialScene::createTut(){
 	bg3->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	bg4->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	bg1->setPosition(0,0);
-	bg2->setPosition(2048,1);
-	bg3->setPosition(4096,0);
-	bg4->setPosition(6144,0);
+	bg2->setPosition(bg1->getPositionX()+bg1->getContentSize().width,0);
+	bg3->setPosition(bg2->getPositionX()+bg2->getContentSize().width,0);
+	bg4->setPosition(bg3->getPositionX()+bg3->getContentSize().width,0);
 	bgs->addChild(bg1);
 	bgs->addChild(bg2);
 	bgs->addChild(bg3);
