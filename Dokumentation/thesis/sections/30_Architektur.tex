@@ -1,10 +1,9 @@
 \chapter{Architektur}
 
-Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die MainMenuScene lädt. Dieser Bildschirm dient zum Einen (a) die Optionen aufzurufen, (b) ein kurzes Tutorial zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl.
-Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \textit{Level}, einem automatisch generierten (\textit{TMXEdit}) und dem Boss Kampf (mit vorgeschalteter \textit{ShopScene}).
+\section{Klassenübersicht}\label{sec:Klassenuebersicht}
 
-Wird das Spiel zum Ersten Mal gespielt wird vor dem eigentlichen Level eine \textit{Cutscene} geladen und abgespielt. Im späteren Verlauf wird das Level direkt geladen (gestrichelte Linie).
-Für das automatisch generierte "Random Level" ist die \textit{TMXEdit} Klasse zuständig. Dabei wird der \textit{MapController} mit der generierten Karte gefüllt und anschließend ein "normales" \textit{Level} gestartet.
+Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die \textit{MainMenuScene} lädt. Dieser Bildschirm dient zum Einen (a) die \textit{Optionen} aufzurufen, (b) ein kurzes \textit{Tutorial} zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl (\textit{LevelSelectScene}).
+Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \textit{Level}, einem automatisch generierten (\textit{TMXEdit}) und dem Boss Kampf (mit vorgeschalteter \textit{ShopScene}).
 
 \begin{figure}[h]
 \scalebox{0.7}{\input{resources/calltree.tex}}
@@ -13,17 +12,27 @@ Für das automatisch generierte "Random Level" ist die \textit{TMXEdit} Klasse z
 \end{figure}
 
 \notebox{
-	\textbf{Info zur Farbvergabe}: 
-	rote Klassen stammen von der \textit{cocos2d::Scene} Klasse ab.\newline
-	Gelbe Klassen sind \textit{cocos2d::Layer} die über einer anderen Scene eingeblendet werden.\newline
-	Blaue Klassen sind Objekte mit unterschiedlicher Basis-Klasse.\newline
-	Graue Objekte bezeichnen Statische Klassen.
+	\textbf{Info zur Farbvergabe}: \\
+	Rote Klassen stammen von der \textit{cocos2d::Scene} Klasse ab\\
+	Gelbe Klassen sind \textit{cocos2d::Layer} die über einer Scene eingeblendet werden\\
+	Blaue Klassen sind Objekte mit unterschiedlicher Basis-Klasse (siehe Kapitel \ref{sec:Vererbung})\\
+	Graue Objekte bezeichnen Statische Klassen
 }
+
+Wird das Spiel zum Ersten Mal gespielt wird vor dem eigentlichen Level eine \textit{Cutscene} geladen und abgespielt. Im späteren Verlauf wird das Level direkt geladen (gestrichelte Linie).
+Für das automatisch generierte "Random Level" ist die \textit{TMXEdit} Klasse zuständig. Dabei wird der \textit{MapController} mit der generierten Karte gefüllt und anschließend ein "normales" \textit{Level} gestartet.
 
 Beim Ende eines Levels wird das \textit{LevelGameOver} angezeigt. Dabei spielt es keine Rolle ob das Level mit Erfolg absolviert wurde oder nicht. Die Übergabe erfolgt über einen Parameter bei der Instanz-Erstellung.
 
 Es sei noch angemerkt, dass die beiden Klassen \textit{AudioUnit} und \textit{GameStateManager} nur statische Funktionen enthalten und somit nie eine Instanz gespeichert wird. Der Aufruf erfolgt an den entsprechenden Stellen.
 Auch der \textit{PauseScreen} wird sowohl von der \textit{Level} Scene, als auch vom \textit{BossLevel} gleichermaßen benutzt und auf der jeweiligen HUD hinzugefügt. Die \textit{LevelHUD} und \textit{BossLevelHUD} steuern außerdem die Bewegungen des \textit{LevelPlayer} bzw. \textit{BossPlayer}.
+
+
+
+\section{Vererbung}\label{sec:Vererbung}
+
+Wie bereits im \href{sec:Klassenuebersicht}{Vorherigen Kapitel} erwähnt, stammen nicht alle Klassen von \textit{cocos2d::Scene} bzw. \textit{cocos2d::Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \textit{CollisionLayer} Klasse.
+Es wurde bewusst \textit{cocos2d::LayerColor} gewählt um, für Debugging Zwecke, den Kollisions Rahmen anzeigen zu können.
 
 \begin{figure}[h]
 \begin{center}
@@ -32,4 +41,34 @@ Auch der \textit{PauseScreen} wird sowohl von der \textit{Level} Scene, als auch
 \caption{Vererbung der CollisionLayer Klasse}
 \label{collision_layer_derive}
 \end{figure}
+
+Die beiden Objekte \textit{Coin} und \textit{BossEnemy} werden direkt in der \textit{CollisionLayer} Klasse bzw. im \textit{BossLevel} erstellt und haben somit keine echte Klassenzugehörigkeit. 
+Der Grund für diese Vererbung liegt auf der Hand, Objekte können unabhängig auf ihre Kollision hin überprüft werden. Die standard Funktionalität der \textit{cocos2d::Rect} Klasse kann zwar eine Kollision erkennen (\textit{-intersectsRect()}), dies funktioniert jedoch nicht mit rotierten Nodes wie es beim Boss Kampf der Fall ist.
+
+
+\mbox{
+\begin{minipage}{\textwidth - 5cm}
+Der \textit{MapController} erweitert die Funktionalität der cocos Klasse um die Erkennung der Kollision zum Boden, der Erkennung von tödlichen Objekten, sowie der Plazierung der Münzen im Level.
+\end{minipage}
+
+\begin{minipage}{5cm}
+\centering
+\begin{tikzpicture}[node distance=0.5cm]
+\shortnode{TMXTiledMap}{cocosclass}
+\shortnode{MapController}{classobject, below=of LayerColor}
+\draw[subclassLine] (MapController.north) -- (TMXTiledMap.south);
+\end{tikzpicture}
+\end{minipage}
+}
+
+Die Klasse \textit{TMXEdit} kommt ohne Eltern Klasse aus, das sie nur für das Generieren des Random Level zuständig ist. Sie holt sich dafür eine Instanz des MapControllers und erstellt zufällige Kartenelemente.
+
+
+
+\section{Speichersystem}\label{sec:Speichersystem}
+
+Bei der Speicherung des App Zustandes, also der Einstellungen und des Spielstandes, haben wir uns für die \textit{cocos2d::UserDefault} entschieden. Der Zugriff erfolgt einfach und es benötigt keiner speziellen zusätzlichen Klassen oder 3rd Party Libraries. Die Münzen und die benötigte Zeit für die Level werden codiert in zwei Strings gespeichert. Dabei gibt das Byte an der x. Stelle die Münzen/Zeit für das Level x wieder. Jede Dauer die darüber hinausgeht, wird mit der Maximalzeit von 255 Sekunden, also 4:15 Min gespeichert.
+
+Die Hintergründe und Level Karten liegen einer bestimmten Struktur zugrunde. Wenn beispielsweise das Level 1.2 aufgerufen wird, so lädt das Level den Hintergrund \textquote{backgrounds\textbackslash bg\_1.2.png} und die Karte \blockquote{tilemaps\textbackslash 1.2.tmx}.
+
 
