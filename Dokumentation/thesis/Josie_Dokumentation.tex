@@ -23,7 +23,7 @@
 \usepackage{longtable}
 \usepackage{setspace}
 \usepackage{booktabs}
-\usepackage[style=numeric]{biblatex}
+\usepackage[backend=bibtexu, style=numeric]{biblatex}
 
 \usepackage{csquotes}
 %\usepackage{floatflt}
@@ -34,13 +34,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    Literatur File           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibliography{literatur2}            
+\bibliography{literatur2}
 
 
 %%%%%%%%%%%%%%%%%%%
 %% definitions
 %%%%%%%%%%%%%%%%%%%
-\def\BaAuthor{Oleg Geier\qquad Daniel Glück\qquad Jonas Kaiser\\Tobias Lediger\qquad Daniel Mügge}
+\def\BaAuthor{Oleg Geier\qquad Daniel Glück\qquad Jonas Kaiser \\Tobias Lediger\qquad Daniel Mügge}
 \def\BaTitle{Entwicklung eines Spiels auf Basis von C++}
 \def\BaSupervisorOne{Prof.\ Dr.\ Peter Braun}
 \def\BaSupervisorTwo{Prof.\ Dr.\ Steffen Heinzl}
@@ -48,10 +48,10 @@
 
 
 \hypersetup{
-pdfauthor={\BaAuthor},
+pdfauthor={Oleg Geier, Daniel Glück, Jonas Kaiser, Tobias Lediger, Daniel Mügge},
 pdftitle={\BaTitle},
-pdfsubject={Subject},
-pdfkeywords={Keywords}
+pdfsubject={Programmierprojekt SS15},
+pdfkeywords={Programming, C++, cocos2d}
 }
 
 %%%%%%%%%%%%%%%%%%%
@@ -230,7 +230,7 @@ columns=fullflexible, %
 %%%%%%%%%%%%%%%%%%%
 
 \newcommand{\notebox}[1]{
-\colorbox{black!10}{\begin{minipage}{\textwidth}
+\colorbox{black!10}{\begin{minipage}{\textwidth -18pt}
 #1
 \end{minipage}}}
 
