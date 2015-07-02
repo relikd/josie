@@ -100,10 +100,10 @@ void LevelSelect::buildUI()
 
 	// backToMenu Button
 	MenuItemImage* backToMenu = MenuItemImage::create(
-			"buttons/pausebutton.png",
-			"buttons/pausebutton.png",
+			"buttons/menubuttons/mainmenu.png",
+			"buttons/menubuttons/mainmenu.png",
 			CC_CALLBACK_0(Director::popScene, Director::getInstance()));
-	backToMenu->setPosition(1920 - backToMenu->getContentSize().width, backToMenu->getContentSize().height);
+	backToMenu->setPosition(1920 - backToMenu->getContentSize().width/2, 200);
 
 	Menu* levelmenu = Menu::create(lvl1_1, lvl1_2, lvl1_3, lvl1_4, lvl_random, backToMenu,difficulty_switch, NULL);
 	levelmenu->setPosition(Vec2::ZERO);
