@@ -1,24 +1,34 @@
-\chapter{Implementierung}\label{sec:impl}
+\chapter{Implementierung}\label{ch:impl}
 
-\begin{lstlisting}[label=lst:java,
-				   language=java,
-				   firstnumber=1,
-				   caption=Beispiel für einen Quelltext]				   
+\section{Spieler Steuerung}\label{sec:SpielerSteuerung}
 
-public void foo() {				   
-	// Kommentar
-}
+Die Spieler Steuerung wird mithilfe eines Observer Patterns realisiert. Beim Laden der \textit{BossPlayer} Klasse wird der Spieler als Observer eingetragen:
+
+\begin{lstlisting}[label=lst:player_control_observer,
+				   language=C++,
+				   firstnumber=103,
+				   caption=BossPlayer als Observer eintragen ( BossPlayer.cpp )]
+EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
+if (reg) {
+	ed->addCustomEventListener("BOSS_PLAYER_LEFT", CC_CALLBACK_0(BossPlayer::moveLeft, this));
 \end{lstlisting}
 
-%Siehe Buch Patterns \cite[S. 130]{gamma2011patterns}
+Die Methode \textbf{addCustomEventListener()} erwartet zwei Parameter. Den Namen auf den der Observer hören soll, und das Callback, also die Funktion die ausgeführt werden soll beim Eintreffen einer solchen Nachricht, in diesem Fall \textbf{moveLeft()}. 
+Gleichbedeutend muss der Spieler auch wieder aus der Liste der Observer entfernt werden, sobald die Instanz gelöscht wird. Beides passiert über dieselbe Methode, die mit dem Parameter \textbf{false} die Einträge wieder entfernt.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula felis lectus, nec aliquet arcu aliquam vitae. Quisque laoreet consequat ante, eget pretium quam hendrerit at. Pellentesque nec purus eget erat mattis varius. Nullam ut vulputate velit. Suspendisse in dui in eros iaculis tempus. Phasellus vel est arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer elementum, nulla eu faucibus dignissim, orci justo imperdiet lorem, luctus consectetur orci orci a nunc.
+Die Steuerung wird über das HUD bewerkstelligt. Um genauer zu sein in der \textbf{update()} Methode der \textit{BossLevelHUD}.
 
-Praesent at nunc nec tortor viverra viverra. Morbi in feugiat lectus. Vestibulum iaculis ipsum at eros viverra volutpat in id ipsum. Donec condimentum, ligula viverra pharetra tincidunt, nunc dui malesuada nisi, vitae mollis lacus massa quis velit. Integer feugiat ipsum a volutpat scelerisque. Nulla facilisis augue nunc. Curabitur eget consectetur nulla. Integer accumsan sem non nisi tristique dictum.
+\begin{lstlisting}[label=lst:player_control_push_msg,
+				   language=C++,
+				   firstnumber=181,
+				   caption=Drücken des Laufen-Buttons ( BossLevelHUD.cpp )]
+void BossLevelHUD::update(float dt)
+{
+	EventDispatcher *ed = Director::getInstance()->getEventDispatcher();
+	if (_key_left || _left->isSelected())
+		ed->dispatchCustomEvent("BOSS_PLAYER_LEFT");
+\end{lstlisting}
 
-Sed lacinia eu dolor sed congue. Ut dui orci, venenatis id interdum rhoncus, mattis elementum massa. Proin venenatis elementum purus ut rutrum. Phasellus sit amet enim porta, commodo mauris a, bibendum tortor. Nulla ut lobortis justo. Aenean auctor mi nec velit fermentum, quis ultricies odio viverra. Maecenas ultrices urna vel erat ornare, quis suscipit odio molestie. Donec vel dapibus orci, vel tincidunt orci.
+Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf die Abfrage auf \textbf{isSelected()} ob der aktuelle Button gedrückt ist. Das Aktivieren des Observers ist denkbar einfach über \textbf{dispatchCustomEvent()}.
 
-Etiam vitae eros erat. Praesent nec accumsan turpis, et mollis eros. Praesent lacinia nulla at neque porta aliquam. Quisque elementum neque ac porta suscipit. Nulla volutpat luctus venenatis. Aliquam imperdiet suscipit pretium. Nunc feugiat lacinia aliquet. Mauris ut sapien nec risus porttitor bibendum. Aenean feugiat bibendum lectus, id mattis elit adipiscing at. Pellentesque interdum felis non risus iaculis euismod fermentum nec urna. Nullam lacinia suscipit erat ac ullamcorper. Sed vitae nulla posuere, posuere sem id, ultricies urna. Maecenas eros lorem, tempus non nulla vitae, ullamcorper egestas nibh. Vestibulum facilisis ante vel purus accumsan mattis. Donec molestie tempor eros, a gravida odio congue posuere.
-
-Sed in tempus elit, sit amet suscipit quam. Ut suscipit dictum molestie. Etiam quis porta mauris. Cras dapibus sapien eget sem porta, ut congue sapien accumsan. Maecenas hendrerit lobortis mauris ut hendrerit. Suspendisse at aliquet est. Quisque eros est, scelerisque ac orci quis, placerat suscipit lorem. Phasellus rutrum enim non odio ullamcorper, sit amet auctor nulla fringilla. Nunc eleifend vulputate dui, a sollicitudin tellus venenatis non. Cras condimentum lorem at ultricies vestibulum. Vestibulum interdum lobortis commodo. Nullam rhoncus interdum massa, ut varius nisi scelerisque id. Nunc interdum quam in enim bibendum vulputate.
-
+\section{Placeholder}\label{sec:Placeholder}
