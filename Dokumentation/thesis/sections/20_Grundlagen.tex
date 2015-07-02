@@ -8,11 +8,22 @@ Für unser Projekt haben wir die cocos2d-Engine verwendet, da sie am meisten Mö
 \section{IDE und Plugins}
 
 \section{Was sind Sprites?}
-\begin{figure}
+\begin{figure}[h]
   \includegraphics[width=0.1\textwidth]{resources/josie}
   \caption{Das ist Josie}
   \label{fig:josie} 
 \end{figure}
+
+
+\section{Was ist ein Callback?}
+
+In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet. Es handelt sich dabei um eine Referenz, die auf eine Methode einer Instanz verweist. Somit kann man eine Methode oder Funktion dynamisch im Spiel ausführen, wie das Drücken eines Buttons.
+
+\begin{quote}
+CC\textunderscore CALLBACK\textunderscore 0(Director::popScene, Director::getInstance());
+\end{quote}
+
+Der Director (\textbf{Director::getInstance()}) soll die Funktion \textbf{popScene()} ausführen. Zur Unterscheidung ist es wichtig die Klasse (\textbf{Director::}) zu nennen die ausgeführt werden soll. Denkbar wäre hier eine Kind-Klasse die den selben Methoden Namen aufweist. 
+Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden.
+
 \section{Was ist eine TileMap?}
-
-
