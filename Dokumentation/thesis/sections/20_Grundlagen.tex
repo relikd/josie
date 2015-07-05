@@ -3,9 +3,12 @@
 \section{Framework}
 
 Cocos2d-3.4 Engine
+
 Für unser Projekt haben wir die cocos2d-Engine verwendet, da sie am meisten Möglichkeiten bietet und flexibel ist.
 
 \section{IDE und Plugins}
+
+\section{Was ist eine Szene?}
 
 \section{Was sind Sprites?}
 \begin{figure}[h]
@@ -27,3 +30,36 @@ Der Director (\textbf{Director::getInstance()}) soll die Funktion \textbf{popSce
 Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden.
 
 \section{Was ist eine TileMap?}
+
+\section{Musik und Sound-Effekte}
+
+Musik sowie alle Sounds die in unserem Spiel "'Josie"' zu hören sind wurden selbst geschrieben, aufgenommen und bearbeitet. Dazu gehören:
+
+\begin{itemize}
+\item Hintergrundmusik im Hauptmenü, in der Levelauswahl, in den Jump and Run Levels und im Boss Kampf
+\item Effektsounds für Sprung--, Schrumpf--, Stop und Schuss--Sounds von Josie, Shop--Sound, Bosstreffer--Sound
+\end{itemize}
+
+\subsection{Welche Möglichkeiten bietet Cocos2d?}
+Cocos2d bietet mit der \textbf{SimpleAudioEngine} eine relative einfache Möglichkeit Audio\-dateien, sei es die Hintergrundmusik oder ein Sound-Effekte, zu laden, abzuspielen, zu pausieren und wieder zu entfernen. Hierzu ein kurzes Beispiel wie man auf einfache Art und Weise eine Audiodatei abspielt.
+
+\begin{quote}
+SimpleAudioEngine::getInstance()--\textgreater playBackgroundMusic("'song.mp3"',true);
+\end{quote}
+
+Auf die Implementierung und die Verwendung der \textbf{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \textbf{SimpleAudioEngine} betreffen in eine eigene Klasse \textbf{Audio\-Unit} ausgelagert haben.
+
+\subsection{Mono und Stereo}
+Es ist möglich sowohl Mono-- als auch Stereo--Audiodateien zu verwenden. Falls man also möchte dass Sounds zum Beispiel aus bestimmten Richtungen kommen, um dem Spieler ein gewisses Mittendrin--Gefühl zu vermitteln, sollten die Audiodateien stereo sein. Das ist allerdings erst richtig sinnvoll wenn das Spiel mit Kopfhörern oder mit Anschluss an ein Soundsystem gespielt wird. 
+
+In unserem Fall wurden allerdings nur Mono--Audiodateien verwendet da Josie hauptsächlich für möbile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. Und seien wir ehrlich, die meisten Menschen schalten den Ton von Handyspielen aus oder spielen diese ohne Kopfhörer.
+
+
+\subsection{Dateiformate}
+Wir haben auschließlich .mp3 verwendet, da dieses Dateiformat in Bezug auf cocos2d von den meisten Geräten unterstützt wird. Ein weiterer Vorteil von .mp3 gegenüber zum Beispiel .wav ist die Dateigröße wobei man auch auf die Bitrate achten muss. 
+
+
+\subsection{Audiobearbeitungsprogramme}
+Wir haben Logic Pro X von Apple verwendet. HIER KOMMT NOCH WAS DAZU.
+
+
