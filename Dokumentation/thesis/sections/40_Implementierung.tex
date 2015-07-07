@@ -33,4 +33,30 @@ Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf 
 
 \section{AudioUnit}\label{sec:Audiounit}
 
-\section{Placeholder}\label{sec:Placeholder}
+\section{Kollisionsabfrage}\label{sec:Kollisionsabfrage}
+
+Die Kollisionsabfrage ist auf den ersten Blick nicht sofort einleuchtend. Prinzipiell wird für die komplette Karte ein Array mit ganzzahligen Werten angelegt, also für jede Spalte (72px breite, vertikale Linie auf dem Bildschirm) wird ein \textbf{long} Wert gespeichert.
+Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob Kollision besteht.
+
+\begin{lstlisting}[label=lst:collision_detection,
+				   language=C++,
+				   firstnumber=271,
+				   caption=Collision Column abfragen ( MapController.cpp )]
+long MapController::getColumnBitmapForGID(int x, int tile_gid)
+{
+	TMXLayer *meta = getLayer("Meta_layer");
+	long col=0;
+	for (int i=_mapSize.height; i>0; i--) {
+		col<<=1;
+		int gid = meta->getTileGIDAt(Vec2(x,i-1));
+		col |= (gid==tile_gid);
+	}
+	return col;
+}
+\end{lstlisting}
+
+Die Schleife durchläuft - von unten angefangen - alle Tiles einer Spalte und fragt ab, ob das Kollisions Attribut gesetzt ist. Bei jedem Schleifendurchlauf wird der Bit-Shift-Operator ($<<$) angewandt, sodass das höher liegende Tile hinten angefügt wird. Das Anfügen geschiet mit dem Oder-Operator und der gleichzeitigen Zuweisung ($|$=).
+
+Der abschließende \textbf{long} Wert weißt an dem höchstwertigen Bit die Kollision für das unterste Teil auf und am niedrig wertigsten Bit die Kollision für das Tile am oberen Bildschirmrand.
+
+Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erstellt. Beides geschiet nur beim Laden der Karte. Für die tatsächliche Kollisionsabfrage wird nur noch auf diese Bitmap zugegriffen.
