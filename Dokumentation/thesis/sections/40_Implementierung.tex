@@ -33,6 +33,7 @@ Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf 
 
 \section{AudioUnit}\label{sec:Audiounit}
 
+\section{Kollisionsabfrage zum Boden}\label{sec:Kollisionsabfrage}
 
 Die Kollisionsabfrage ist auf den ersten Blick nicht sofort einleuchtend. Prinzipiell wird für die komplette Karte ein Array mit ganzzahligen Werten angelegt, also für jede Spalte (72px breite, vertikale Linie auf dem Bildschirm) wird ein \textbf{long} Wert gespeichert.
 Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob Kollision besteht.
@@ -58,6 +59,50 @@ Die Schleife durchläuft - von unten angefangen - alle Tiles einer Spalte und fr
 
 Der abschließende \textbf{long} Wert weißt an dem höchstwertigen Bit die Kollision für das unterste Teil auf und am niedrig wertigsten Bit die Kollision für das Tile am oberen Bildschirmrand.
 
+Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erstellt. Beides geschiet nur beim Laden der Karte. Für die tatsächliche Kollisionsabfrage wird nur noch auf diese Bitmap zugegriffen.
 
 
 
+\section{CollisionLayer}\label{sec:CollisionLayer}
+\subsection{Debugging Optionen}\label{sec:CollisionLayerDebug}
+
+Zu Debugging Zwecken kann die \textit{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth - 50pt]{resources/CollisionLayer_BossKampf.jpg}
+  \caption{CollisionLayer Debug im Boss Kampf}
+  \label{fig:collision_debug_boss} 
+\end{figure}
+
+Wenn man genau hinsieht erkennt man, dass auch Münzen über eine Kollision verfügen. Tödliche Objekte in der Karte (bsp. Dornen) jedoch nicht.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth - 50pt]{resources/CollisionLayer_Level}
+  \caption{CollisionLayer Debug im Level}
+  \label{fig:collision_debug_level} 
+\end{figure}
+
+
+\subsection{Listener registrieren}
+
+Die Klasse verfügt über eine Funktion \textbf{setCollisionListener(CollisionLayer*)} die ein anderes Collision Layer als Parameter erwartet. Dabei wird das übergebene Objekt in einer internen Variable gespeichert und in der \textbf{update()} Methode kontinuierlich auf Kollision überprüft.
+
+\subsection{Gegenseite Collision Notification}
+
+Sobald eine Kollision festgestellt wird, werden beide Objekte darüber informiert. Die Methode \textbf{hitByCollision(CollisionLayer*)} ist in der \textit{CollisionLayer} Klasse nicht implementiert und muss von den einzelnen Subklassen durch Logik ergänzt werden.
+
+So wird bei einem \textit{StageHazard} - im Falle einer Collision mit dem Spieler - das tödliche Objekt wieder auf Anfang positioniert.
+
+\begin{lstlisting}[label=lst:hit_by_collision,
+				   language=C++,
+				   firstnumber=32,
+				   caption=Collision Notification ( StageHazard.cpp )]
+void StageHazard::hitByCollision(CollisionLayer* other)
+{
+	if (other->collisionType == CollisionLayerTypeLevelPlayer) {
+		this->fallDown();
+	}
+}
+\end{lstlisting}
