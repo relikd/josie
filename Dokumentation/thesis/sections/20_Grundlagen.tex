@@ -4,7 +4,7 @@
 
 Cocos2d-3.4 Engine
 
-Für unser Projekt haben wir die cocos2d-Engine verwendet, da sie am meisten Möglichkeiten bietet und flexibel ist.
+Wir haben uns für die cocos2d-Engine entschieden, da diese am meisten Möglichkeiten bietet und flexibel ist.
 
 \section{IDE und Plugins}
 
@@ -66,9 +66,9 @@ mySprite->setScale(2.0);
 
 In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet. Es handelt sich dabei um eine Referenz, die auf eine Methode einer Instanz verweist. Somit kann man eine Methode oder Funktion dynamisch im Spiel ausführen, wie das Drücken eines Buttons.
 
-\begin{quote}
-CC\textunderscore CALLBACK\textunderscore 0(Director::popScene, Director::getInstance());
-\end{quote}
+\begin{lstlisting}[style=singleline]
+CC_CALLBACK_0(Director::popScene, Director::getInstance());
+\end{lstlisting}
 
 Der Director (\textbf{Director::getInstance()}) soll die Funktion \textbf{popScene()} ausführen. Zur Unterscheidung ist es wichtig die Klasse (\textbf{Director::}) zu nennen die ausgeführt werden soll. Denkbar wäre hier eine Kind-Klasse die den selben Methoden Namen aufweist. 
 Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden.
@@ -87,9 +87,9 @@ Musik sowie alle Sounds die in unserem Spiel "'Josie"' zu hören sind wurden sel
 \subsection{Welche Möglichkeiten bietet Cocos2d?}
 Cocos2d bietet mit der \textbf{SimpleAudioEngine} eine relative einfache Möglichkeit Audio\-dateien, sei es die Hintergrundmusik oder ein Sound-Effekte, zu laden, abzuspielen, zu pausieren und wieder zu entfernen. Hierzu ein kurzes Beispiel wie man auf einfache Art und Weise eine Audiodatei abspielt.
 
-\begin{quote}
-SimpleAudioEngine::getInstance()--\textgreater playBackgroundMusic("'song.mp3"',true);
-\end{quote}
+\begin{lstlisting}[style=singleline]
+SimpleAudioEngine::getInstance()->playBackgroundMusic("song.mp3", true);
+\end{lstlisting}
 
 Auf die Implementierung und die Verwendung der \textbf{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \textbf{SimpleAudioEngine} betreffen in eine eigene Klasse \textbf{Audio\-Unit} ausgelagert haben.
 
