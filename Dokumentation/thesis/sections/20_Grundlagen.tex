@@ -52,16 +52,21 @@ Auf die Implementierung und die Verwendung der \textbf{SimpleAudioEngine} innerh
 \subsection{Mono-/Stereo-Kanäle und Dateiformate}
 Es ist möglich sowohl Mono-- als auch Stereo--Audiodateien zu verwenden. Falls man also möchte dass Sounds zum Beispiel aus bestimmten Richtungen kommen, um dem Spieler ein gewisses Mittendrin--Gefühl zu vermitteln, sollten die Audiodateien stereo sein. Das ist allerdings erst richtig sinnvoll wenn das Spiel mit Kopfhörern oder mit Anschluss an ein Soundsystem gespielt wird. 
 
-In unserem Fall wurden allerdings nur Mono--Audiodateien verwendet da Josie hauptsächlich für möbile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. Und seien wir ehrlich, die meisten Menschen schalten den Ton von Handyspielen aus oder spielen diese ohne Kopfhörer.
+In unserem Fall wurden Stereo--Audiodateien ohne Paning (mischen von Spuren nach links oder rechts) verwendet, da \gamename hauptsächlich für möbile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. In der Realität ist es außerdem meistens so, dass man bei Handyspielen den Ton ausschaltet bzw. ohne Kopfhörer spielt.
 
-Wir haben auschließlich .mp3 verwendet, da dieses Dateiformat in Bezug auf cocos2d von den meisten Geräten unterstützt wird. Ein weiterer Vorteil von .mp3 gegenüber zum Beispiel .wav ist die Dateigröße wobei man auch auf die Bitrate achten muss. 
+Wir haben auschließlich .mp3 verwendet, da dieses Dateiformat in Bezug auf cocos2d von den meisten Geräten unterstützt wird. Ein weiterer Vorteil von .mp3 gegenüber anderen Formaten wie .wav ist die Dateigröße, was im Bezug auf mobile Geräte ein sehr wichtiger Faktor ist.
 
 
 \subsection{Audiobearbeitungsprogramme}
-Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme und wenn man sich mit dem Thema Audiobearbeitung noch nie beschäftigt hat, ist es sehr schwer eines zu finden das die nötigen Funktionen liefert um einen gutes Resultat zu erzielen. Zudem kosten die meisten guten Programme viel Geld. Deshalb hier eine kleine Auflistung von kostenlosen und kostenpflichtigen Audiobearbeitungsprogrammen:
+Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man sich mit dem Thema Audiobearbeitung noch nie beschäftigt hat, ist es sehr schwer eines zu finden das die nötigen Funktionen liefert um einen gutes Resultat zu erzielen. Zudem kosten die meisten guten Programme viel Geld. Im Folgenden soll eine Auflistung von einigen kostenplfichtigen und kostenlosen Programmen einen groben Überblick verschaffen:
 
 \begin{itemize}
- \item Cubase Elements 8 
+ \item Cubase (Steinberg, kostenpflichtig)
+ \item Pro Tools (Avid, kostenpflichtig)
+ \item Logic Pro (Apple, kostenpflichtig)
+ \item Audacity (AudacityTeam, kostenlos)
+ \item Goldwave (Goldwave Inc., teilweise kostenlos)
  \end{itemize} 
 
+Bei \gamename wurde Logic Pro X von Apple verwendet.
 

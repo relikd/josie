@@ -2,7 +2,7 @@
 
 \section{Spieler Steuerung}\label{sec:SpielerSteuerung}
 
-Die Spieler Steuerung wird mithilfe eines Observer Patterns realisiert. Beim Laden der \textit{BossPlayer} Klasse wird der Spieler als Observer eingetragen:
+Die Spieler Steuerung wird mithilfe eines Observer Patterns realisiert. Beim Laden der \josieclass{BossPlayer} Klasse wird der Spieler als Observer eingetragen:
 
 \begin{lstlisting}[label=lst:player_control_observer,
 				   language=C++,
@@ -16,7 +16,7 @@ if (reg) {
 Die Methode \textbf{addCustomEventListener()} erwartet zwei Parameter. Den Namen auf den der Observer hören soll, und das Callback, also die Funktion die ausgeführt werden soll beim Eintreffen einer solchen Nachricht, in diesem Fall \textbf{moveLeft()}. 
 Gleichbedeutend muss der Spieler auch wieder aus der Liste der Observer entfernt werden, sobald die Instanz gelöscht wird. Beides passiert über dieselbe Methode, die mit dem Parameter \textbf{false} die Einträge wieder entfernt.
 
-Die Steuerung wird über das HUD bewerkstelligt. Um genauer zu sein in der \textbf{update()} Methode der \textit{BossLevelHUD}.
+Die Steuerung wird über das HUD bewerkstelligt. Um genauer zu sein in der \textbf{update()} Methode der \josieclass{BossLevelHUD}.
 
 \begin{lstlisting}[label=lst:player_control_push_msg,
 				   language=C++,
@@ -32,6 +32,25 @@ void BossLevelHUD::update(float dt)
 Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf die Abfrage auf \textbf{isSelected()} ob der aktuelle Button gedrückt ist. Das Aktivieren des Observers ist denkbar einfach über \textbf{dispatchCustomEvent()}.
 
 \section{AudioUnit}\label{sec:Audiounit}
+Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern einfach von Außerhalb aufrufen kann.
+
+Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Audiodateien ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen, da zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen der Sound erst geladen, abgespielt und anschließend wieder entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \josieclass{AudioUnit::preloadBossSounds()} aufgerufen. 
+
+\begin{lstlisting}[label=lst:preloadBossSounds,
+				   language=C++,
+				   firstnumber=30,
+				   caption=BossLevel-Sounds laden ( AudioUnit.cpp )]
+void AudioUnit::preloadBossSounds()
+{
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->setEffectsVolume(UserDefault::getInstance()
+						->getIntegerForKey("sfx_volume")/200.0);
+	engine->preloadEffect("audio/boss_sounds/boss_hit1.mp3");
+	//Weitere Preloads
+	engine->preloadEffect("audio/josie_sounds/josie_hit3.mp3");
+}
+\end{lstlisting}
+
 
 \section{Kollisionsabfrage zum Boden}\label{sec:Kollisionsabfrage}
 
@@ -66,7 +85,7 @@ Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erst
 \section{CollisionLayer}\label{sec:CollisionLayer}
 \subsection{Debugging Optionen}\label{sec:CollisionLayerDebug}
 
-Zu Debugging Zwecken kann die \textit{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
+Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
 
 \begin{figure}[ht]
   \centering
@@ -91,9 +110,9 @@ Die Klasse verfügt über eine Funktion \textbf{setCollisionListener(CollisionLa
 
 \subsection{Gegenseite Collision Notification}
 
-Sobald eine Kollision festgestellt wird, werden beide Objekte darüber informiert. Die Methode \textbf{hitByCollision(CollisionLayer*)} ist in der \textit{CollisionLayer} Klasse nicht implementiert und muss von den einzelnen Subklassen durch Logik ergänzt werden.
+Sobald eine Kollision festgestellt wird, werden beide Objekte darüber informiert. Die Methode \textbf{hitByCollision(CollisionLayer*)} ist in der \josieclass{CollisionLayer} Klasse nicht implementiert und muss von den einzelnen Subklassen durch Logik ergänzt werden.
 
-So wird bei einem \textit{StageHazard} - im Falle einer Collision mit dem Spieler - das tödliche Objekt wieder auf Anfang positioniert.
+So wird bei einem \josieclass{StageHazard} - im Falle einer Collision mit dem Spieler - das tödliche Objekt wieder auf Anfang positioniert.
 
 \begin{lstlisting}[label=lst:hit_by_collision,
 				   language=C++,
