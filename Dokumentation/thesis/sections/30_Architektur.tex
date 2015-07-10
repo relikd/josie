@@ -1,5 +1,18 @@
 \chapter{Architektur}
 
+\section{Spielstruktur}\label{sec:Spielstruktur}
+\gamename  erinnert an eine erweiterte Version des Spieleklassikers Super Mario World.
+In der Theorie sollte es mehrere Spielabschnitte geben, jedoch wurde aus zeitlichen Gründen nur ein Abschnitt implementiert. Ein Spielabschnitt besteht aus drei Jump and Run Levels und einem Boss Kampf Level. 
+
+\begin{itemize}
+\item Jump and Run Level
+
+Der Spieler versucht ohne Zeiteinschränkung das Level abzuschließen und so viele Münzen wie möglich einzusammeln. Bei einem perfekten Lauf \textbf{kann} man alle Münzen einsammeln, einige davon sind allerding so plaziert dass sie nur schwer zu erreichen sind.
+Dem Spieler stehen die Steuerungsfunktionen "'Stoppen"', "'Schrumpfen"' und "'Springen"' zur Verfügung. 
+Dass Josie von selbst in einer festgelegten Geschwindigkeit läuft, führt zu einer gewissen Schwierigkeit des Spiels und macht Steuerungsfunktionen für "'Links"' und "'Rechts"' überflüssig.
+
+\end{itemize}
+
 \section{Klassenübersicht}\label{sec:Klassenuebersicht}
 
 Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die \textit{MainMenuScene} lädt. Dieser Bildschirm dient zum Einen (a) die \textit{Optionen} aufzurufen, (b) ein kurzes \textit{Tutorial} zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl (\textit{LevelSelectScene}).
