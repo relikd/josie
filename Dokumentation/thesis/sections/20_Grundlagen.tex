@@ -4,45 +4,68 @@
 
 Cocos2d-3.4 Engine
 
-Wir haben uns für die cocos2d-Engine entschieden, da diese am meisten Möglichkeiten bietet und flexibel ist.
+Für unser Projekt haben wir die cocos2d-Engine verwendet, da sie am meisten Möglichkeiten bietet und flexibel ist.
 
 \section{IDE und Plugins}
 
-\section{Szenenprinzip bei Videospielen}
+\section{Szenenprinzip} 
+Eine Szene ist im Grunde genommen nichts anderes als ein Container, welcher  Sprites, Labels, Nodes und andere Objekte beinhaltet die ein Spiel benötigt. Eine Szene ist für die laufende Spiellogik und Darstellung des Inhaltes auf einer 'per-frame basis' verantwortlich. Es wird mindestens eine Szene benötigt damit man das Spiel starten kann. Man kann beliebig viele Szenen-Objekte in einem Spiel verwenden und leicht zwischen diesen überleiten. Der Vorteil von Szenen liegt darin, dass man nicht jedes Objekt einzeln laden muss. An eine Szene lassen sich diverse Sprites, Labels und Nodes mit der von Cocos2d-x gegebenen Funktion addChild() anhängen(siehe Abbildung X.X). Sobald das Szenen-Objekt geladen wird, werden die angefügten Kinder mitgeladen. Dies spart Zeit und entlastet den Speicher.
+
+TODO: Szenengraph, zeigt Szene mit „Kindern“
+
+\subsection{Szenenfunktionen von Cocos2d-x}
+
+Cocos bietet Funktionen an um Szenen zu erstellen und zwischen diesen zu wechseln. Um einen Szenenwechsel durchzufüren, muss zuerst eine Szene erstellt werden.
+
+\begin{lstlisting}[style=singleline]
+	Szene* Cutscene = Szene::create();
+\end{lstlisting}
+
+
+Dies erstellt ein Objekt des Typ Szene mit dem Namen Cutscene.
+Im Laufe des Spiels ist es  notwendig zwischen den verschiedenen Szenen zu wechseln. Dies wird deutlich, wenn man z.B. ein neues Spiel starten oder ein anderes Level auswählen möchte. Hierzu stellt Cocos2d-x verschiedene Funktionen bereit eine Szene zu wechseln.
+
+\begin{itemize}
+\item replaceScene() ersetzt eine Szene vollständig durch eine Andere
+\item pushScene() unterbricht die Ausführung der aktuellen Szene und verschiebt diese auf den Stack. Der Stack ist eine Art Warteschlange welche nach dem 'Last in, First out – Prinzip', dort wartet die Szene auf weitere Anweißungen. Diese Funktion darf nur aufgerufen werden, wenn bereits eine Szene aktiv ist.
+\item popScene() wiederum ersetzt die aktuelle Szene und löscht diese komplett. Diese Funktion darf nur aufgerufen werden, wenn bereits eine Szene aktiv ist.
+\end{itemize}
+
+
 
 \section{Spriteprinzip}
-
-\subsection{Allgemeines Spriteprinzip}
 Allgemein betrachtet kann man sagen, dass ein Sprite(engl. Kobold, Geistwesen) ein Grafikobjekt ist, welches über den Hintergrund gelegt wird und von der Grafikhardware platziert wird. 
 Der Name rührt daher, dass ein Sprite auf dem Bildschirm umherspäht und im Grafikspeicher nicht zu finden ist. Heutzutage bezeichnet der Begriff “Sprite” jedoch alle Objekte die so aussehen wie ein solches Grafikobjekt, jedoch eigentlich von einer Software erzeugt werden und im Grafikspeicher vorliegen. 
 Solche softwareerzeugten Sprites sind streng genommen “Shapes”, für deren Erzeugung überwiegend die CPU zuständig ist.
  
-Für Computerspiele sind mit Sprites einige Vereinfachungen verbunden. So werden zum Beispiel in vielen 2D-Spielen wie Jump'n Runs so genannte Tiles oder auch Kachelgrafiken, welche ebenfalls kleine Grafikelemente die zusammengesetzt eine größere Grafik ergeben sind, verwendet. Ihr Anwendungsbereich findet sich unter anderem im Aufbau eines Level's, wobei aus ihnen die Spielwelt zusammengesetzt wird.
+Für Computerspiele sind mit Sprites einige Vereinfachungen verbunden. So werden zum Beispiel in vielen 2D-Spielen wie Jump´n Runs so genannte Tiles oder auch Kachelgrafiken, welche ebenfalls kleine Grafikelemente die zusammengesetzt eine größere Grafik ergeben sind, verwendet. Ihr Anwendungsbereich findet sich unter anderem im Aufbau eines Level´s, wobei aus ihnen die Spielwelt zusammengesetzt wird.
 
-\subsection{Cocos2dx Spriteprinzip}
-In der von uns verwendeten Gameengine Cocos2dx, ist ein Sprite ein “Bild”, welches durch Veränderung seiner werte manipuliert werden kann. Es gibt verschiedene Wege ein Sprite zu erstellen, je nach dem wozu es benutzt werden soll. Bezüglich Dateiformaten werden von Cocos2dx PNG, JPEG, TIFF etc. unterstützt. Wir haben uns für das Dateiformat PNG entschieden, da es eine gute Komprimierung, gute Qualität, Darstellung von Halbtransparenzen, also 50\% Denkkraft, vorweist und außerdem ein sehr weit verbreiteter Datentyp ist.
+\subsection{Cocos2dx´s Spriteprinzip}
+In der von uns verwendeten Gameengine Cocos2dx, ist ein Sprite ein “Bild”, welches durch Veränderung seiner werte manipuliert werden kann. Es gibt verschiedene Wege ein Sprite zu erstellen, je nach dem wozu es benutzt werden soll. Bezüglich Dateiformaten werden von Cocos2dx PNG, JPEG, TIFF etc. unterstützt. Wir haben uns für das Dateiformat PNG entschieden, da es eine gute Komprimierung, gute Qualität, Darstellung von Halbtransparenzen, also 50\% Deckraft, vorweist und außerdem ein sehr weit verbreiteter Datentyp ist.
 
-Es gibt unterschiedliche Methoden ein Sprite zu Erstellen. Eine Erste ist es ein Sprites aus einem Bild zu laden, wobei das in cocos2dx erstellte Sprite Objekt die selben Abmessungen wie das benutze Bild vorweist. 
+Es gibt unterschiedliche Methoden ein Sprite zu e	rstellen. Eine Erste ist es ein Sprites aus einem Bild zu laden, wobei das in cocos2dx erstellte Sprite Objekt die selben Abmessungen wie das benutze Bild vorweist. 
 
 \begin{lstlisting}[style=singleline]
-auto mySprite = Sprite::create("mysprite.png");
+Sprite* mySprite = Sprite::create("mysprite.png");
 \end{lstlisting}
 
 Eine weitere Methode ist das Erschaffen eines Sprites durch Angabe eines Ausschnittes des dafür benutzen Bild. Dabei wird im Erstellungsprozess ein so genanntes “Rect” angegeben, welches die Position als auch die Dimension auf dem Bildschirm darstellt. 
 
 \begin{lstlisting}[style=singleline]
-auto mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
+Sprite* mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
 \end{lstlisting}
 
 Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt.  Beim erstmaligen verwenden eines Spritesheets, wird dieses in den SpriteFrameCache geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. SpriteFrame-Objekte beinhalten den Bildnamen des Sprites und ein Rect um die Größe des Sprites zu spezifizieren. Aus dem SpriteFrameCache, in welchem das Spritesheet geladen wurde,  kann nun ein Sprite erstellt werden.
 Spritesheets stellen in unserem Projekt speziell für Animationen(verlinkung Animationen) und die Beschreibung der Spielwelt eine optimale Lösung dar. 
 
-\subsubsection*{Möglichkeiten Sprites zu manipuliern}
+
+\subsection{Möglichkeiten Sprites zu manipuliern}
 Der Ankerpunkt eines Sprites ist ein Punkt, welcher zur Orientierung bei der Positionsbestimmung eines Sprites dienen soll. Der Ankerpunkt benutzt ein Koordinaten System das in der unteren Linken Ecke startet. 
 
 \begin{lstlisting}[style=singleline]
-mySprite->setAnchorPoint(0.5, 0.5);
+Sprite* mySprite->setAnchorPoint(0.5, 0.5);
 \end{lstlisting}
+
 
 Weiter Möglichkeiten den Ankerpunkt zu setzten werden hier veranschaulicht. Rote Punkte::Ankerpunkte
 
@@ -52,12 +75,13 @@ Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren
 mySprite->setScale(2.0);
 \end{lstlisting}
 
+
+
 \begin{figure}[h]
   \includegraphics[width=0.1\textwidth]{resources/josie}
   \caption{Das ist Josie}
   \label{fig:josie} 
 \end{figure}
-
 
 
 \section{Callbackprinzip}
@@ -86,7 +110,7 @@ Musik sowie alle Sounds die in unserem Spiel "'Josie"' zu hören sind wurden sel
 Cocos2d bietet mit der \textbf{SimpleAudioEngine} eine relative einfache Möglichkeit Audio\-dateien, sei es die Hintergrundmusik oder ein Sound-Effekte, zu laden, abzuspielen, zu pausieren und wieder zu entfernen. Hierzu ein kurzes Beispiel wie man auf einfache Art und Weise eine Audiodatei abspielt.
 
 \begin{lstlisting}[style=singleline]
-SimpleAudioEngine::getInstance()->playBackgroundMusic("song.mp3", true);
+SimpleAudioEngine::getInstance()--\textgreater playBackgroundMusic("'song.mp3"',true);
 \end{lstlisting}
 
 Auf die Implementierung und die Verwendung der \textbf{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \textbf{SimpleAudioEngine} betreffen in eine eigene Klasse \josieclass{Audio\-Unit} ausgelagert haben.
@@ -111,4 +135,3 @@ Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man si
  \end{itemize} 
 
 Bei \gamename wurde Logic Pro X von Apple verwendet.
-

@@ -32,9 +32,9 @@ void BossLevelHUD::update(float dt)
 Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf die Abfrage auf \textbf{isSelected()} ob der aktuelle Button gedrückt ist. Das Aktivieren des Observers ist denkbar einfach über \textbf{dispatchCustomEvent()}.
 
 \section{AudioUnit}\label{sec:Audiounit}
-Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern einfach von Außerhalb aufrufen kann.
+Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb aufrufen kann.
 
-Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Audiodateien ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen, da zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen der Sound erst geladen, abgespielt und anschließend wieder entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \josieclass{AudioUnit::preloadBossSounds()} aufgerufen. 
+\paragraph{Laden von Soundeffekten:}Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Soundeffekten ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen.Der Grund dafür ist, dass zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen der Sound erst geladen, abgespielt und anschließend wieder entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \josieclass{AudioUnit::preloadBossSounds()} aufgerufen. 
 
 \begin{lstlisting}[label=lst:preloadBossSounds,
 				   language=C++,
@@ -50,6 +50,13 @@ void AudioUnit::preloadBossSounds()
 	engine->preloadEffect("audio/josie_sounds/josie_hit3.mp3");
 }
 \end{lstlisting}
+
+Wir greifen innerhalb der \josieclass{AudioUnit} auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine}, die alle nötigen Funktionen liefert, zu. So gesehen ist unsere \josieclass{AudioUnit} nur ein Wrapper um im Code der anderen Klassen nicht ständig \cocosclass{SimpleAudioEngine::getInstance()} aufrufen zu müssen, was zu saubererem Code führt. 
+
+Hierbei sei erwähnt dass ganze Musiktitel, wie die Hintergrundmusik, nicht zwingend geladen werden müssen, da diese nicht öfter hintereinander abgespielt werden. 
+
+\paragraph{Abspielen von Soundeffekten und Musik:} Um nun 
+
 
 
 \section{Kollisionsabfrage zum Boden}\label{sec:Kollisionsabfrage}
