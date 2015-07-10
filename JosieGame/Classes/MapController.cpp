@@ -34,7 +34,7 @@ MapController* MapController::initWithLevel(int level, int sub_level)
 
 void MapController::initOptions()
 {
-	getLayer("Meta_layer")->setVisible(true);
+	getLayer("Meta_layer")->setVisible(false);
 
 	for (const auto& child : getChildren()) {
 		static_cast<SpriteBatchNode*>(child)->getTexture()->setAntiAliasTexParameters();
