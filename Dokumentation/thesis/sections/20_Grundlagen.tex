@@ -8,7 +8,7 @@ Wir haben uns für die cocos2d-Engine entschieden, da diese am meisten Möglichk
 
 \section{IDE und Plugins}
 
-\section{Was ist eine Szene?} 
+\section{Szenenprinzip bei Videospielen}
 
 \section{Spriteprinzip}
 
@@ -17,43 +17,40 @@ Allgemein betrachtet kann man sagen, dass ein Sprite(engl. Kobold, Geistwesen) e
 Der Name rührt daher, dass ein Sprite auf dem Bildschirm umherspäht und im Grafikspeicher nicht zu finden ist. Heutzutage bezeichnet der Begriff “Sprite” jedoch alle Objekte die so aussehen wie ein solches Grafikobjekt, jedoch eigentlich von einer Software erzeugt werden und im Grafikspeicher vorliegen. 
 Solche softwareerzeugten Sprites sind streng genommen “Shapes”, für deren Erzeugung überwiegend die CPU zuständig ist.
  
-Für Computerspiele sind mit Sprites einige Vereinfachungen verbunden. So werden zum Beispiel in vielen 2D-Spielen wie Jump´n Runs so genannte Tiles oder auch Kachelgrafiken, welche ebenfalls kleine Grafikelemente die zusammengesetzt eine größere Grafik ergeben sind, verwendet. Ihr Anwendungsbereich findet sich unter anderem im Aufbau eines Level´s, wobei aus ihnen die Spielwelt zusammengesetzt wird.
+Für Computerspiele sind mit Sprites einige Vereinfachungen verbunden. So werden zum Beispiel in vielen 2D-Spielen wie Jump'n Runs so genannte Tiles oder auch Kachelgrafiken, welche ebenfalls kleine Grafikelemente die zusammengesetzt eine größere Grafik ergeben sind, verwendet. Ihr Anwendungsbereich findet sich unter anderem im Aufbau eines Level's, wobei aus ihnen die Spielwelt zusammengesetzt wird.
 
-\subsection{Cocos2dx´s Spriteprinzip}
-In der von uns verwendeten Gameengine Cocos2dx, ist ein Sprite ein “Bild”, welches durch Veränderung seiner werte manipuliert werden kann. Es gibt verschiedene Wege ein Sprite zu erstellen, je nach dem wozu es benutzt werden soll. Bezüglich Dateiformaten werden von Cocos2dx PNG, JPEG, TIFF etc. unterstützt. Wir haben uns für das Dateiformat PNG entschieden, da es eine gute Komprimierung, gute Qualität, Darstellung von Halbtransparenzen, also 50 % Denkkraft, vorweist und außerdem ein sehr weit verbreiteter Datentyp ist.
+\subsection{Cocos2dx Spriteprinzip}
+In der von uns verwendeten Gameengine Cocos2dx, ist ein Sprite ein “Bild”, welches durch Veränderung seiner werte manipuliert werden kann. Es gibt verschiedene Wege ein Sprite zu erstellen, je nach dem wozu es benutzt werden soll. Bezüglich Dateiformaten werden von Cocos2dx PNG, JPEG, TIFF etc. unterstützt. Wir haben uns für das Dateiformat PNG entschieden, da es eine gute Komprimierung, gute Qualität, Darstellung von Halbtransparenzen, also 50\% Denkkraft, vorweist und außerdem ein sehr weit verbreiteter Datentyp ist.
 
 Es gibt unterschiedliche Methoden ein Sprite zu Erstellen. Eine Erste ist es ein Sprites aus einem Bild zu laden, wobei das in cocos2dx erstellte Sprite Objekt die selben Abmessungen wie das benutze Bild vorweist. 
 
-\begin{quote}
+\begin{lstlisting}[style=singleline]
 auto mySprite = Sprite::create("mysprite.png");
-\end{quote}
+\end{lstlisting}
 
 Eine weitere Methode ist das Erschaffen eines Sprites durch Angabe eines Ausschnittes des dafür benutzen Bild. Dabei wird im Erstellungsprozess ein so genanntes “Rect” angegeben, welches die Position als auch die Dimension auf dem Bildschirm darstellt. 
 
-\begin{quote}
+\begin{lstlisting}[style=singleline]
 auto mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
-\end{quote}
+\end{lstlisting}
 
 Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt.  Beim erstmaligen verwenden eines Spritesheets, wird dieses in den SpriteFrameCache geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. SpriteFrame-Objekte beinhalten den Bildnamen des Sprites und ein Rect um die Größe des Sprites zu spezifizieren. Aus dem SpriteFrameCache, in welchem das Spritesheet geladen wurde,  kann nun ein Sprite erstellt werden.
 Spritesheets stellen in unserem Projekt speziell für Animationen(verlinkung Animationen) und die Beschreibung der Spielwelt eine optimale Lösung dar. 
 
-
-\textbf{Möglichkeiten Sprites zu manipuliern}
+\subsubsection*{Möglichkeiten Sprites zu manipuliern}
 Der Ankerpunkt eines Sprites ist ein Punkt, welcher zur Orientierung bei der Positionsbestimmung eines Sprites dienen soll. Der Ankerpunkt benutzt ein Koordinaten System das in der unteren Linken Ecke startet. 
 
-\begin{quote}
+\begin{lstlisting}[style=singleline]
 mySprite->setAnchorPoint(0.5, 0.5);
-\end{quote}
+\end{lstlisting}
 
 Weiter Möglichkeiten den Ankerpunkt zu setzten werden hier veranschaulicht. Rote Punkte::Ankerpunkte
 
 Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren und Verzerren. Weiterhin kann man die Farbe und Sichtbarkeit eines Sprites verändern. Die in unserem Projekt am häufigsten verwendete Manipulationsmethode ist das Skalieren. Sie ermöglicht es die Größe eines Sprites beliebig zu verändern. Im folgenden wird dies Bildlich dargestellt. 
 
-\begin{quote}
+\begin{lstlisting}[style=singleline]
 mySprite->setScale(2.0);
-\end{quote}
-
-
+\end{lstlisting}
 
 \begin{figure}[h]
   \includegraphics[width=0.1\textwidth]{resources/josie}
@@ -62,7 +59,8 @@ mySprite->setScale(2.0);
 \end{figure}
 
 
-\section{Was ist ein Callback?}
+
+\section{Callbackprinzip}
 
 In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet. Es handelt sich dabei um eine Referenz, die auf eine Methode einer Instanz verweist. Somit kann man eine Methode oder Funktion dynamisch im Spiel ausführen, wie das Drücken eines Buttons.
 
@@ -73,7 +71,7 @@ CC_CALLBACK_0(Director::popScene, Director::getInstance());
 Der Director (\textbf{Director::getInstance()}) soll die Funktion \textbf{popScene()} ausführen. Zur Unterscheidung ist es wichtig die Klasse (\textbf{Director::}) zu nennen die ausgeführt werden soll. Denkbar wäre hier eine Kind-Klasse die den selben Methoden Namen aufweist. 
 Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden.
 
-\section{Was ist eine TileMap?}
+\section{Tilemaps}
 
 \section{Musik und Sound-Effekte}
 
@@ -84,26 +82,33 @@ Musik sowie alle Sounds die in unserem Spiel "'Josie"' zu hören sind wurden sel
 \item Effektsounds für Sprung--, Schrumpf--, Stop und Schuss--Sounds von Josie, Shop--Sound, Bosstreffer--Sound
 \end{itemize}
 
-\subsection{Welche Möglichkeiten bietet Cocos2d?}
+\subsection{Möglichkeiten der cocos2d-Engine zur Audioverarbeitung}
 Cocos2d bietet mit der \textbf{SimpleAudioEngine} eine relative einfache Möglichkeit Audio\-dateien, sei es die Hintergrundmusik oder ein Sound-Effekte, zu laden, abzuspielen, zu pausieren und wieder zu entfernen. Hierzu ein kurzes Beispiel wie man auf einfache Art und Weise eine Audiodatei abspielt.
 
 \begin{lstlisting}[style=singleline]
 SimpleAudioEngine::getInstance()->playBackgroundMusic("song.mp3", true);
 \end{lstlisting}
 
-Auf die Implementierung und die Verwendung der \textbf{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \textbf{SimpleAudioEngine} betreffen in eine eigene Klasse \textbf{Audio\-Unit} ausgelagert haben.
+Auf die Implementierung und die Verwendung der \textbf{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \textbf{SimpleAudioEngine} betreffen in eine eigene Klasse \josieclass{Audio\-Unit} ausgelagert haben.
 
-\subsection{Mono und Stereo}
+\subsection{Mono-/Stereo-Kanäle und Dateiformate}
 Es ist möglich sowohl Mono-- als auch Stereo--Audiodateien zu verwenden. Falls man also möchte dass Sounds zum Beispiel aus bestimmten Richtungen kommen, um dem Spieler ein gewisses Mittendrin--Gefühl zu vermitteln, sollten die Audiodateien stereo sein. Das ist allerdings erst richtig sinnvoll wenn das Spiel mit Kopfhörern oder mit Anschluss an ein Soundsystem gespielt wird. 
 
-In unserem Fall wurden allerdings nur Mono--Audiodateien verwendet da Josie hauptsächlich für möbile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. Und seien wir ehrlich, die meisten Menschen schalten den Ton von Handyspielen aus oder spielen diese ohne Kopfhörer.
+In unserem Fall wurden Stereo--Audiodateien ohne Paning (mischen von Spuren nach links oder rechts) verwendet, da \gamename hauptsächlich für möbile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. In der Realität ist es außerdem meistens so, dass man bei Handyspielen den Ton ausschaltet bzw. ohne Kopfhörer spielt.
 
-
-\subsection{Dateiformate}
-Wir haben auschließlich .mp3 verwendet, da dieses Dateiformat in Bezug auf cocos2d von den meisten Geräten unterstützt wird. Ein weiterer Vorteil von .mp3 gegenüber zum Beispiel .wav ist die Dateigröße wobei man auch auf die Bitrate achten muss. 
+Wir haben auschließlich .mp3 verwendet, da dieses Dateiformat in Bezug auf cocos2d von den meisten Geräten unterstützt wird. Ein weiterer Vorteil von .mp3 gegenüber anderen Formaten wie .wav ist die Dateigröße, was im Bezug auf mobile Geräte ein sehr wichtiger Faktor ist.
 
 
 \subsection{Audiobearbeitungsprogramme}
-Wir haben Logic Pro X von Apple verwendet. HIER KOMMT NOCH WAS DAZU.
+Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man sich mit dem Thema Audiobearbeitung noch nie beschäftigt hat, ist es sehr schwer eines zu finden das die nötigen Funktionen liefert um einen gutes Resultat zu erzielen. Zudem kosten die meisten guten Programme viel Geld. Im Folgenden soll eine Auflistung von einigen kostenplfichtigen und kostenlosen Programmen einen groben Überblick verschaffen:
 
+\begin{itemize}
+ \item Cubase (Steinberg, kostenpflichtig)
+ \item Pro Tools (Avid, kostenpflichtig)
+ \item Logic Pro (Apple, kostenpflichtig)
+ \item Audacity (AudacityTeam, kostenlos)
+ \item Goldwave (Goldwave Inc., teilweise kostenlos)
+ \end{itemize} 
+
+Bei \gamename wurde Logic Pro X von Apple verwendet.
 
