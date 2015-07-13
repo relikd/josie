@@ -22,6 +22,7 @@ BossLevel::BossLevel() {
 	AudioUnit::preloadBossSounds();
 }
 BossLevel::~BossLevel() {
+	AudioUnit::stopBackground();
 	AudioUnit::unloadBossSounds();
 }
 
@@ -44,6 +45,8 @@ BossLevel* BossLevel::createBossDifficulty(int difficulty)  // 1 - 10
 
 void BossLevel::createUI()
 {
+	AudioUnit::startBackgroundBoss();
+
 	// Background Image
 	Sprite *background = Sprite::create("backgrounds/bg_1.0.png");
 	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -156,6 +159,9 @@ void BossLevel::battleEndedWon(bool won)
 	Sequence *tintFade = Sequence::createWithTwoActions(TintTo::create(0.7, 255, 0, 0), FadeTo::create(0.3, 0));
 	DelayTime *delay = DelayTime::create(tintFade->getDuration()+0.5);
 	CallFuncN *popToMenu = CallFuncN::create(CC_CALLBACK_0(BossLevel::backToMenu, this));
+
+	AudioUnit::stopBackground();
+	AudioUnit::startBackgroundLevelSelect();
 
 	this->unscheduleUpdate();
 	this->runAction(Sequence::createWithTwoActions(delay, popToMenu));

@@ -3,6 +3,7 @@
 #include "LevelSelectScene.h"
 #include "OptionScreen.h"
 #include "TutorialScene.h"
+#include "AudioUnit.h"
 
 USING_NS_CC;
 
@@ -24,13 +25,13 @@ Scene* MainMenu::createScene()
 // on "init" you need to initialize your instance
 bool MainMenu::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
     }
     
+    AudioUnit::startBackgroundMenu();
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -56,6 +57,8 @@ bool MainMenu::init()
     journey->setRotation(-30.0);
     josielogo->addChild(journey);
 
+
+    //StartScreen Animations
     cocos2d::ScaleTo* logo_scale = ScaleTo::create(1.5,2.0);
     cocos2d::EaseElasticIn* scale_easing = cocos2d::EaseElasticIn::create(logo_scale);
     cocos2d::ScaleTo* text_scale = ScaleTo::create(1.5,1.5);
@@ -100,6 +103,7 @@ bool MainMenu::init()
 
 void MainMenu::play(Ref* pSender)
 {
+	AudioUnit::stopBackground();
 	LevelSelect *levelSelectScreen = LevelSelect::createSceneWithLevel(1);
 	Director::getInstance()->pushScene(levelSelectScreen);
 }

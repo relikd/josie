@@ -3,6 +3,7 @@
 #include "ShopScene.h"
 #include "Cutscene.h"
 #include "GameStateManager.h"
+#include "AudioUnit.h"
 
 using namespace cocos2d;
 
@@ -19,7 +20,10 @@ using namespace cocos2d;
 
 
 LevelSelect::LevelSelect() : _level(0), _will_be_destroyed(false), _random_difficulty(0) {}
-LevelSelect::~LevelSelect() {}
+LevelSelect::~LevelSelect() {
+	AudioUnit::stopBackground();
+	AudioUnit::startBackgroundMenu();
+}
 
 LevelSelect* LevelSelect::createSceneWithLevel(int level)
 {
@@ -37,13 +41,16 @@ void LevelSelect::startLevel(int sublevel) {
 	_will_be_destroyed = true;
 	
 	if (sublevel == 0) {
+		AudioUnit::stopBackground();
 		ShopScene *shop = ShopScene::initShop();
 		Director::getInstance()->replaceScene(shop);
 	} else {
 		if (GameStateManager::showCutscenes()) {
+			AudioUnit::stopBackground();
 			auto cut = Cutscene::createScene(sublevel);
 			Director::getInstance()->replaceScene(cut);
 		} else {
+			AudioUnit::stopBackground();
 			Level *levelxx = Level::initWithLevel(_level, sublevel);
 			Director::getInstance()->replaceScene(levelxx);
 		}
@@ -54,7 +61,7 @@ void LevelSelect::startRandomLevel()
 {
 	if (_will_be_destroyed) return;
 	_will_be_destroyed = true;
-	
+	AudioUnit::stopBackground();
 	Level *rnd = Level::initWithRandomLevel(_random_difficulty);
 	Director::getInstance()->replaceScene(rnd);
 }
@@ -62,6 +69,8 @@ void LevelSelect::startRandomLevel()
 
 void LevelSelect::buildUI()
 {
+	AudioUnit::startBackgroundLevelSelect();
+
 	LayerColor *background = LayerColor::create(Color4B::BLACK);
 
 	MenuItemImage* lvl1_1 = buttonWithSublevel(1);

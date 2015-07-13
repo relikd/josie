@@ -27,6 +27,8 @@ public:
 	static void stopBackground();
 	static void pauseBackground();
 	static void resumeBackground();
+	static void startBackgroundMenu();
+	static void startBackgroundLevelSelect();
 	static void startBackgroundLevel();
 	static void startBackgroundBoss();
 };
