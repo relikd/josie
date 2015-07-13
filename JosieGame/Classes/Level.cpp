@@ -23,6 +23,7 @@ Level::Level() {
 Level::~Level() {
 	AudioUnit::stopBackground();
 	AudioUnit::unloadLevelSounds();
+	AudioUnit::startBackgroundLevelSelect();
 }
 
 Level* Level::initWithLevel(int level, int sublevel) {

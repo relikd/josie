@@ -152,6 +152,20 @@ void AudioUnit::resumeBackground() {
 	SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
 
+void AudioUnit::startBackgroundMenu()
+{
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->setBackgroundMusicVolume(UserDefault::getInstance()->getIntegerForKey("music_volume")/100.0);
+	engine->playBackgroundMusic("audio/level_audio.mp3", true);
+}
+
+void AudioUnit::startBackgroundLevelSelect()
+{
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->setBackgroundMusicVolume(UserDefault::getInstance()->getIntegerForKey("music_volume")/100.0);
+	engine->playBackgroundMusic("audio/levelselect_audio.mp3", true);
+}
+
 void AudioUnit::startBackgroundLevel()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
@@ -161,5 +175,10 @@ void AudioUnit::startBackgroundLevel()
 
 void AudioUnit::startBackgroundBoss()
 {
-
+	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
+	engine->setBackgroundMusicVolume(UserDefault::getInstance()->getIntegerForKey("music_volume")/100.0);
+	engine->playBackgroundMusic("audio/level_audio.mp3", true);
 }
+
+
+
