@@ -43,7 +43,7 @@ Für Computerspiele sind mit Sprites einige Vereinfachungen verbunden. So werden
 \subsection{Cocos2dx´s Spriteprinzip}
 In der von uns verwendeten Gameengine Cocos2dx, ist ein Sprite ein “Bild”, welches durch Veränderung seiner werte manipuliert werden kann. Es gibt verschiedene Wege ein Sprite zu erstellen, je nach dem wozu es benutzt werden soll. Bezüglich Dateiformaten werden von Cocos2dx PNG, JPEG, TIFF etc. unterstützt. Wir haben uns für das Dateiformat PNG entschieden, da es eine gute Komprimierung, gute Qualität, Darstellung von Halbtransparenzen, also 50\% Deckraft, vorweist und außerdem ein sehr weit verbreiteter Datentyp ist.
 
-Es gibt unterschiedliche Methoden ein Sprite zu e	rstellen. Eine Erste ist es ein Sprites aus einem Bild zu laden, wobei das in cocos2dx erstellte Sprite Objekt die selben Abmessungen wie das benutze Bild vorweist. 
+Es gibt unterschiedliche Methoden ein Sprite zu erstellen. Eine Erste ist es ein Sprite aus einem Bild zu laden, wobei das in cocos2dx erstellte Sprite Objekt die selben Abmessungen wie das benutze Bild vorweist. 
 
 \begin{lstlisting}[style=singleline]
 Sprite* mySprite = Sprite::create("mysprite.png");
@@ -55,7 +55,7 @@ Eine weitere Methode ist das Erschaffen eines Sprites durch Angabe eines Ausschn
 Sprite* mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
 \end{lstlisting}
 
-Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren diese die Aufrufe an OpenGL ES etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den SpriteFrameCache geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. SpriteFrame-Objekte beinhalten den Bildnamen des Sprites und ein Rect um die Größe des Sprites zu spezifizieren. Aus dem SpriteFrameCache, in welchem das Spritesheet geladen wurde,  kann nun ein Sprite erstellt werden.
+Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren diese die Aufrufe an OpenGL ES etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den \textbf{SpriteFrameCache} geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. \textbf{SpriteFrame}-Objekte beinhalten den Bildnamen des Sprites und ein \textbf{Rect} um die Größe des Sprites zu spezifizieren. Aus dem \textbf{SpriteFrameCache}, in welchem das Spritesheet geladen wurde, kann nun ein Sprite erstellt werden.
 Spritesheets stellen in unserem Projekt speziell für Animationen(verlinkung Animationen) und die Beschreibung der Spielwelt eine optimale Lösung dar. 
 
 
@@ -68,7 +68,7 @@ Sprite* mySprite->setAnchorPoint(0.5, 0.5);
 
 
 Weiter Möglichkeiten den Ankerpunkt zu setzten werden hier veranschaulicht. Rote Punkte::Ankerpunkte
-
+//Bild beispiel
 Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren und Verzerren. Weiterhin kann man die Farbe und Sichtbarkeit eines Sprites verändern. Die in unserem Projekt am häufigsten verwendete Manipulationsmethode ist das Skalieren. Sie ermöglicht es die Größe eines Sprites beliebig zu verändern. Im folgenden wird dies Bildlich dargestellt. 
 
 \begin{lstlisting}[style=singleline]
@@ -89,29 +89,28 @@ mySprite->setScale(2.0);
 Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt im folgenden soll ein kurzer Einblick auf das Prinzip der Animationen in Cocos2d als auch Allgemein  eingegangen werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet den Spielecharakteren zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
 
 //KOKSKOKS + Grundsätzlichhe Animation Methoden
-In Cocos2d werden solche Animationen durch Action Objekte realisiert. Diese haben die Fähigkeit die Werte von Node Objekte, in Echtzeit zu transformieren. Dazu zählen ebenfalls Instanzen der Klassen die von einem solchen Objekt erben. Werte eines Nodes, die verändert werden können sind z.b. die Sichtbarkeit, Farbe, Position oder auch die Größe des Nodes. Zum Beispiel kann ein Sprite von einer Position zur anderen bewegt werden.
+In Cocos2d werden solche Animationen durch \textbf{Action} Objekte realisiert. Diese haben die Fähigkeit die Werte von \textbf{Node} Objekte, in Echtzeit zu transformieren. Dazu zählen ebenfalls Instanzen der Klassen die von einem solchen Objekt erben. Werte eines Nodes, die verändert werden können sind z.b. die Sichtbarkeit, Farbe, Position oder auch die Größe des Nodes. Zum Beispiel kann ein Sprite von einer Position zur anderen bewegt werden.
 
-Grundsätzlich zwei Versionen von Actions unterschieden werden, diese sind By und To. Wobei Letztere absolut sind und im Gegensatz zu By Actions d.h. sie berücksichtigen  die aktuelle Position des Nodes  nicht. //beispiel das den unterschied klar macht  Die von Cocos2d bereitgestellten Funktionen zur Veränderung von Notes sind Move, Rotate, Scale, Fade In/Out und Tint. 
+Grundsätzlich können zwei Versionen von Actions unterschieden werden, diese sind By und To. Wobei Letztere absolut sind und im Gegensatz zu By Actions d.h. sie berücksichtigen  die aktuelle Position des \textbf{Node} nicht. //beispiel das den unterschied klar macht  Die von Cocos2d bereitgestellten Funktionen zur Veränderung von \textbf{Node}´s sind Move, Rotate, Scale, Fade In/Out und Tint. 
 //Beispiel Bild mit versah Animationen 
 
-Ein mögliches Beispiel für eine MoveBy Animation soll im folgenden kurz beschrieben werden.
-Als erstes wird ein MoveBy Objekt mit einer Angabe über die Dauer der Animation in Sekunden sowie ein Vektor der die Ziel Koordinaten auf der X als auch die der Y Achse beinhaltet erstellt. Anschließend wird dieses Objekt auf einem Node z.b. ein Sprite durch  die Methode runAction ausgeführt. 
+Ein mögliches Beispiel für eine MoveTo Animation soll im folgenden kurz beschrieben werden.
+Als erstes wird ein MoveBy Objekt mit einer Angabe über die Dauer der Animation in Sekunden sowie ein Vektor der die Ziel Koordinaten auf der X als auch die der Y Achse beinhaltet erstellt. Anschließend wird dieses Objekt auf einem \textbf{Node} z.b. ein Sprite durch die Methode runAction ausgeführt. 
 //Beispiel Bild (vlt. code)
 
 
 \subsection{Animate und Sequenze}
-Im vorgehenden wurden ein Überblick über einige von cococs2d bereitgestellte Aniamtionen geschaffen. Im Verlauf eines Spieleprojektes wäre es jedoch sinnvoll eigene Animationen erstellen zu können. Eine Möglichkeit eigene Animationen zu erstellen wie zum Beispiel eine Art simples Daumenkino, bietet die Klasse Animate. Ein Animate enthält eine Animation bzw. wird aus dieser Erstellt. Animations sind Container welche durch die Spriteframes, Verzögerungszeit zwischen den Frames als auch die Dauer der Action. Wenn ein Animate Objekt ausgeführt wird, werden bestimmte Frames auf dem Display durch die in dem Animate enthaltenen, ersetzt. So können zum Beispiel ein Sprite Frame durch ein Set von SpriteFrames ersetzt werden.
+Im vorgehenden wurden ein Überblick über einige von cococs2d bereitgestellte Aniamtionen geschaffen. Im Verlauf eines Spieleprojektes wäre es jedoch sinnvoll eigene Animationen erstellen zu können. Eine Möglichkeit eigene Animationen zu erstellen wie zum Beispiel eine Art simples Daumenkino, bietet die Klasse \textbf{Animate}. Ein \textbf{Animate} enthält eine Animation bzw. wird aus dieser Erstellt. Animations sind Container welche durch die \textbf{SpriteFrames}, Verzögerungszeit zwischen den Frames als auch die Dauer der Action. Wenn ein \textbf{Animate} Objekt ausgeführt wird, werden bestimmte Frames auf dem Display durch die in dem \textbf{Animate} enthaltenen, ersetzt. So kann zum Beispiel ein Sprite Frame durch ein Set von SpriteFrames ersetzt werden.
 
-Um Komplexe Abläufe von Animationen ist es sinnvoll eine Klasse wie Sequence zu benutzen. Die Instanz einer Sequence ermöglicht es verschiedene Action, Function und sogar Sequence Objekte hintereinander zu reihen und in einem Sequence-Objekt zusammenzufassen. So können Abläufe von Animationen zusammengefasst werden. 
-Die Fundions Objekte werden unter anderem für so genannte Callback(link) Funktionen verwendet. 
+Um Komplexe Abläufe von Animationen ist es sinnvoll eine Klasse wie \textbf{Sequence} zu benutzen. Die Instanz einer \textbf{Sequence} ermöglicht es verschiedene \textbf{Action}, Function und sogar \textbf{Sequence} Objekte hintereinander zu reihen und in einem Sequence-Objekt zusammenzufassen. So können Abläufe von Animationen zusammengefasst werden. 
+Die Funktion Objekte werden unter anderem für so genannte Callback(link) Funktionen verwendet. 
 
-Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei den Angriffspatterns des Boss Charakters Anwendung. Hierbei war ein Problem die Zeiten zwischen den einzelnen Actions, die Geschwindigkeit des gesamten Ablaufs als auch die Zeit die eine Actionbraucht um durchgeführt zu werden. Bei zu kurzen Puffer und zu langen Aktionszeiten vermischten sich die einzelnen Aktionen. 
-Eine Weiter Schwierigkeit stellte die Collisionserkennung dar. Diese richtet sich nach dem Rect das bei der Erstellung eines Sprites bzw. einer Animation übergeben wird.  Teile von Animationen beinhalteten das Drehen eines Sprites, wobei aber nur das SpriteFrame nicht das Rect gedreht wurde. 
+Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei den Angriffpatterns des Boss Charakters Anwendung. Hierbei war ein Problem die Zeiten zwischen den einzelnen \textbf{Action}, die Geschwindigkeit des gesamten Ablaufs als auch die Zeit die eine \textbf{Action} braucht um durchgeführt zu werden. Bei zu kurzen Puffer und zu langen Aktionszeiten vermischten sich die einzelnen Aktionen. Eine Weiter Schwierigkeit stellte die Collisionserkennung dar. Diese richtet sich nach dem \textbf{Rect} das bei der Erstellung eines Sprites bzw. einer Animation übergeben wird.  Teile von Animationen beinhalteten das Drehen eines Sprites, wobei aber nur das \textbf{SpriteFrame} nicht das \textbf{Rect} gedreht wurde. 
 
 \subsection{Spritesheet und Reverse}
 
-Eine häufige Methode zur Spriteerstellung ist es ,ein Spritesheet bei der Erzeugung heranzuziehen. 
-Hierzu benötigt man nicht nur das Spritesheet sondern auch eine “.plist” Datei, die eine Beschreibung der Frames, deren Interaktion und Zuweisung von Frames zu Bildern enthält. Nun kann man einerseits durch ein Zusammenspiel zwischen Spritesheet als auch .plist Datei die Animation bzw. den Ablauf im eigenen Programm definieren. Hierbei werden die SpriteFrames und die .plist Datei geladen, um im Anschluss die SpriteFrames in der .plist Datei mit den Sprites aus dem Spritesheet zu koppeln. Andererseits kann man den Ablauf einer Animation in der .plist Datei festlegen und im Anschluss die fertige Animation laden. 
+Eine häufige Methode zur Spriteerstellung ist es, ein Spritesheet bei der Erzeugung heranzuziehen. 
+Hierzu benötigt man nicht nur das Spritesheet sondern auch eine “.plist” Datei, die eine Beschreibung der Frames, deren Interaktion und Zuweisung von \textbf{SpriteFrame} zu Bildern enthält. Nun kann man einerseits durch ein Zusammenspiel zwischen Spritesheet als auch .plist Datei die Animation bzw. den Ablauf im eigenen Programm definieren. Hierbei werden die \textbf{SpriteFrame} und die .plist Datei geladen, um im Anschluss die \textbf{SpriteFrame}s in der .plist Datei mit den Sprites aus dem Spritesheet zu koppeln. Andererseits kann man den Ablauf einer Animation in der .plist Datei festlegen und im Anschluss die fertige Animation laden. 
 
 Wir entschieden uns für die Spritesheet .plist Methode, da wir ebenfalls bei der Realisierung des Levels mit Spritesheets arbeiteten und die Arbeit mit diesen daher kennen. Bei der suche nach einem Programm für die “Datei Methode” fanden wir weiterhin nur schlechte Tutorials. 
 
@@ -157,7 +156,7 @@ Wir haben auschließlich .mp3 verwendet, da dieses Dateiformat in Bezug auf coco
 
 
 \subsection{Audiobearbeitungsprogramme}
-Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man sich mit dem Thema Audiobearbeitung noch nie beschäftigt hat, ist es sehr schwer eines zu finden das die nötigen Funktionen liefert um einen gutes Resultat zu erzielen. Zudem kosten die meisten guten Programme viel Geld. Im Folgenden soll eine Auflistung von einigen kostenplfichtigen und kostenlosen Programmen einen groben Überblick verschaffen:
+Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man sich mit dem Thema Audiobearbeitung noch nie beschäftigt hat, ist es sehr schwer eines zu finden das die nötigen Funktionen liefert um einen gutes Resultat zu erzielen. Zudem kosten die meisten guten Programme viel Geld. Im Folgenden soll eine Auflistung von einigen kostenpflichtigen und kostenlosen Programmen einen groben Überblick verschaffen:
 
 \begin{itemize}
  \item Cubase (Steinberg, kostenpflichtig)
