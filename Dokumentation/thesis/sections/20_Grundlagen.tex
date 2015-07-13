@@ -30,7 +30,7 @@ Im Laufe des Spiels ist es  notwendig zwischen den verschiedenen Szenen zu wechs
 \item pushScene() unterbricht die Ausführung der aktuellen Szene und verschiebt diese auf den Stack. Der Stack ist eine Art Warteschlange welche nach dem 'Last in, First out – Prinzip', dort wartet die Szene auf weitere Anweißungen. Diese Funktion darf nur aufgerufen werden, wenn bereits eine Szene aktiv ist.
 \item popScene() wiederum ersetzt die aktuelle Szene und löscht diese komplett. Diese Funktion darf nur aufgerufen werden, wenn bereits eine Szene aktiv ist.
 \end{itemize}
-
+(\sectionauthor{TL})
 
 
 \section{Spriteprinzip}
@@ -122,6 +122,8 @@ Eine Weitere Vereinfachung durch Cocos bietet die Reverse Methode. Diese dient d
 
 //JOSIE JUMP BILDER
 
+(\sectionauthor{DG})
+
 \section{Callbackprinzip}
 
 In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet. Es handelt sich dabei um eine Referenz, die auf eine Methode einer Instanz verweist. Somit kann man eine Methode oder Funktion dynamisch im Spiel ausführen, wie das Drücken eines Buttons.
@@ -131,12 +133,11 @@ CC_CALLBACK_0(Director::popScene, Director::getInstance());
 \end{lstlisting}
 
 Der Director (\textbf{Director::getInstance()}) soll die Funktion \textbf{popScene()} ausführen. Zur Unterscheidung ist es wichtig die Klasse (\textbf{Director::}) zu nennen die ausgeführt werden soll. Denkbar wäre hier eine Kind-Klasse die den selben Methoden Namen aufweist. 
-Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden.
+Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden. (\sectionauthor{OG})
 
 \section{Tilemaps}
 
 \section{Musik und Sound-Effekte}
-
 Musik sowie alle Sounds die in unserem Spiel "'Josie"' zu hören sind wurden selbst geschrieben, aufgenommen und bearbeitet. Dazu gehören:
 
 \begin{itemize}
@@ -144,25 +145,25 @@ Musik sowie alle Sounds die in unserem Spiel "'Josie"' zu hören sind wurden sel
 \item Effektsounds für Sprung--, Schrumpf--, Stop und Schuss--Sounds von Josie, Shop--Sound, Bosstreffer--Sound
 \end{itemize}
 
-\subsection{Möglichkeiten der cocos2d-Engine zur Audioverarbeitung}
+\subsection{Möglichkeiten der cocos2d-x-Engine zur Audioverarbeitung}
 Cocos2d bietet mit der \textbf{SimpleAudioEngine} eine relative einfache Möglichkeit Audio\-dateien, sei es die Hintergrundmusik oder ein Sound-Effekte, zu laden, abzuspielen, zu pausieren und wieder zu entfernen. Hierzu ein kurzes Beispiel wie man auf einfache Art und Weise eine Audiodatei abspielt.
 
 \begin{lstlisting}[style=singleline]
-SimpleAudioEngine::getInstance()--\textgreater playBackgroundMusic("'song.mp3"',true);
+SimpleAudioEngine::getInstance()->playBackgroundMusic("song.mp3",true);
 \end{lstlisting}
 
-Auf die Implementierung und die Verwendung der \textbf{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \textbf{SimpleAudioEngine} betreffen in eine eigene Klasse \josieclass{Audio\-Unit} ausgelagert haben.
+Auf die Implementierung und die Verwendung der \cocosclass{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \cocosclass{SimpleAudioEngine} betreffen in eine eigene Klasse \josieclass{AudioUnit} ausgelagert haben.
 
 \subsection{Mono-/Stereo-Kanäle und Dateiformate}
 Es ist möglich sowohl Mono-- als auch Stereo--Audiodateien zu verwenden. Falls man also möchte dass Sounds zum Beispiel aus bestimmten Richtungen kommen, um dem Spieler ein gewisses Mittendrin--Gefühl zu vermitteln, sollten die Audiodateien stereo sein. Das ist allerdings erst richtig sinnvoll wenn das Spiel mit Kopfhörern oder mit Anschluss an ein Soundsystem gespielt wird. 
 
-In unserem Fall wurden Stereo--Audiodateien ohne Paning (mischen von Spuren nach links oder rechts) verwendet, da \gamename hauptsächlich für möbile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. In der Realität ist es außerdem meistens so, dass man bei Handyspielen den Ton ausschaltet bzw. ohne Kopfhörer spielt.
+In unserem Fall wurden Stereo--Audiodateien ohne Paning (mischen von Spuren nach links oder rechts) verwendet, da \gamename hauptsächlich für mobile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. In der Realität ist es außerdem meistens so, dass man bei Handyspielen den Ton ausschaltet bzw. ohne Kopfhörer spielt.
 
 Wir haben auschließlich .mp3 verwendet, da dieses Dateiformat in Bezug auf cocos2d von den meisten Geräten unterstützt wird. Ein weiterer Vorteil von .mp3 gegenüber anderen Formaten wie .wav ist die Dateigröße, was im Bezug auf mobile Geräte ein sehr wichtiger Faktor ist.
 
 
 \subsection{Audiobearbeitungsprogramme}
-Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man sich mit dem Thema Audiobearbeitung noch nie beschäftigt hat, ist es sehr schwer eines zu finden das die nötigen Funktionen liefert um einen gutes Resultat zu erzielen. Zudem kosten die meisten guten Programme viel Geld. Im Folgenden soll eine Auflistung von einigen kostenpflichtigen und kostenlosen Programmen einen groben Überblick verschaffen:
+Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man sich mit dem Thema Audiobearbeitung noch nie beschäftigt hat, ist es sehr schwer eines zu finden das die nötigen Funktionen liefert um einen gutes Resultat zu erzielen. Zudem kosten die meisten guten Programme viel Geld. Im Folgenden soll eine Auflistung von einigen kostenplfichtigen und kostenlosen Programmen einen groben Überblick verschaffen:
 
 \begin{itemize}
  \item Cubase (Steinberg, kostenpflichtig)
@@ -172,4 +173,6 @@ Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man si
  \item Goldwave (Goldwave Inc., teilweise kostenlos)
  \end{itemize} 
 
-Bei \gamename wurde Logic Pro X von Apple verwendet.
+Bei \gamename wurde Logic Pro X von Apple verwendet. 
+(\sectionauthor{DM})
+

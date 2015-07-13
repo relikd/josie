@@ -31,8 +31,7 @@
 %\usepackage{nicefrac}
 %\usepackage[verbose]{placeins} 
 
-\newcommand{\josieclass}[1]{\mbox{\textit{#1}}}
-\newcommand{\cocosclass}[1]{\mbox{\textbf{#1}}}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    Literatur File           %
@@ -222,7 +221,7 @@ belowskip = 0em
 \newcommand{\mybackground}[5]{
   \begin{pgfonlayer}{background}
     \path (#1.west |- #2.north)+(-0.5,0.5) node (a1) {};
-    \path (#3.east |- #4.south)+(+0.5,-0.25) node (a2) {};
+    \path (#3.east |- #4.south)+(+0.5,-0.25) node (a2) {};	
     \path[fill=yellow!20,rounded corners, draw=black!50, dashed] (a1) rectangle (a2);
     \path (a1.east |- a1.south)+(1.5,-0.3) node (u1)[above, text width=8em] {#5};
   \end{pgfonlayer}}
@@ -243,6 +242,10 @@ belowskip = 0em
 %%%%%%%%%%%%%%%%%%%
 %% unsere LaTeX shortcuts
 %%%%%%%%%%%%%%%%%%%
+
+\newcommand{\josieclass}[1]{\mbox{\textit{#1}}}
+\newcommand{\cocosclass}[1]{\mbox{\textbf{#1}}}
+\newcommand{\sectionauthor}[1]{\textit{\textbf{#1}}}
 
 \newcommand{\notebox}[1]{
 \colorbox{black!10}{\begin{minipage}{\textwidth -18pt}
