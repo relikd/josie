@@ -4,11 +4,14 @@
 \gamename  erinnert an eine erweiterte Version des Spieleklassikers Super Mario World.
 In der Theorie sollte es mehrere Spielabschnitte geben, jedoch wurde aus zeitlichen Gründen nur ein Abschnitt implementiert. Ein Spielabschnitt besteht aus drei Jump and Run Levels und einem Boss Kampf Level. 
 
-\subsection*{Jump and Run Level}
+\paragraph{Jump and Run Level:}
 Der Spieler versucht ohne Zeiteinschränkung das Level abzuschließen und dabei so viele Münzen wie möglich zu sammeln. Bei einem perfekten Lauf \textbf{kann} man alle Münzen einsammeln, einige davon sind allerding so plaziert dass sie nur schwer zu erreichen sind.
 Dem Spieler stehen die Steuerungsfunktionen "'Stoppen"', "'Schrumpfen"' und "'Springen"' zur Verfügung. 
 Dass Josie von selbst in einer festgelegten Geschwindigkeit läuft, führt zu einer gewissen Schwierigkeit des Spiels und macht Steuerungsfunktionen für "'Links"' und "'Rechts"' überflüssig.
 
+\paragraph{Boss Level:}
+
+(\sectionauthor{DM})
 
 \section{Klassenübersicht}\label{sec:Klassenuebersicht}
 
@@ -37,7 +40,7 @@ Beim Ende eines Levels wird das \textit{LevelGameOver} angezeigt. Dabei spielt e
 Es sei noch angemerkt, dass die beiden Klassen \textit{AudioUnit} und \textit{GameStateManager} nur statische Funktionen enthalten und somit nie eine Instanz gespeichert wird. Der Aufruf erfolgt an den entsprechenden Stellen.
 Auch der \textit{PauseScreen} wird sowohl von der \textit{Level} Scene, als auch vom \textit{BossLevel} gleichermaßen benutzt und auf der jeweiligen HUD hinzugefügt. Die \textit{LevelHUD} und \textit{BossLevelHUD} steuern außerdem die Bewegungen des \textit{LevelPlayer} bzw. \textit{BossPlayer}.
 
-
+(\sectionauthor{OG})
 
 \section{Vererbung}\label{sec:Vererbung}
 
@@ -68,8 +71,7 @@ Der \textit{MapController} erweitert die Funktionalität der cocos Klasse um die
 }
 
 Die Klasse \textit{TMXEdit} kommt ohne Eltern Klasse aus, das sie nur für das Generieren des Random Level zuständig ist. Sie holt sich dafür eine Instanz des MapControllers und erstellt zufällige Kartenelemente.
-
-
+(\sectionauthor{OG})
 
 \section{Speichersystem}\label{sec:Speichersystem}
 
@@ -77,4 +79,5 @@ Bei der Speicherung des App Zustandes, also der Einstellungen und des Spielstand
 
 Die Hintergründe und Level Karten liegen einer bestimmten Struktur zugrunde. Wenn beispielsweise das Level 1.2 aufgerufen wird, so lädt das Level den Hintergrund \textquote{backgrounds\textbackslash bg\_1.2.png} und die Karte \blockquote{tilemaps\textbackslash 1.2.tmx}.
 
+(\sectionauthor{OG})
 
