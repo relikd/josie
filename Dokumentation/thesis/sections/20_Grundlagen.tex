@@ -56,7 +56,7 @@ Sprite* mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
 \end{lstlisting}
 
 Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren diese die Aufrufe an OpenGL ES etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den \textbf{SpriteFrameCache} geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. \textbf{SpriteFrame}-Objekte beinhalten den Bildnamen des Sprites und ein \textbf{Rect} um die Größe des Sprites zu spezifizieren. Aus dem \textbf{SpriteFrameCache}, in welchem das Spritesheet geladen wurde, kann nun ein Sprite erstellt werden.
-Spritesheets stellen in unserem Projekt speziell für Animationen(verlinkung Animationen) und die Beschreibung der Spielwelt eine optimale Lösung dar. 
+Spritesheets stellen in unserem Projekt speziell für Animationen und die Beschreibung der Spielwelt eine optimale Lösung dar. 
 
 
 \subsection{Möglichkeiten Sprites zu manipuliern}
@@ -107,6 +107,10 @@ Die Funktion Objekte werden unter anderem für so genannte Callback(link) Funkti
 
 Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei den Angriffpatterns des Boss Charakters Anwendung. Hierbei war ein Problem die Zeiten zwischen den einzelnen \textbf{Action}, die Geschwindigkeit des gesamten Ablaufs als auch die Zeit die eine \textbf{Action} braucht um durchgeführt zu werden. Bei zu kurzen Puffer und zu langen Aktionszeiten vermischten sich die einzelnen Aktionen. Eine Weiter Schwierigkeit stellte die Collisionserkennung dar. Diese richtet sich nach dem \textbf{Rect} das bei der Erstellung eines Sprites bzw. einer Animation übergeben wird.  Teile von Animationen beinhalteten das Drehen eines Sprites, wobei aber nur das \textbf{SpriteFrame} nicht das \textbf{Rect} gedreht wurde. 
 
+
+//BOSS PATTERN BILDER !
+
+
 \subsection{Spritesheet und Reverse}
 
 Eine häufige Methode zur Spriteerstellung ist es, ein Spritesheet bei der Erzeugung heranzuziehen. 
@@ -115,6 +119,8 @@ Hierzu benötigt man nicht nur das Spritesheet sondern auch eine “.plist” Da
 Wir entschieden uns für die Spritesheet .plist Methode, da wir ebenfalls bei der Realisierung des Levels mit Spritesheets arbeiteten und die Arbeit mit diesen daher kennen. Bei der suche nach einem Programm für die “Datei Methode” fanden wir weiterhin nur schlechte Tutorials. 
 
 Eine Weitere Vereinfachung durch Cocos bietet die Reverse Methode. Diese dient dazu bestimmte Animationen rückwärts ablaufen zu lassen. Diese ist in unserem Projekt unter anderem bei der Sprung Animation zum Einsatz gekommen. 
+
+//JOSIE JUMP BILDER
 
 \section{Callbackprinzip}
 
