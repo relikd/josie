@@ -1,78 +1,22 @@
+@webpage{bitkomgaming,
+	Abstract = {In Deutschland w{\"a}chst der Umsatz mit Spielen f{\"u}r Mobilger{\"a}te wie Smartphones und Tablet-Computer in diesem Jahr voraussichtlich auf 465 Millionen Euro. Dies entspricht einem Anstieg um ein Drittel (33 Prozent) gegen{\"u}ber 2013. },
+	Date-Added = {2015-07-14 08:37:48 +0000},
+	Date-Modified = {2015-07-14 08:43:39 +0000},
+	Keywords = {gaming, apps, spielemarkt},
+	Lastchecked = {14.07.2015},
+	Title = {Mobile Games treiben den Spiele-Markt},
+	Month = aug,
+	Url = {https://www.bitkom.org/Presse/Presseinformation/Pressemitteilung_3499.html},
+	Year = {2014}}
+
 @manual{2DOBB,
-  Title                    = {2D OBB Intersection},
-  Author                   = {McGuire, Morgan},
-  Year                     = {2003},
-  Month                    = apr,
-  Organization             = {Brown University Department of Computer Science},
-  Abstract                 = {For 2D graphics or movement of 3D objects on a 2D ground plane it is often useful to discover if the 2D oriented bounding boxes of two objects overlap (have a non-empty intersection). [...] The C++ code sample provided efficiently computes this fast 2D oriented bounding box overlap. I augmented the OBB2D class with some methods for rendering and construction to help visualize the result. OBB2D::overlaps1Way performs the real work. It tests to see whether the box passed as an argument overlaps the current box along either of the current box's dimensions. Note that this test must be performed for each box on the other to determine whether there is truly any overlap. To make the tests extremely efficient, OBB2D::origin stores the projection of corner number zero onto a box's axes and the axes are stored explicitly in OBB2D::axis. The magnitude of these stored axes is the inverse of the corresponding edge length so that all overlap tests can be performed on the interval [0, 1] without normalization, and square roots are avoided throughout the entire class.},
-  Keywords                 = {Collision;Intersection;Detection;Overlapping;Hit},
-  Timestamp                = {2015.06.05},
-  Url                      = {http://www.flipcode.com/archives/2D_OBB_Intersection.shtml}
-}
-
-@Article{Alleman2006,
-  Title                    = {Delivering compliance and agility [product lifecycle management]},
-  Author                   = {Alleman, M.},
-  Journal                  = {Manufacturing Engineer},
-  Year                     = {2006},
-
-  Month                    = {June},
-  Number                   = {3},
-  Pages                    = {8-9},
-  Volume                   = {85},
-
-  __markedentry            = {[dekiri:6]},
-  Abstract                 = {This paper explains how product lifecycle management (PLM) tools can be used such that an organization's supply chain is managed to ensure quality, with availability, compliance and competitiveness as primary areas of focus. By providing one product record, PLM can manage, coordinate and optimize the processes, decisions and information about products from initial concept to end-of-life across the extended enterprise.},
-  ISSN                     = {0956-9944},
-  Keywords                 = {organisational aspects;product life cycle management;supply chain management;extended enterprise;organization supply chain management;product lifecycle management;product record},
-  Owner                    = {dekiri},
-  Timestamp                = {2014.05.16}
-}
-
-@Article{Bernstein2008,
-  Title                    = {Information Integration in the Enterprise},
-  Author                   = {Bernstein, Philip A. and Haas, Laura M.},
-  Journal                  = {Commun. ACM},
-  Year                     = {2008},
-
-  Month                    = sep,
-  Number                   = {9},
-  Pages                    = {72--79},
-  Volume                   = {51},
-
-  __markedentry            = {[dekiri:6]},
-  Acmid                    = {1378745},
-  Address                  = {New York, NY, USA},
-  Doi                      = {10.1145/1378727.1378745},
-  ISSN                     = {0001-0782},
-  Issue_date               = {September 2008},
-  Numpages                 = {8},
-  Owner                    = {dekiri},
-  Publisher                = {ACM},
-  Timestamp                = {2014.05.16},
-  Url                      = {http://doi.acm.org/10.1145/1378727.1378745}
-}
-
-@InProceedings{Chiu2002,
-  Title                    = {Investigating the limits of SOAP performance for scientific computing},
-  Author                   = {Chiu, K. and Govindaraju, M. and Bramley, R.},
-  Booktitle                = {High Performance Distributed Computing, 2002. HPDC-11 2002. Proceedings. 11th IEEE International Symposium on},
-  Year                     = {2002},
-  Pages                    = {246-254},
-
-  __markedentry            = {[dekiri:6]},
-  Abstract                 = {The growing synergy between Web Services and Grid-based technologies will potentially enable profound, dynamic interactions between scientific applications dispersed in geographic, institutional, and conceptual space. Such deep interoperability requires the simplicity, robustness, and extensibility for which SOAP was conceived, thus making it a natural lingua franca. Concomitant with these advantages, however is a degree of inefficiency that may limit the applicability of SOAP to some situations. We investigate the limitations of SOAP for high-performance scientific computing. We analyze the processing of SOAP messages, and identify the issues of each stage. We present a high-performance SOAP implementation and a schema-specific parser based on the results of our investigation. After our SOAP optimizations are implemented, the most significant bottleneck is ASCII/double conversion. Instead of handling this using extensions to SOAP we recommend a multiprotocol approach that uses SOAP to negotiate faster binary protocols between messaging participants.},
-  Doi                      = {10.1109/HPDC.2002.1029924},
-  ISSN                     = {1082-8907},
-  Keywords                 = {Internet;distributed programming;message passing;natural sciences computing;open systems;performance evaluation;protocols;Grid-based technologies;SOAP performance;Web services;conceptual space;deep interoperability;dynamic interactions;geographic space;high-performance computing;institutional space;scientific computing;Application software;Distributed computing;Grid computing;Quality of service;Robustness;Scientific computing;Simple object access protocol;Space technology;Web services;XML},
-  Owner                    = {dekiri},
-  Timestamp                = {2014.05.16}
-}
-
-@Book{gamma2011patterns,
-  Title                    = {Entwurfsmuster: Elemente wiederverwendbarer objektorientierter Software},
-  Author                   = {Gamma, E. and Johnson, R. and Helm, R. and Vlissides, J.},
-  Publisher                = {Pearson Deutschland},
-  Year                     = {2011},
-  Series                   = {Programmer's choice}
-}
+	Abstract = {For 2D graphics or movement of 3D objects on a 2D ground plane it is often useful to discover if the 2D oriented bounding boxes of two objects overlap (have a non-empty intersection). [...] The C++ code sample provided efficiently computes this fast 2D oriented bounding box overlap. I augmented the OBB2D class with some methods for rendering and construction to help visualize the result. OBB2D::overlaps1Way performs the real work. It tests to see whether the box passed as an argument overlaps the current box along either of the current box's dimensions. Note that this test must be performed for each box on the other to determine whether there is truly any overlap. To make the tests extremely efficient, OBB2D::origin stores the projection of corner number zero onto a box's axes and the axes are stored explicitly in OBB2D::axis. The magnitude of these stored axes is the inverse of the corresponding edge length so that all overlap tests can be performed on the interval [0, 1] without normalization, and square roots are avoided throughout the entire class.},
+	Author = {McGuire, Morgan},
+	Keywords = {Collision;Intersection;Detection;Overlapping;Hit},
+	Month = apr,
+	Organization = {Brown University Department of Computer Science},
+	Timestamp = {2015.06.05},
+	Title = {2D OBB Intersection},
+	Url = {http://www.flipcode.com/archives/2D_OBB_Intersection.shtml},
+	Year = {2003},
+	Bdsk-Url-1 = {http://www.flipcode.com/archives/2D_OBB_Intersection.shtml}}

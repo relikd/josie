@@ -36,7 +36,7 @@ Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf 
 Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb aufrufen kann.
 
 \subsection{Laden von Soundeffekten}
-Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Soundeffekten ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen. Der Grund dafür ist, dass zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen der Sound erst geladen, abgespielt und anschließend wieder entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \linebreak \josieclass{AudioUnit::preloadBossSounds()} aufgerufen.
+Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Soundeffekten ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen. Der Grund dafür ist, dass zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen der Sound erst geladen, abgespielt und anschließend wieder entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \josieclass{AudioUnit::preloadBossSounds()} aufgerufen.
 
 \begin{lstlisting}[label=lst:preloadBossSounds,
 				   language=C++,
@@ -49,7 +49,6 @@ void AudioUnit::preloadBossSounds()
 						->getIntegerForKey("sfx_volume")/200.0);
 	engine->preloadEffect("audio/boss_sounds/boss_hit1.mp3");
 	//Weitere Preloads
-	engine->preloadEffect("audio/josie_sounds/josie_hit3.mp3");
 }
 \end{lstlisting}
 
@@ -121,7 +120,7 @@ Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erst
 
 Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth - 50pt]{resources/CollisionLayer_BossKampf.jpg}
   \caption{CollisionLayer Debug im Boss Kampf}
