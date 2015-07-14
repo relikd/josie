@@ -31,7 +31,7 @@ void BossLevelHUD::update(float dt)
 
 Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf die Abfrage auf \textbf{isSelected()} ob der aktuelle Button gedrückt ist. Das Aktivieren des Observers ist denkbar einfach über \textbf{dispatchCustomEvent()}.
 
-\section{SpritePrinzip}
+\sectionDG{SpritePrinzip}
 Die grundlegende Nutzung von Sprites wird im folgenden anhand der \josieclass{Tutorial} erklärt. Es werden die Bereiche, die sehr viel Anwendung in unserem Projekt fanden, erklärt. Diese sind unter anderem: das Laden von Sprites, Verwendung des Ankerpunktes als auch die Verwendung grundsätzlicher Funktionen wie \textbf{moveBy()}.
 
 \begin{lstlisting}
@@ -58,9 +58,10 @@ Im Anschluss soll ein Beispiel für die Verwendung von Grundfunktion zur Spritem
 Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erstellt. Ein Objekt ist für eine Aktion zuständig die etwas verändert, das andere stellt den Uhrsprungszustand wieder her. Beim erstellen des RotateTo Objektes werden die Zeitdauer der Rotierung und der Winkel mitgegeben. Dem MoveTo Objekt wird bei der Erzeugung die Zeitdauer der Aktion als auch ein Vector der die Zielkoordinaten beschreibt übergeben. Im Anschluss wird eine Sequenz mit dem Gewünschten Ablauf der Animation erstellt und danach ausgeführt. Folgendes, Bildhaftes Beispiel soll dies veranschaulichen. 
 
 \begin{figure}[H]
-  \includegraphics[width=0.1\textwidth]{resources/dokubaum}
+  \centering
+  \includegraphics[width=15.5cm]{resources/dokubaum}
   \caption{Beispiel eine Sequenz}
-  \label{fig:josie} 
+  \label{fig:dokubaum} 
 \end{figure}
 
 Eine Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .plist Datei soll durch das folgende Beispiel erbracht werden. Hierbei wird ein Beispiel aus der \josieclass{LevelPlayer} genutzt. 
