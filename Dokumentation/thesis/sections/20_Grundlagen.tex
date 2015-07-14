@@ -159,6 +159,7 @@ mySprite->setScale(2.0);
 
 
 \begin{figure}[H]
+ \centering
   \includegraphics[width=0.1\textwidth]{resources/josie}
   \caption{Das ist Josie}
   \label{fig:josie} 
@@ -176,16 +177,18 @@ In Cocos2d werden solche Animationen durch \cocosclass{Action} Objekte realisier
 Grundsätzlich können zwei Versionen von Actions unterschieden werden, diese sind By und To. Wobei Letztere absolut sind und im Gegensatz zu By Actions d.h. sie berücksichtigen die aktuelle Position des Node nicht. Ein mögliches Beispiel für eine MoveTo Animation soll im folgenden kurz beschrieben werden. Man erstellt ein MoveBy Objekt mit einer Angabe über die Dauer der Animation in Sekunden sowie ein Vektor der die Ziel Koordinaten auf der X als auch die der Y Achse beinhaltet. Anschließend wird dieses Objekt auf einem Node z.b. ein Sprite durch die Methode \textbf{runAction()} ausgeführt. 
 
 \begin{figure}[H]
-  \includegraphics[width=0.1\textwidth]{resources/josiedoku6}
-  \label{fig:josie} 
+ \centering
+  \includegraphics[width=12\textwidth]{resources/josiedoku6}
+  \label{fig:josiemoveByTo} 
 \end{figure}
 
 Die von Cocos2d bereitgestellten Funktionen zur Veränderung von Nodes sind Move, Rotate, Scale, Fade In/Out und Tint.
 
 \begin{figure}[H]
-  \includegraphics[width=0.1\textwidth]{resources/josiedoku5}
+ \centering
+  \includegraphics[width=12\textwidth]{resources/josiedoku5}
   \caption{Beispiel für Fade In/Out bei Josie}
-  \label{fig:josie} 
+  \label{fig:fade} 
 \end{figure}
 
 
@@ -196,10 +199,13 @@ Um Komplexe Abläufe von Animationen ist es sinnvoll eine Klasse wie \cocosclass
 Die Funktion Objekte werden unter anderem für so genannte Callback(link) Funktionen verwendet. 
 
 \begin{figure}[H]
-  \includegraphics[width=0.1\textwidth]{resources/sequence}
+ \centering
+  \includegraphics[width=12\textwidth]{resources/sequence}
   \caption{Beispiel für Aktionen}
-  \label{fig:josie} 
+  \label{fig:sequence} 
 \end{figure}
+
+
 
 Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei den Angriffspattern des Boss Charakters Anwendung. Hierbei war ein Problem die Zeiten zwischen den einzelnen Action, die Geschwindigkeit des gesamten Ablaufs als auch die Zeit die eine Action braucht um durchgeführt zu werden. Bei zu kurzen Puffer und zu langen Aktionszeiten vermischten sich die einzelnen Aktionen.
 

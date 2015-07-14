@@ -34,7 +34,10 @@ Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf 
 \sectionDG{SpritePrinzip}
 Die grundlegende Nutzung von Sprites wird im folgenden anhand der \josieclass{Tutorial} erklärt. Es werden die Bereiche, die sehr viel Anwendung in unserem Projekt fanden, erklärt. Diese sind unter anderem: das Laden von Sprites, Verwendung des Ankerpunktes als auch die Verwendung grundsätzlicher Funktionen wie \textbf{moveBy()}.
 
-\begin{lstlisting}
+\begin{lstlisting}[label=lst:sprite_ancerpoint,
+				   language=C++,
+				   firstnumber=54,
+				   caption=Sprite laden ( TutorialScene.cpp )]
 Sprite* josie = Sprite::create("josie/josie_static.png");
 	josie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	josie->setPosition(200,45);
@@ -46,13 +49,16 @@ Die erste Zeile erstellt ein Sprite Object und gibt in der create Methode den Pf
 
 Im Anschluss soll ein Beispiel für die Verwendung von Grundfunktion zur Spritemanipulation als auch Sequenzen erläutert werden. Hierbei wird ein Beispiel aus der Klasse \josieclass{BossPlayer} verwendet.
 
-\begin{lstlisting}
-		auto right_rotate = RotateTo::create(2.0, 30.0f);
-		auto right_rotate_back = RotateTo::create(0.2, 0.0f);
-		auto right_down = MoveTo::create(0.2,Vec2(400,100));
-		auto right_up = MoveTo::create(1.0,Vec2(1520,600));
-		auto sequence = Sequence::create(right_rotate, right_down, right_up,right_rotate_back, nullptr);
-		right->runAction(sequence);
+\begin{lstlisting}[label=lst:boss_attack_sequence,
+				   language=C++,
+				   firstnumber=219,
+				   caption=Sequence erstellen ( BossLevel.cpp )]
+auto right_rotate = RotateTo::create(2.0, 30.0f);
+auto right_rotate_back = RotateTo::create(0.2, 0.0f);
+auto right_down = MoveTo::create(0.2,Vec2(400,100));
+auto right_up = MoveTo::create(1.0,Vec2(1520,600));
+auto sequence = Sequence::create(right_rotate, right_down, right_up,right_rotate_back, nullptr);
+right->runAction(sequence);
 \end{lstlisting}
 
 Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erstellt. Ein Objekt ist für eine Aktion zuständig die etwas verändert, das andere stellt den Uhrsprungszustand wieder her. Beim erstellen des RotateTo Objektes werden die Zeitdauer der Rotierung und der Winkel mitgegeben. Dem MoveTo Objekt wird bei der Erzeugung die Zeitdauer der Aktion als auch ein Vector der die Zielkoordinaten beschreibt übergeben. Im Anschluss wird eine Sequenz mit dem Gewünschten Ablauf der Animation erstellt und danach ausgeführt. Folgendes, Bildhaftes Beispiel soll dies veranschaulichen. 
@@ -66,26 +72,32 @@ Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erst
 
 Eine Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .plist Datei soll durch das folgende Beispiel erbracht werden. Hierbei wird ein Beispiel aus der \josieclass{LevelPlayer} genutzt. 
 
-\begin{lstlisting}
-		Vector<SpriteFrame*> frames;
-		SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
+\begin{lstlisting}[label=lst:build_josie_animation,
+				   language=C++,
+				   firstnumber=96,
+				   caption=Sequence erstellen ( LevelPlayer.cpp )]
+Vector<SpriteFrame*> frames;
+SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
 
-		char file[9] = { 0 };
+char file[9] = { 0 };
 
-		for (int i = 0; i < 6; i++) {
-			sprintf(file, "coin%04d", i);
-			SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
-			frames.pushBack(frame);
-		}
+for (int i = 0; i < 6; i++) {
+	sprintf(file, "coin%04d", i);
+	SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+	frames.pushBack(frame);
+}
 
-		Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
+Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
 \end{lstlisting}
 
 Anfangs erstellt man einen String mit Hilfe eines Char Arrays und ein Vector zur Erstellung von Frames. Außerdem erzeugt man ein SpriteFrameCache um auf das Spritesheet welches außerhalb des oben gezeigten Codes in den SpriteFrameCache geladen wurde. In der danach folgenden for-Schleife werden
 in das Array der Name des zu ladenden Bildes eingefügt. Hierbei ist zu beachten dass Für eine Animation mehrere Bilder nacheinander geladen werden müssen, diese haben die Namenskonvention "coin0000", "coin0001" etc. Im Anschluss werden die SpriteFrames welche genau den vorher im Array abgelegten Namen tragen aus dem SpriteFrameCache geladen und in den anfangs definierten Vektor eingefügt. 
 Sobald die For-Schleife abgearbeitet ist, wird eine Animation durch die Funktion \textbf{createWithSpriteFrames()} erstellt. Dieser werden der Vektor und eine Verzögerung zwischen den Frames des Vektors übergeben.
 
-\begin{lstlisting}
+\begin{lstlisting}[label=lst:build_josie_animation_reverse,
+				   language=C++,
+				   firstnumber=96,
+				   caption=Sequence reverse ( LevelPlayer.cpp )]
 startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse())
 \end{lstlisting}
 
