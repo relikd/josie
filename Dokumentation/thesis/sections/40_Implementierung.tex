@@ -1,6 +1,6 @@
 \chapter{Implementierung}\label{ch:impl}
 
-\section{Spieler Steuerung}\label{sec:4_SpielerSteuerung}
+\sectionOG{Spieler Steuerung}\label{sec:4_SpielerSteuerung}
 
 Die Spieler Steuerung wird mithilfe eines Observer Patterns realisiert. Beim Laden der \josieclass{BossPlayer} Klasse wird der Spieler als Observer eingetragen:
 
@@ -33,7 +33,7 @@ Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf 
 
 
 
-\section{AudioUnit}\label{sec:4_Audiounit}
+\sectionDM{AudioUnit}\label{sec:4_Audiounit}
 Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb aufrufen kann.
 
 \subsection{Laden von Soundeffekten}
@@ -89,7 +89,7 @@ Analog kann das ganze auf das Abspielen der Hintergrundmusik übertragen werden,
 
 
 
-\section{Kollisionsabfrage zum Boden}\label{sec:4_Kollisionsabfrage}
+\sectionOG{Kollisionsabfrage zum Boden}\label{sec:4_Kollisionsabfrage}
 
 Die Kollisionsabfrage ist auf den ersten Blick nicht sofort einleuchtend. Prinzipiell wird für die komplette Karte ein Array mit ganzzahligen Werten angelegt, also für jede Spalte (72px breite, vertikale Linie auf dem Bildschirm) wird ein \textbf{long} Wert gespeichert.
 Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob Kollision besteht.
@@ -119,7 +119,7 @@ Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erst
 
 
 
-\section{CollisionLayer}\label{sec:4_CollisionLayer}
+\sectionOG{CollisionLayer}\label{sec:4_CollisionLayer}
 \subsection{Debugging Optionen}\label{sec:CollisionLayerDebug}
 
 Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
