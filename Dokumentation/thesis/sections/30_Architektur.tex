@@ -1,6 +1,6 @@
 \chapter{Architektur}
 
-\section{Spielstruktur}\label{sec:Spielstruktur}
+\section{Spielstruktur}\label{sec:3_Spielstruktur}
 \gamename  erinnert an eine erweiterte Version des Spieleklassikers Super Mario World.
 In der Theorie sollte es mehrere Spielabschnitte geben, jedoch wurde aus zeitlichen Gründen nur ein Abschnitt implementiert. Ein Spielabschnitt besteht aus drei Jump and Run Levels und einem Boss Kampf Level. 
 
@@ -11,9 +11,9 @@ Dass Josie von selbst in einer festgelegten Geschwindigkeit läuft, führt zu ei
 
 \paragraph{Boss Level:}
 
-(\sectionauthor{DM})
 
-\section{Klassenübersicht}\label{sec:Klassenuebersicht}
+
+\section{Klassenübersicht}\label{sec:3_Klassenuebersicht}
 
 Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die \textit{MainMenuScene} lädt. Dieser Bildschirm dient zum Einen (a) die \textit{Optionen} aufzurufen, (b) ein kurzes \textit{Tutorial} zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl (\textit{LevelSelectScene}).
 Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \textit{Level}, einem automatisch generierten (\textit{TMXEdit}) und dem Boss Kampf (mit vorgeschalteter \textit{ShopScene}).
@@ -28,7 +28,7 @@ Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \textit{L
 	\textbf{Info zur Farbvergabe}: \\
 	Rote Klassen stammen von der \textit{cocos2d::Scene} Klasse ab\\
 	Gelbe Klassen sind \textit{cocos2d::Layer} die über einer Scene eingeblendet werden\\
-	Blaue Klassen sind Objekte mit unterschiedlicher Basis-Klasse (siehe Kapitel \ref{sec:Vererbung})\\
+	Blaue Klassen sind Objekte mit unterschiedlicher Basis-Klasse (siehe Kapitel \ref{sec:3_Vererbung})\\
 	Graue Objekte bezeichnen Statische Klassen
 }
 
@@ -40,9 +40,9 @@ Beim Ende eines Levels wird das \textit{LevelGameOver} angezeigt. Dabei spielt e
 Es sei noch angemerkt, dass die beiden Klassen \textit{AudioUnit} und \textit{GameStateManager} nur statische Funktionen enthalten und somit nie eine Instanz gespeichert wird. Der Aufruf erfolgt an den entsprechenden Stellen.
 Auch der \textit{PauseScreen} wird sowohl von der \textit{Level} Scene, als auch vom \textit{BossLevel} gleichermaßen benutzt und auf der jeweiligen HUD hinzugefügt. Die \textit{LevelHUD} und \textit{BossLevelHUD} steuern außerdem die Bewegungen des \textit{LevelPlayer} bzw. \textit{BossPlayer}.
 
-(\sectionauthor{OG})
 
-\section{Vererbung}\label{sec:Vererbung}
+
+\section{Vererbung}\label{sec:3_Vererbung}
 
 Wie bereits im \href{sec:Klassenuebersicht}{Vorherigen Kapitel} erwähnt, stammen nicht alle Klassen von \textit{cocos2d:: Scene} bzw. \textit{cocos2d::Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \textit{CollisionLayer} Klasse.
 Es wurde bewusst \textit{cocos2d::LayerColor} gewählt um, für Debugging Zwecke, den Kollisions Rahmen anzeigen zu können (siehe Kapitel \ref{sec:CollisionLayerDebug}).
@@ -71,13 +71,11 @@ Der \textit{MapController} erweitert die Funktionalität der cocos Klasse um die
 }
 
 Die Klasse \textit{TMXEdit} kommt ohne Eltern Klasse aus, das sie nur für das Generieren des Random Level zuständig ist. Sie holt sich dafür eine Instanz des MapControllers und erstellt zufällige Kartenelemente.
-(\sectionauthor{OG})
 
-\section{Speichersystem}\label{sec:Speichersystem}
+
+
+\section{Speichersystem}\label{sec:3_Speichersystem}
 
 Bei der Speicherung des App Zustandes, also der Einstellungen und des Spielstandes, haben wir uns für die \textit{cocos2d::UserDefault} entschieden. Der Zugriff erfolgt einfach und es benötigt keiner speziellen zusätzlichen Klassen oder 3rd Party Libraries. Die Münzen und die benötigte Zeit für die Level werden codiert in zwei Strings gespeichert. Dabei gibt das Byte an der x. Stelle die Münzen/Zeit für das Level x wieder. Jede Dauer die darüber hinausgeht, wird mit der Maximalzeit von 255 Sekunden, also 4:15 Min gespeichert.
 
 Die Hintergründe und Level Karten liegen einer bestimmten Struktur zugrunde. Wenn beispielsweise das Level 1.2 aufgerufen wird, so lädt das Level den Hintergrund \textquote{backgrounds\textbackslash bg\_1.2.png} und die Karte \blockquote{tilemaps\textbackslash 1.2.tmx}.
-
-(\sectionauthor{OG})
-
