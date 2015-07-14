@@ -2,7 +2,7 @@
 
 
 
-\sectionDM{Spielprinzip von Josie - A Jelly's Journey}
+\section{Spielprinzip von Josie - A Jelly's Journey}
 \gamename  erinnert an eine erweiterte Version des Spieleklassikers Super Mario World.
 In der Theorie sollte es mehrere Spielabschnitte geben, jedoch wurde aus zeitlichen Gründen nur ein Abschnitt implementiert. Ein Spielabschnitt besteht aus drei Jump and Run Levels und einem Boss Kampf Level. 
 
@@ -15,7 +15,7 @@ Dass Josie von selbst in einer festgelegten Geschwindigkeit läuft, führt zu ei
 
 
 
-\sectionTL{Framework}\label{sec:2_Framework}
+\section{Framework}\label{sec:2_Framework}
 Als die grobe Idee für das Spiel feststand, mussten wir uns für eine GameEngine entscheiden. Zur Auswahl standen unter anderem die AndEngine, Unity und Cocos2d-x. Nach ausreichender Recherche über die Funktionalitäten der verschiedenen Engines haben wir uns einstimmig für Cocos2d-x entschieden. Cocos2d-x untestützt drei Programmiersprachen, C++, JavaSkript und Lua. Hier haben wir C++ gewählt, da wir im laufe unseres Studiums eine Vorlesung über C++ gehört haben.
 Die nächste Herausforderung war die Einrichtung von Cocos2d-x. Da wir drei verschiedene Betriebssysteme(Win8, MacOSX, Ubuntu) benutzen, hatten wir geringe Kompatibilitätsprobleme.
 Um Cocos2d-x einzurichten, werden folgende Pakete benötigt:
@@ -34,7 +34,7 @@ Hat man die zwei Programme installiert öffnet man den Cocos2d-x Ordner und star
 
 
 
-\sectionTL{IDE und Plugins}\label{sec:2_IDE}
+\section{IDE und Plugins}\label{sec:2_IDE}
 
 Nachdem die Umgebungsvariablen eingetragen sind, muss das Android Developer Tool Plugin für Eclipse installiert werden. Hat man das erledigt öffnet man den im Plugin enthaltenen Android SDK-Manager und lädt sich hier nochmal die passende API herunter. In unserem Fall war das die API für Androidversion 4.4.2(API 19). 
 Ist dieser Schritt geschafft, wird es Zeit das erste Projekt zu erstellen.
@@ -75,7 +75,7 @@ Nun kann man anfangen zu arbeiten!
 
 
 
-\sectionTL{Szenenprinzip}\label{sec:2_Szenenprinzip}
+\section{Szenenprinzip}\label{sec:2_Szenenprinzip}
 Eine Szene ist im Grunde genommen nichts anderes als ein Container, welcher  Sprites, Labels, Nodes und andere Objekte beinhaltet die ein Spiel benötigt. Eine Szene ist für die laufende Spiellogik und Darstellung des Inhaltes auf einer 'per-frame basis' verantwortlich. Es wird mindestens eine Szene benötigt damit man das Spiel starten kann. Man kann beliebig viele Szenen-Objekte in einem Spiel verwenden und leicht zwischen diesen überleiten. Der Vorteil von Szenen liegt darin, dass man nicht jedes Objekt einzeln laden muss. An eine Szene lassen sich diverse Sprites, Labels und Nodes mit der von Cocos2d-x gegebenen Funktion addChild() anhängen(siehe Abbildung \ref{fig:szenengraph}). Sobald das Szenen-Objekt geladen wird, werden die angefügten Kinder mitgeladen. Dies spart Zeit und entlastet den Speicher.
 
 \begin{figure}[H]
@@ -106,7 +106,7 @@ Im Laufe des Spiels ist es  notwendig zwischen den verschiedenen Szenen zu wechs
 
 
 
-\sectionDG{Spriteprinzip}\label{sec:2_Spriteprinzip}
+\section{Spriteprinzip}\label{sec:2_Spriteprinzip}
 Allgemein betrachtet kann man sagen, dass ein Sprite(engl. Kobold, Geistwesen) ein Grafikobjekt ist, welches über den Hintergrund gelegt wird und von der Grafikhardware platziert wird. 
 Der Name rührt daher, dass ein Sprite auf dem Bildschirm umherspäht und im Grafikspeicher nicht zu finden ist. Heutzutage bezeichnet der Begriff “Sprite” jedoch alle Objekte die so aussehen wie ein solches Grafikobjekt, jedoch eigentlich von einer Software erzeugt werden und im Grafikspeicher vorliegen. 
 Solche softwareerzeugten Sprites sind streng genommen “Shapes”, für deren Erzeugung überwiegend die CPU zuständig ist.
@@ -128,7 +128,7 @@ Eine weitere Methode ist das Erschaffen eines Sprites durch Angabe eines Ausschn
 Sprite* mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
 \end{lstlisting}
 
-Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren diese die Aufrufe an OpenGL ES etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den \textbf{SpriteFrameCache} geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. \textbf{SpriteFrame}-Objekte beinhalten den Bildnamen des Sprites und ein \textbf{Rect} um die Größe des Sprites zu spezifizieren. Aus dem \textbf{SpriteFrameCache}, in welchem das Spritesheet geladen wurde, kann nun ein Sprite erstellt werden.
+Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren diese die Aufrufe an OpenGL ES etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den \cocosclass{SpriteFrameCache} geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. \cocosclass{SpriteFrame}-Objekte beinhalten den Bildnamen des Sprites und ein \textbf{Rect} um die Größe des Sprites zu spezifizieren. Aus dem SpriteFrameCache, in welchem das Spritesheet geladen wurde, kann nun ein Sprite erstellt werden.
 Spritesheets stellen in unserem Projekt speziell für Animationen und die Umgebung der Spielwelt eine optimale Lösung dar. 
 
 
@@ -149,7 +149,7 @@ Weiter Möglichkeiten den Ankerpunkt zu setzten werden hier veranschaulicht. Rot
   \label{fig:josie} 
 \end{figure}
 
-Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren und Verzerren. Weiterhin kann man die Farbe und Sichtbarkeit eines Sprites verändern. Die in unserem Projekt am häufigsten verwendete Manipulationsmethode ist das Skalieren. Sie ermöglicht es die Größe eines Sprites beliebig zu verändern. Im folgenden wird dies Bildlich dargestellt. 
+Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren und Verzerren. Weiterhin kann man die Farbe und Sichtbarkeit eines Sprites verändern. Die in unserem Projekt am häufigsten verwendete Manipulationsmethode ist das Skalieren. Sie ermöglicht es die Größe eines Sprites beliebig zu verändern. Im folgenden wird dies bildlich dargestellt. 
 
 \begin{lstlisting}[style=singleline]
 mySprite->setScale(2.0);
@@ -172,16 +172,16 @@ mySprite->setScale(2.0);
 \subsection{Allgemeines und cocos2d Spriteprinzip}
 Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt im folgenden soll ein kurzer Einblick auf das Prinzip der Animationen in Cocos2d als auch Allgemein  eingegangen werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet den Spielecharakteren zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
 
-In Cocos2d werden solche Animationen durch \textbf{Action} Objekte realisiert. Diese haben die Fähigkeit die Werte von \textbf{Node} Objekte, in Echtzeit zu transformieren. Dazu zählen ebenfalls Instanzen der Klassen die von einem solchen Objekt erben. Werte eines Nodes, die verändert werden können sind z.b. die Sichtbarkeit, Farbe, Position oder auch die Größe des Nodes. Zum Beispiel kann ein Sprite von einer Position zur anderen bewegt werden.
+In Cocos2d werden solche Animationen durch \cocosclass{Action} Objekte realisiert. Diese haben die Fähigkeit die Werte von \cocosclass{Node} Objekte, in Echtzeit zu transformieren. Dazu zählen ebenfalls Instanzen der Klassen die von einem solchen Objekt erben. Werte eines Nodes, die verändert werden können sind z.b. die Sichtbarkeit, Farbe, Position oder auch die Größe des Nodes. Zum Beispiel kann ein Sprite von einer Position zur anderen bewegt werden.
 
-Grundsätzlich können zwei Versionen von Actions unterschieden werden, diese sind By und To. Wobei Letztere absolut sind und im Gegensatz zu By Actions d.h. sie berücksichtigen die aktuelle Position des \textbf{Node} nicht. Ein mögliches Beispiel für eine MoveTo Animation soll im folgenden kurz beschrieben werden. Man erstellt ein MoveBy Objekt mit einer Angabe über die Dauer der Animation in Sekunden sowie ein Vektor der die Ziel Koordinaten auf der X als auch die der Y Achse beinhaltet. Anschließend wird dieses Objekt auf einem \textbf{Node} z.b. ein Sprite durch die Methode runAction ausgeführt. 
+Grundsätzlich können zwei Versionen von Actions unterschieden werden, diese sind By und To. Wobei Letztere absolut sind und im Gegensatz zu By Actions d.h. sie berücksichtigen die aktuelle Position des Node nicht. Ein mögliches Beispiel für eine MoveTo Animation soll im folgenden kurz beschrieben werden. Man erstellt ein MoveBy Objekt mit einer Angabe über die Dauer der Animation in Sekunden sowie ein Vektor der die Ziel Koordinaten auf der X als auch die der Y Achse beinhaltet. Anschließend wird dieses Objekt auf einem Node z.b. ein Sprite durch die Methode \textbf{runAction()} ausgeführt. 
 
 \begin{figure}[H]
   \includegraphics[width=0.1\textwidth]{resources/josiedoku6}
   \label{fig:josie} 
 \end{figure}
 
-Die von Cocos2d bereitgestellten Funktionen zur Veränderung von \textbf{Node}´s sind Move, Rotate, Scale, Fade In/Out und Tint.
+Die von Cocos2d bereitgestellten Funktionen zur Veränderung von Nodes sind Move, Rotate, Scale, Fade In/Out und Tint.
 
 \begin{figure}[H]
   \includegraphics[width=0.1\textwidth]{resources/josiedoku5}
@@ -191,9 +191,9 @@ Die von Cocos2d bereitgestellten Funktionen zur Veränderung von \textbf{Node}´
 
 
 \subsection{Animate und Sequenze}
-Im vorgehenden wurden ein Überblick über einige von cococs2d bereitgestellte Animationen geschaffen. Im Verlauf eines Spieleprojektes wäre es jedoch sinnvoll eigene Animationen erstellen zu können. Eine Möglichkeit eigene Animationen zu erstellen wie zum Beispiel eine Art simples Daumenkino, bietet die Klasse \textbf{Animate}. Ein \textbf{Animate} enthält eine Animation bzw. wird aus dieser Erstellt. Animations sind Container welche durch die \textbf{SpriteFrames} Verzögerungszeit zwischen den Frames als auch die Dauer der Action. Wenn ein \textbf{Animate} Objekt ausgeführt wird, werden bestimmte Frames auf dem Display durch die in dem \textbf{Animate} enthaltenen, ersetzt. So kann zum Beispiel ein Sprite Frame durch ein Set von SpriteFrames ersetzt werden.
+Im vorgehenden wurden ein Überblick über einige von cococs2d bereitgestellte Animationen geschaffen. Im Verlauf eines Spieleprojektes wäre es jedoch sinnvoll eigene Animationen erstellen zu können. Eine Möglichkeit eigene Animationen zu erstellen wie zum Beispiel eine Art simples Daumenkino, bietet die Klasse \cocosclass{Animate}. Ein Animate enthält eine Animation bzw. wird aus dieser Erstellt. Animations sind Container welche durch die SpriteFrames Verzögerungszeit zwischen den Frames als auch die Dauer der Action. Wenn ein Animate Objekt ausgeführt wird, werden bestimmte Frames auf dem Display durch die in dem Animate enthaltenen, ersetzt. So kann zum Beispiel ein SpriteFrame durch ein Set von SpriteFrames ersetzt werden.
 
-Um Komplexe Abläufe von Animationen ist es sinnvoll eine Klasse wie \textbf{Sequence} zu benutzen. Die Instanz einer \textbf{Sequence} ermöglicht es verschiedene \textbf{Action}, Function und sogar \textbf{Sequence} Objekte hintereinander zu reihen und in einem Sequence-Objekt zusammenzufassen. So können Abläufe von Animationen zusammengefasst werden. 
+Um Komplexe Abläufe von Animationen ist es sinnvoll eine Klasse wie \cocosclass{Sequence} zu benutzen. Die Instanz einer Sequence ermöglicht es verschiedene Action, Function und sogar Sequence Objekte hintereinander zu reihen und in einem Sequence-Objekt zusammenzufassen. So können Abläufe von Animationen zusammengefasst werden. 
 Die Funktion Objekte werden unter anderem für so genannte Callback(link) Funktionen verwendet. 
 
 \begin{figure}[H]
@@ -202,26 +202,23 @@ Die Funktion Objekte werden unter anderem für so genannte Callback(link) Funkti
   \label{fig:josie} 
 \end{figure}
 
-Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei den Angriffspattern des Boss Charakters Anwendung. Hierbei war ein Problem die Zeiten zwischen den einzelnen \textbf{Action}, die Geschwindigkeit des gesamten Ablaufs als auch die Zeit die eine \textbf{Action} braucht um durchgeführt zu werden. Bei zu kurzen Puffer und zu langen Aktionszeiten vermischten sich die einzelnen Aktionen.
-
-//BOSS PATTERN BILDER !
+Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei den Angriffspattern des Boss Charakters Anwendung. Hierbei war ein Problem die Zeiten zwischen den einzelnen Action, die Geschwindigkeit des gesamten Ablaufs als auch die Zeit die eine Action braucht um durchgeführt zu werden. Bei zu kurzen Puffer und zu langen Aktionszeiten vermischten sich die einzelnen Aktionen.
 
 
 
 \subsection{Spritesheet und Reverse}
 
 Eine häufige Methode zur Spriteerstellung ist es, ein Spritesheet bei der Erzeugung heranzuziehen. 
-Hierzu benötigt man nicht nur das Spritesheet sondern auch eine “.plist” Datei, die eine Beschreibung der Frames, deren Interaktion und Zuweisung von \textbf{SpriteFrame} zu Bildern enthält. Nun kann man einerseits durch ein Zusammenspiel zwischen Spritesheet als auch .plist Datei die Animation bzw. den Ablauf im eigenen Programm definieren. Hierbei werden die \textbf{SpriteFrame} und die .plist Datei geladen, um im Anschluss die \textbf{SpriteFrame}s in der .plist Datei mit den Sprites aus dem Spritesheet zu koppeln. Andererseits kann man den Ablauf einer Animation in der .plist Datei festlegen und im Anschluss die fertige Animation laden. 
+Hierzu benötigt man nicht nur das Spritesheet sondern auch eine “.plist” Datei, die eine Beschreibung der Frames, deren Interaktion und Zuweisung von SpriteFrame zu Bildern enthält. Nun kann man einerseits durch ein Zusammenspiel zwischen Spritesheet als auch .plist Datei die Animation bzw. den Ablauf im eigenen Programm definieren. Hierbei werden die SpriteFrame und die .plist Datei geladen, um im Anschluss die SpriteFrames in der .plist Datei mit den Sprites aus dem Spritesheet zu koppeln. Andererseits kann man den Ablauf einer Animation in der .plist Datei festlegen und im Anschluss die fertige Animation laden. 
 
 Wir entschieden uns für die Spritesheet .plist Methode, da wir ebenfalls bei der Realisierung des Levels mit Spritesheets arbeiteten und die Arbeit mit diesen daher kennen. Bei der suche nach einem Programm für die “Datei Methode” fanden wir weiterhin nur schlechte Tutorials. 
 
 Eine Weitere Vereinfachung durch Cocos bietet die Reverse Methode. Diese dient dazu bestimmte Animationen rückwärts ablaufen zu lassen. Diese ist in unserem Projekt unter anderem bei der Sprung Animation zum Einsatz gekommen. 
 
 
-\sectionOG{Callbackprinzip}
-In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet - unter anderem für Menü-Buttons. Ein Callback wird verwendet um einer Funktion eine andere Funktion als Parameter zu übergeben. Im Besonderen wenn vorher nicht klar ist, wann diese Funktion ausgeführt wird (bsp. Klick auf einen Button).
+\section{Callbackprinzip}\label{sec:2_Callbackprinzip}
 
-\paragraph{Beispiel} \qquad
+In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet. Es handelt sich dabei um eine Referenz, die auf eine Methode einer Instanz verweist. Somit kann man eine Methode oder Funktion dynamisch im Spiel ausführen, wie das Drücken eines Buttons.
 
 \begin{lstlisting}[style=singleline]
 CC_CALLBACK_0(Director::popScene, Director::getInstance());
@@ -230,15 +227,13 @@ CC_CALLBACK_0(Director::popScene, Director::getInstance());
 Der Director (\textbf{Director::getInstance()}) soll die Funktion \textbf{popScene()} ausführen. Zur Unterscheidung ist es wichtig die Klasse (\textbf{Director::}) zu nennen die ausgeführt werden soll. Denkbar wäre hier eine Kind-Klasse die den selben Methoden Namen aufweist. 
 Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden.
 
-\paragraph{CallFuncN}
+
+
+\section{Tilemaps}\label{sec:2_Tilemaps}
 
 
 
-\sectionJK{Tilemaps}\label{sec:2_Tilemaps}
-
-
-
-\sectionDM{Musik und Sound-Effekte}\label{sec:2_Musik}
+\section{Musik und Sound-Effekte}\label{sec:2_Musik}
 Musik sowie alle Sounds die in unserem Spiel \gamename zu hören sind wurden selbst geschrieben, aufgenommen und bearbeitet. Dazu gehören:
 
 \begin{itemize}

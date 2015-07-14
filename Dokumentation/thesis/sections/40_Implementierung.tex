@@ -1,6 +1,6 @@
 \chapter{Implementierung}\label{ch:impl}
 
-\sectionOG{Spieler Steuerung}\label{sec:4_SpielerSteuerung}
+\section{Spieler Steuerung}\label{sec:4_SpielerSteuerung}
 
 Die Spieler Steuerung wird mithilfe eines Observer Patterns realisiert. Beim Laden der \josieclass{BossPlayer} Klasse wird der Spieler als Observer eingetragen:
 
@@ -32,7 +32,7 @@ void BossLevelHUD::update(float dt)
 Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf die Abfrage auf \textbf{isSelected()} ob der aktuelle Button gedrückt ist. Das Aktivieren des Observers ist denkbar einfach über \textbf{dispatchCustomEvent()}.
 
 \section{SpritePrinzip}
-Die grundlegende Nutzung von Sprites wird im folgenden anhand der Tutorial Class erklärt. Es werden die Bereiche die sehr viel Anwendung erklärt. Diese sind unter anderem: das Laden von Sprites, Verwendung des Ankerpunktes als auch die Verwendung grundsätzlicher Funktionen wie moveBy.
+Die grundlegende Nutzung von Sprites wird im folgenden anhand der \josieclass{Tutorial} erklärt. Es werden die Bereiche, die sehr viel Anwendung in unserem Projekt fanden, erklärt. Diese sind unter anderem: das Laden von Sprites, Verwendung des Ankerpunktes als auch die Verwendung grundsätzlicher Funktionen wie \textbf{moveBy()}.
 
 \begin{lstlisting}
 Sprite* josie = Sprite::create("josie/josie_static.png");
@@ -41,10 +41,10 @@ Sprite* josie = Sprite::create("josie/josie_static.png");
 	this->addChild(josie);
 \end{lstlisting}
 
-Die erste Zeile erstellt ein Sprite Object und gibt in der create Methode den Pfad zum zu Ladenden Sprite an. Als nächstes wird der Ankerpunkt des Sprites mit dem Befehl setAnchorPoint festgelegt. Durch setPosition wird die Startposition festgelegt und das Sprite im Anschluss an die Scene hinzugefügt. 
+Die erste Zeile erstellt ein Sprite Object und gibt in der create Methode den Pfad zum zu ladenden Sprite an. Als nächstes wird der Ankerpunkt des Sprites mit dem Befehl \textbf{setAnchorPoint()} festgelegt. Durch setPosition wird die Startposition festgelegt und das Sprite im Anschluss an die Scene hinzugefügt. 
 
 
-Nun soll ein Beispiel für die Verwendung von Grundfunktion zur Spritemanipulation als auch Sequenzen erläutert werden. Hierbei wird ein Beispiel aus der Klasse BossPlayer verwendet.
+Im Anschluss soll ein Beispiel für die Verwendung von Grundfunktion zur Spritemanipulation als auch Sequenzen erläutert werden. Hierbei wird ein Beispiel aus der Klasse \josieclass{BossPlayer} verwendet.
 
 \begin{lstlisting}
 		auto right_rotate = RotateTo::create(2.0, 30.0f);
@@ -55,7 +55,7 @@ Nun soll ein Beispiel für die Verwendung von Grundfunktion zur Spritemanipulati
 		right->runAction(sequence);
 \end{lstlisting}
 
-Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erstellt. Ein Objekt ist für eine Aktion zuständig die etwas verändert, das andere stellt den Uhrsprungszustand wieder her. Beim erstellen des RotateTo Objektes werden die Zeitdauer der Rotierung und der Winkel mitgegeben. Dem MoveTo Objekt wird bei der Erzeugung die Zeitdauer der Aktion als auch ein Vector der die Zielkoordinaten beschreibt übergeben. Im Anschluss wird eine Sequenz mit dem Gewünschten Ablauf der Animation erstellt und danach ausgeführt. Folgendes Bildhaftes Beispiel soll dies veranschaulichen. 
+Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erstellt. Ein Objekt ist für eine Aktion zuständig die etwas verändert, das andere stellt den Uhrsprungszustand wieder her. Beim erstellen des RotateTo Objektes werden die Zeitdauer der Rotierung und der Winkel mitgegeben. Dem MoveTo Objekt wird bei der Erzeugung die Zeitdauer der Aktion als auch ein Vector der die Zielkoordinaten beschreibt übergeben. Im Anschluss wird eine Sequenz mit dem Gewünschten Ablauf der Animation erstellt und danach ausgeführt. Folgendes, Bildhaftes Beispiel soll dies veranschaulichen. 
 
 \begin{figure}[H]
   \includegraphics[width=0.1\textwidth]{resources/dokubaum}
@@ -63,7 +63,7 @@ Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erst
   \label{fig:josie} 
 \end{figure}
 
-Ein Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .plist Datei soll nun erbracht werden. Hierbei wird ein Beispiel aus der LevelPlayer Klasse genutzt. 
+Eine Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .plist Datei soll durch das folgende Beispiel erbracht werden. Hierbei wird ein Beispiel aus der \josieclass{LevelPlayer} genutzt. 
 
 \begin{lstlisting}
 		Vector<SpriteFrame*> frames;
@@ -80,15 +80,15 @@ Ein Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .p
 		Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
 \end{lstlisting}
 
-Anfangs erstellt man einen String mit Hilfe eines Char Arrays und ein Vector zur Frameerstellung. Außerdem erzeugt man ein SpriteFrameCache um auf das Spritesheet welches außerhalb des oben gezeigten Codes in den SpriteFrameCache geladen wurde. In der danach folgenden for-Schleife werden
+Anfangs erstellt man einen String mit Hilfe eines Char Arrays und ein Vector zur Erstellung von Frames. Außerdem erzeugt man ein SpriteFrameCache um auf das Spritesheet welches außerhalb des oben gezeigten Codes in den SpriteFrameCache geladen wurde. In der danach folgenden for-Schleife werden
 in das Array der Name des zu ladenden Bildes eingefügt. Hierbei ist zu beachten dass Für eine Animation mehrere Bilder nacheinander geladen werden müssen, diese haben die Namenskonvention "coin0000", "coin0001" etc. Im Anschluss werden die SpriteFrames welche genau den vorher im Array abgelegten Namen tragen aus dem SpriteFrameCache geladen und in den anfangs definierten Vektor eingefügt. 
-Sobald die For-Schleife abgearbeitet ist, wird eine Animation durch die Funktion createWithSpriteFrames erstellt. Dieser werden der Vektor und eine Verzögerung zwischen den Frames des Vektors übergeben.
+Sobald die For-Schleife abgearbeitet ist, wird eine Animation durch die Funktion \textbf{createWithSpriteFrames()} erstellt. Dieser werden der Vektor und eine Verzögerung zwischen den Frames des Vektors übergeben.
 
 \begin{lstlisting}
 startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse())
 \end{lstlisting}
 
-Die Methode animationWithFrame liefert eine Animation zurück. Darauf wird die Methode reverse() aufgerufen, welche die Animation rückwärts ablaufen lässt. Diese Animation wird jetzt durch die Methode startRunningAfterAnimation gestartet. 
+Die Methode animationWithFrame liefert eine Animation zurück. Darauf wird die Methode \textbf{reverse()} aufgerufen, welche die Animation rückwärts ablaufen lässt. Diese Animation wird jetzt durch die Methode \textbf{startRunningAfterAnimation()} gestartet. 
 
 \begin{figure}[H]
   \includegraphics[width=0.1\textwidth]{resources/josiejump}
@@ -96,7 +96,7 @@ Die Methode animationWithFrame liefert eine Animation zurück. Darauf wird die M
   \label{fig:josie} 
 \end{figure}
 
-\sectionDM{AudioUnit}\label{sec:4_Audiounit}
+\section{AudioUnit}\label{sec:4_Audiounit}
 Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb aufrufen kann.
 
 \subsection{Laden von Soundeffekten}
@@ -152,7 +152,7 @@ Analog kann das ganze auf das Abspielen der Hintergrundmusik übertragen werden,
 
 
 
-\sectionOG{Kollisionsabfrage zum Boden}\label{sec:4_Kollisionsabfrage}
+\section{Kollisionsabfrage zum Boden}\label{sec:4_Kollisionsabfrage}
 
 Die Kollisionsabfrage ist auf den ersten Blick nicht sofort einleuchtend. Prinzipiell wird für die komplette Karte ein Array mit ganzzahligen Werten angelegt, also für jede Spalte (72px breite, vertikale Linie auf dem Bildschirm) wird ein \textbf{long} Wert gespeichert.
 Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob Kollision besteht.
@@ -182,7 +182,7 @@ Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erst
 
 
 
-\sectionOG{CollisionLayer}\label{sec:4_CollisionLayer}
+\section{CollisionLayer}\label{sec:4_CollisionLayer}
 \subsection{Debugging Optionen}\label{sec:CollisionLayerDebug}
 
 Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
