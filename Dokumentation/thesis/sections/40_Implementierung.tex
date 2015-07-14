@@ -53,9 +53,9 @@ void AudioUnit::preloadBossSounds()
 }
 \end{lstlisting}
 
-Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer--Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double--Wert geteilt, da die \textit{setEffectsVolume} Methode nur double--Werte akzeptiert.
+Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer--Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double--Wert geteilt, da die \textbf{setEffectsVolume} Methode nur double--Werte akzeptiert.
 
-Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine}, die alle nötigen Funktionen liefert, zugegriffen. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
+Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine} die alle nötigen Funktionen liefert, zugegriffen. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
 
 Hierbei sei erwähnt dass ganze Musiktitel, wie zum Beispiel die Hintergrundmusik, nicht zwingend geladen werden müssen da diese nicht öfter hintereinander abgespielt, sondern wenn nötig geloopt werden. 
 
@@ -124,7 +124,7 @@ Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erst
 
 Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth - 50pt]{resources/CollisionLayer_BossKampf.jpg}
   \caption{CollisionLayer Debug im Boss Kampf}
@@ -133,7 +133,7 @@ Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der
 
 Wenn man genau hinsieht erkennt man, dass auch Münzen über eine Kollision verfügen. Tödliche Objekte in der Karte (bsp. Dornen) jedoch nicht.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth - 50pt]{resources/CollisionLayer_Level}
   \caption{CollisionLayer Debug im Level}
