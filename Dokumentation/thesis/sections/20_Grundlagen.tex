@@ -1,10 +1,77 @@
 \chapter{Grundlagen}\label{ch:grundl}
 
+
+
+\section{Spielprinzip von Josie - A Jelly's Journey}
+\gamename  erinnert an eine erweiterte Version des Spieleklassikers Super Mario World.
+In der Theorie sollte es mehrere Spielabschnitte geben, jedoch wurde aus zeitlichen Gründen nur ein Abschnitt implementiert. Ein Spielabschnitt besteht aus drei Jump and Run Levels und einem Boss Kampf Level. 
+
+\paragraph{Jump and Run Level:}
+Der Spieler versucht ohne Zeiteinschränkung das Level abzuschließen und dabei so viele Münzen wie möglich zu sammeln. Bei einem perfekten Lauf \textbf{kann} man alle Münzen einsammeln, einige davon sind allerding so plaziert dass sie nur schwer zu erreichen sind.
+Dem Spieler stehen die Steuerungsfunktionen "'Stoppen"', "'Schrumpfen"' und "'Springen"' zur Verfügung. 
+Dass Josie von selbst in einer festgelegten Geschwindigkeit läuft, führt zu einer gewissen Schwierigkeit des Spiels und macht Steuerungsfunktionen für "'Links"' und "'Rechts"' überflüssig.
+
+\paragraph{Boss Level:}
+
+
+
 \section{Framework}\label{sec:2_Framework}
+Als die grobe Idee für das Spiel feststand, mussten wir uns für eine GameEngine entscheiden. Zur Auswahl standen unter anderem die AndEngine, Unity und Cocos2d-x. Nach ausreichender Recherche über die Funktionalitäten der verschiedenen Engines haben wir uns einstimmig für Cocos2d-x entschieden. Cocos2d-x untestützt drei Programmiersprachen, C++, JavaSkript und Lua. Hier haben wir C++ gewählt, da wir im laufe unseres Studiums eine Vorlesung über C++ gehört haben.
+Die nächste Herausforderung war die Einrichtung von Cocos2d-x. Da wir drei verschiedene Betriebssysteme(Win8, MacOSX, Ubuntu) benutzen, hatten wir geringe Kompatibilitätsprobleme.
+Um Cocos2d-x einzurichten, werden folgende Pakete benötigt:
+
+\begin{itemize}
+\item Cocos2d-x Link - http://www.cocos2d-x.org/download
+\item Android SDK - http://developer.android.com/sdk/index.html
+\item Android NDK - http://androids.zone/android-ndk/#.VBLHNPldWXY
+\item Apache Ant - http://ant.apache.org/bindownload.cgi
+\item Python - https://www.python.org/downloads/
+\item Eclipse – https://eclipse.org/downloads/
+\end{itemize}
+
+Nachdem die Pakete heruntergeladen und ausgepackt sind, verschiebt man diese in den selben Ordner. Apache Ant und Python müssen installiert werden. Bei Python muss darauf geachtet werden das es sich um Version 2.x handelt. Unter Ubuntu muss Python nicht installiert werden, da dies schon in den Paketquellen vorhanden ist. 
+Hat man die zwei Programme installiert öffnet man den Cocos2d-x Ordner und startet die setup.py Datei (über das Terminal). Daraufhin öffnet sich ein Terminalfenster in dem die Umgebungsvariablen angepasst werden, dies bedeutet man wird nach den Pfaden von der Android SDK/NDK, Apache Ant und Python gefragt. Entweder man gibt diese per Hand ein oder zieht die jeweiligen Ordner in das Terminalfenster. 
 
 
 
 \section{IDE und Plugins}\label{sec:2_IDE}
+
+Nachdem die Umgebungsvariablen eingetragen sind, muss das Android Developer Tool Plugin für Eclipse installiert werden. Hat man das erledigt öffnet man den im Plugin enthaltenen Android SDK-Manager und lädt sich hier nochmal die passende API herunter. In unserem Fall war das die API für Androidversion 4.4.2(API 19). 
+Ist dieser Schritt geschafft, wird es Zeit das erste Projekt zu erstellen.
+Hierzu öffnet man einen Terminal und wechselt in das Verzeichnis in dem auch der Cocos2d-x Ordner liegt. Hier gibt man folgenden Befehl ein:
+	
+\begin{lstlisting}[style=singleline]
+	$cocos new MyGame -p com.MyCompany.MyGame -l cpp -d ~/MyCompany
+\end{lstlisting}
+		
+\begin{itemize}
+\item MyGame gibt den Namen des Projekts an
+\item com.MyCompany.MyGame ist der Paketname für Android
+\item cpp steht für die Programmiersprache. cpp für C++ und lua für Lua
+\item ~/MyCompany gibt das Verzeichnis an in dem das Projekt gespeichert wird 
+\end{itemize}
+
+Der somit erstelle Ordner wird ins Git-Repository hochgeladen. 
+Nun öffnet man wieder Eclipse und importiert das Git-Repository sowie die Cocos2d-x Bibliotheken. 
+
+	Git-Repository: Eclipse → File → Import... → Git → 'Projects from Git'
+
+Hier wählt man das vorher erstellte Projekt im Git-Repository aus.
+
+	Cocos2d-x Bibliotheken: Eclipse → Import... → Android → 'Existing Android Code into 	Workspace'
+
+Hier dirigiert man in das Verzeichnis in dem der Cocos2d-x Ordner liegt und wählt diesen komplett aus. Im nachfolgenden Fenster wählt man alle vorgeschlagenen Punkte ab bis auf libcocos2dx Nachdem beide 'Projekte' importiert wurden, wählt man sein Projekt aus dem Git-Repository aus und wechselt in die Einstellungen. Unter dem Reiter 'Android' ist darauf zu achten, dass als Library das Projekt libcocos2dx ausgewählt ist. Ist es nicht in der Liste enthalten, fügt man es mit 'Add' hinzu. 
+
+Es ist darauf zu achten, dass sich alle Ordner inkl. dem Git-Repository in einem Ordner befinden.
+
+Zu guter Letzt, öffnet man die AndroidManifest.xml in Eclipse aus und ändert hier den Wert auf die Entsprechende API.
+\begin{lstlisting}[style=singleline]
+	<uses-sdk android:minSdkVersion="19"
+			  android:targetSdkVersion="19"/>
+\end{lstlisting}
+	
+
+Nun kann man anfangen zu arbeiten! 
 
 
 
@@ -17,6 +84,7 @@ Eine Szene ist im Grunde genommen nichts anderes als ein Container, welcher  Spr
   \caption{Szenengraph}
   \label{fig:szenengraph} 
 \end{figure}
+
 
 \subsection{Szenenfunktionen von cocos2d}
 
@@ -45,6 +113,8 @@ Solche softwareerzeugten Sprites sind streng genommen “Shapes”, für deren E
  
 Für Computerspiele sind mit Sprites einige Vereinfachungen verbunden. So werden zum Beispiel in vielen 2D-Spielen wie Jump´n Runs so genannte Tiles oder auch Kachelgrafiken, welche ebenfalls kleine Grafikelemente die zusammengesetzt eine größere Grafik ergeben sind, verwendet. Ihr Anwendungsbereich findet sich unter anderem im Aufbau eines Level´s, wobei aus ihnen die Spielwelt zusammengesetzt wird.
 
+
+
 \subsection{cocos2d Spriteprinzip}
 In der von uns verwendeten Gameengine Cocos2dx, ist ein Sprite ein “Bild”, welches durch Veränderung seiner werte manipuliert werden kann. Es gibt verschiedene Wege ein Sprite zu erstellen, je nach dem wozu es benutzt werden soll. Bezüglich Dateiformaten werden von Cocos2dx PNG, JPEG, TIFF etc. unterstützt. Wir haben uns für das Dateiformat PNG entschieden, da es eine gute Komprimierung, gute Qualität, Darstellung von Halbtransparenzen, also 50\% Deckraft, vorweist und außerdem ein sehr weit verbreiteter Datentyp ist.
 
@@ -62,6 +132,7 @@ Sprite* mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
 
 Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren diese die Aufrufe an OpenGL ES etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den \textbf{SpriteFrameCache} geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. \textbf{SpriteFrame}-Objekte beinhalten den Bildnamen des Sprites und ein \textbf{Rect} um die Größe des Sprites zu spezifizieren. Aus dem \textbf{SpriteFrameCache}, in welchem das Spritesheet geladen wurde, kann nun ein Sprite erstellt werden.
 Spritesheets stellen in unserem Projekt speziell für Animationen und die Beschreibung der Spielwelt eine optimale Lösung dar. 
+
 
 
 \subsection{Möglichkeiten Sprites zu manipuliern}
@@ -91,6 +162,9 @@ mySprite->setScale(2.0);
 
 
 \section{Animationsprinzip}\label{sec:2_Animationsprinzip}
+
+
+
 \subsection{Allgemeines und cocos2d Spriteprinzip}
 Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt im folgenden soll ein kurzer Einblick auf das Prinzip der Animationen in Cocos2d als auch Allgemein  eingegangen werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet den Spielecharakteren zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
 
@@ -105,6 +179,7 @@ Als erstes wird ein MoveBy Objekt mit einer Angabe über die Dauer der Animation
 //Beispiel Bild (vlt. code)
 
 
+
 \subsection{Animate und Sequenze}
 Im vorgehenden wurden ein Überblick über einige von cococs2d bereitgestellte Aniamtionen geschaffen. Im Verlauf eines Spieleprojektes wäre es jedoch sinnvoll eigene Animationen erstellen zu können. Eine Möglichkeit eigene Animationen zu erstellen wie zum Beispiel eine Art simples Daumenkino, bietet die Klasse \textbf{Animate}. Ein \textbf{Animate} enthält eine Animation bzw. wird aus dieser Erstellt. Animations sind Container welche durch die \textbf{SpriteFrames}, Verzögerungszeit zwischen den Frames als auch die Dauer der Action. Wenn ein \textbf{Animate} Objekt ausgeführt wird, werden bestimmte Frames auf dem Display durch die in dem \textbf{Animate} enthaltenen, ersetzt. So kann zum Beispiel ein Sprite Frame durch ein Set von SpriteFrames ersetzt werden.
 
@@ -115,6 +190,7 @@ Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei 
 
 
 //BOSS PATTERN BILDER !
+
 
 
 \subsection{Spritesheet und Reverse}
@@ -148,12 +224,13 @@ Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden.
 
 
 \section{Musik und Sound-Effekte}\label{sec:2_Musik}
-Musik sowie alle Sounds die in unserem Spiel "'Josie"' zu hören sind wurden selbst geschrieben, aufgenommen und bearbeitet. Dazu gehören:
+Musik sowie alle Sounds die in unserem Spiel \gamename zu hören sind wurden selbst geschrieben, aufgenommen und bearbeitet. Dazu gehören:
 
 \begin{itemize}
 \item Hintergrundmusik im Hauptmenü, in der Levelauswahl, in den Jump and Run Levels und im Boss Kampf
 \item Effektsounds für Sprung--, Schrumpf--, Stop und Schuss--Sounds von Josie, Shop--Sound, Bosstreffer--Sound
 \end{itemize}
+
 
 \subsection{Möglichkeiten der cocos2d-x-Engine zur Audioverarbeitung}
 Cocos2d bietet mit der \textbf{SimpleAudioEngine} eine relative einfache Möglichkeit Audio\-dateien, sei es die Hintergrundmusik oder ein Sound-Effekte, zu laden, abzuspielen, zu pausieren und wieder zu entfernen. Hierzu ein kurzes Beispiel wie man auf einfache Art und Weise eine Audiodatei abspielt.
@@ -163,6 +240,7 @@ SimpleAudioEngine::getInstance()->playBackgroundMusic("song.mp3",true);
 \end{lstlisting}
 
 Auf die Implementierung und die Verwendung der \cocosclass{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:4_Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \cocosclass{SimpleAudioEngine} betreffen in eine eigene Klasse \josieclass{AudioUnit} ausgelagert haben.
+
 
 \subsection{Mono-/Stereo-Kanäle und Dateiformate}
 Es ist möglich sowohl Mono-- als auch Stereo--Audiodateien zu verwenden. Falls man also möchte dass Sounds zum Beispiel aus bestimmten Richtungen kommen, um dem Spieler ein gewisses Mittendrin--Gefühl zu vermitteln, sollten die Audiodateien stereo sein. Das ist allerdings erst richtig sinnvoll wenn das Spiel mit Kopfhörern oder mit Anschluss an ein Soundsystem gespielt wird. 
