@@ -11,8 +11,8 @@
                       android:largeScreens="true"
                       android:xlargeScreens="true"/>
     
-    <uses-sdk android:minSdkVersion="19" 
-        	  android:targetSdkVersion="19"/>
+    <uses-sdk android:minSdkVersion="17" 
+        	  android:targetSdkVersion="17"/>
     <uses-feature android:glEsVersion="0x00020000" />
     
     <uses-permission android:name="android.permission.INTERNET"/>
