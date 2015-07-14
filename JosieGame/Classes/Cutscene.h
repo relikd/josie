@@ -10,10 +10,12 @@
 
 #include "cocos2d.h"
 
-
+using namespace cocos2d;
 
 class Cutscene : public cocos2d::Layer {
 public:
+	Cutscene();
+	virtual ~Cutscene();
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	    static cocos2d::Scene* createScene(int cutscene_number);
 
@@ -34,15 +36,18 @@ public:
 		void speech4(cocos2d::Ref* pSender);
 		/*void bossdefeated(cocos2d::Ref* pSender);*/
 		void startlvl(cocos2d::Ref* pSender,int level, int sublevel);
+		void placeStaticSprites();
+		void talkSettings(int sub, bool speech);
 
 
 
-
-	Cutscene();
-	virtual ~Cutscene();
 private:
 	int _cutscene_number;
+	bool _speech;
+	Sprite *_josie;
+	MenuItemImage *_talk;
 	bool _will_be_destroyed;
+
 };
 
 #endif /* CUTSCENE_H_ */
