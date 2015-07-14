@@ -57,8 +57,13 @@ Nun soll ein Beispiel für die Verwendung von Grundfunktion zur Spritemanipulati
 
 Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erstellt. Ein Objekt ist für eine Aktion zuständig die etwas verändert, das andere stellt den Uhrsprungszustand wieder her. Beim erstellen des RotateTo Objektes werden die Zeitdauer der Rotierung und der Winkel mitgegeben. Dem MoveTo Objekt wird bei der Erzeugung die Zeitdauer der Aktion als auch ein Vector der die Zielkoordinaten beschreibt übergeben. Im Anschluss wird eine Sequenz mit dem Gewünschten Ablauf der Animation erstellt und danach ausgeführt. Folgendes Bildhaftes Beispiel soll dies veranschaulichen. 
 
+\begin{figure}[H]
+  \includegraphics[width=0.1\textwidth]{resources/dokubaum}
+  \caption{Beispiel eine Sequenz}
+  \label{fig:josie} 
+\end{figure}
 
-Ein Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .plist Datei soll nun erbracht werden. Hierbei wird ein Beispiel
+Ein Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .plist Datei soll nun erbracht werden. Hierbei wird ein Beispiel aus der LevelPlayer Klasse genutzt. 
 
 \begin{lstlisting}
 		Vector<SpriteFrame*> frames;
@@ -85,6 +90,11 @@ startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse()
 
 Die Methode animationWithFrame liefert eine Animation zurück. Darauf wird die Methode reverse() aufgerufen, welche die Animation rückwärts ablaufen lässt. Diese Animation wird jetzt durch die Methode startRunningAfterAnimation gestartet. 
 
+\begin{figure}[H]
+  \includegraphics[width=0.1\textwidth]{resources/josiejump}
+  \caption{Das ist Josie}
+  \label{fig:josie} 
+\end{figure}
 
 \sectionDM{AudioUnit}\label{sec:4_Audiounit}
 Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb aufrufen kann.
