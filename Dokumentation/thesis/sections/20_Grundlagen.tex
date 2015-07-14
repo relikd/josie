@@ -1,17 +1,19 @@
 \chapter{Grundlagen}
 
-\section{Framework}
+\section{Framework}\label{sec:2_Framework}
 
 
 
-\section{IDE und Plugins}
+\section{IDE und Plugins}\label{sec:2_IDE}
 
-\section{Szenenprinzip} 
+
+
+\section{Szenenprinzip}\label{sec:2_Szenenprinzip}
 Eine Szene ist im Grunde genommen nichts anderes als ein Container, welcher  Sprites, Labels, Nodes und andere Objekte beinhaltet die ein Spiel benötigt. Eine Szene ist für die laufende Spiellogik und Darstellung des Inhaltes auf einer 'per-frame basis' verantwortlich. Es wird mindestens eine Szene benötigt damit man das Spiel starten kann. Man kann beliebig viele Szenen-Objekte in einem Spiel verwenden und leicht zwischen diesen überleiten. Der Vorteil von Szenen liegt darin, dass man nicht jedes Objekt einzeln laden muss. An eine Szene lassen sich diverse Sprites, Labels und Nodes mit der von Cocos2d-x gegebenen Funktion addChild() anhängen(siehe Abbildung X.X). Sobald das Szenen-Objekt geladen wird, werden die angefügten Kinder mitgeladen. Dies spart Zeit und entlastet den Speicher.
 
 TODO: Szenengraph, zeigt Szene mit „Kindern“
 
-\subsection{Szenenfunktionen von Cocos2d-x}
+\subsection{Szenenfunktionen von cocos2d}
 
 Cocos bietet Funktionen an um Szenen zu erstellen und zwischen diesen zu wechseln. Um einen Szenenwechsel durchzufüren, muss zuerst eine Szene erstellt werden.
 
@@ -28,10 +30,10 @@ Im Laufe des Spiels ist es  notwendig zwischen den verschiedenen Szenen zu wechs
 \item pushScene() unterbricht die Ausführung der aktuellen Szene und verschiebt diese auf den Stack. Der Stack ist eine Art Warteschlange welche nach dem 'Last in, First out – Prinzip', dort wartet die Szene auf weitere Anweißungen. Diese Funktion darf nur aufgerufen werden, wenn bereits eine Szene aktiv ist.
 \item popScene() wiederum ersetzt die aktuelle Szene und löscht diese komplett. Diese Funktion darf nur aufgerufen werden, wenn bereits eine Szene aktiv ist.
 \end{itemize}
-(\sectionauthor{TL})
 
 
-\section{Spriteprinzip}
+
+\section{Spriteprinzip}\label{sec:2_Spriteprinzip}
 Allgemein betrachtet kann man sagen, dass ein Sprite(engl. Kobold, Geistwesen) ein Grafikobjekt ist, welches über den Hintergrund gelegt wird und von der Grafikhardware platziert wird. 
 Der Name rührt daher, dass ein Sprite auf dem Bildschirm umherspäht und im Grafikspeicher nicht zu finden ist. Heutzutage bezeichnet der Begriff “Sprite” jedoch alle Objekte die so aussehen wie ein solches Grafikobjekt, jedoch eigentlich von einer Software erzeugt werden und im Grafikspeicher vorliegen. 
 Solche softwareerzeugten Sprites sind streng genommen “Shapes”, für deren Erzeugung überwiegend die CPU zuständig ist.
@@ -81,8 +83,9 @@ mySprite->setScale(2.0);
   \label{fig:josie} 
 \end{figure}
 
-\section{Animationsprinzip}
 
+
+\section{Animationsprinzip}\label{sec:2_Animationsprinzip}
 \subsection{Allgemeines und cocos2d Spriteprinzip}
 Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt im folgenden soll ein kurzer Einblick auf das Prinzip der Animationen in Cocos2d als auch Allgemein  eingegangen werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet den Spielecharakteren zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
 
@@ -120,9 +123,9 @@ Eine Weitere Vereinfachung durch Cocos bietet die Reverse Methode. Diese dient d
 
 //JOSIE JUMP BILDER
 
-(\sectionauthor{DG})
 
-\section{Callbackprinzip}
+
+\section{Callbackprinzip}\label{sec:2_Callbackprinzip}
 
 In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet. Es handelt sich dabei um eine Referenz, die auf eine Methode einer Instanz verweist. Somit kann man eine Methode oder Funktion dynamisch im Spiel ausführen, wie das Drücken eines Buttons.
 
@@ -131,11 +134,15 @@ CC_CALLBACK_0(Director::popScene, Director::getInstance());
 \end{lstlisting}
 
 Der Director (\textbf{Director::getInstance()}) soll die Funktion \textbf{popScene()} ausführen. Zur Unterscheidung ist es wichtig die Klasse (\textbf{Director::}) zu nennen die ausgeführt werden soll. Denkbar wäre hier eine Kind-Klasse die den selben Methoden Namen aufweist. 
-Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden. (\sectionauthor{OG})
+Weitere Parameter der Funktion können Komma getrennt hinten angehängt werden.
 
-\section{Tilemaps}
 
-\section{Musik und Sound-Effekte}
+
+\section{Tilemaps}\label{sec:2_Tilemaps}
+
+
+
+\section{Musik und Sound-Effekte}\label{sec:2_Musik}
 Musik sowie alle Sounds die in unserem Spiel "'Josie"' zu hören sind wurden selbst geschrieben, aufgenommen und bearbeitet. Dazu gehören:
 
 \begin{itemize}
@@ -150,7 +157,7 @@ Cocos2d bietet mit der \textbf{SimpleAudioEngine} eine relative einfache Möglic
 SimpleAudioEngine::getInstance()->playBackgroundMusic("song.mp3",true);
 \end{lstlisting}
 
-Auf die Implementierung und die Verwendung der \cocosclass{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \cocosclass{SimpleAudioEngine} betreffen in eine eigene Klasse \josieclass{AudioUnit} ausgelagert haben.
+Auf die Implementierung und die Verwendung der \cocosclass{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:4_Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \cocosclass{SimpleAudioEngine} betreffen in eine eigene Klasse \josieclass{AudioUnit} ausgelagert haben.
 
 \subsection{Mono-/Stereo-Kanäle und Dateiformate}
 Es ist möglich sowohl Mono-- als auch Stereo--Audiodateien zu verwenden. Falls man also möchte dass Sounds zum Beispiel aus bestimmten Richtungen kommen, um dem Spieler ein gewisses Mittendrin--Gefühl zu vermitteln, sollten die Audiodateien stereo sein. Das ist allerdings erst richtig sinnvoll wenn das Spiel mit Kopfhörern oder mit Anschluss an ein Soundsystem gespielt wird. 
@@ -172,5 +179,3 @@ Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man si
  \end{itemize} 
 
 Bei \gamename wurde Logic Pro X von Apple verwendet. 
-(\sectionauthor{DM})
-
