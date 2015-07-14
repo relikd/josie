@@ -21,12 +21,12 @@ Die nächste Herausforderung war die Einrichtung von Cocos2d-x. Da wir drei vers
 Um Cocos2d-x einzurichten, werden folgende Pakete benötigt:
 
 \begin{itemize}
-\item Cocos2d-x Link - http://www.cocos2d-x.org/download
-\item Android SDK - http://developer.android.com/sdk/index.html
-\item Android NDK - http://androids.zone/android-ndk/#.VBLHNPldWXY
-\item Apache Ant - http://ant.apache.org/bindownload.cgi
-\item Python - https://www.python.org/downloads/
-\item Eclipse – https://eclipse.org/downloads/
+\item Cocos2d-x Link - \url{http://www.cocos2d-x.org/download}
+\item Android SDK - \url{http://developer.android.com/sdk/index.html}
+\item Android NDK - \url{http://androids.zone/android-ndk/#.VBLHNPldWXY}
+\item Apache Ant - \url{http://ant.apache.org/bindownload.cgi}
+\item Python - \url{https://www.python.org/downloads/}
+\item Eclipse – \url{https://eclipse.org/downloads/}
 \end{itemize}
 
 Nachdem die Pakete heruntergeladen und ausgepackt sind, verschiebt man diese in den selben Ordner. Apache Ant und Python müssen installiert werden. Bei Python muss darauf geachtet werden das es sich um Version 2.x handelt. Unter Ubuntu muss Python nicht installiert werden, da dies schon in den Paketquellen vorhanden ist. 
@@ -144,9 +144,10 @@ Sprite* mySprite->setAnchorPoint(0.5, 0.5);
 Weiter Möglichkeiten den Ankerpunkt zu setzten werden hier veranschaulicht. Rote Punkte::Ankerpunkte
 
 \begin{figure}[H]
-  \includegraphics[width=0.1\textwidth]{resources/josiedoku3}
+  \centering
+  \includegraphics[width=10cm]{resources/josiedoku3}
   \caption{verschiedene Ankerpunkte}
-  \label{fig:josie} 
+  \label{fig:josie_ancherpoint} 
 \end{figure}
 
 Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren und Verzerren. Weiterhin kann man die Farbe und Sichtbarkeit eines Sprites verändern. Die in unserem Projekt am häufigsten verwendete Manipulationsmethode ist das Skalieren. Sie ermöglicht es die Größe eines Sprites beliebig zu verändern. Im folgenden wird dies bildlich dargestellt. 
@@ -165,9 +166,7 @@ mySprite->setScale(2.0);
 
 
 
-\section{Animationsprinzip}\label{sec:2_Animationsprinzip}
-
-
+\sectionDG{Animationsprinzip}\label{sec:2_Animationsprinzip}
 
 \subsection{Allgemeines und cocos2d Spriteprinzip}
 Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt im folgenden soll ein kurzer Einblick auf das Prinzip der Animationen in Cocos2d als auch Allgemein  eingegangen werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet den Spielecharakteren zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
