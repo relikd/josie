@@ -58,6 +58,8 @@ Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocoscl
 
 Hierbei sei erwähnt dass ganze Musiktitel, wie zum Beispiel die Hintergrundmusik, nicht zwingend geladen werden müssen da diese nicht öfter hintereinander abgespielt, sondern wenn nötig geloopt werden. 
 
+Die Methode \textit{unloadBossSounds} gleicht der Methode zum Laden der Sounds. Der einzige Unterschied ist, dass \cocosclass{unloadEffect} anstelle von \cocosclass{preloadEffect} verwendet wird.
+
 \subsection{Abspielen von Soundeffekten und Musik} 
 Um nun einen Sound-Effekt abzuspielen, ruft man an passender Stelle die gewünschte Methode auf. Als Beispiel ist das Abspielen des Sounds gegeben, den man hört wenn der \josieclass{BossPlayer} getroffen wird.
 
