@@ -56,7 +56,7 @@ Sprite* mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
 \end{lstlisting}
 
 Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt viele einzelne Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren diese die Aufrufe an OpenGL ES etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den \textbf{SpriteFrameCache} geladen.  Dies ist eine Klasse, welche ein SpriteFrame-Objekt, für zukünftigen Schnellzugriff speichert. \textbf{SpriteFrame}-Objekte beinhalten den Bildnamen des Sprites und ein \textbf{Rect} um die Größe des Sprites zu spezifizieren. Aus dem \textbf{SpriteFrameCache}, in welchem das Spritesheet geladen wurde, kann nun ein Sprite erstellt werden.
-Spritesheets stellen in unserem Projekt speziell für Animationen und die Beschreibung der Spielwelt eine optimale Lösung dar. 
+Spritesheets stellen in unserem Projekt speziell für Animationen und die Umgebung der Spielwelt eine optimale Lösung dar. 
 
 
 \subsection{Möglichkeiten Sprites zu manipuliern}
