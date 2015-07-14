@@ -113,8 +113,6 @@ Solche softwareerzeugten Sprites sind streng genommen “Shapes”, für deren E
  
 Für Computerspiele sind mit Sprites einige Vereinfachungen verbunden. So werden zum Beispiel in vielen 2D-Spielen wie Jump´n Runs so genannte Tiles oder auch Kachelgrafiken, welche ebenfalls kleine Grafikelemente die zusammengesetzt eine größere Grafik ergeben sind, verwendet. Ihr Anwendungsbereich findet sich unter anderem im Aufbau eines Level´s, wobei aus ihnen die Spielwelt zusammengesetzt wird.
 
-
-
 \subsection{cocos2d Spriteprinzip}
 In der von uns verwendeten Gameengine Cocos2dx, ist ein Sprite ein “Bild”, welches durch Veränderung seiner werte manipuliert werden kann. Es gibt verschiedene Wege ein Sprite zu erstellen, je nach dem wozu es benutzt werden soll. Bezüglich Dateiformaten werden von Cocos2dx PNG, JPEG, TIFF etc. unterstützt. Wir haben uns für das Dateiformat PNG entschieden, da es eine gute Komprimierung, gute Qualität, Darstellung von Halbtransparenzen, also 50\% Deckraft, vorweist und außerdem ein sehr weit verbreiteter Datentyp ist.
 
@@ -144,7 +142,13 @@ Sprite* mySprite->setAnchorPoint(0.5, 0.5);
 
 
 Weiter Möglichkeiten den Ankerpunkt zu setzten werden hier veranschaulicht. Rote Punkte::Ankerpunkte
-//Bild beispiel
+
+\begin{figure}[H]
+  \includegraphics[width=0.1\textwidth]{resources/josiedoku3}
+  \caption{verschiedene Ankerpunkte}
+  \label{fig:josie} 
+\end{figure}
+
 Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren und Verzerren. Weiterhin kann man die Farbe und Sichtbarkeit eines Sprites verändern. Die in unserem Projekt am häufigsten verwendete Manipulationsmethode ist das Skalieren. Sie ermöglicht es die Größe eines Sprites beliebig zu verändern. Im folgenden wird dies Bildlich dargestellt. 
 
 \begin{lstlisting}[style=singleline]
@@ -153,7 +157,7 @@ mySprite->setScale(2.0);
 
 
 
-\begin{figure}[h]
+\begin{figure}[H]
   \includegraphics[width=0.1\textwidth]{resources/josie}
   \caption{Das ist Josie}
   \label{fig:josie} 
@@ -168,26 +172,37 @@ mySprite->setScale(2.0);
 \subsection{Allgemeines und cocos2d Spriteprinzip}
 Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt im folgenden soll ein kurzer Einblick auf das Prinzip der Animationen in Cocos2d als auch Allgemein  eingegangen werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet den Spielecharakteren zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
 
-//KOKSKOKS + Grundsätzlichhe Animation Methoden
 In Cocos2d werden solche Animationen durch \textbf{Action} Objekte realisiert. Diese haben die Fähigkeit die Werte von \textbf{Node} Objekte, in Echtzeit zu transformieren. Dazu zählen ebenfalls Instanzen der Klassen die von einem solchen Objekt erben. Werte eines Nodes, die verändert werden können sind z.b. die Sichtbarkeit, Farbe, Position oder auch die Größe des Nodes. Zum Beispiel kann ein Sprite von einer Position zur anderen bewegt werden.
 
-Grundsätzlich können zwei Versionen von Actions unterschieden werden, diese sind By und To. Wobei Letztere absolut sind und im Gegensatz zu By Actions d.h. sie berücksichtigen  die aktuelle Position des \textbf{Node} nicht. //beispiel das den unterschied klar macht  Die von Cocos2d bereitgestellten Funktionen zur Veränderung von \textbf{Node}´s sind Move, Rotate, Scale, Fade In/Out und Tint. 
-//Beispiel Bild mit versah Animationen 
+Grundsätzlich können zwei Versionen von Actions unterschieden werden, diese sind By und To. Wobei Letztere absolut sind und im Gegensatz zu By Actions d.h. sie berücksichtigen die aktuelle Position des \textbf{Node} nicht. Ein mögliches Beispiel für eine MoveTo Animation soll im folgenden kurz beschrieben werden. Man erstellt ein MoveBy Objekt mit einer Angabe über die Dauer der Animation in Sekunden sowie ein Vektor der die Ziel Koordinaten auf der X als auch die der Y Achse beinhaltet. Anschließend wird dieses Objekt auf einem \textbf{Node} z.b. ein Sprite durch die Methode runAction ausgeführt. 
 
-Ein mögliches Beispiel für eine MoveTo Animation soll im folgenden kurz beschrieben werden.
-Als erstes wird ein MoveBy Objekt mit einer Angabe über die Dauer der Animation in Sekunden sowie ein Vektor der die Ziel Koordinaten auf der X als auch die der Y Achse beinhaltet erstellt. Anschließend wird dieses Objekt auf einem \textbf{Node} z.b. ein Sprite durch die Methode runAction ausgeführt. 
-//Beispiel Bild (vlt. code)
+\begin{figure}[H]
+  \includegraphics[width=0.1\textwidth]{resources/josiedoku6}
+  \label{fig:josie} 
+\end{figure}
 
+Die von Cocos2d bereitgestellten Funktionen zur Veränderung von \textbf{Node}´s sind Move, Rotate, Scale, Fade In/Out und Tint.
+
+\begin{figure}[H]
+  \includegraphics[width=0.1\textwidth]{resources/josiedoku5}
+  \caption{Beispiel für Fade In/Out bei Josie}
+  \label{fig:josie} 
+\end{figure}
 
 
 \subsection{Animate und Sequenze}
-Im vorgehenden wurden ein Überblick über einige von cococs2d bereitgestellte Aniamtionen geschaffen. Im Verlauf eines Spieleprojektes wäre es jedoch sinnvoll eigene Animationen erstellen zu können. Eine Möglichkeit eigene Animationen zu erstellen wie zum Beispiel eine Art simples Daumenkino, bietet die Klasse \textbf{Animate}. Ein \textbf{Animate} enthält eine Animation bzw. wird aus dieser Erstellt. Animations sind Container welche durch die \textbf{SpriteFrames}, Verzögerungszeit zwischen den Frames als auch die Dauer der Action. Wenn ein \textbf{Animate} Objekt ausgeführt wird, werden bestimmte Frames auf dem Display durch die in dem \textbf{Animate} enthaltenen, ersetzt. So kann zum Beispiel ein Sprite Frame durch ein Set von SpriteFrames ersetzt werden.
+Im vorgehenden wurden ein Überblick über einige von cococs2d bereitgestellte Animationen geschaffen. Im Verlauf eines Spieleprojektes wäre es jedoch sinnvoll eigene Animationen erstellen zu können. Eine Möglichkeit eigene Animationen zu erstellen wie zum Beispiel eine Art simples Daumenkino, bietet die Klasse \textbf{Animate}. Ein \textbf{Animate} enthält eine Animation bzw. wird aus dieser Erstellt. Animations sind Container welche durch die \textbf{SpriteFrames} Verzögerungszeit zwischen den Frames als auch die Dauer der Action. Wenn ein \textbf{Animate} Objekt ausgeführt wird, werden bestimmte Frames auf dem Display durch die in dem \textbf{Animate} enthaltenen, ersetzt. So kann zum Beispiel ein Sprite Frame durch ein Set von SpriteFrames ersetzt werden.
 
 Um Komplexe Abläufe von Animationen ist es sinnvoll eine Klasse wie \textbf{Sequence} zu benutzen. Die Instanz einer \textbf{Sequence} ermöglicht es verschiedene \textbf{Action}, Function und sogar \textbf{Sequence} Objekte hintereinander zu reihen und in einem Sequence-Objekt zusammenzufassen. So können Abläufe von Animationen zusammengefasst werden. 
 Die Funktion Objekte werden unter anderem für so genannte Callback(link) Funktionen verwendet. 
 
-Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei den Angriffpatterns des Boss Charakters Anwendung. Hierbei war ein Problem die Zeiten zwischen den einzelnen \textbf{Action}, die Geschwindigkeit des gesamten Ablaufs als auch die Zeit die eine \textbf{Action} braucht um durchgeführt zu werden. Bei zu kurzen Puffer und zu langen Aktionszeiten vermischten sich die einzelnen Aktionen. Eine Weiter Schwierigkeit stellte die Collisionserkennung dar. Diese richtet sich nach dem \textbf{Rect} das bei der Erstellung eines Sprites bzw. einer Animation übergeben wird.  Teile von Animationen beinhalteten das Drehen eines Sprites, wobei aber nur das \textbf{SpriteFrame} nicht das \textbf{Rect} gedreht wurde. 
+\begin{figure}[H]
+  \includegraphics[width=0.1\textwidth]{resources/sequence}
+  \caption{Beispiel für Aktionen}
+  \label{fig:josie} 
+\end{figure}
 
+Ein Zusammenspiel von Grundfunktionen und Sequenzen fand in unserem Projekt bei den Angriffspattern des Boss Charakters Anwendung. Hierbei war ein Problem die Zeiten zwischen den einzelnen \textbf{Action}, die Geschwindigkeit des gesamten Ablaufs als auch die Zeit die eine \textbf{Action} braucht um durchgeführt zu werden. Bei zu kurzen Puffer und zu langen Aktionszeiten vermischten sich die einzelnen Aktionen.
 
 //BOSS PATTERN BILDER !
 
@@ -201,9 +216,6 @@ Hierzu benötigt man nicht nur das Spritesheet sondern auch eine “.plist” Da
 Wir entschieden uns für die Spritesheet .plist Methode, da wir ebenfalls bei der Realisierung des Levels mit Spritesheets arbeiteten und die Arbeit mit diesen daher kennen. Bei der suche nach einem Programm für die “Datei Methode” fanden wir weiterhin nur schlechte Tutorials. 
 
 Eine Weitere Vereinfachung durch Cocos bietet die Reverse Methode. Diese dient dazu bestimmte Animationen rückwärts ablaufen zu lassen. Diese ist in unserem Projekt unter anderem bei der Sprung Animation zum Einsatz gekommen. 
-
-//JOSIE JUMP BILDER
-
 
 
 \section{Callbackprinzip}\label{sec:2_Callbackprinzip}
