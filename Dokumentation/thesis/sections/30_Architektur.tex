@@ -5,7 +5,7 @@
 
 
 
-\section{Klassenübersicht}\label{sec:3_Klassenuebersicht}
+\sectionOG{Klassenübersicht}\label{sec:3_Klassenuebersicht}
 
 Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die \josieclass{MainMenuScene} lädt. Dieser Bildschirm dient zum Einen (a) die \josieclass{Optionen} aufzurufen, (b) ein kurzes \josieclass{Tutorial} zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl (\josieclass{LevelSelectScene}).
 Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \josieclass{Level}, einem automatisch generierten (\josieclass{TMXEdit}) und dem Boss Kampf (mit vorgeschalteter \josieclass{ShopScene}).
@@ -34,7 +34,7 @@ Auch der \josieclass{PauseScreen} wird sowohl von der \josieclass{Level} Scene, 
 
 
 
-\section{Vererbung}\label{sec:3_Vererbung}
+\sectionOG{Vererbung}\label{sec:3_Vererbung}
 
 Wie bereits im Kapitel \ref{sec:3_Klassenuebersicht} erwähnt, stammen nicht alle Klassen von \cocosclass{Scene} bzw. \cocosclass{Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \josieclass{CollisionLayer} Klasse.
 Es wurde bewusst \cocosclass{LayerColor} gewählt um, für Debugging Zwecke, den Kollisions Rahmen anzeigen zu können (siehe Kapitel \ref{sec:CollisionLayerDebug}).
@@ -66,7 +66,7 @@ Die Klasse \josieclass{TMXEdit} kommt ohne Eltern Klasse aus, das sie nur für d
 
 
 
-\section{Speichersystem}\label{sec:3_Speichersystem}
+\sectionOG{Speichersystem}\label{sec:3_Speichersystem}
 
 Bei der Speicherung des App Zustandes, also der Einstellungen und des Spielstandes, haben wir uns für die \cocosclass{UserDefault} entschieden. Der Zugriff erfolgt einfach und es benötigt keiner speziellen zusätzlichen Klassen oder 3rd Party Libraries. Die Münzen und die benötigte Zeit für die Level werden codiert in zwei Strings gespeichert. Dabei gibt das Byte an der x. Stelle die Münzen/Zeit für das Level x wieder. Jede Dauer die darüber hinausgeht, wird mit der Maximalzeit von 255 Sekunden, also 4:15 Min gespeichert.
 
