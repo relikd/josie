@@ -170,7 +170,7 @@ mySprite->setScale(2.0);
 \sectionDG{Animationsprinzip}\label{sec:2_Animationsprinzip}
 
 \subsection{Allgemeines und cocos2d Spriteprinzip}
-Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt im folgenden soll ein kurzer Einblick auf das Prinzip der Animationen in Cocos2d als auch Allgemein  eingegangen werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet den Spielecharakteren zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
+Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt. Im folgenden soll ein kurzer Einblick in das Prinzip der Animationen in cocos2d, als auch allgemein gewährt werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet um den Spielecharakter zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
 
 In Cocos2d werden solche Animationen durch \cocosclass{Action} Objekte realisiert. Diese haben die Fähigkeit die Werte von \cocosclass{Node} Objekte, in Echtzeit zu transformieren. Dazu zählen ebenfalls Instanzen der Klassen die von einem solchen Objekt erben. Werte eines Nodes, die verändert werden können sind z.b. die Sichtbarkeit, Farbe, Position oder auch die Größe des Nodes. Zum Beispiel kann ein Sprite von einer Position zur anderen bewegt werden.
 
@@ -178,7 +178,8 @@ Grundsätzlich können zwei Versionen von Actions unterschieden werden, diese si
 
 \begin{figure}[H]
  \centering
-  \includegraphics[width=12\textwidth]{resources/josiedoku6}
+  \includegraphics[width=10cm]{resources/josiedoku6}
+  \caption{Bildliche Darstellung des Unterschieds zwischen MoveBy und MoveTo}
   \label{fig:josiemoveByTo} 
 \end{figure}
 
@@ -186,7 +187,7 @@ Die von Cocos2d bereitgestellten Funktionen zur Veränderung von Nodes sind Move
 
 \begin{figure}[H]
  \centering
-  \includegraphics[width=12\textwidth]{resources/josiedoku5}
+  \includegraphics[width=10cm]{resources/josiedoku5}
   \caption{Beispiel für Fade In/Out bei Josie}
   \label{fig:fade} 
 \end{figure}
@@ -200,7 +201,7 @@ Die Funktion Objekte werden unter anderem für so genannte Callback(link) Funkti
 
 \begin{figure}[H]
  \centering
-  \includegraphics[width=12\textwidth]{resources/sequence}
+  \includegraphics[width=10cm]{resources/sequence}
   \caption{Beispiel für Aktionen}
   \label{fig:sequence} 
 \end{figure}
