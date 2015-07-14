@@ -1,24 +1,16 @@
-\chapter{Architektur}
+\chapter{Architektur}\label{ch:arch}
 
-\section{Spielstruktur}\label{sec:Spielstruktur}
-\gamename  erinnert an eine erweiterte Version des Spieleklassikers Super Mario World.
-In der Theorie sollte es mehrere Spielabschnitte geben, jedoch wurde aus zeitlichen Gründen nur ein Abschnitt implementiert. Ein Spielabschnitt besteht aus drei Jump and Run Levels und einem Boss Kampf Level. 
+\section{Spielstruktur}\label{sec:3_Spielstruktur}
 
-\paragraph{Jump and Run Level:}
-Der Spieler versucht ohne Zeiteinschränkung das Level abzuschließen und dabei so viele Münzen wie möglich zu sammeln. Bei einem perfekten Lauf \textbf{kann} man alle Münzen einsammeln, einige davon sind allerding so plaziert dass sie nur schwer zu erreichen sind.
-Dem Spieler stehen die Steuerungsfunktionen "'Stoppen"', "'Schrumpfen"' und "'Springen"' zur Verfügung. 
-Dass Josie von selbst in einer festgelegten Geschwindigkeit läuft, führt zu einer gewissen Schwierigkeit des Spiels und macht Steuerungsfunktionen für "'Links"' und "'Rechts"' überflüssig.
 
-\paragraph{Boss Level:}
 
-(\sectionauthor{DM})
 
-\section{Klassenübersicht}\label{sec:Klassenuebersicht}
+\section{Klassenübersicht}\label{sec:3_Klassenuebersicht}
 
-Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die \textit{MainMenuScene} lädt. Dieser Bildschirm dient zum Einen (a) die \textit{Optionen} aufzurufen, (b) ein kurzes \textit{Tutorial} zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl (\textit{LevelSelectScene}).
-Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \textit{Level}, einem automatisch generierten (\textit{TMXEdit}) und dem Boss Kampf (mit vorgeschalteter \textit{ShopScene}).
+Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die \josieclass{MainMenuScene} lädt. Dieser Bildschirm dient zum Einen (a) die \josieclass{Optionen} aufzurufen, (b) ein kurzes \josieclass{Tutorial} zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl (\josieclass{LevelSelectScene}).
+Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \josieclass{Level}, einem automatisch generierten (\josieclass{TMXEdit}) und dem Boss Kampf (mit vorgeschalteter \josieclass{ShopScene}).
 
-\begin{figure}[h]
+\begin{figure}[H]
 \scalebox{0.7}{\input{resources/calltree.tex}}
 \caption{Aufruf und Abhängigkeiten der jeweiligen Screens}
 \label{calltree}
@@ -26,28 +18,28 @@ Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \textit{L
 
 \notebox{
 	\textbf{Info zur Farbvergabe}: \\
-	Rote Klassen stammen von der \textit{cocos2d::Scene} Klasse ab\\
-	Gelbe Klassen sind \textit{cocos2d::Layer} die über einer Scene eingeblendet werden\\
-	Blaue Klassen sind Objekte mit unterschiedlicher Basis-Klasse (siehe Kapitel \ref{sec:Vererbung})\\
+	Rote Klassen stammen von der \cocosclass{Scene} Klasse ab\\
+	Gelbe Klassen sind \cocosclass{Layer} die über einer Scene eingeblendet werden\\
+	Blaue Klassen sind Objekte mit unterschiedlicher Basis-Klasse (siehe Kapitel \ref{sec:3_Vererbung})\\
 	Graue Objekte bezeichnen Statische Klassen
 }
 
-Wird das Spiel zum Ersten Mal gespielt wird vor dem eigentlichen Level eine \textit{Cutscene} geladen und abgespielt. Im späteren Verlauf wird das Level direkt geladen (gestrichelte Linie).
-Für das automatisch generierte "Random Level" ist die \textit{TMXEdit} Klasse zuständig. Dabei wird der \textit{MapController} mit der generierten Karte gefüllt und anschließend ein "normales" \textit{Level} gestartet.
+Wird das Spiel zum Ersten Mal gespielt wird vor dem eigentlichen Level eine \josieclass{Cutscene} geladen und abgespielt. Im späteren Verlauf wird das Level direkt geladen (gestrichelte Linie).
+Für das automatisch generierte "Random Level" ist die \josieclass{TMXEdit} Klasse zuständig. Dabei wird der \josieclass{MapController} mit der generierten Karte gefüllt und anschließend ein "normales" \josieclass{Level} gestartet.
 
-Beim Ende eines Levels wird das \textit{LevelGameOver} angezeigt. Dabei spielt es keine Rolle ob das Level mit Erfolg absolviert wurde oder nicht. Die Übergabe erfolgt über einen Parameter bei der Instanz-Erstellung.
+Beim Ende eines Levels wird das \josieclass{LevelGameOver} angezeigt. Dabei spielt es keine Rolle ob das Level mit Erfolg absolviert wurde oder nicht. Die Übergabe erfolgt über einen Parameter bei der Instanz-Erstellung.
 
-Es sei noch angemerkt, dass die beiden Klassen \textit{AudioUnit} und \textit{GameStateManager} nur statische Funktionen enthalten und somit nie eine Instanz gespeichert wird. Der Aufruf erfolgt an den entsprechenden Stellen.
-Auch der \textit{PauseScreen} wird sowohl von der \textit{Level} Scene, als auch vom \textit{BossLevel} gleichermaßen benutzt und auf der jeweiligen HUD hinzugefügt. Die \textit{LevelHUD} und \textit{BossLevelHUD} steuern außerdem die Bewegungen des \textit{LevelPlayer} bzw. \textit{BossPlayer}.
+Es sei noch angemerkt, dass die beiden Klassen \josieclass{AudioUnit} und \josieclass{GameStateManager} nur statische Funktionen enthalten und somit nie eine Instanz gespeichert wird. Der Aufruf erfolgt an den entsprechenden Stellen.
+Auch der \josieclass{PauseScreen} wird sowohl von der \josieclass{Level} Scene, als auch vom \josieclass{BossLevel} gleichermaßen benutzt und auf der jeweiligen HUD hinzugefügt. Die \josieclass{LevelHUD} und \josieclass{BossLevelHUD} steuern außerdem die Bewegungen des \josieclass{LevelPlayer} bzw. \josieclass{BossPlayer}.
 
-(\sectionauthor{OG})
 
-\section{Vererbung}\label{sec:Vererbung}
 
-Wie bereits im \href{sec:Klassenuebersicht}{Vorherigen Kapitel} erwähnt, stammen nicht alle Klassen von \textit{cocos2d:: Scene} bzw. \textit{cocos2d::Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \textit{CollisionLayer} Klasse.
-Es wurde bewusst \textit{cocos2d::LayerColor} gewählt um, für Debugging Zwecke, den Kollisions Rahmen anzeigen zu können (siehe Kapitel \ref{sec:CollisionLayerDebug}).
+\section{Vererbung}\label{sec:3_Vererbung}
 
-\begin{figure}[h]
+Wie bereits im Kapitel \ref{sec:3_Klassenuebersicht} erwähnt, stammen nicht alle Klassen von \cocosclass{Scene} bzw. \cocosclass{Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \josieclass{CollisionLayer} Klasse.
+Es wurde bewusst \cocosclass{LayerColor} gewählt um, für Debugging Zwecke, den Kollisions Rahmen anzeigen zu können (siehe Kapitel \ref{sec:CollisionLayerDebug}).
+
+\begin{figure}[H]
 \begin{center}
 \input{resources/collisionLayerDerive.tex}
 \end{center}
@@ -55,11 +47,11 @@ Es wurde bewusst \textit{cocos2d::LayerColor} gewählt um, für Debugging Zwecke
 \label{collision_layer_derive}
 \end{figure}
 
-Die beiden Objekte \textit{Coin} und \textit{BossEnemy} werden direkt in der \textit{CollisionLayer} Klasse bzw. im \textit{BossLevel} erstellt und haben somit keine echte Klassenzugehörigkeit. 
-Der Grund für diese Vererbung liegt auf der Hand, Objekte können unabhängig auf ihre Kollision hin überprüft werden. Die standard Funktionalität der \textit{cocos2d::Rect} Klasse kann zwar eine Kollision mit \textbf{intersectsRect()} erkennen, dies funktioniert jedoch nicht mit rotierten Nodes wie es beim Boss Kampf der Fall ist. Hierfür wurde die 2D Oriented Bounding Box Intersection von Morgan McGuire \cite{2DOBB} implementiert und für Cocos2d umgeschrieben.
+Die beiden Objekte \josieclass{Coin} und \josieclass{BossEnemy} werden direkt in der \josieclass{CollisionLayer} Klasse bzw. im \josieclass{BossLevel} erstellt und haben somit keine echte Klassenzugehörigkeit. 
+Der Grund für diese Vererbung liegt auf der Hand, Objekte können unabhängig auf ihre Kollision hin überprüft werden. Die standard Funktionalität der \cocosclass{Rect} Klasse kann zwar eine Kollision mit \textbf{intersectsRect()} erkennen, dies funktioniert jedoch nicht mit rotierten Nodes wie es beim Boss Kampf der Fall ist. Hierfür wurde die 2D Oriented Bounding Box Intersection von Morgan McGuire \cite{2DOBB} implementiert und für Cocos2d umgeschrieben.
 
 \parbox{\textwidth -5cm}{
-Der \textit{MapController} erweitert die Funktionalität der cocos Klasse um die Erkennung der Kollision zum Boden, der Erkennung von tödlichen Objekten, sowie der Plazierung der Münzen im Level.
+Der \josieclass{MapController} erweitert die Funktionalität der cocos2d Klasse um die Erkennung der Kollision zum Boden, der Erkennung von tödlichen Objekten, sowie der Plazierung der Münzen im Level.
 }
 \quad
 \parbox{4cm}{
@@ -70,14 +62,12 @@ Der \textit{MapController} erweitert die Funktionalität der cocos Klasse um die
 	\end{tikzpicture}
 }
 
-Die Klasse \textit{TMXEdit} kommt ohne Eltern Klasse aus, das sie nur für das Generieren des Random Level zuständig ist. Sie holt sich dafür eine Instanz des MapControllers und erstellt zufällige Kartenelemente.
-(\sectionauthor{OG})
+Die Klasse \josieclass{TMXEdit} kommt ohne Eltern Klasse aus, das sie nur für das Generieren des Random Level zuständig ist. Sie holt sich dafür eine Instanz des MapControllers und erstellt zufällige Kartenelemente.
 
-\section{Speichersystem}\label{sec:Speichersystem}
 
-Bei der Speicherung des App Zustandes, also der Einstellungen und des Spielstandes, haben wir uns für die \textit{cocos2d::UserDefault} entschieden. Der Zugriff erfolgt einfach und es benötigt keiner speziellen zusätzlichen Klassen oder 3rd Party Libraries. Die Münzen und die benötigte Zeit für die Level werden codiert in zwei Strings gespeichert. Dabei gibt das Byte an der x. Stelle die Münzen/Zeit für das Level x wieder. Jede Dauer die darüber hinausgeht, wird mit der Maximalzeit von 255 Sekunden, also 4:15 Min gespeichert.
+
+\section{Speichersystem}\label{sec:3_Speichersystem}
+
+Bei der Speicherung des App Zustandes, also der Einstellungen und des Spielstandes, haben wir uns für die \cocosclass{UserDefault} entschieden. Der Zugriff erfolgt einfach und es benötigt keiner speziellen zusätzlichen Klassen oder 3rd Party Libraries. Die Münzen und die benötigte Zeit für die Level werden codiert in zwei Strings gespeichert. Dabei gibt das Byte an der x. Stelle die Münzen/Zeit für das Level x wieder. Jede Dauer die darüber hinausgeht, wird mit der Maximalzeit von 255 Sekunden, also 4:15 Min gespeichert.
 
 Die Hintergründe und Level Karten liegen einer bestimmten Struktur zugrunde. Wenn beispielsweise das Level 1.2 aufgerufen wird, so lädt das Level den Hintergrund \textquote{backgrounds\textbackslash bg\_1.2.png} und die Karte \blockquote{tilemaps\textbackslash 1.2.tmx}.
-
-(\sectionauthor{OG})
-

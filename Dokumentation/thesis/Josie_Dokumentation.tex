@@ -43,7 +43,7 @@
 %% definitions
 %%%%%%%%%%%%%%%%%%%
 \def\BaAuthor{Oleg Geier\qquad Daniel Glück\qquad Jonas Kaiser \\Tobias Lediger\qquad Daniel Mügge}
-\def\BaTitle{Entwicklung eines Spiels auf Basis von C++}
+\def\BaTitle{Entwicklung des 2D-Sidescrolling Spiels "Josie - A Jelly's Journey" auf Basis von C\texttt{++}}
 \def\BaSupervisorOne{Prof.\ Dr.\ Peter Braun}
 \def\BaSupervisorTwo{Prof.\ Dr.\ Steffen Heinzl}
 \def\BaDeadline{17.07.2015}
@@ -244,8 +244,8 @@ belowskip = 0em
 %%%%%%%%%%%%%%%%%%%
 
 \newcommand{\josieclass}[1]{\mbox{\textit{#1}}}
-\newcommand{\cocosclass}[1]{\mbox{\textbf{#1}}}
-\newcommand{\sectionauthor}[1]{\textit{\textbf{#1}}}
+\newcommand{\cocosclass}[1]{\mbox{\textit{cocos2d::#1}}}
+
 
 \newcommand{\notebox}[1]{
 \colorbox{black!10}{\begin{minipage}{\textwidth -18pt}
@@ -306,7 +306,7 @@ TODO
 \input{sections/40_Implementierung}
 \input{sections/50_Evaluierung}
 \input{sections/60_Fazit}
-\input{sections/99_Anhang}
+%\input{sections/99_Anhang}
 
 \backmatter
 %%%%%%%%%%%%%%%%%%%
@@ -324,8 +324,8 @@ TODO
 %%%%%%%%%%%%%%%%%%%
 %% create listings list
 %%%%%%%%%%%%%%%%%%%
-%\lstlistoflistings
-%\addcontentsline{toc}{chapter}{Listings}				
+\lstlistoflistings
+\addcontentsline{toc}{chapter}{Listings}				
 
 \printbibliography
 \addcontentsline{toc}{chapter}{Literatur}				

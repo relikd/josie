@@ -1,6 +1,6 @@
 \chapter{Implementierung}\label{ch:impl}
 
-\section{Spieler Steuerung}\label{sec:SpielerSteuerung}
+\section{Spieler Steuerung}\label{sec:4_SpielerSteuerung}
 
 Die Spieler Steuerung wird mithilfe eines Observer Patterns realisiert. Beim Laden der \josieclass{BossPlayer} Klasse wird der Spieler als Observer eingetragen:
 
@@ -30,15 +30,14 @@ void BossLevelHUD::update(float dt)
 \end{lstlisting}
 
 Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf die Abfrage auf \textbf{isSelected()} ob der aktuelle Button gedrückt ist. Das Aktivieren des Observers ist denkbar einfach über \textbf{dispatchCustomEvent()}.
-(\sectionauthor{OG})
-\section{Sprites und Animationen}
 
 
-\section{AudioUnit}\label{sec:Audiounit}
+
+\section{AudioUnit}\label{sec:4_Audiounit}
 Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb aufrufen kann.
 
 \subsection{Laden von Soundeffekten}
-Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Soundeffekten ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen. Der Grund dafür ist, dass zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen der Sound erst geladen, abgespielt und anschließend wieder entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \linebreak \josieclass{AudioUnit::preloadBossSounds()} aufgerufen.
+Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Soundeffekten ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen. Der Grund dafür ist, dass zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen der Sound erst geladen, abgespielt und anschließend wieder entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \josieclass{AudioUnit::preloadBossSounds()} aufgerufen.
 
 \begin{lstlisting}[label=lst:preloadBossSounds,
 				   language=C++,
@@ -51,15 +50,16 @@ void AudioUnit::preloadBossSounds()
 						->getIntegerForKey("sfx_volume")/200.0);
 	engine->preloadEffect("audio/boss_sounds/boss_hit1.mp3");
 	//Weitere Preloads
-	engine->preloadEffect("audio/josie_sounds/josie_hit3.mp3");
 }
 \end{lstlisting}
 
-Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer--Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double--Wert geteilt, da die \textit{setEffectsVolume} Methode nur double--Werte akzeptiert.
+Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer--Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double--Wert geteilt, da die \textbf{setEffectsVolume} Methode nur double--Werte akzeptiert.
 
-Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine}, die alle nötigen Funktionen liefert, zugegriffen. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
+Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine} die alle nötigen Funktionen liefert, zugegriffen. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
 
 Hierbei sei erwähnt dass ganze Musiktitel, wie zum Beispiel die Hintergrundmusik, nicht zwingend geladen werden müssen da diese nicht öfter hintereinander abgespielt, sondern wenn nötig geloopt werden. 
+
+Die Methode \textit{unloadBossSounds} gleicht der Methode zum Laden der Sounds. Der einzige Unterschied ist, dass \cocosclass{unloadEffect} anstelle von \cocosclass{preloadEffect} verwendet wird.
 
 \subsection{Abspielen von Soundeffekten und Musik} 
 Um nun einen Sound-Effekt abzuspielen, ruft man an passender Stelle die gewünschte Methode auf. Als Beispiel ist das Abspielen des Sounds gegeben, den man hört wenn der \josieclass{BossPlayer} getroffen wird.
@@ -86,9 +86,10 @@ void AudioUnit::playJosieHitSound()
 \end{lstlisting}
 
 Analog kann das ganze auf das Abspielen der Hintergrundmusik übertragen werden, wobei dann auf den String-Ersetzer verzichtet und der Pfad hard gecoded wird. Außerdem wird die Zufallsfunktion überflüssig da es die Hintergrundsongs nur einmal gibt und die Parameter Pitch,Pan und Gain fallen weg.
-(\sectionauthor{DM})
 
-\section{Kollisionsabfrage zum Boden}\label{sec:Kollisionsabfrage}
+
+
+\section{Kollisionsabfrage zum Boden}\label{sec:4_Kollisionsabfrage}
 
 Die Kollisionsabfrage ist auf den ersten Blick nicht sofort einleuchtend. Prinzipiell wird für die komplette Karte ein Array mit ganzzahligen Werten angelegt, also für jede Spalte (72px breite, vertikale Linie auf dem Bildschirm) wird ein \textbf{long} Wert gespeichert.
 Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob Kollision besteht.
@@ -115,15 +116,15 @@ Die Schleife durchläuft - von unten angefangen - alle Tiles einer Spalte und fr
 Der abschließende \textbf{long} Wert weißt an dem höchstwertigen Bit die Kollision für das unterste Teil auf und am niedrig wertigsten Bit die Kollision für das Tile am oberen Bildschirmrand.
 
 Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erstellt. Beides geschiet nur beim Laden der Karte. Für die tatsächliche Kollisionsabfrage wird nur noch auf diese Bitmap zugegriffen.
-(\sectionauthor{OG})
 
 
-\section{CollisionLayer}\label{sec:CollisionLayer}
+
+\section{CollisionLayer}\label{sec:4_CollisionLayer}
 \subsection{Debugging Optionen}\label{sec:CollisionLayerDebug}
 
 Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth - 50pt]{resources/CollisionLayer_BossKampf.jpg}
   \caption{CollisionLayer Debug im Boss Kampf}
@@ -132,7 +133,7 @@ Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der
 
 Wenn man genau hinsieht erkennt man, dass auch Münzen über eine Kollision verfügen. Tödliche Objekte in der Karte (bsp. Dornen) jedoch nicht.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth - 50pt]{resources/CollisionLayer_Level}
   \caption{CollisionLayer Debug im Level}
@@ -161,4 +162,3 @@ void StageHazard::hitByCollision(CollisionLayer* other)
 	}
 }
 \end{lstlisting}
-(\sectionauthor{OG})
