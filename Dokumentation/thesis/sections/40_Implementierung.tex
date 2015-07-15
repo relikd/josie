@@ -134,10 +134,10 @@ In diesem Beispiel wird die Animation für das Stoppen von Josie und anschließe
 
 
 \sectionDM{AudioUnit}\label{sec:4_Audiounit}
-Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb aufrufen kann.
+Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb mit \josieclass{AudioUnit::} aufrufen kann.
 
 \subsection{Laden von Soundeffekten}
-Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Soundeffekten ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen. Der Grund dafür ist, dass zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen der Sound erst geladen, abgespielt und anschließend wieder entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \josieclass{AudioUnit::preloadBossSounds()} aufgerufen.
+Ein wichtiger zu beachtender Aspekt bei Spielen mit vielen Soundeffekten ist die Notwendigkeit des vorangehenden Ladens dieser. Falls man dies nicht tut, kann es zu Performance-Problemen kommen. Der Grund dafür ist, dass zum Beispiel beim Drücken des "'Sprung"'-Buttons jedesmal beim Ausführen, der Sound erst geladen, abgespielt und anschließend wieder aus dem Speicher entfernt werden würde. Deshalb wird zum Beispiel beim Erstellen des \josieclass{BossLevel} im Konstruktor die Funktion \josieclass{AudioUnit::preloadBossSounds()} aufgerufen.
 
 \begin{lstlisting}[label=lst:preloadBossSounds,
 				   language=C++,
@@ -153,13 +153,15 @@ void AudioUnit::preloadBossSounds()
 }
 \end{lstlisting}
 
-Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer--Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double--Wert geteilt, da die \textbf{setEffectsVolume} Methode nur double--Werte akzeptiert.
+An dieser Stelle sei erwähnt dass ganze Musiktitel, wie zum Beispiel die Hintergrundmusik, nicht zwingend geladen werden müssen da diese nicht öfter hintereinander abgespielt, sondern wenn nötig geloopt werden. 
 
-Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine} die alle nötigen Funktionen liefert, zugegriffen. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
+Die Methode \textit{unloadBossSounds} gleicht der Methode zum Laden der Sounds. Der einzige Unterschied ist, dass \textbf{unloadEffect} anstelle von \textbf{preloadEffect} verwendet wird.
 
-Hierbei sei erwähnt dass ganze Musiktitel, wie zum Beispiel die Hintergrundmusik, nicht zwingend geladen werden müssen da diese nicht öfter hintereinander abgespielt, sondern wenn nötig geloopt werden. 
+Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer--Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double--Wert (in diesem Fall 200.0) geteilt, da die \textbf{setEffectsVolume} Methode nur double--Werte akzeptiert. Die Möglichkeit Einstellungen für Musik- und SFX-Lautstärke im Spiel selbst vorzunehmen, ist durch die Klasse \josieclass{OptionScreen} realisiert. 
 
-Die Methode \textit{unloadBossSounds} gleicht der Methode zum Laden der Sounds. Der einzige Unterschied ist, dass \cocosclass{unloadEffect} anstelle von \cocosclass{preloadEffect} verwendet wird.
+Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine}, die alle nötigen Funktionen liefert, zugegriffen. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
+
+
 
 \subsection{Abspielen von Soundeffekten und Musik} 
 Um nun einen Sound-Effekt abzuspielen, ruft man an passender Stelle die gewünschte Methode auf. Als Beispiel ist das Abspielen des Sounds gegeben, den man hört wenn der \josieclass{BossPlayer} getroffen wird.
