@@ -226,36 +226,23 @@ Eine Weitere Vereinfachung durch Cocos bietet die Reverse Methode. Diese dient d
 \sectionOG{Datenkommunikation}
 
 \subsection{Callbackprinzip}\label{sec:2_Callbackprinzip}
-In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet - unter anderem für Menü-Buttons. Ein Callback wird verwendet um einer Funktion, eine andere Funktion als Parameter zu übergeben. Im Besonderen wenn vorher nicht klar ist, wann diese Funktion ausgeführt wird (bsp. Klick auf einen Button). Genau genommen ist es nur ein Makro für die C\texttt{++} Funktion \textbf{std::bind}. Anstatt der Null könnte man auch eine Eins angeben um den Sender als Parameter zu übergeben.
+In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet - unter anderem für Menü-Buttons. Ein Callback wird verwendet um einer Funktion, eine andere Funktion als Parameter zu übergeben. Im Besonderen wenn vorher nicht klar ist, wann diese Funktion ausgeführt wird (bsp. Klick auf einen Button). Genau genommen ist es nur ein Makro für die C\texttt{++} Funktion \textbf{std::bind}. Anstatt der Null könnte man auch eine Eins angeben um zusätzlich den Sender als Parameter zu übergeben.
 
-\paragraph{Beispiel}
-Der \cocosclass{Director} soll die Funktion \textbf{popScene()} ausführen.
-
-\begin{lstlisting}[style=singleline]
-CC_CALLBACK_0(Director::popScene, Director::getInstance());
-\end{lstlisting}
-
-Der zweite Parameter, ist eine Instanz der Klasse, auf der die Funktion ausgeführt werden soll. Weitere Parameter können Komma getrennt hinten angehängt werden.
-
-\paragraph{CallFuncN} kapselt ein Callback in eine Animation. Verwendet wird dies um die Funktion innerhalb einer Animations Sequenz auszuführen, \textbf{nachdem} die Animation abgelaufen ist.
-
-\begin{lstlisting}[label=lst:CallFuncN,
-				   language=C++,
-				   firstnumber=112,
-				   caption=BossPlayer als Observer eintragen ( LevelPlayer.cpp )]
-CallFuncN *call = CallFuncN::create( CC_CALLBACK_0(LevelPlayer::startRunningCallback, this));
-Sequence *seq = Sequence::createWithTwoActions(animation, call);
-spriteImage->runAction(seq);
-\end{lstlisting}
-
-Hier wird beispielsweise die Animation für das Stoppen von Josie ausgeführt und anschließend \textbf{startRunningCallback()}. Dort können Attribute gesetzt und weiterer Code ausgeführt werden.
+Hier sei noch kurz das \textbf{CallFuncN} erwähnt. Das Callback wird in eine \cocosclass{Action} gekapselt, um die Funktion innerhalb einer Animations Sequenz auszuführen (S: \pageref{lst:CallFuncN}).
 
 
 \subsection{Observer Pattern}
 
-Für die Spielersteuerung (Kapitel \ref{sec:4_SpielerSteuerung} wird ein Observer Pattern verwendet.
+Für die Spielersteuerung (Kapitel \ref{sec:4_SpielerSteuerung}) wird ein Observer Pattern verwendet. Auch hier ist der Hintergrund die asynchrone Abarbeitung von Benutzer Ereignissen. Im Unterschied zum Callback geht es beim Observer immer um mindestens zwei Objekte, dem der die Nachricht sendet und dem der sie empfängt. Es können aber sowohl mehrere Empfänger (bsp. Radio), als auch mehrere Sender (bsp. Tempomat und Fahrer beeinflussen die Geschwindigkeit) beteiligt sein.
 
- Siehe \cite{gamma2011patterns}
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=15cm]{resources/observer_pattern}
+  \caption{Aus dem Buch Design Patterns \cite[Seite 326ff]{gamma2011patterns}}
+  \label{fig:observer_pattern} 
+\end{figure}
+
+Der Empfänger trägt sich selbst in eine Liste von Empfängern für ein bestimmtes Event/Namen ein und meldet somit sein Interesse für das Ereignis. Bei Eintreffen des Ereignisses geht der Sender die Liste der Empfänger durch und informiert jeden über das neue Ereignis.
 
 
 

@@ -1,11 +1,6 @@
 \chapter{Architektur}\label{ch:arch}
 
-\section{Spielstruktur}\label{sec:3_Spielstruktur}
-
-
-
-
-\sectionOG{Klassenübersicht}\label{sec:3_Klassenuebersicht}
+\sectionOG{Spielstruktur}\label{sec:3_Spielstruktur}
 
 Beim Start des Spieles wird das AppDelegate aufgerufen, was wiederum augenblicklich die \josieclass{MainMenuScene} lädt. Dieser Bildschirm dient zum Einen (a) die \josieclass{Optionen} aufzurufen, (b) ein kurzes \josieclass{Tutorial} zur Erklärung der Steuerung und Hindernissen im Level, sowie (c) der eigentlichen Level Auswahl (\josieclass{LevelSelectScene}).
 Die Level Auswahl unterscheided grundsätzlich zwischen einem normalen \josieclass{Level}, einem automatisch generierten (\josieclass{TMXEdit}) und dem Boss Kampf (mit vorgeschalteter \josieclass{ShopScene}).
@@ -32,11 +27,13 @@ Beim Ende eines Levels wird das \josieclass{LevelGameOver} angezeigt. Dabei spie
 Es sei noch angemerkt, dass die beiden Klassen \josieclass{AudioUnit} und \josieclass{GameStateManager} nur statische Funktionen enthalten und somit nie eine Instanz gespeichert wird. Der Aufruf erfolgt an den entsprechenden Stellen.
 Auch der \josieclass{PauseScreen} wird sowohl von der \josieclass{Level} Scene, als auch vom \josieclass{BossLevel} gleichermaßen benutzt und auf der jeweiligen HUD hinzugefügt. Die \josieclass{LevelHUD} und \josieclass{BossLevelHUD} steuern außerdem die Bewegungen des \josieclass{LevelPlayer} bzw. \josieclass{BossPlayer}.
 
+Für einen detailierteren Überblick ist im \href{ch:AnhangA}{Anhang A} ein Klassendiagramm angehängt.
+
 
 
 \sectionOG{Vererbung}\label{sec:3_Vererbung}
 
-Wie bereits im Kapitel \ref{sec:3_Klassenuebersicht} erwähnt, stammen nicht alle Klassen von \cocosclass{Scene} bzw. \cocosclass{Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \josieclass{CollisionLayer} Klasse.
+Wie bereits im Kapitel \ref{sec:3_Spielstruktur} erwähnt, stammen nicht alle Klassen von \cocosclass{Scene} bzw. \cocosclass{Layer} ab. Die Grafik \ref{collision_layer_derive} illustriert den Nutzen der \josieclass{CollisionLayer} Klasse.
 Es wurde bewusst \cocosclass{LayerColor} gewählt um, für Debugging Zwecke, den Kollisions Rahmen anzeigen zu können (siehe Kapitel \ref{sec:CollisionLayerDebug}).
 
 \begin{figure}[H]
