@@ -267,3 +267,83 @@ Die Schleife durchläuft - von unten angefangen - alle Tiles einer Spalte und fr
 Der abschließende \texttt{long} Wert weißt an dem höchstwertigen Bit die Kollision für das unterste Teil auf und am niedrig wertigsten Bit die Kollision für das Tile am oberen Bildschirmrand.
 
 Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erstellt. Beides geschiet nur beim Laden der Karte. Für die tatsächliche Kollisionsabfrage wird nur noch auf diese Bitmap zugegriffen.
+
+
+\sectionJK{Automatisch erzeugte Tilemaps}\label{sec:4_Automatisch erzeugte Tilemapst}
+
+Die  \josieclass{TMXEdit} Klasse hat die Aufgabe, abhängig von einem übergebenen Schwierigkeitsgrad, automatisch einen Level zu generieren. Drei Aspekte waren dabei besonders wichtig: Ein erzeugter Level sollte fordernd sein, er sollte Abwechslungsreich sein und er sollte – unabhängig davon, wie die Zufallsparameter ausfallen – keine Stellen beinhalten, die unmöglich zu bewältigen sind. Zusätzlich war es wünschenswert, dass der Spieler alle Münzen, welche im Level platziert sind erreichen kann.
+
+
+\subsection{Generieren des Levels}
+Das Grundgerüst des Zufallslevels ist immer identisch. Die ersten 20 Tiles stellen nie ein Hindernis dar, die letzten 38 sind das Levelende, welches in jedem Level gleich aussieht. Aus diesem Grund laden alle automatisch erzeugten Level die gleiche Tilemap, welche diesen Aufbau bereits umsetzt, und befüllen diese dann zur Laufzeit.
+Zum Befüllen des Levels wird dieses von Anfang bis Ende durchlaufen.  Dabei werden in zufälliger Reihenfolge Funktionen aufgerufen, welche Abschnitte des Levels nach einem jeweils eigenen Muster erzeugen. Das tatsächliche platzieren der Tiles erfolgt durch das zuweisen der GID für die zu bearbeitenden Tilemap-Koordinaten. 
+Dir folgenden Funktionen beispielsweise füllen eine ausgewählte Spalte ab einer gewissen Höhe
+nach unten komplett mit Boden-Tiles und einem Gras-Tile an oberster Stelle.
+\begin{lstlisting}[label=lst:place_ground,
+				   language=C++,
+				   firstnumber=127,
+				   caption=Platzieren von Boden-Tiles ( TMXEdit.cpp )]
+void TMXEdit::placeGround(int x, int y) {
+
+	_backgroundLayer->setTileGID(TOPDIRT[arc4random() % 4], Vec2(x, y));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, y));
+	if (y < _minheight)
+		placeDirt(x, y + 1);
+}
+
+void TMXEdit::placeDirt(int x, int y) {
+	_backgroundLayer->setTileGID(DIRT[arc4random() % 4], Vec2(x, y));
+	_metaLayer->setTileGID(COLLIDE, Vec2(x, y));
+	if (y < _minheight)
+		placeDirt(x, y + 1);
+}
+
+}
+\end{lstlisting}
+
+Ein einfaches Beispiel um zu erklären, wie Abschnitte nach einem gewissen Muster erzeugt werden findet man in der folgenden Funktion, welche im Level eine oder mehrere aufeinander folgende  schwebenden Plattformen erzeugt. Wie alle Funktionen die gesamte Abschnitte erzeugen, verfügt sie über einen ganzzahligen Rückgabewert. Dieser gibt an, bis zu welcher Spalte die Funktion die Tilemap bearbeitet hat.
+\begin{lstlisting}[label=lst:make_floating,
+				   language=C++,
+				   firstnumber=171,
+				   caption=Abschnitt mit schwebenden Plattformen erzeugen( TMXEdit.cpp )]
+int TMXEdit::makeFloating(int x, int height) {
+	x += _minJumpDistance + arc4random() % _maxJumpDistance-1;
+	int done = x + _partlength * (1 + arc4random() % 2);
+	while (x <= done) {
+		x = FloatingPlatform(x, height, 3+arc4random()%3);
+		x += _minJumpDistance + arc4random() % _maxJumpDistance;
+	}
+	return x;
+}
+\end{lstlisting}
+Zu Beginn der Funktion wird eine gewisse Anzahl an Spalten übersprungen. Die so entstehende Lücke wird in ihrer Weite durch den Schwierigkeitsgrad definiert (dieser beeinflusst die variablen \_minJumpDistance und \_maxJumpDistance). Anschließend wird bestimmt, wie lang der aktuelle Abschnitt sein soll. Die Variable „done“ legt fest, bis zu welcher x-Koordinate ein neues Element(hier: eine einzelne schwebende Plattform) dieses Abschnitts Angefangen werden kann. Die Plattform selbst wird hier durch eine andere Funktion erzeugt. Diese weißt der Reihe nach den Kacheln auf der übergebenen Höhe die jeweiligen GIDs zu. Die Länge der Plattform ist ebenfalls ein Parameter, welcher hier durch einen Zufallswert geliefert wird. 
+Die Wahl der einzelnen Levelbausteine erfolgt in Form eines Switch-Statements. Der übergebene Ausdruck ist dabei selbstverständlich ein Zufallswert, durch ihn wird bestimmt, welcher Abschnitt als nächstes generiert werden soll. Durch das wiederholen dieses switch Befehls in einer Schleife kann so der gesamte Level zufällig aufgefüllt werden.
+
+
+\subsection{Platzieren der Münzen}
+Neben dem Erstellen des Levels gibt es noch ein zweites Problem das bewältigt werden musste. Die Münzen mussten im Level verteilt werden – in erreichbaren Positionen, abhängig vom Aufbau des Levels.
+Dafür zuständig ist folgende Funktion (sowie die von ihr aufgerufenen):
+
+\begin{lstlisting}[label=lst:place_coins,
+				   language=C++,
+				   firstnumber=171,
+				   caption=Automatisches Platzieren von Münzen( TMXEdit.cpp )]
+void TMXEdit::placeCoins(int number) {
+	int counter = 0;
+	int distance = (int) map->getMapSize().width/number;
+	int x = 50;
+	while (counter < number) {
+		int y = isSafe(x);
+		if (y > 0) {
+			placeCoin(x, y);
+			counter++;
+			x = x - (x % distance) + distance;
+			if(x >  map->getMapSize().width -50) x= 50;
+		} else {
+			x += 1;
+		}
+	}
+}
+\end{lstlisting}
+Die Funktion stellt sicher, dass die gewünschte Anzahl an Münzen in regelmäßigen Abständen zueinander platziert wird. Durch die isSafe Funktion wird zuerst die Höhe der Umgebung an der betrachteten Position ermittelt und dann geprüft, ob die Position für den Spieler erreichbar ist, ohne zu verlieren. Ist dies nicht der Fall, so wird Spalte für Spalte überprüft, bis die Münze platziert wurde. Sollte das Ende der Karte erreicht werden, so wird die nächste Münze wieder am Anfang platziert. Ein Problem tritt dabei höchstens auf, wenn die gewünschte Anzahl an Münzen die Anzahl an sicheren Positionen übertrifft. Das Spiel würde dann eine Endlosschleife betreten.  Da eine so hohe Anzahl an Münzen jedoch ohnehin nicht wünschenswert ist- auf manchen Geräten kann dies zu Einbrüchen der Framerate führen- darf dieser Sonderfall ignoriert werden (Außerdem wäre es aus Sicht eines Game-Designers keine gute Idee, so viele Münzen verfügbar zu machen, da so das Erfolgserlebnis beim Einsammeln verloren geht).
+

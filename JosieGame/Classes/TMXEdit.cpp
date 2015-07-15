@@ -28,7 +28,6 @@ const int WATER[] = {16, 17};
 const int WATEREND = 18;
 
 TMXEdit::TMXEdit() {
-	// TODO Auto-generated constructor stub
 	map = MapController::initWithLevel(0, 1);
 	_backgroundLayer = NULL;
 	_metaLayer = NULL;
@@ -46,7 +45,6 @@ TMXEdit::TMXEdit() {
 }
 
 TMXEdit::~TMXEdit() {
-	// TODO Auto-generated destructor stub
 }
 //Schwierigkeit bisher nur Konsistent für difficulty im Berecih 1-3
 MapController* TMXEdit::makeMap(int difficulty) {
@@ -54,7 +52,6 @@ MapController* TMXEdit::makeMap(int difficulty) {
 	//die Formeln und Werte sind spezifisch auf 3 Schwierigkeitsgrade ausgelegt
 	maker->_hazardDistanceMin = -8*difficulty+32;
 	maker->_coins = 25*pow(difficulty,2) -65*difficulty+50;
-	CCLOG("%d _coins coins",maker->_coins);
 	maker->_minJumpDistance = difficulty +1;
 	maker->_maxJumpDistance = 2;
 	maker->getLayers();
@@ -309,7 +306,6 @@ void TMXEdit::placeHazards(int distance){
 void TMXEdit::placeCoins(int number) {
 	int counter = 0;
 	int distance = (int) map->getMapSize().width/number;
-	CCLOG("%d!!!!!!!!!!!!!!!!!!!!!!", distance);
 	int x = 50;
 	while (counter < number) {
 		int y = isSafe(x);
@@ -318,14 +314,14 @@ void TMXEdit::placeCoins(int number) {
 			counter++;
 			x = x - (x % distance) + distance;
 			if(x >  map->getMapSize().width -50) x= 50;
-		} else { //TODO
+		} else {
 			x += 1;
 		}
 	}
 
 }
 int TMXEdit::isSafe(int x) {
-	int y = getHighestTile(x); //TODO
+	int y = getHighestTile(x);
 	if (y <= 0)
 		return -1;
 	if (_metaLayer->getTileGIDAt(Vec2(x, y-2)) == COIN) return -1;
