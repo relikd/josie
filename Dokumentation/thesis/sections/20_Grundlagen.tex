@@ -225,7 +225,7 @@ Für die Spielersteuerung (Kapitel \ref{sec:4_SpielerSteuerung}) wird ein Observ
 \begin{figure}[H]
  \centering
   \includegraphics[width=15cm]{resources/observer_pattern}
-  \caption{Aus dem Buch Design Patterns \cite[Seite 326ff]{gamma2011patterns}}
+  \caption{Observer Patter aus \cite[Design Patterns]{gamma2011patterns}}
   \label{fig:observer_pattern} 
 \end{figure}
 
@@ -288,7 +288,7 @@ unsigned int gid = ebene->getTileGIDAt(Vec2(x,y));
 Anhand der GID kann man auch zur Laufzeit ein Tile an einer beliebigen Position platzieren bzw. ersetzen. Dabei erhält die Kachel selbstverständlich auch alle Eigenschaften der gewählten GID	
 
 \begin{lstlisting}[style=singleline]
-Ebene->setTileGID(gid, Vec2(x,y));
+ebene->setTileGID(gid, Vec2(x,y));
 \end{lstlisting}
 
 Die Attribute eines Feldes erhält man ebenfalls über einen simplen Funktionsaufruf:

@@ -1,8 +1,9 @@
-\chapter{Evaluierung}\label{ch:eval}
+\chapter[Evaluierung]{Evaluierung \small Oleg Geier}\label{ch:eval}
 
-Kritisch betrachtet lässt sich sagen, dass unser Spiel ein vollständig funktionierendes 2D-Sidescroll-Game darstellt. Mit komplett individuellem Audio, Animations und Grafikdesign sowie eigener Steuerung. 
+Auf die integrierte Physiks Engine von cocos2d haben wir verzichtet da unser Spiel nur von der Kollision zum Boden Gebrauch macht. Eine normale Physik Engine bezieht dafür noch viel mehr Parameter (bsp. Masse, Momentum, Gravitation) mit ein, was bei uns nicht gegeben ist oder mit einem unnötig hohen Mehraufwand verbunden.
 
-An Verbesserungen könnte man unter anderem bei dem Ablauf bzw. Aufbau der Animationen, die Spawn Klasse verwenden. Durch diese wäre eine variablere Verwendung von Sequenzen und Aktionen möglich gewesen. Diese hätte besonders bei den Angriffspattern der Boss Klasse Anwendung gefunden. 
+Hinsichtlich der Performance haben wir uns auch wenig Gedanken gemacht. Hier bleibt noch offen Tests anzulegen um bestimmte Kriterien einzuhalten. Oder selbst einfache Tests zwischen zwei Funnktionen bsp. ist es effektiver viele kleine Bilder nach Bedarf zu laden oder ein großes Bild ständig im Speicher zu halten. Ist die implementierte Kollisionsabfrage effektiv?
 
-Auch haben wir die in Cocos2d integrierte Physiks Engine nicht genutzt. Dies kann man aber dadurch begründen, dass wir lediglich die Collisionsabfragen benötigten und keine weiteren Eigenschaften wie z.b. Feuer, Partikel oder Gravitation. 
+Die recht langen Ladezeiten beim Starten eines Levels sollten mit einem Lade-Bildschirm überdeckt werden, damit für den Endanwender ersichtlich ist, dass etwas im Gange ist.
 
+Als Verbesserung des Ablaufs bzw. Aufbaus der Animationen hätte man die Spawn Klasse verwenden können. Dadurch wäre eine variablere Verwendung von Sequenzen und Aktionen möglich. Diese hätte besonders bei den Angriffspattern der Boss Klasse Anwendung gefunden. Dadurch ist die komplette Boss Klasse momentan auf einen einzigen Endgegner fixiert.

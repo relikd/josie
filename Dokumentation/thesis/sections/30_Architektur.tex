@@ -45,7 +45,7 @@ Es wurde bewusst \cocosclass{LayerColor} gewählt um, für Debugging Zwecke, den
 \end{figure}
 
 Die beiden Objekte \josieclass{Coin} und \josieclass{BossEnemy} werden direkt in der \josieclass{CollisionLayer} Klasse bzw. im \josieclass{BossLevel} erstellt und haben somit keine echte Klassenzugehörigkeit. 
-Der Grund für diese Vererbung liegt auf der Hand, Objekte können unabhängig auf ihre Kollision hin überprüft werden. Die standard Funktionalität der \cocosclass{Rect} Klasse kann zwar eine Kollision mit \textbf{intersectsRect()} erkennen, dies funktioniert jedoch nicht mit rotierten Nodes wie es beim Boss Kampf der Fall ist. Hierfür wurde die 2D Oriented Bounding Box Intersection von Morgan McGuire \cite{2DOBB} implementiert und für Cocos2d umgeschrieben.
+Der Grund für diese Vererbung liegt auf der Hand, Objekte können unabhängig auf ihre Kollision hin überprüft werden. Die standard Funktionalität der \cocosclass{Rect} Klasse kann zwar eine Kollision mit \textbf{intersectsRect()} erkennen, dies funktioniert jedoch nicht mit rotierten Nodes wie es beim Boss Kampf der Fall ist. Hierfür wurde die 2D Oriented Bounding Box Intersection von Morgan McGuire \cite{2DOBB} implementiert und für cocos2d umgeschrieben.
 
 \parbox{\textwidth -5cm}{
 Der \josieclass{MapController} erweitert die Funktionalität der cocos2d Klasse um die Erkennung der Kollision zum Boden, der Erkennung von tödlichen Objekten, sowie der Plazierung der Münzen im Level.
