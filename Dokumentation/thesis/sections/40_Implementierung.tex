@@ -31,7 +31,10 @@ void BossLevelHUD::update(float dt)
 
 Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf die Abfrage auf \textbf{isSelected()} ob der aktuelle Button gedrückt ist. Das Aktivieren des Observers ist denkbar einfach über \textbf{dispatchCustomEvent()}.
 
-\sectionDG{SpritePrinzip}
+
+
+\sectionDG{Sprite Animation}
+\subsection{Initialisieren}
 Die grundlegende Nutzung von Sprites wird im folgenden anhand der \josieclass{Tutorial} erklärt. Es werden die Bereiche, die sehr viel Anwendung in unserem Projekt fanden, erklärt. Diese sind unter anderem: das Laden von Sprites, Verwendung des Ankerpunktes als auch die Verwendung grundsätzlicher Funktionen wie \textbf{moveBy()}.
 
 \begin{lstlisting}[label=lst:sprite_ancerpoint,
@@ -39,13 +42,14 @@ Die grundlegende Nutzung von Sprites wird im folgenden anhand der \josieclass{Tu
 				   firstnumber=54,
 				   caption=Sprite laden ( TutorialScene.cpp )]
 Sprite* josie = Sprite::create("josie/josie_static.png");
-	josie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	josie->setPosition(200,45);
-	this->addChild(josie);
+josie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+josie->setPosition(200,45);
+this->addChild(josie);
 \end{lstlisting}
 
 Die erste Zeile erstellt ein Sprite Object und gibt in der create Methode den Pfad zum zu ladenden Sprite an. Als nächstes wird der Ankerpunkt des Sprites mit dem Befehl \textbf{setAnchorPoint()} festgelegt. Durch setPosition wird die Startposition festgelegt und das Sprite im Anschluss an die Scene hinzugefügt. 
 
+\subsection{Bewegen}
 
 Im Anschluss soll ein Beispiel für die Verwendung von Grundfunktion zur Spritemanipulation als auch Sequenzen erläutert werden. Hierbei wird ein Beispiel aus der Klasse \josieclass{BossPlayer} verwendet.
 
@@ -66,16 +70,17 @@ Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erst
 \begin{figure}[H]
   \centering
   \includegraphics[width=15.5cm]{resources/dokubaum}
-  \caption{Beispiel eine Sequenz}
+  \caption{Ablauf einer Sequenz}
   \label{fig:dokubaum} 
 \end{figure}
 
-Eine Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .plist Datei soll durch das folgende Beispiel erbracht werden. Hierbei wird ein Beispiel aus der \josieclass{LevelPlayer} genutzt. 
+\subsection{Animieren}
+Eine Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .plist Datei soll durch das folgende Beispiel erbracht werden.
 
 \begin{lstlisting}[label=lst:build_josie_animation,
 				   language=C++,
-				   firstnumber=96,
-				   caption=Sequence erstellen ( LevelPlayer.cpp )]
+				   firstnumber=53,
+				   caption=Sequence erstellen ( CollisionLayer.cpp )]
 Vector<SpriteFrame*> frames;
 SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
 
@@ -97,17 +102,20 @@ Sobald die For-Schleife abgearbeitet ist, wird eine Animation durch die Funktion
 \begin{lstlisting}[label=lst:build_josie_animation_reverse,
 				   language=C++,
 				   firstnumber=96,
-				   caption=Sequence reverse ( LevelPlayer.cpp )]
+				   caption=Sequence Umkehren ( LevelPlayer.cpp )]
 startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse())
 \end{lstlisting}
 
 Die Methode animationWithFrame liefert eine Animation zurück. Darauf wird die Methode \textbf{reverse()} aufgerufen, welche die Animation rückwärts ablaufen lässt. Diese Animation wird jetzt durch die Methode \textbf{startRunningAfterAnimation()} gestartet. 
 
 \begin{figure}[H]
-  \includegraphics[width=0.1\textwidth]{resources/josiejump}
-  \caption{Das ist Josie}
-  \label{fig:josie} 
+  \centering
+  \includegraphics[height=5cm]{resources/josiejump}
+  \caption{Die Sprung-Animation in einzelnen Sprites}
+  \label{fig:josie_jump} 
 \end{figure}
+
+
 
 \sectionDM{AudioUnit}\label{sec:4_Audiounit}
 Die Klasse \josieclass{AudioUnit} kümmert sich um das Laden, Abspielen, Pausieren und Enfernen der Audiodateien. Hierbei handelt es sich durchgehend um statische Funktionen, sodass man die Klasse nicht erst instanziieren muss, sondern die Funktionen einfach von Außerhalb aufrufen kann.

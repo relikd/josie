@@ -222,9 +222,11 @@ Wir entschieden uns für die Spritesheet .plist Methode, da wir ebenfalls bei de
 Eine Weitere Vereinfachung durch Cocos bietet die Reverse Methode. Diese dient dazu bestimmte Animationen rückwärts ablaufen zu lassen. Diese ist in unserem Projekt unter anderem bei der Sprung Animation zum Einsatz gekommen. 
 
 
-\sectionOG{Callbackprinzip}\label{sec:2_Callbackprinzip}
 
-In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet - unter anderem für Menü-Buttons. Ein Callback wird verwendet um einer Funktion eine andere Funktion als Parameter zu übergeben. Im Besonderen wenn vorher nicht klar ist, wann diese Funktion ausgeführt wird (bsp. Klick auf einen Button).
+\sectionOG{Datenkommunikation}
+
+\subsection{Callbackprinzip}\label{sec:2_Callbackprinzip}
+In vielen Teilen des Spieles wird \textbf{CC\textunderscore CALLBACK\textunderscore 0()} verwendet - unter anderem für Menü-Buttons. Ein Callback wird verwendet um einer Funktion, eine andere Funktion als Parameter zu übergeben. Im Besonderen wenn vorher nicht klar ist, wann diese Funktion ausgeführt wird (bsp. Klick auf einen Button). Genau genommen ist es nur ein Makro für die C\texttt{++} Funktion \textbf{std::bind}. Anstatt der Null könnte man auch eine Eins angeben um den Sender als Parameter zu übergeben.
 
 \paragraph{Beispiel}
 Der \cocosclass{Director} soll die Funktion \textbf{popScene()} ausführen.
@@ -247,6 +249,13 @@ spriteImage->runAction(seq);
 \end{lstlisting}
 
 Hier wird beispielsweise die Animation für das Stoppen von Josie ausgeführt und anschließend \textbf{startRunningCallback()}. Dort können Attribute gesetzt und weiterer Code ausgeführt werden.
+
+
+\subsection{Observer Pattern}
+
+Für die Spielersteuerung (Kapitel \ref{sec:4_SpielerSteuerung} wird ein Observer Pattern verwendet.
+
+ Siehe \cite{gamma2011patterns}
 
 
 
