@@ -51,11 +51,11 @@ TMXEdit::~TMXEdit() {
 //Schwierigkeit bisher nur Konsistent für difficulty im Berecih 1-3
 MapController* TMXEdit::makeMap(int difficulty) {
 	TMXEdit* maker = new TMXEdit();
-	//die Formeln und Werte sind spezifisch auf 3 Schwierigkeitsgrade ausgelegta
+	//die Formeln und Werte sind spezifisch auf 3 Schwierigkeitsgrade ausgelegt
 	maker->_hazardDistanceMin = -8*difficulty+32;
 	maker->_coins = 25*pow(difficulty,2) -65*difficulty+50;
 	CCLOG("%d _coins coins",maker->_coins);
-	maker->_minJumpDistance = difficulty +2;
+	maker->_minJumpDistance = difficulty +1;
 	maker->_maxJumpDistance = 2;
 	maker->getLayers();
 	maker->fillLevel();
