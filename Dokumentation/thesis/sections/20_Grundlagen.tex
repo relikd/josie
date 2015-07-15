@@ -15,7 +15,7 @@ Dass Josie von selbst in einer festgelegten Geschwindigkeit läuft, führt zu ei
 
 
 
-\sectionTL{Framework}\label{sec:2_Framework}
+\sectionTL{Einrichtung des verwendeten Frameworks}\label{sec:2_Framework}
 Als die grobe Idee für das Spiel feststand, mussten wir uns für eine GameEngine entscheiden. Zur Auswahl standen unter anderem die AndEngine, Unity und Cocos2d-x. Nach ausreichender Recherche über die Funktionalitäten der verschiedenen Engines haben wir uns einstimmig für Cocos2d-x entschieden. Cocos2d-x untestützt drei Programmiersprachen, C++, JavaSkript und Lua. Hier haben wir C++ gewählt, da wir im laufe unseres Studiums eine Vorlesung über C++ gehört haben.
 Die nächste Herausforderung war die Einrichtung von Cocos2d-x. Da wir drei verschiedene Betriebssysteme(Win8, MacOSX, Ubuntu) benutzen, hatten wir geringe Kompatibilitätsprobleme.
 Um Cocos2d-x einzurichten, werden folgende Pakete benötigt:
@@ -34,7 +34,7 @@ Hat man die zwei Programme installiert öffnet man den Cocos2d-x Ordner und star
 
 
 
-\sectionTL{IDE und Plugins}\label{sec:2_IDE}
+\sectionTL{Verwendete IDE und benötigte Plug-Ins}\label{sec:2_IDE}
 
 Nachdem die Umgebungsvariablen eingetragen sind, muss das Android Developer Tool Plugin für Eclipse installiert werden. Hat man das erledigt öffnet man den im Plugin enthaltenen Android SDK-Manager und lädt sich hier nochmal die passende API herunter. In unserem Fall war das die API für Androidversion 4.4.2(API 19). 
 Ist dieser Schritt geschafft, wird es Zeit das erste Projekt zu erstellen.
@@ -305,32 +305,29 @@ Cocos2d stellt noch hunderte weitere Funktionen bereit um Tilemaps zu handhaben,
 
 
 \sectionDM{Musik und Sound-Effekte}\label{sec:2_Musik}
-Musik sowie alle Sounds die in unserem Spiel \gamename zu hören sind wurden selbst geschrieben, aufgenommen und bearbeitet. Dazu gehören:
-
-\begin{itemize}
-\item Hintergrundmusik im Hauptmenü, in der Levelauswahl, in den Jump and Run Levels und im Boss Kampf
-\item Effektsounds für Sprung--, Schrumpf--, Stop und Schuss--Sounds von Josie, Shop--Sound, Bosstreffer--Sound
-\end{itemize}
+Jegliche Musik und Soundeffekte die in unserem Spiel \gamename zu hören sind wurden selbst geschrieben, aufgenommen und bearbeitet. Dazu gehören die
+\textbf{Hintergrundmusik} im Hauptmenü, in der Levelauswahl, in den Jump and Run Levels und im Boss Kampf. Außerdem \textbf{Soundeffekte} für das Springen, Schrumpfen, Stoppen und Schießen, sowie das kaufen von Aufwertungen und das Treffen des Endgegners.
 
 
-\subsection{Möglichkeiten der cocos2d-x-Engine zur Audioverarbeitung}
-Cocos2d bietet mit der \textbf{SimpleAudioEngine} eine relative einfache Möglichkeit Audio\-dateien, sei es die Hintergrundmusik oder ein Sound-Effekte, zu laden, abzuspielen, zu pausieren und wieder zu entfernen. Hierzu ein kurzes Beispiel wie man auf einfache Art und Weise eine Audiodatei abspielt.
+
+\subsection{Möglichkeiten der cocos2d-Engine zur Audioverarbeitung}
+Cocos2d bietet mit der \cocosclass{SimpleAudioEngine} eine relative einfache Möglichkeit Audio\-dateien, sei es die Hintergrundmusik oder ein Sound--Effekt, zu laden, abzuspielen, zu pausieren und wieder zu entfernen/entladen. Hierzu ein kurzes Beispiel wie man auf einfache Art und Weise eine Audiodatei abspielt.
 
 \begin{lstlisting}[style=singleline]
 SimpleAudioEngine::getInstance()->playBackgroundMusic("song.mp3",true);
 \end{lstlisting}
 
-Auf die Implementierung und die Verwendung der \cocosclass{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:4_Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \cocosclass{SimpleAudioEngine} betreffen in eine eigene Klasse \josieclass{AudioUnit} ausgelagert haben.
+Auf die Implementierung und die Verwendung der \cocosclass{SimpleAudioEngine} innerhalb unseres Codes wird im Kapitel \ref{sec:4_Audiounit} genauer eingegangen. Vorweg sei gesagt dass wir alle Funktionalitäten welche die \cocosclass{SimpleAudioEngine} betreffen in eine eigene statische Klasse \josieclass{AudioUnit} ausgelagert haben.
 
 
-\subsection{Mono-/Stereo-Kanäle und Dateiformate}
-Es ist möglich sowohl Mono-- als auch Stereo--Audiodateien zu verwenden. Falls man also möchte dass Sounds zum Beispiel aus bestimmten Richtungen kommen, um dem Spieler ein gewisses Mittendrin--Gefühl zu vermitteln, sollten die Audiodateien stereo sein. Das ist allerdings erst richtig sinnvoll wenn das Spiel mit Kopfhörern oder mit Anschluss an ein Soundsystem gespielt wird. 
+\subsection{Monofonie/Stereofonie und verwendete Dateiformate}
+Es ist möglich sowohl monofone als auch stereofone Audiodateien zu verwenden. Falls man möchte dass Sounds zum Beispiel aus bestimmten Richtungen kommen, um dem Spieler ein gewisses "'Mittendrin--Gefühl"' zu vermitteln, sollten die Audiodateien stereofon sein. Das ist allerdings erst richtig sinnvoll wenn das Spiel mit Kopfhörern oder mit Anschluss an ein Soundsystem gespielt wird. 
 
-In unserem Fall wurden Stereo--Audiodateien ohne Paning (mischen von Spuren nach links oder rechts) verwendet, da \gamename hauptsächlich für mobile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. In der Realität ist es außerdem meistens so, dass man bei Handyspielen den Ton ausschaltet bzw. ohne Kopfhörer spielt.
+Im Fall von \gamename wurden sterefone Audiodateien ohne oder geringem Panning (mischen von einzelnen Instrumenten/Klängen nach links oder rechts) verwendet, da das Spiel hauptsächlich für mobile Geräte gedacht ist und diese meist nur über einen Lautsprecher verfügen. Zudem werden in der Realität Spiele auf mobilen Geräten meist ohne Ton oder Kopfhörer gespielt, sodass wir deshalb keinen speziellen Wert auf räumlichen Klang gelegt haben.
 
-Wir haben auschließlich .mp3 verwendet, da dieses Dateiformat in Bezug auf cocos2d von den meisten Geräten unterstützt wird. Ein weiterer Vorteil von .mp3 gegenüber anderen Formaten wie .wav ist die Dateigröße, was im Bezug auf mobile Geräte ein sehr wichtiger Faktor ist.
+Es wurde auschließlich "'mp3"' als Format für Audiodateien verwendet, da dieses Dateiformat in Bezug auf cocos2d von den meisten Geräten unterstützt wird. Ein weiterer Vorteil von "'mp3"' gegenüber anderen Formaten wie "'wav"' ist die durch die verschiedenen Abtastraten entstehende Dateigröße, worauf hier allerdings nicht im Detail eingegangen wird. Dieser Dateigrößenunterschied ist im Bezug auf mobile Geräte ein sehr wichtiger Faktor.
 
-
+%\newpage
 \subsection{Audiobearbeitungsprogramme}
 Auf dem Softwaremarkt gibt es unzählige Audiobearbeitungsprogramme. Wenn man sich mit dem Thema Audiobearbeitung noch nie beschäftigt hat, ist es sehr schwer eines zu finden das die nötigen Funktionen liefert um einen gutes Resultat zu erzielen. Zudem kosten die meisten guten Programme viel Geld. Im Folgenden soll eine Auflistung von einigen kostenplfichtigen und kostenlosen Programmen einen groben Überblick verschaffen. Bei den kostenpflichtigen Programmen ist die Preisspanne sehr groß, da es auch auf Version und Ausführung ankommt, deshalb sind an dieser Stelle auch keine Preise genannt.
 
