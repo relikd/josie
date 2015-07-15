@@ -33,8 +33,8 @@ Die update Methode wird kontinuierlich aufgerufen, deshalb ist vor jedem Aufruf 
 
 
 
-\sectionDG{Sprite Animation}
-\subsection{Initialisieren}
+\sectionDG{Sprites}
+
 Die grundlegende Nutzung von Sprites wird im folgenden anhand der \josieclass{Tutorial} erklärt. Es werden die Bereiche, die sehr viel Anwendung in unserem Projekt fanden, erklärt. Diese sind unter anderem: das Laden von Sprites, Verwendung des Ankerpunktes als auch die Verwendung grundsätzlicher Funktionen wie \textbf{moveBy()}.
 
 \begin{lstlisting}[label=lst:sprite_ancerpoint,
@@ -80,7 +80,7 @@ Eine Erklärung für den Aufbau einer Animation durch ein Spritesheet und eine .
 \begin{lstlisting}[label=lst:build_josie_animation,
 				   language=C++,
 				   firstnumber=53,
-				   caption=Sequence erstellen ( CollisionLayer.cpp )]
+				   caption=Animation erstellen ( CollisionLayer.cpp )]
 Vector<SpriteFrame*> frames;
 SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
 
@@ -95,9 +95,8 @@ for (int i = 0; i < 6; i++) {
 Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
 \end{lstlisting}
 
-Anfangs erstellt man einen String mit Hilfe eines Char Arrays und ein Vector zur Erstellung von Frames. Außerdem erzeugt man ein SpriteFrameCache um auf das Spritesheet welches außerhalb des oben gezeigten Codes in den SpriteFrameCache geladen wurde. In der danach folgenden for-Schleife werden
-in das Array der Name des zu ladenden Bildes eingefügt. Hierbei ist zu beachten dass Für eine Animation mehrere Bilder nacheinander geladen werden müssen, diese haben die Namenskonvention "coin0000", "coin0001" etc. Im Anschluss werden die SpriteFrames welche genau den vorher im Array abgelegten Namen tragen aus dem SpriteFrameCache geladen und in den anfangs definierten Vektor eingefügt. 
-Sobald die For-Schleife abgearbeitet ist, wird eine Animation durch die Funktion \textbf{createWithSpriteFrames()} erstellt. Dieser werden der Vektor und eine Verzögerung zwischen den Frames des Vektors übergeben.
+Zu Begin erstellen wir einen String mit Hilfe eines Char Arrays und einem Vector zur Erstellung von Frames. In der SpriteFrameCache Instanz sind bereits alle Spritesheets geladen. Die nachfolgende Schleife iteriert durch die benötigten Bildnamen um diese zum Array hinzuzufügen. Hierbei ist zu beachten dass Für eine Animation mehrere Bilder nacheinander geladen werden müssen, diese haben die Namenskonvention "'coin0000"', "'coin0001"' etc. Der SpriteFrame mit dem generierten Bildnamen wird aus dem SpriteFrameCache geladen und in den anfangs definierten Vektor eingefügt. 
+Sobald die For-Schleife abgearbeitet ist, wird eine Animation mithilfe \textbf{createWithSpriteFrames()} erstellt. Dieser wird der Vektor und eine Verzögerung zwischen den Frames übergeben.
 
 \begin{lstlisting}[label=lst:build_josie_animation_reverse,
 				   language=C++,
@@ -106,7 +105,7 @@ Sobald die For-Schleife abgearbeitet ist, wird eine Animation durch die Funktion
 startRunningAfterAnimation(animationWithFrame("josiejump", 6, 0.0001)->reverse())
 \end{lstlisting}
 
-Die Methode animationWithFrame liefert eine Animation zurück. Darauf wird die Methode \textbf{reverse()} aufgerufen, welche die Animation rückwärts ablaufen lässt. Diese Animation wird jetzt durch die Methode \textbf{startRunningAfterAnimation()} gestartet. 
+Die Methode animationWithFrame liefert eine Animation zurück. Darauf wird die Methode \textbf{reverse()} aufgerufen, welche die Animation rückwärts ablaufen lässt.
 
 \begin{figure}[H]
   \centering
@@ -114,6 +113,23 @@ Die Methode animationWithFrame liefert eine Animation zurück. Darauf wird die M
   \caption{Die Sprung-Animation in einzelnen Sprites}
   \label{fig:josie_jump} 
 \end{figure}
+
+
+\subsection[Fortsetzung des Programmablaufs]{Fortsetzung des Programmablaufs \scriptsize Oleg Geier}
+
+Manchmal ist es sinnvoll eine Funktion auszuführen sobald eine Animation beendet ist. Hierfür wird ein Callback erstellt und in eine \cocosclass{CallFuncN} gekapselt.
+
+\begin{lstlisting}[label=lst:CallFuncN,
+				   language=C++,
+				   firstnumber=116,
+				   caption=startRunningAfterAnimation ( LevelPlayer.cpp )]
+CallFuncN *call = CallFuncN::create(
+	CC_CALLBACK_0(LevelPlayer::startRunningCallback, this));
+Sequence *seq = Sequence::createWithTwoActions(animation, call);
+spriteImage->runAction(seq);
+\end{lstlisting}
+
+In diesem Beispiel wird die Animation für das Stoppen von Josie und anschließend die Methode \textbf{startRunningCallback()} ausgeführt. '\texttt{this}' ist die aktuelle Player Instanz.
 
 
 
@@ -173,37 +189,10 @@ Analog kann das ganze auf das Abspielen der Hintergrundmusik übertragen werden,
 
 
 
-\sectionOG{Kollisionsabfrage zum Boden}\label{sec:4_Kollisionsabfrage}
-
-Die Kollisionsabfrage ist auf den ersten Blick nicht sofort einleuchtend. Prinzipiell wird für die komplette Karte ein Array mit ganzzahligen Werten angelegt, also für jede Spalte (72px breite, vertikale Linie auf dem Bildschirm) wird ein \textbf{long} Wert gespeichert.
-Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob Kollision besteht.
-
-\begin{lstlisting}[label=lst:collision_detection,
-				   language=C++,
-				   firstnumber=271,
-				   caption=Collision Column abfragen ( MapController.cpp )]
-long MapController::getColumnBitmapForGID(int x, int tile_gid)
-{
-	TMXLayer *meta = getLayer("Meta_layer");
-	long col=0;
-	for (int i=_mapSize.height; i>0; i--) {
-		col<<=1;
-		int gid = meta->getTileGIDAt(Vec2(x,i-1));
-		col |= (gid==tile_gid);
-	}
-	return col;
-}
-\end{lstlisting}
-
-Die Schleife durchläuft - von unten angefangen - alle Tiles einer Spalte und fragt ab, ob das Kollisions Attribut gesetzt ist. Bei jedem Schleifendurchlauf wird der Bit-Shift-Operator ($<<$) angewandt, sodass das höher liegende Tile hinten angefügt wird. Das Anfügen geschiet mit dem Oder-Operator und der gleichzeitigen Zuweisung ($|$=).
-
-Der abschließende \textbf{long} Wert weißt an dem höchstwertigen Bit die Kollision für das unterste Teil auf und am niedrig wertigsten Bit die Kollision für das Tile am oberen Bildschirmrand.
-
-Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erstellt. Beides geschiet nur beim Laden der Karte. Für die tatsächliche Kollisionsabfrage wird nur noch auf diese Bitmap zugegriffen.
-
-
-
 \sectionOG{CollisionLayer}\label{sec:4_CollisionLayer}
+
+Das \josieclass{CollisionLayer} kümmert sich ausschließlich um die Kollision von Objekten. Die Kollision zum Boden wird im \href{sec:4_Kollisionsabfrage}{nächsten Kapitel} erläutert. Alle Interaktiven Elemente im Spiel besitzen Kollision, dazu zählt der Spieler, Boss Gegner, Münzen, Geschoss Kugeln und herabfallende Stachelbeeren.
+
 \subsection{Debugging Optionen}\label{sec:CollisionLayerDebug}
 
 Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der Kollision grafisch hervorheben.
@@ -246,3 +235,33 @@ void StageHazard::hitByCollision(CollisionLayer* other)
 	}
 }
 \end{lstlisting}
+
+
+
+\sectionOG{Kollisionsabfrage zum Boden}\label{sec:4_Kollisionsabfrage}
+
+Die Kollisionsabfrage ist auf den ersten Blick nicht sofort einleuchtend. Prinzipiell wird für die komplette Karte ein Array mit ganzzahligen Werten angelegt, also für jede Spalte (72px breite, vertikale Linie auf dem Bildschirm) wird ein \textbf{long} Wert gespeichert.
+Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob Kollision besteht.
+
+\begin{lstlisting}[label=lst:collision_detection,
+				   language=C++,
+				   firstnumber=271,
+				   caption=Collision Column abfragen ( MapController.cpp )]
+long MapController::getColumnBitmapForGID(int x, int tile_gid)
+{
+	TMXLayer *meta = getLayer("Meta_layer");
+	long col=0;
+	for (int i=_mapSize.height; i>0; i--) {
+		col<<=1;
+		int gid = meta->getTileGIDAt(Vec2(x,i-1));
+		col |= (gid==tile_gid);
+	}
+	return col;
+}
+\end{lstlisting}
+
+Die Schleife durchläuft - von unten angefangen - alle Tiles einer Spalte und fragt ab, ob das Kollisions Attribut gesetzt ist. Bei jedem Schleifendurchlauf wird der Bit-Shift-Operator (\texttt{<<}) angewandt, sodass das höher liegende Tile hinten angefügt wird. Das Anfügen geschiet mit dem Oder-Operator und der gleichzeitigen Zuweisung (\texttt{|=}).
+
+Der abschließende \texttt{long} Wert weißt an dem höchstwertigen Bit die Kollision für das unterste Teil auf und am niedrig wertigsten Bit die Kollision für das Tile am oberen Bildschirmrand.
+
+Dieselbe Bitmap wird auch für tödliche Kollision in einem separaten Array erstellt. Beides geschiet nur beim Laden der Karte. Für die tatsächliche Kollisionsabfrage wird nur noch auf diese Bitmap zugegriffen.
