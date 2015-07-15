@@ -235,6 +235,73 @@ Der Empfänger trägt sich selbst in eine Liste von Empfängern für ein bestimm
 
 \sectionJK{Tilemaps}\label{sec:2_Tilemaps}
 
+Tilemaps  sind spezielle Dateiformate, welche die Landschaft im Spiel, sowie die dazugehörigen Daten beschreiben. Charakteristisch für sie ist eine Untergliederung der Spielwelt in rechteckige oder Hexagon-förmige Felder (Wobei in seltenen Fällen auch andere Formen verwendet werden). Durch Tilemaps wird für diese Schachbrettartige Landschaft die grafische Darstellung sowie darüber hinaus Eigenschaften der Umwelt (Kollisionen, Spawn-Punkte usw.) festgelegt.
+
+\subsection{Vorteile der Tilemap}
+Als die Videospiel-Branche noch in den Kinderschuhen steckte, mussten Entwickler vor allem eines berücksichtigen: Der nur sehr begrenzt verfügbare RAM musste möglichst effektiv genutzt werden. Eine Idee um diesen Speicher effizienter zu nutzen war die Tilemap. Landschaften in Spielen sind oft in einem Stil gehalten – d.h. oft wiederholen sich Teile der Umgebung wieder und wieder. Anstatt also die gesamte Spielwelt in großen Bilddateien zu speichern die viel RAM beanspruchen, werden stattdessen nur die Komponenten aus denen die Umwelt besteht, in einer kleineren Datei/vielen kleinen Dateien gespeichert. Die Tilemap beschreibt dann, wie diese Komponenten angeordnet werden müssen, um die Welt zu erschaffen.
+
+Auch bei der Gestaltung der Level bieten Tilemaps einen großen Vorteil. Da man sich die Welt quasi zusammenpuzzelt, können Änderungen an Teilen der Landschaft leicht durchgeführt werden, ohne die gesamte Welt neu erschaffen zu müssen. Je nachdem wie genau das verwendete Tilemap-Format aufgebaut ist, kann theoretisch sogar ein Texteditor verwendet werden um schnell ein Level aus bestehenden Komponenten zu gestalten. Für gewöhnlich benutzt man jedoch Tools, die den Prozess visuell unterstützen. Level-Designer können sich so vollständig auf das Gestalten der Spielwelt konzentrieren, ohne sich Sorgen um den Code zu machen.
+
+\subsection{Funktionsweise von Tilemaps}
+Allgemein benötigt die Tilemap zwei Dinge um eine Umgebung im Spiel vollständig beschreiben zu können. Einerseits den "'Map-part"' - ein 2-dimensionales Feld, welches Verweise auf den Inhalt der jeweiligen Kachelkoordinate beinhaltet. Andererseits wird noch ein Tileset benötigt. Die einzelnen Tiles sind dabei Objekte, die das Aussehen und die Eigenschaften beschreiben, welche einer Kachel zugewiesen werden können.
+
+Eigenschaften sind frei wählbar, da sie in Form von Key-Value-Pairs gespeichert werden, die im Code des Spiels abgefragt werden können. Häufig genutzte Eigenschaften sind beispielsweise Kollisionen, die Auswirkungen des Felds auf den Spielercharakter usw. Auch Spawn-Positionen für Objekte in der Spielwelt können Eigenschaften von Kacheln sein, wobei dafür in vielen Fällen auch andere Funktionen des Tilemap-Formats genutzt werden könenn (diese sind jedoch nicht bei allen Formaten vorhanden). 
+
+Neben den Eigenschaften verweist jedes Tile auch auf die Grafik, die angezeigt werden soll wenn das Tile im Spiel dargestellt wird. Dafür wird ein Spritesheet verwendet, dessen einzelne Sprites in der Größe identisch mit der Kachelgröße der Tilemap sind.
+Die meisten Tile-Engines bieten noch weitere Features, wodurch die Tilemaps noch mächtiger werden. Beispielsweise ist es heute nahezu Standard, dass Tilemaps „Layer“ unterstützen. Durch den Aufbau aus verschiedenen Ebenen können so Tiles miteinander kombiniert werden. Dies geschieht sowohl grafisch - indem die Kacheln hintereinander Dargestellt werden -  als auch auf Ebene der Eigenschaften. Oft wird eine Eigenschaftsebene angelegt (sie ist später im Spiel für gewöhnlich unsichtbar), auf der Tiles platziert werden die jeweils eine Eigenschaft bzw. eine Kombination aus Eigenschaften repräsentieren. Indem man die Eigenschaften von der Grafischen Ebene löst, bietet man dem Designer der Level einen größeren Grad an Freiheit. Sinnvoll ist das jedoch bloß, wenn Kacheln mit derselben Grafik nicht zwangsweise auch dieselben Eigenschaften haben sollen. 
+
+Ein weiteres Feature, das nicht immer vorhanden ist, sind Objekte. Geometrische Formen, die unabhängig vom Kachelmuster sind erlauben es dem Entwickler Punkte und Bereiche in der Tilemap festzulegen, die abseits des regelmäßigen Rasters liegen. Genau wie Tiles, könen auch sie mit Eigenschaften versehen werden.
+
+\subsection{Tilemaps in cocos2d}
+Cocos2d unterstützt ein einziges Tilemap-Format: TMX (Tile Map XML). In diesem Format kann eine Tilemap mit beliebig vielen Ebenen gespeichert werden. Jede Ebene kann dabei nur ein Tileset verwenden, das gleiche Tileset kann jedoch auf verschiedenen Ebenen genutzt werden. TMX unterstützt die beiden häufigsten Formen von Tiles: Rechtecke und Hexagone. 
+Zusätzlich zu den Kachelebenen können auch Objektebenen erstellt werden. Hier können die zuvor erwähnten Objekte platziert werden, um auch unabhängig vom festgelegten Raster arbeiten zu können (Tiles können hier jedoch nicht platziert werden).
+Dateien im TMX Format werden mit dem Tiled Mapeditor erstellt. In der Online Dokumentation des Editors findet man auch eine umfangreiche Erklärung über den Aufbau des TMX-Formats \cite{TiledDocFormat}.
+
+Cocos2d liefert durch die Klassen des Tilemap Moduls Funktionen, um den Umgang mit Tilemaps im Programmcode einfacher zu gestalten. Im Folgenden soll kurz gezeigt werden, wie man eine Tilemap im Spiel anzeigt und sich Informationen über diese beziehen kann bzw. wie man diese bearbeitet.
+
+Um eine Tilemap anzuzeigen muss lediglich ein Objekt vom Typ \cocosclass{TMXTiledMap} erstellt werden und als Child in der aktuellen Szene angefügt werden. In unserem Code ist der Prozess über verschiedene Funktionen verteilt, weshalb hier nur ein einfaches allgemeines Beispiel gezeigt wird:
+
+\begin{lstlisting}[style=singleline]
+TMXTiledMap map = create("Path/Map.tmx");
+currentScene.addChild(map);
+\end{lstlisting}
+
+Um einzelne Ebenen in Form von TMXLayer Objekten abzufragen nutzt man folgende Funktion:
+
+\begin{lstlisting}[style=singleline]
+TMXLayer* ebene = map.getLayer("NameDerEbene");
+\end{lstlisting}
+
+Ähnlich erhält man ein Tile Objekt mit:
+
+\begin{lstlisting}[style=singleline]
+Sprite* kachel = ebene->tileAt(Vec2(x, y));
+\end{lstlisting}
+
+X und y sind hier die Koordinaten des Felds auf der Ebene.
+Um zu bestimmen welches Tile an einer Position liegt (und nicht bloß den Sprite zu erhalten) benutzt man:
+
+\begin{lstlisting}[style=singleline]
+unsigned int gid = ebene->getTileGIDAt(Vec2(x,y));
+\end{lstlisting}
+
+Anhand der GID kann man auch zur Laufzeit ein Tile an einer beliebigen Position platzieren bzw. ersetzen. Dabei erhält die Kachel selbstverständlich auch alle Eigenschaften der gewählten GID	
+
+\begin{lstlisting}[style=singleline]
+Ebene->setTileGID(gid, Vec2(x,y));
+\end{lstlisting}
+
+Die Attribute eines Feldes erhält man ebenfalls über einen simplen Funktionsaufruf:
+
+\begin{lstlisting}[style=singleline]
+Value werte = map.getPropertiesForGID(gid);
+ValueMap eigenschaften = werte.asValueMap();
+\end{lstlisting}
+
+Nun kann man die Eigenschaften über die vergebenen Namen aus der ValueMap ermitteln. Oft ist dies jedoch nicht nötig, da man eventuell bereits weiß, welche GID über welche Eigenschaften verfügt.
+
+Cocos2d stellt noch hunderte weitere Funktionen bereit um Tilemaps zu handhaben, jedoch reichen die hier genannten aus, um mit den Kacheln der Tilemap zu arbeiten. Objekte als Elemente der Tilemaps werden in diesem Projekt nicht verwendet, jedoch ist auch der Zugriff auf sie vollständig durch Getter und Setter abgedeckt.
+
 
 
 \sectionDM{Musik und Sound-Effekte}\label{sec:2_Musik}
