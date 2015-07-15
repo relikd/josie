@@ -67,4 +67,4 @@ Die Klasse \josieclass{TMXEdit} kommt ohne Eltern Klasse aus, das sie nur für d
 
 Bei der Speicherung des App Zustandes, also der Einstellungen und des Spielstandes, haben wir uns für die \cocosclass{UserDefault} entschieden. Der Zugriff erfolgt einfach und es benötigt keiner speziellen zusätzlichen Klassen oder 3rd Party Libraries. Die Münzen und die benötigte Zeit für die Level werden codiert in zwei Strings gespeichert. Dabei gibt das Byte an der x. Stelle die Münzen/Zeit für das Level x wieder. Jede Dauer die darüber hinausgeht, wird mit der Maximalzeit von 255 Sekunden, also 4:15 Min gespeichert.
 
-Die Hintergründe und Level Karten liegen einer bestimmten Struktur zugrunde. Wenn beispielsweise das Level 1.2 aufgerufen wird, so lädt das Level den Hintergrund \textquote{backgrounds\textbackslash bg\_1.2.png} und die Karte \blockquote{tilemaps\textbackslash 1.2.tmx}.
+Die Hintergründe und Level Karten liegen einer bestimmten Struktur zugrunde. Wenn beispielsweise das Level 1.2 aufgerufen wird, so lädt das Level den Hintergrund \textquote{backgrounds/bg\_1.2.png} und die Karte \blockquote{tilemaps/1.2.tmx}.
