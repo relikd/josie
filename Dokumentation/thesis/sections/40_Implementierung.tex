@@ -159,7 +159,7 @@ Die Methode \textit{unloadBossSounds} gleicht der Methode zum Laden der Sounds. 
 
 Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer--Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double--Wert (in diesem Fall 200.0) geteilt, da die \textbf{setEffectsVolume} Methode nur double--Werte akzeptiert. Die Möglichkeit Einstellungen für Musik- und SFX-Lautstärke im Spiel selbst vorzunehmen, ist durch die Klasse \josieclass{OptionScreen} realisiert. 
 
-Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine}, die alle nötigen Funktionen liefert, zugegriffen. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
+Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine} zugegriffen, die alle nötigen Funktionen liefert. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
 
 
 
@@ -183,8 +183,6 @@ void AudioUnit::playJosieHitSound()
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.7);
-	
-}
 \end{lstlisting}
 
 Analog kann das ganze auf das Abspielen der Hintergrundmusik übertragen werden, wobei dann auf den String-Ersetzer verzichtet und der Pfad hard gecoded wird. Außerdem wird die Zufallsfunktion überflüssig da es die Hintergrundsongs nur einmal gibt und die Parameter Pitch,Pan und Gain fallen weg.
@@ -201,7 +199,7 @@ Zu Debugging Zwecken kann die \josieclass{CollisionLayer} Klasse den Bereich der
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth - 50pt]{resources/CollisionLayer_BossKampf.jpg}
+  \includegraphics[width=14cm]{resources/CollisionLayer_BossKampf.jpg}
   \caption{CollisionLayer Debug im Boss Kampf}
   \label{fig:collision_debug_boss} 
 \end{figure}
@@ -279,12 +277,12 @@ Das Grundgerüst des Zufallslevels ist immer identisch. Die ersten 20 Tiles stel
 Zum Befüllen des Levels wird dieses von Anfang bis Ende durchlaufen.  Dabei werden in zufälliger Reihenfolge Funktionen aufgerufen, welche Abschnitte des Levels nach einem jeweils eigenen Muster erzeugen. Das tatsächliche platzieren der Tiles erfolgt durch das zuweisen der GID für die zu bearbeitenden Tilemap-Koordinaten. 
 Dir folgenden Funktionen beispielsweise füllen eine ausgewählte Spalte ab einer gewissen Höhe
 nach unten komplett mit Boden-Tiles und einem Gras-Tile an oberster Stelle.
+
 \begin{lstlisting}[label=lst:place_ground,
 				   language=C++,
 				   firstnumber=127,
 				   caption=Platzieren von Boden-Tiles ( TMXEdit.cpp )]
 void TMXEdit::placeGround(int x, int y) {
-
 	_backgroundLayer->setTileGID(TOPDIRT[arc4random() % 4], Vec2(x, y));
 	_metaLayer->setTileGID(COLLIDE, Vec2(x, y));
 	if (y < _minheight)
@@ -296,8 +294,6 @@ void TMXEdit::placeDirt(int x, int y) {
 	_metaLayer->setTileGID(COLLIDE, Vec2(x, y));
 	if (y < _minheight)
 		placeDirt(x, y + 1);
-}
-
 }
 \end{lstlisting}
 
