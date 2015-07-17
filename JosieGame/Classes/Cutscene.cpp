@@ -69,7 +69,7 @@ void Cutscene::speech1(Ref* pSender) { //Cutscene for Lvl1.1 Part2
 	Cutscene::placeStaticSprites();
 	_josie->setPosition(Vec2(500, 90));
 
-	Cutscene::talkSettings(1, false);
+	Cutscene::talkSettings(2, false);
 }
 void Cutscene::speech2(Ref* pSender) { //Cutscene for Lvl1.2 Part1
 	Cutscene::placeStaticSprites();
@@ -82,7 +82,7 @@ void Cutscene::speech2(Ref* pSender) { //Cutscene for Lvl1.2 Part1
 			rotateToLeft, rotateToRight, rotateToMid, nullptr);
 	_josie->runAction(action);
 
-	Cutscene::talkSettings(2, true);
+	Cutscene::talkSettings(1, true);
 	FadeIn* fadeInText = FadeIn::create(2.0f);
 	_talk->setOpacity(0);
 	_talk->runAction(fadeInText);
@@ -103,7 +103,7 @@ void Cutscene::speech4(Ref* pSender) { //Cutscene for Lvl1.3
 	auto moveTo = MoveTo::create(1.5, Vec2(2020, 90));
 	_josie->runAction(moveTo);
 
-	Cutscene::talkSettings(3, false);
+	Cutscene::talkSettings(1, false);
 }
 /*void Cutscene::bossdefeated(Ref* pSender){
  Cutscene::placeStaticSprites();
