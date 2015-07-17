@@ -120,7 +120,7 @@ Solche softwareerzeugten Sprites sind streng genommen “'Shapes”', für deren
  
 Für Computerspiele sind mit Sprites einige Vereinfachungen verbunden. So werden zum Beispiel in vielen 2D Jump and Run Spielen so genannte Tiles oder auch Kachelgrafiken verwendet, welche ebenfalls kleine Grafikelemente sind die zusammengesetzt eine größere Grafik ergeben. Ihr Anwendungsbereich findet sich unter anderem im Aufbau eines Levels, wobei aus ihnen die Spielwelt zusammengesetzt wird.
 
-\subsection{cocos2d Spriteprinzip}
+\subsection{cocos2d-x Spriteprinzip}
 In der von uns verwendeten Gameengine cocos2d-x, ist ein Sprite ein “'Bild”', welches durch Veränderung seiner Werte manipuliert werden kann. Es gibt verschiedene Wege ein Sprite zu erstellen, je nach dem wozu es benutzt werden soll. Bezüglich Dateiformaten werden von cocos2d-x PNG, JPEG, TIFF, etc. unterstützt. Wir haben uns für das Dateiformat PNG entschieden, da es eine gute Komprimierung, gute Qualität, Darstellung von Halbtransparenzen, also 50\% Deckraft, vorweist und außerdem ein sehr weit verbreiteter Datentyp ist.
 
 Es gibt unterschiedliche Methoden ein Sprite zu erstellen. Eine Möglichkeit ist das Sprite aus einem Bild zu laden, wobei das in cocos2d-x erstellte Sprite Objekt die selben Abmessungen wie das benutzte Bild vorweist. 
@@ -167,7 +167,7 @@ Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren
 
 \sectionDG{Animationsprinzip}\label{sec:2_Animationsprinzip}
 
-\subsection{Allgemeines und cocos2d Spriteprinzip}
+\subsection{Allgemeines und cocos2d-x Animationsprinzip}
 Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt. Im folgenden soll ein kurzer Einblick in das Prinzip der Animationen in cocos2d-x, als auch allgemein gewährt werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet um den Spielecharakter zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
 
 In cocos2d-x werden solche Animationen durch \cocosclass{Action} Objekte realisiert. Diese haben die Fähigkeit die Werte von \cocosclass{Node} Objekte, in Echtzeit zu transformieren. Dazu zählen ebenfalls Instanzen der Klassen die von einem solchen Objekt erben. Werte eines Nodes, die verändert werden können sind z.b. die Sichtbarkeit, Farbe, Position oder auch die Größe des Nodes. Zum Beispiel kann ein Sprite von einer Position zur anderen bewegt werden.
@@ -259,7 +259,7 @@ Die meisten Tile-Engines bieten noch weitere Features, wodurch die Tilemaps noch
 
 Ein weiteres Feature, das nicht immer vorhanden ist, sind Objekte. Geometrische Formen, die unabhängig vom Kachelmuster sind, erlauben es dem Entwickler Punkte und Bereiche in der Tilemap festzulegen, die abseits des regelmäßigen Rasters liegen. Genau wie Tiles, könen auch diese mit Eigenschaften versehen werden.
 
-\subsection{Tilemaps in cocos2d}
+\subsection{Tilemaps in cocos2d-x}
 Cocos2d-x unterstützt ein einziges Tilemap-Format: TMX (Tile Map XML). In diesem Format kann eine Tilemap mit beliebig vielen Ebenen gespeichert werden. Jede Ebene kann dabei nur ein Tileset verwenden, das gleiche Tileset kann jedoch auf verschiedenen Ebenen genutzt werden. TMX unterstützt die beiden häufigsten Formen von Tiles: Rechtecke und Hexagone. 
 Zusätzlich zu den Kachelebenen können auch Objektebenen erstellt werden. Hier können die zuvor erwähnten Objekte platziert werden, um auch unabhängig vom festgelegten Raster arbeiten zu können (Tiles können hier jedoch nicht platziert werden).
 Dateien im TMX Format werden mit dem Tiled Mapeditor erstellt. In der Online Dokumentation des Editors findet man auch eine umfangreiche Erklärung über den Aufbau des TMX-Formats \cite{TiledDocFormat}.

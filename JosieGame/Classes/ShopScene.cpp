@@ -56,7 +56,7 @@ ShopScene* ShopScene::initShop()
 void ShopScene::fight()
 {
 	_shopWindow->removeAllChildren();
-	BossLevel *bosslvl = BossLevel::createBossDifficulty(UserDefault::getInstance()->getIntegerForKey("josie_perk_shied"));
+	BossLevel *bosslvl = BossLevel::createBossDifficulty(UserDefault::getInstance()->getIntegerForKey("boss_difficulty"));
 	Director::getInstance()->replaceScene(TransitionFade::create(1.0, bosslvl, Color3B::BLACK));
 }
 

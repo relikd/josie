@@ -21,6 +21,7 @@ void GameStateManager::initDefaults(bool force)
 		ud->setIntegerForKey("sfx_volume", 100);
 		ud->setStringForKey("josie_collected_coins", "");
 		ud->setStringForKey("josie_time_taken", "");
+		ud->setIntegerForKey("boss_difficulty", 1);
 		ud->setBoolForKey("josie_no_cutscenes", false); // true after first boss win ?
 		ud->setBoolForKey("josie_save_state", true);
 		ud->flush();

@@ -91,6 +91,7 @@ void OptionScreen::addDeveloperControls()
 	Label *lbl_unlock = Label::createWithTTF("Unlock All Levels", "fonts/Marker Felt.ttf", 70);
 	Label *lbl_money = Label::createWithTTF("Money = 9001", "fonts/Marker Felt.ttf", 70);
 	Label *lbl_cutscene = Label::createWithTTF("No Cutscenes", "fonts/Marker Felt.ttf", 70);
+	Label *lbl_bossdiff10 = Label::createWithTTF("Bossdifficulty 10", "fonts/Marker Felt.ttf", 70);
 	
 	MenuItemLabel *unlock = MenuItemLabel::create(lbl_unlock, CC_CALLBACK_0(UserDefault::setStringForKey, UserDefault::getInstance(), "josie_collected_coins", "\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1"));
 	unlock->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
@@ -104,7 +105,11 @@ void OptionScreen::addDeveloperControls()
 	cutscene->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	cutscene->setPosition(money->getPosition()-Vec2(0,120));
 	
-	Menu *m = Menu::create(unlock, money, cutscene, NULL);
+	MenuItemLabel *bossdiff10 = MenuItemLabel::create(lbl_bossdiff10, CC_CALLBACK_0(UserDefault::setIntegerForKey, UserDefault::getInstance(), "boss_difficulty", 10));
+	bossdiff10->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	bossdiff10->setPosition(cutscene->getPosition()-Vec2(0,120));
+
+	Menu *m = Menu::create(unlock, money, cutscene,bossdiff10, NULL);
 	m->setPosition(Vec2::ZERO);
 	m->setColor(Color3B::BLACK);
 	
