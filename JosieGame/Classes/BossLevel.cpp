@@ -168,6 +168,7 @@ void BossLevel::battleEndedWon(bool won)
 	
 	if (won) {
 		GameStateManager::setBossDefeated(_difficulty);
+		UserDefault::getInstance()->setIntegerForKey("boss_difficulty", UserDefault::getInstance()->getIntegerForKey("boss_difficulty") +1);
 		
 		left->stopAllActions();
 		right->stopAllActions();
