@@ -37,7 +37,7 @@ public:
 		/*void bossdefeated(cocos2d::Ref* pSender);*/
 		void startlvl(cocos2d::Ref* pSender,int level, int sublevel);
 		void placeStaticSprites();
-		void talkSettings(int sub, bool speech);
+		void talkSettings(int sub, bool speech, int sublevel);
 
 
 

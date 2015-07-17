@@ -60,7 +60,7 @@ void Cutscene::speech(Ref* pSender) { //Cutscene for Lvl1.1 Part1
 	MoveTo* moveTo = MoveTo::create(1, Vec2(500, 90));
 	_josie->runAction(moveTo);
 
-	Cutscene::talkSettings(1, true);
+	Cutscene::talkSettings(1, true, 0);
 	FadeIn* fadeInText = FadeIn::create(2.0f);
 	_talk->runAction(fadeInText);
 	_talk->setOpacity(0);
@@ -69,7 +69,7 @@ void Cutscene::speech1(Ref* pSender) { //Cutscene for Lvl1.1 Part2
 	Cutscene::placeStaticSprites();
 	_josie->setPosition(Vec2(500, 90));
 
-	Cutscene::talkSettings(2, false);
+	Cutscene::talkSettings(2, false, 1);
 }
 void Cutscene::speech2(Ref* pSender) { //Cutscene for Lvl1.2 Part1
 	Cutscene::placeStaticSprites();
@@ -82,7 +82,7 @@ void Cutscene::speech2(Ref* pSender) { //Cutscene for Lvl1.2 Part1
 			rotateToLeft, rotateToRight, rotateToMid, nullptr);
 	_josie->runAction(action);
 
-	Cutscene::talkSettings(1, true);
+	Cutscene::talkSettings(1, true, 0);
 	FadeIn* fadeInText = FadeIn::create(2.0f);
 	_talk->setOpacity(0);
 	_talk->runAction(fadeInText);
@@ -94,7 +94,7 @@ void Cutscene::speech3(Ref* pSender) { //Cutscene for Lvl1.2 Part2
 	MoveTo* moveTo = MoveTo::create(1, Vec2(2020, 90));
 	_josie->runAction(moveTo);
 
-	Cutscene::talkSettings(2, false);
+	Cutscene::talkSettings(2, false, 2);
 
 }
 void Cutscene::speech4(Ref* pSender) { //Cutscene for Lvl1.3
@@ -103,7 +103,7 @@ void Cutscene::speech4(Ref* pSender) { //Cutscene for Lvl1.3
 	auto moveTo = MoveTo::create(1.5, Vec2(2020, 90));
 	_josie->runAction(moveTo);
 
-	Cutscene::talkSettings(1, false);
+	Cutscene::talkSettings(1, false, 3);
 }
 /*void Cutscene::bossdefeated(Ref* pSender){
  Cutscene::placeStaticSprites();
@@ -139,13 +139,13 @@ void Cutscene::placeStaticSprites() {
 	_josie->setScale(0.55);
 	this->addChild(_josie, 1);
 }
-void Cutscene::talkSettings(int sub, bool _speech) {
+void Cutscene::talkSettings(int sub, bool _speech, int sublevel) {
 
 	std::ostringstream btn_str;
 	btn_str << "buttons/talk/talk" << _cutscene_number << "." << sub << ".png";
 	if (!_speech) {
 		_talk = MenuItemImage::create(btn_str.str(), btn_str.str(),
-				CC_CALLBACK_1(Cutscene::startlvl, this, 1, sub));
+				CC_CALLBACK_1(Cutscene::startlvl, this, 1, sublevel));
 	} else {
 		switch (_cutscene_number) {
 		case 1: {
