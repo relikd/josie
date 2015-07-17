@@ -135,13 +135,13 @@ Eine weitere Methode ist das Erschaffen eines Sprites durch Angabe eines Ausschn
 Sprite* mySprite = Sprite::create("mysprite.png", Rect(0,0,40,40));
 \end{lstlisting}
 
-Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt vieler einzelner Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren die Spritesheets die benötigten Aufrufe an OpenGL ES etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den \cocosclass{SpriteFrameCache} geladen. Dies ist eine Klasse, welche ein \cocosclass{SpriteFrame} Objekt, für zukünftigen Schnellzugriff speichert. SpriteFrame-Objekte beinhalten den Bildnamen des Sprites und ein \texttt{Rect} um die Größe des Sprites zu spezifizieren. Aus dem SpriteFrameCache, in welchem das Spritesheet geladen wurde, kann nun ein Sprite erstellt werden.
+Die Möglichkeit ein Sprite aus einem Spritesheet zu erstellen ist besonders empfehlenswert. Ein Spritesheet ist eine Bilddatei in der mehrere Sprites beliebig aneinander gereiht gespeichert werden können. Dies birgt den Vorteil, dass nur eine Datei geladen werden muss anstatt vieler einzelner Bilder, was die Ladezeiten erheblich verringert und zudem eine Speicherreduktion mit sich bringt. Außerdem reduzieren die Spritesheets die benötigten Aufrufe an OpenGL ES, etwas zu zeichnen und zu rendern. Beim erstmaligen verwenden eines Spritesheets, wird dieses in den \cocosclass{SpriteFrameCache} geladen. Dies ist eine Klasse, welche ein \cocosclass{SpriteFrame} Objekt, für zukünftigen Schnellzugriff speichert. SpriteFrame-Objekte beinhalten den Bildnamen des Sprites und ein \texttt{Rect} um die Größe des Sprites zu spezifizieren. Aus dem SpriteFrameCache, in welchem das Spritesheet geladen wurde, kann nun ein Sprite erstellt werden.
 Spritesheets stellen in unserem Projekt speziell für Animationen und die Umgebung der Spielwelt eine optimale Lösung dar. 
 
 
 
 \subsection{Möglichkeiten Sprites zu manipuliern}
-Der Ankerpunkt eines Sprites ist ein Punkt, welcher zur Orientierung bei der Positionsbestimmung eines Sprites dienen soll. Der Ankerpunkt benutzt ein Koordinaten System das von 0 bis 1 geht, wobei \texttt{0,0} unten links und \texttt{1,1} oben rechts vom Sprite ist.
+Der Ankerpunkt eines Sprites ist ein Punkt, welcher zur Orientierung bei der Positionsbestimmung eines Sprites dienen soll. Der Ankerpunkt benutzt ein Koordinaten System das sich von 0 bis 1 erstreckt, wobei \texttt{0,0} unten links und \texttt{1,1} oben rechts vom Sprite ist.
 
 \begin{lstlisting}[style=singleline]
 Sprite* mySprite->setAnchorPoint(0,0); // (0,1), (1,0), (0.5,0.5)
@@ -168,7 +168,7 @@ Möglichkeiten ein Sprite zu manipulieren sind unter anderem Skalieren, Rotieren
 \sectionDG{Animationsprinzip}\label{sec:2_Animationsprinzip}
 
 \subsection{Allgemeines und cocos2d-x Animationsprinzip}
-Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt. Im folgenden soll ein kurzer Einblick in das Prinzip der Animationen in cocos2d-x, als auch allgemein gewährt werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet um den Spielecharakter zum Leben zu erwecken und das Spiel dynamischer zu machen. Ohne sie wären Spiele nicht grafisch darstellbar.
+Im Verlauf unseres Projektes wurden verschiedenste Animationen benutzt. Im folgenden soll ein kurzer Einblick in das Prinzip der Animationen in cocos2d-x, als auch allgemein gewährt werden. Einfach gesagt sind Animationen nichts weiter als eine sehr schnell abgespielte Aneinanderreihung von Bildern. In der Computergrafik oder bei Computerspielen werden diese verwendet um den Spielecharakter zum Leben zu erwecken und das Spiel dynamischer zu machen. 
 
 In cocos2d-x werden solche Animationen durch \cocosclass{Action} Objekte realisiert. Diese haben die Fähigkeit die Werte von \cocosclass{Node} Objekte, in Echtzeit zu transformieren. Dazu zählen ebenfalls Instanzen der Klassen die von einem solchen Objekt erben. Werte eines Nodes, die verändert werden können sind z.b. die Sichtbarkeit, Farbe, Position oder auch die Größe des Nodes. Zum Beispiel kann ein Sprite von einer Position zur anderen bewegt werden.
 
@@ -213,7 +213,7 @@ Eine weitere Vereinfachung durch cocos2d-x bietet die Reverse Methode. Diese die
 Eine häufige Methode zur Spriteerstellung ist es das Spritesheet bei der Erzeugung in den Cache zu laden. 
 Hierzu benötigt man nicht nur das Spritesheet sondern auch eine beschreibende “'.plist”' Datei, die eine Zuweisung von SpriteFrame zu Bildern und deren Position im Spritesheet enthält. Nun kann man einerseits durch ein Zusammenspiel zwischen Spritesheet und .plist Datei die Animation bzw. den Ablauf im eigenen Programm definieren. Hierbei werden die SpriteFrame und die .plist Datei geladen, um im Anschluss die SpriteFrames in der .plist Datei mit den Sprites aus dem Spritesheet zu koppeln. Andererseits kann man den Ablauf einer Animation in der .plist Datei festlegen und im Anschluss die fertige Animation laden.
 
-Wir entschieden uns für die Spritesheet .plist Methode, da wir ebenfalls bei der Realisierung des Levels mit Spritesheets arbeiteten und die Arbeit mit diesen daher kennen. Bei der Suche nach einem Programm für die “'Datei Methode”' fanden wir weiterhin nur schlechte Tutorials.
+Wir entschieden uns für die Spritesheet .plist Methode, da wir ebenfalls bei der Realisierung des Levels mit Spritesheets arbeiteten und die Arbeit mit diesen daher gewohnt sind. Bei der Suche nach einem Programm für die “'Datei Methode”' fanden wir weiterhin nur schlechte Tutorials.
 
 
 
