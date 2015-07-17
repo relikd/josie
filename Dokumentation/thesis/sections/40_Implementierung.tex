@@ -65,7 +65,7 @@ auto sequence = Sequence::create(right_rotate, right_down, right_up,right_rotate
 right->runAction(sequence);
 \end{lstlisting}
 
-Im ersten Schritt werden zwei RotateTo Objekte als auch zwei MoveTo Objekte erstellt. Ein Objekt ist für eine Aktion zuständig die etwas verändert, das andere stellt den Uhrsprungszustand wieder her. Beim erstellen des RotateTo Objektes werden die Zeitdauer der Rotierung und der Winkel mitgegeben. Dem MoveTo Objekt wird bei der Erzeugung die Zeitdauer der Aktion als auch ein Vector der die Zielkoordinaten beschreibt übergeben. Im Anschluss wird eine Sequenz mit dem Gewünschten Ablauf der Animation erstellt und danach ausgeführt. Folgendes, Bildhaftes Beispiel soll dies veranschaulichen. 
+Im ersten Schritt werden zwei RotateTo-Objekte als auch zwei MoveTo-Objekte erstellt. Ein Objekt ist für eine Aktion zuständig die etwas verändert, das andere stellt den Ursprungszustand wieder her. Beim erstellen des RotateTo-Objektes werden die Zeitdauer der Rotierung und der Winkel mitgegeben. Dem MoveTo-Objekt wird bei der Erzeugung die Zeitdauer der Aktion, als auch ein Vector der die Zielkoordinaten beschreibt, übergeben. Im Anschluss wird eine Sequenz mit dem Gewünschten Ablauf der Animation erstellt und danach ausgeführt. Folgendes, Bildhaftes Beispiel soll dies veranschaulichen. 
 
 \begin{figure}[H]
   \centering
@@ -95,7 +95,7 @@ for (int i = 0; i < 6; i++) {
 Animation *animation = Animation::createWithSpriteFrames(frames, 0.1);
 \end{lstlisting}
 
-Zu Begin erstellen wir einen String mit Hilfe eines Char Arrays und einem Vector zur Erstellung von Frames. In der SpriteFrameCache Instanz sind bereits alle Spritesheets geladen. Die nachfolgende Schleife iteriert durch die benötigten Bildnamen um diese zum Array hinzuzufügen. Hierbei ist zu beachten dass Für eine Animation mehrere Bilder nacheinander geladen werden müssen, diese haben die Namenskonvention "'coin0000"', "'coin0001"' etc. Der SpriteFrame mit dem generierten Bildnamen wird aus dem SpriteFrameCache geladen und in den anfangs definierten Vektor eingefügt. 
+Zu Begin erstellen wir einen String mit Hilfe eines Char-Arrays und einem Vector zur Erstellung von Frames. In der SpriteFrameCache Instanz sind bereits alle Spritesheets geladen. Die nachfolgende Schleife iteriert durch die benötigten Bildnamen um diese zum Array hinzuzufügen. Hierbei ist zu beachten dass Für eine Animation mehrere Bilder nacheinander geladen werden müssen. Diese haben die Namenskonvention "'coin0000"', "'coin0001"' etc. Der SpriteFrame mit dem generierten Bildnamen wird aus dem SpriteFrameCache geladen und in den anfangs definierten Vektor eingefügt. 
 Sobald die For-Schleife abgearbeitet ist, wird eine Animation mithilfe \textbf{createWithSpriteFrames()} erstellt. Dieser wird der Vektor und eine Verzögerung zwischen den Frames übergeben.
 
 \begin{lstlisting}[label=lst:build_josie_animation_reverse,
@@ -153,11 +153,11 @@ void AudioUnit::preloadBossSounds()
 }
 \end{lstlisting}
 
-An dieser Stelle sei erwähnt dass ganze Musiktitel, wie zum Beispiel die Hintergrundmusik, nicht zwingend geladen werden müssen da diese nicht öfter hintereinander abgespielt, sondern wenn nötig geloopt werden. 
+An dieser Stelle sei erwähnt, dass ganze Musiktitel, wie zum Beispiel die Hintergrundmusik, nicht zwingend geladen werden müssen da diese nicht öfter hintereinander abgespielt, sondern wenn nötig geloopt werden. 
 
 Die Methode \textit{unloadBossSounds} gleicht der Methode zum Laden der Sounds. Der einzige Unterschied ist, dass \textbf{unloadEffect} anstelle von \textbf{preloadEffect} verwendet wird.
 
-Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer--Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double--Wert (in diesem Fall 200.0) geteilt, da die \textbf{setEffectsVolume} Methode nur double--Werte akzeptiert. Die Möglichkeit Einstellungen für Musik- und SFX-Lautstärke im Spiel selbst vorzunehmen, ist durch die Klasse \josieclass{OptionScreen} realisiert. 
+Gleichzeitig mit dem Laden der Sounds wird die Lautstärke der Effekte auf den in \cocosclass{UserDefault} gespeicherten integer-Wert mit dem Key "'sfx\_volume"' gesetzt. Dieser wird durch einen individuellen double-Wert (in diesem Fall 200.0) geteilt, da die \textbf{setEffectsVolume} Methode nur double-Werte akzeptiert. Die Möglichkeit Einstellungen für Musik- und SFX-Lautstärke im Spiel selbst vorzunehmen, ist durch die Klasse \josieclass{OptionScreen} realisiert. 
 
 Innerhalb der \josieclass{AudioUnit} wird auf die Singleton-Instanz der \cocosclass{SimpleAudioEngine} zugegriffen, die alle nötigen Funktionen liefert. So gesehen ist die \josieclass{AudioUnit} ein Wrapper der die Verwendung von Audio im Code der anderen Klassen erheblich erleichtert und zusätzlich zu "'saubererem"' Code führt. 
 
@@ -170,7 +170,7 @@ Um nun einen Sound-Effekt abzuspielen, ruft man an passender Stelle die gewünsc
 AudioUnit::playJosieHitSound();
 \end{lstlisting}
 
-Die Logik hinter der Funktion ist relativ simpel. Es existieren drei verschiedene Sound-Effekte die mit Hilfe eines String-Ersetzers und einer Zufallszahl zwischen eins und drei zufällig ausgewählt und abgespielt werden. Die übergebenen Parameter an die Methode \textbf{playEffect} sind der Pfad der Audiodatei, Loop, Pitch, Pan, Gain.
+Die Logik hinter der Funktion ist relativ simpel. Es existieren drei verschiedene Sound-Effekte die mit Hilfe eines String-Ersetzers und einer Zufallszahl zwischen eins und drei zufällig ausgewählt und abgespielt werden. Die übergebenen Parameter an die Methode \textbf{playEffect} sind der Pfad der \textit{Audiodatei}, \textit{Loop}, \textit{Pitch}, \textit{Pan}, \textit{Gain}.
 
 \begin{lstlisting}[label=lst:playJosieShootSound,
 				   language=C++,
@@ -241,7 +241,7 @@ void StageHazard::hitByCollision(CollisionLayer* other)
 \sectionOG{Kollisionsabfrage zum Boden}\label{sec:4_Kollisionsabfrage}
 
 Die Kollisionsabfrage ist auf den ersten Blick nicht sofort einleuchtend. Prinzipiell wird für die komplette Karte ein Array mit ganzzahligen Werten angelegt, also für jede Spalte (72px breite, vertikale Linie auf dem Bildschirm) wird ein \textbf{long} Wert gespeichert.
-Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob Kollision besteht.
+Die Karte ist 15 Tiles hoch. Für jedes Tile wird ein Bitwert gesetzt ob eine Kollision besteht.
 
 \begin{lstlisting}[label=lst:collision_detection,
 				   language=C++,
@@ -275,7 +275,7 @@ Die  \josieclass{TMXEdit} Klasse hat die Aufgabe, abhängig von einem übergeben
 \subsection{Generieren des Levels}
 Das Grundgerüst des Zufallslevels ist immer identisch. Die ersten 20 Tiles stellen nie ein Hindernis dar, die letzten 38 sind das Levelende, welches in jedem Level gleich aussieht. Aus diesem Grund laden alle automatisch erzeugten Level die gleiche Tilemap, welche diesen Aufbau bereits umsetzt, und befüllen diese dann zur Laufzeit.
 Zum Befüllen des Levels wird dieses von Anfang bis Ende durchlaufen.  Dabei werden in zufälliger Reihenfolge Funktionen aufgerufen, welche Abschnitte des Levels nach einem jeweils eigenen Muster erzeugen. Das tatsächliche platzieren der Tiles erfolgt durch das zuweisen der GID für die zu bearbeitenden Tilemap-Koordinaten. 
-Dir folgenden Funktionen beispielsweise füllen eine ausgewählte Spalte ab einer gewissen Höhe
+Die folgenden Funktionen beispielsweise füllen eine ausgewählte Spalte ab einer gewissen Höhe
 nach unten komplett mit Boden-Tiles und einem Gras-Tile an oberster Stelle.
 
 \begin{lstlisting}[label=lst:place_ground,
@@ -297,7 +297,7 @@ void TMXEdit::placeDirt(int x, int y) {
 }
 \end{lstlisting}
 
-Ein einfaches Beispiel um zu erklären, wie Abschnitte nach einem gewissen Muster erzeugt werden findet man in der folgenden Funktion, welche im Level eine oder mehrere aufeinander folgende  schwebenden Plattformen erzeugt. Wie alle Funktionen die gesamte Abschnitte erzeugen, verfügt sie über einen ganzzahligen Rückgabewert. Dieser gibt an, bis zu welcher Spalte die Funktion die Tilemap bearbeitet hat.
+Ein einfaches Beispiel um zu erklären, wie Abschnitte nach einem gewissen Muster erzeugt werden findet man in der folgenden Funktion, welche im Level eine oder mehrere aufeinander folgende, schwebenden Plattformen erzeugt. Wie alle Funktionen die gesamte Abschnitte erzeugen, verfügt sie über einen ganzzahligen Rückgabewert. Dieser gibt an, bis zu welcher Spalte die Funktion die Tilemap bearbeitet hat.
 \begin{lstlisting}[label=lst:make_floating,
 				   language=C++,
 				   firstnumber=171,
@@ -312,12 +312,12 @@ int TMXEdit::makeFloating(int x, int height) {
 	return x;
 }
 \end{lstlisting}
-Zu Beginn der Funktion wird eine gewisse Anzahl an Spalten übersprungen. Die so entstehende Lücke wird in ihrer Weite durch den Schwierigkeitsgrad definiert (dieser beeinflusst die variablen \_minJumpDistance und \_maxJumpDistance). Anschließend wird bestimmt, wie lang der aktuelle Abschnitt sein soll. Die Variable „done“ legt fest, bis zu welcher x-Koordinate ein neues Element(hier: eine einzelne schwebende Plattform) dieses Abschnitts Angefangen werden kann. Die Plattform selbst wird hier durch eine andere Funktion erzeugt. Diese weißt der Reihe nach den Kacheln auf der übergebenen Höhe die jeweiligen GIDs zu. Die Länge der Plattform ist ebenfalls ein Parameter, welcher hier durch einen Zufallswert geliefert wird. 
+Zu Beginn der Funktion wird eine gewisse Anzahl an Spalten übersprungen. Die so entstehende Lücke wird in ihrer Weite durch den Schwierigkeitsgrad definiert (dieser beeinflusst die variablen \_minJumpDistance und \_maxJumpDistance). Anschließend wird bestimmt, wie lang der aktuelle Abschnitt sein soll. Die Variable "'done"' legt fest, bis zu welcher x-Koordinate ein neues Element(hier: eine einzelne schwebende Plattform) dieses Abschnitts Angefangen werden kann. Die Plattform selbst wird hier durch eine andere Funktion erzeugt. Diese weißt der Reihe nach den Kacheln auf der übergebenen Höhe die jeweiligen GIDs zu. Die Länge der Plattform ist ebenfalls ein Parameter, welcher hier durch einen Zufallswert geliefert wird. 
 Die Wahl der einzelnen Levelbausteine erfolgt in Form eines Switch-Statements. Der übergebene Ausdruck ist dabei selbstverständlich ein Zufallswert, durch ihn wird bestimmt, welcher Abschnitt als nächstes generiert werden soll. Durch das wiederholen dieses switch Befehls in einer Schleife kann so der gesamte Level zufällig aufgefüllt werden.
 
 
 \subsection{Platzieren der Münzen}
-Neben dem Erstellen des Levels gibt es noch ein zweites Problem das bewältigt werden musste. Die Münzen mussten im Level verteilt werden – in erreichbaren Positionen, abhängig vom Aufbau des Levels.
+Neben dem Erstellen des Levels gibt es noch ein zweites Problem das bewältigt werden musste. Die Münzen mussten in dem Level verteilt werden – in erreichbaren Positionen, abhängig vom Aufbau des Levels.
 Dafür zuständig ist folgende Funktion (sowie die von ihr aufgerufenen):
 
 \begin{lstlisting}[label=lst:place_coins,
@@ -341,5 +341,4 @@ void TMXEdit::placeCoins(int number) {
 	}
 }
 \end{lstlisting}
-Die Funktion stellt sicher, dass die gewünschte Anzahl an Münzen in regelmäßigen Abständen zueinander platziert wird. Durch die isSafe Funktion wird zuerst die Höhe der Umgebung an der betrachteten Position ermittelt und dann geprüft, ob die Position für den Spieler erreichbar ist, ohne zu verlieren. Ist dies nicht der Fall, so wird Spalte für Spalte überprüft, bis die Münze platziert wurde. Sollte das Ende der Karte erreicht werden, so wird die nächste Münze wieder am Anfang platziert. Ein Problem tritt dabei höchstens auf, wenn die gewünschte Anzahl an Münzen die Anzahl an sicheren Positionen übertrifft. Das Spiel würde dann eine Endlosschleife betreten.  Da eine so hohe Anzahl an Münzen jedoch ohnehin nicht wünschenswert ist- auf manchen Geräten kann dies zu Einbrüchen der Framerate führen- darf dieser Sonderfall ignoriert werden (Außerdem wäre es aus Sicht eines Game-Designers keine gute Idee, so viele Münzen verfügbar zu machen, da so das Erfolgserlebnis beim Einsammeln verloren geht).
-
+Die Funktion stellt sicher, dass die gewünschte Anzahl an Münzen in regelmäßigen Abständen zueinander platziert wird. Durch die \textit{isSafe}- Funktion wird zuerst die Höhe der Umgebung an der betrachteten Position ermittelt und dann geprüft, ob die Position für den Spieler erreichbar ist, ohne zu verlieren. Ist dies nicht der Fall, so wird Spalte für Spalte überprüft, bis die Münze platziert wurde. Sollte das Ende der Karte erreicht werden, so wird die nächste Münze wieder am Anfang platziert. Ein Problem tritt dabei höchstens auf, wenn die gewünschte Anzahl an Münzen die Anzahl an sicheren Positionen übertrifft. Das Spiel würde dann eine Endlosschleife betreten. Da eine so hohe Anzahl an Münzen jedoch ohnehin nicht wünschenswert ist - auf manchen Geräten kann dies zu Einbrüchen der Framerate führen - darf dieser Sonderfall ignoriert werden (Außerdem wäre es aus Sicht eines Game-Designers keine gute Idee, so viele Münzen verfügbar zu machen, da so das Erfolgserlebnis beim Einsammeln verloren geht).
