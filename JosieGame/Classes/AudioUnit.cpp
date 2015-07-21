@@ -82,7 +82,7 @@ void AudioUnit::playJosieJumpSound()
 	s << "audio/josie_sounds/jump_"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.5);
+	engine->playEffect(s.str().c_str(), false, 1.0, 0.0, 0.5);
 }
 void AudioUnit::playJosieSlideSound()
 {
@@ -90,7 +90,7 @@ void AudioUnit::playJosieSlideSound()
 	s << "audio/josie_sounds/slide_"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.5);
+	engine->playEffect(s.str().c_str(), false, 1.0, 0.0, 0.5);
 }
 void AudioUnit::playJosieStopRunSound()
 {
@@ -98,13 +98,13 @@ void AudioUnit::playJosieStopRunSound()
 	s << "audio/josie_sounds/stop_"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.5);
+	engine->playEffect(s.str().c_str(), false, 1.0, 0.0, 0.5);
 }
 
 
 void AudioUnit::playJosieShootSound(){
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect("audio/boss_sounds/shoot.mp3",false,1.0,1.0,3.0);
+	engine->playEffect("audio/boss_sounds/shoot.mp3",false,1.0,0.0,3.0);
 }
 
 void AudioUnit::playJosieHitSound(){
@@ -112,12 +112,12 @@ void AudioUnit::playJosieHitSound(){
 	s << "audio/josie_sounds/josie_hit"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.7);
+	engine->playEffect(s.str().c_str(), false, 1.0, 0.0, 0.7);
 }
 
 void AudioUnit::playShopPurchaseSound(){
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect("audio/shoppurchase.mp3",false,1.0,1.0,1.0);
+	engine->playEffect("audio/shoppurchase.mp3",false,1.0,0.0,1.0);
 }
 
 void AudioUnit::playBossHitSound(){
@@ -125,7 +125,7 @@ void AudioUnit::playBossHitSound(){
 	s << "audio/boss_sounds/boss_hit"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect(s.str().c_str(), false, 1.0, -1.0, 0.3);
+	engine->playEffect(s.str().c_str(), false, 1.0, 0.0, 0.3);
 }
 
 void AudioUnit::playProjectileHitSound(){
@@ -133,7 +133,7 @@ void AudioUnit::playProjectileHitSound(){
 	s << "audio/boss_sounds/projectile_hit"<< (rand()%3)+1 <<".mp3";
 
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
-	engine->playEffect(s.str().c_str(), false, 1.0, 1.0, 0.3);
+	engine->playEffect(s.str().c_str(), false, 1.0, 0.0, 0.3);
 }
 
 //
@@ -156,7 +156,7 @@ void AudioUnit::startBackgroundMenu()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->setBackgroundMusicVolume(UserDefault::getInstance()->getIntegerForKey("music_volume")/100.0);
-	engine->playBackgroundMusic("audio/level_audio.mp3", true);
+	engine->playBackgroundMusic("audio/menu_audio.mp3", true);
 }
 
 void AudioUnit::startBackgroundLevelSelect()
@@ -177,7 +177,7 @@ void AudioUnit::startBackgroundBoss()
 {
 	SimpleAudioEngine* engine = SimpleAudioEngine::getInstance();
 	engine->setBackgroundMusicVolume(UserDefault::getInstance()->getIntegerForKey("music_volume")/100.0);
-	engine->playBackgroundMusic("audio/level_audio.mp3", true);
+	engine->playBackgroundMusic("audio/boss_audio.mp3", true);
 }
 
 
