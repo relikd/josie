@@ -46,7 +46,7 @@ ShopScene* ShopScene::initShop()
 
 	scene->updateButtonState();
 
-	 MenuItemImage *btn_fight = MenuItemImage::create("buttons/endbutton_notpushed.png", "buttons/endbutton_pushed.png", CC_CALLBACK_0(ShopScene::fight, scene));
+	 MenuItemImage *btn_fight = MenuItemImage::create("buttons/fightbutton.png", "buttons/fightbutton_pushed.png", CC_CALLBACK_0(ShopScene::fight, scene));
 	 btn_fight->setPosition(1400, 200);
 	 scene->_menu->addChild(btn_fight);
 
@@ -63,17 +63,17 @@ void ShopScene::fight()
 int ShopScene::priceForColumn(int column)
 {
 	switch (column) {
-		case 1: return 10;
-		case 2: return 20;
-		case 3: return 40;
+		case 1: return 30;
+		case 2: return 40;
+		case 3: return 60;
 		default: return 0;
 	}
 }
 
 void ShopScene::createLabels() {
-	Label *l1 = Label::createWithTTF("10", "fonts/Marker Felt.ttf", 60);
-	Label *l2 = Label::createWithTTF("20", "fonts/Marker Felt.ttf", 60);
-	Label *l3 = Label::createWithTTF("40", "fonts/Marker Felt.ttf", 60);
+	Label *l1 = Label::createWithTTF("30", "fonts/Marker Felt.ttf", 60);
+	Label *l2 = Label::createWithTTF("40", "fonts/Marker Felt.ttf", 60);
+	Label *l3 = Label::createWithTTF("60", "fonts/Marker Felt.ttf", 60);
 	l1->setPosition(180+BUTTON_SIZE+BUTTON_PADDING, 1005);
 	l2->setPosition(l1->getPositionX()+BUTTON_SIZE+BUTTON_PADDING,l1->getPositionY());
 	l3->setPosition(l2->getPositionX()+BUTTON_SIZE+BUTTON_PADDING,l2->getPositionY());
