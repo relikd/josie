@@ -14,14 +14,14 @@ This version currently contains 3 levels (1.1 - 1.3) and a boss fight with incre
 
 ### Installation
 
-1. Download the [Cocos2D engine][1]^**
+1. Download the [Cocos2D engine][1]**
 2. Install engine as explained in the tutorial
 3. The compiled source should placed in *./JosieGame/cocos2d*
 4. If you want to build the Android version you need the [Android SDK][2]
 5. For the Mac or iPhone version you'll need [Xcode][3]
 6. For detailed instructions refer to chapter 2.2 of [./Dokumentation/thesis/Josie_Dokumentation.pdf][4]
 
-^** just in case this download isn't available at any time in the future, there is an *old-version.7z* included. This is an older cocos2d version (in fact the version we were using during development).
+** just in case this download isn't available at any time in the future, there is an *old-version.7z* included. This is an older cocos2d version (in fact the version we were using during development).
 
 
 ### Just try the game?
