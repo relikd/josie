@@ -1,7 +1,7 @@
 #ifndef GAMESTATEMANAGER_H_
 #define GAMESTATEMANAGER_H_
 
-#define JOSIE_DEVELOPER_MODE 1
+#define JOSIE_DEVELOPER_MODE 0
 
 class GameStateManager {
 public:
