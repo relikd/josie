@@ -26,7 +26,7 @@ This version currently contains 3 levels (1.1 - 1.3) and a boss fight with incre
 
 ### Just try the game?
 
-Take a look in the [./JosieGame/bin][5] folder. The Android and Mac version should be playable right away. iOS needs to be compiled on your own machine.
+Take a look in the [./bin][5] folder. The Android and Mac version should be playable right away. iOS needs to be compiled on your own machine.
 
 
 
@@ -34,4 +34,4 @@ Take a look in the [./JosieGame/bin][5] folder. The Android and Mac version shou
 [2]: https://developer.android.com/studio/index.html
 [3]: https://developer.apple.com/xcode/
 [4]: https://github.com/relikd/josie/raw/master/Dokumentation/thesis/Josie_Dokumentation.pdf
-[5]: https://github.com/relikd/josie/tree/master/JosieGame/bin/
+[5]: https://github.com/relikd/josie/tree/master/bin/
